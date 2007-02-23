@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
-	<Workspace title="Default workspace">
-		<Project filename="renamer\Projects\CodeBlocks\Renamer.cbp" active="1" />
+	<Workspace title="Renamer Project">
+		<Project filename="renamer\Projects\CodeBlocks\Renamer.cbp" />
+		<Project filename="sqlite3.3.12\Projects\CodeBlocks\SQLite.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
