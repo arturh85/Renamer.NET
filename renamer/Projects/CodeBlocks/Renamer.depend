@@ -1,4 +1,12 @@
 # depslib dependency file v1.0
-1153307241 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\main.cpp
+1172248420 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\main.cpp
+	"globals.h"
+	<boost/program_options.hpp>
+
+1172248013 d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\globals.h
 	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	<boost/regex.hpp>
 
