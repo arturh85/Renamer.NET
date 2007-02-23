@@ -35,7 +35,167 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Unit filename="..\..\Source\alter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\analyze.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\attach.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\auth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\btree.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\btree.h" />
+		<Unit filename="..\..\Source\build.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\callback.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\complete.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\date.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\delete.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\expr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\fts1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\fts1.h" />
+		<Unit filename="..\..\Source\fts1_hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\fts1_hash.h" />
+		<Unit filename="..\..\Source\fts1_porter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\fts1_tokenizer.h" />
+		<Unit filename="..\..\Source\fts1_tokenizer1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\func.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\hash.h" />
+		<Unit filename="..\..\Source\insert.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\keywordhash.h" />
+		<Unit filename="..\..\Source\legacy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\loadext.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\opcodes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\opcodes.h" />
+		<Unit filename="..\..\Source\os.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\os.h" />
+		<Unit filename="..\..\Source\os_common.h" />
+		<Unit filename="..\..\Source\os_os2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\os_unix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\os_win.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\pager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\pager.h" />
+		<Unit filename="..\..\Source\parse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\parse.h" />
+		<Unit filename="..\..\Source\pragma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\prepare.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\printf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\random.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\select.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\shell.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\sqlite3.h" />
+		<Unit filename="..\..\Source\sqlite3ext.h" />
+		<Unit filename="..\..\Source\sqliteInt.h" />
+		<Unit filename="..\..\Source\table.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\tclsqlite.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\tokenize.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\trigger.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\update.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\utf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\util.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vacuum.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vdbe.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vdbe.h" />
+		<Unit filename="..\..\Source\vdbeInt.h" />
+		<Unit filename="..\..\Source\vdbeapi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vdbeaux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vdbefifo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vdbemem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\vtab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Source\where.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
