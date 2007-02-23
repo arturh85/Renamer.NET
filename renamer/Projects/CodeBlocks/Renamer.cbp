@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output=".\Renamer.exe" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\Renamer-d.exe" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -15,11 +15,11 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="libboost_regex-mgw.lib" />
+					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output=".\Renamer.exe" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\Renamer.exe" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
 				<Option type="1" />
 				<Option compiler="gcc" />

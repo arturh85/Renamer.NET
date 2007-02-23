@@ -10,3 +10,14 @@
 	<vector>
 	<boost/regex.hpp>
 
+1172248730 source:c:\daten\projekte\renamer\renamer\source\main.cpp
+	"globals.h"
+	<boost/program_options.hpp>
+
+1172248730 c:\daten\projekte\renamer\renamer\source\globals.h
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	<boost/regex.hpp>
+
