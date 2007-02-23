@@ -154,9 +154,6 @@
 		<Unit filename="..\..\Source\table.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\Source\tclsqlite.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="..\..\Source\tokenize.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -1,0 +1,267 @@
+# depslib dependency file v1.0
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\alter.c
+	"sqliteInt.h"
+	<ctype.h>
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\sqliteint.h
+	"sqliteExtra.h"
+	"sqlite3.h"
+	"hash.h"
+	"parse.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<stddef.h>
+	"vdbe.h"
+	"btree.h"
+	"pager.h"
+	"sseInt.h"
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\sqlite3.h
+	<stdarg.h>
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\hash.h
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\parse.h
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\vdbe.h
+	<stdio.h>
+	"opcodes.h"
+
+1172217330 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\opcodes.h
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\btree.h
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\pager.h
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\analyze.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\attach.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\auth.c
+	"sqliteInt.h"
+
+1172217330 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\btree.c
+	"sqliteInt.h"
+	"pager.h"
+	"btree.h"
+	"os.h"
+	<assert.h>
+	<tcl.h>
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\os.h
+	<windows.h>
+	<os2.h>
+	"os_other.h"
+
+1172217330 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\build.c
+	"sqliteInt.h"
+	<ctype.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\callback.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\complete.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\date.c
+	"sqliteInt.h"
+	"os.h"
+	<ctype.h>
+	<stdlib.h>
+	<assert.h>
+	<time.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\delete.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\expr.c
+	"sqliteInt.h"
+	<ctype.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1.c
+	<assert.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+	"fts1.h"
+	"fts1_hash.h"
+	"fts1_tokenizer.h"
+	"sqlite3.h"
+	"sqlite3ext.h"
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1.h
+	"sqlite3.h"
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1_hash.h
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1_tokenizer.h
+	"sqlite3.h"
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\sqlite3ext.h
+	"sqlite3.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1_hash.c
+	<assert.h>
+	<stdlib.h>
+	<string.h>
+	"fts1_hash.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1_porter.c
+	<assert.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+	"fts1_tokenizer.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\fts1_tokenizer1.c
+	<assert.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+	"fts1_tokenizer.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\func.c
+	"sqliteInt.h"
+	<ctype.h>
+	<stdlib.h>
+	<assert.h>
+	"vdbeInt.h"
+	"os.h"
+
+1172217330 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\vdbeint.h
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\hash.c
+	"sqliteInt.h"
+	<assert.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\insert.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\legacy.c
+	"sqliteInt.h"
+	"os.h"
+	<ctype.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\loadext.c
+	"sqlite3ext.h"
+	"sqliteInt.h"
+	"os.h"
+	<string.h>
+	<ctype.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\main.c
+	"sqliteInt.h"
+	"os.h"
+	<ctype.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\opcodes.c
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\os.c
+	"sqliteInt.h"
+	"os.h"
+
+1172217330 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\os_os2.c
+	<os2safe.h>
+	"sqliteInt.h"
+	"os.h"
+	"os_common.h"
+
+1172217331 d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\os_common.h
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\os_unix.c
+	"sqliteInt.h"
+	"os.h"
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<errno.h>
+	<sys/ioctl.h>
+	<sys/param.h>
+	<sys/mount.h>
+	<pthread.h>
+	"os_common.h"
+	<dlfcn.h>
+
+1172217330 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\os_win.c
+	"sqliteInt.h"
+	"os.h"
+	<winbase.h>
+	<sys/cygwin.h>
+	"os_common.h"
+	<time.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\pager.c
+	"sqliteInt.h"
+	"os.h"
+	"pager.h"
+	<assert.h>
+	<string.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\parse.c
+	<stdio.h>
+	"sqliteInt.h"
+	"parse.h"
+	<stdio.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\pragma.c
+	"sqliteInt.h"
+	"os.h"
+	<ctype.h>
+	"pager.h"
+	"btree.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\prepare.c
+	"sqliteInt.h"
+	"os.h"
+	<ctype.h>
+
+1172217330 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\printf.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\random.c
+	"sqliteInt.h"
+	"os.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\select.c
+	"sqliteInt.h"
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\shell.c
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<assert.h>
+	"sqlite3.h"
+	<ctype.h>
+	<signal.h>
+	<pwd.h>
+	<unistd.h>
+	<sys/types.h>
+	<console.h>
+	<signal.h>
+	<unistd.h>
+	<extras.h>
+	<Files.h>
+	<Folders.h>
+	<unistd.h>
+	<readline/readline.h>
+	<readline/history.h>
+	<io.h>
+
+1172217331 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\sqlite3.3.12\source\table.c
+	"sqliteInt.h"
+	<stdlib.h>
+	<string.h>
+
