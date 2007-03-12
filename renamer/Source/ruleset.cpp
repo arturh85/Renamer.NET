@@ -6,6 +6,8 @@
 
 namespace fs = boost::filesystem;
 namespace algo = boost::algorithm;
+using boost::regex;
+using boost::smatch;
 
 Ruleset::Ruleset(string name)
 {
@@ -99,8 +101,6 @@ string Ruleset::getOutputFormat() const {
 
 //! writes the regex to the database
 void Ruleset::addInputRule(string sRegex) {
-    using boost::regex;
-
     try {
 
         regex test(sRegex); //to check if this is a valid regex
@@ -126,23 +126,44 @@ static int onAppendToVector(void *param, int argc, char **argv, char **azColName
     return SQLITE_OK;
 }
 
+vector<string> stripVarNames(string sString) {
+    static const regex varRegex("\\$(\\w+)\\$");
+    smatch what;
+    vector<string> retVal;
+
+    std::string::const_iterator start, end;
+    start = sString.begin();
+    end = sString.end();
+    boost::match_flag_type flags = boost::match_default;
+    while(regex_search(start, end, what, varRegex, flags))  {
+
+        retVal.push_back(what[1]);
+
+        // update search position:
+        start = what[0].second;
+        // update flags:
+        flags |= boost::match_prev_avail;
+        flags |= boost::match_not_bob;
+    }
+
+
+  return retVal;
+}
+
 
 bool Ruleset::applyTo(string fileName, string& outputFileName) {
-    using boost::regex;
-    using boost::smatch;
 
     vector<string> regexes;
     string sSql =
         "SELECT regex FROM regexes";
     exec(sSql.c_str(), mDb, onAppendToVector, &regexes);
-
     for (vector<string>::iterator it=regexes.begin();
          it != regexes.end(); it++) {
 
         regex currentRegex(*it);
         smatch what;
         if (regex_match(fileName, what, currentRegex)) {
-
+            //vector<string> vars = stripVarNames()
             return true;
         }
     }
@@ -153,12 +174,24 @@ bool Ruleset::applyTo(string fileName, string& outputFileName) {
 #include <boost/test/test_tools.hpp>
 
 void Ruleset::unitTest() {
-//    BOOST_CHECK(1==2);
+    // test global functions
+    vector<string> tmpVector;
+    tmpVector = stripVarNames("Atlantis $staffel$x$folge$");
+    BOOST_REQUIRE(tmpVector.size() == 2);
+    BOOST_CHECK(tmpVector[0] == "staffel");
+    BOOST_CHECK(tmpVector[1] == "folge");
 
+    tmpVector.clear();
+    tmpVector = stripVarNames("$fieserTest $$_$");
+    BOOST_REQUIRE(tmpVector.size() == 1);
+    BOOST_CHECK(tmpVector[0] == "_");
+
+    // test Ruleset class
     if (fs::exists(fs::initial_path()/"unitTest.db3"))
         fs::remove(fs::initial_path()/"unitTest.db3");
 
     Ruleset myRules("unitTest");
+    myRules.setOutputFormat("Atlantis $staffel$x$folge$");
     myRules.addInputRule("dummy");
     myRules.addInputRule("HalloWelt!");
     myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
