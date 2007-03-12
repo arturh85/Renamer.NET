@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -97,7 +98,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
-			ManagedExtensions="2"
+			ManagedExtensions="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -117,6 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -134,8 +136,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
+				LinkLibraryDependencies="false"
+				AdditionalDependencies="sqlite.lib $(NOINHERIT)"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				EntryPointSymbol="main"
@@ -262,10 +266,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

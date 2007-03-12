@@ -19,9 +19,9 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
-			ManagedExtensions="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -43,7 +43,7 @@
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -57,18 +57,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
-				LinkIncremental="2"
-				GenerateDebugInformation="true"
-				AssemblyDebug="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -80,12 +72,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -93,9 +79,9 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="1"
-			ManagedExtensions="1"
+			ManagedExtensions="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -115,9 +101,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/LN"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -131,17 +118,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -151,12 +131,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -179,75 +153,265 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Quelldateien"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="SQLite"
 			>
 			<File
-				RelativePath=".\AssemblyInfo.cpp"
+				RelativePath="..\..\sqlite3.3.12\Source\alter.c"
 				>
 			</File>
 			<File
-				RelativePath=".\SQLite.cpp"
+				RelativePath="..\..\sqlite3.3.12\Source\analyze.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Stdafx.cpp"
+				RelativePath="..\..\sqlite3.3.12\Source\attach.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\auth.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\btree.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\btree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\build.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\callback.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\complete.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\date.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\delete.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\expr.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1_hash.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1_hash.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1_porter.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1_tokenizer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\fts1_tokenizer1.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\func.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\hash.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\hash.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\insert.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\keywordhash.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\legacy.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\loadext.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\main.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\opcodes.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\opcodes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\os.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\os.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\os_common.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\os_os2.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\os_unix.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\os_win.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\pager.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\pager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\parse.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\parse.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\pragma.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\prepare.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\printf.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\random.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\select.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\shell.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\sqlite3.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\sqlite3ext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\sqliteInt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\table.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\tokenize.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\trigger.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\update.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\utf.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\util.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vacuum.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbe.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbe.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbeapi.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbeaux.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbefifo.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbeInt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vdbemem.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\vtab.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sqlite3.3.12\Source\where.c"
+				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Headerdateien"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SQLite.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Stdafx.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Ressourcendateien"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-			<File
-				RelativePath=".\app.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\app.rc"
-				>
-			</File>
-		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
