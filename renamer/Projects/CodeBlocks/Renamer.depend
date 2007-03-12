@@ -3,7 +3,7 @@
 	"globals.h"
 	<boost/program_options.hpp>
 
-1172248013 d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\globals.h
+1173681519 d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\globals.h
 	<iostream>
 	<fstream>
 	<string>
@@ -20,4 +20,10 @@
 	<string>
 	<vector>
 	<boost/regex.hpp>
+
+1173681466 source:d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\ruleset.cpp
+	"ruleset.h"
+
+1173681544 d:\dokumente und einstellungen\artur\desktop\develop\renamer\renamer\source\ruleset.h
+	"globals.h"
 

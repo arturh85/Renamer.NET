@@ -37,6 +37,8 @@
 		</Compiler>
 		<Unit filename="..\..\Source\globals.h" />
 		<Unit filename="..\..\Source\main.cpp" />
+		<Unit filename="..\..\Source\ruleset.cpp" />
+		<Unit filename="..\..\Source\ruleset.h" />
 		<Extensions>
 			<code_completion />
 		</Extensions>
