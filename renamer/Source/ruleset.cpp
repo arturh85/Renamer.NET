@@ -100,6 +100,7 @@ string Ruleset::getOutputFormat() const {
     return sRetVal;
 }
 
+//! writes the regex to the database
 void Ruleset::addInputRule(string sRegex) {
     using boost::regex;
 
@@ -119,4 +120,11 @@ void Ruleset::addInputRule(string sRegex) {
         "INSERT INTO regexes (regex) "
         "VALUES (" + cSqlStrOut(sRegex) + ")";
     exec(sSql, mDb);
+}
+
+void test() {
+//Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS.avi
+//Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N.avi
+//Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi
+//Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi
 }

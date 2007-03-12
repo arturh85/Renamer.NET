@@ -12,7 +12,7 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='--set test --add &quot;*.exe&quot;' />
+				<Option parameters="--set test --add /*.exe/" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -20,6 +20,7 @@
 					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
 					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
+					<Add library='&quot;libboost_unit_test_framework-mgw-sd&quot;' />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -34,6 +35,19 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="unitTest">
+				<Option output="Renamer-u.exe" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\..\bin\" />
+				<Option object_output="obj\unitTest\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Linker>
+					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
+					<Add library='&quot;libboost_unit_test_framework-mgw-sd&quot;' />
+					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
+					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -45,9 +59,15 @@
 			<Add directory="..\..\..\sqlite3.3.12\bin" />
 		</Linker>
 		<Unit filename="..\..\Source\globals.h" />
-		<Unit filename="..\..\Source\main.cpp" />
+		<Unit filename="..\..\Source\main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="..\..\Source\ruleset.cpp" />
 		<Unit filename="..\..\Source\ruleset.h" />
+		<Unit filename="..\..\Source\unitTest.cpp">
+			<Option target="unitTest" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 		</Extensions>
