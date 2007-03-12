@@ -11,25 +11,11 @@
 using namespace RenamerNET;
 using namespace std;
 
-<<<<<<< .mine
 Ruleset* rule = NULL;
 
-=======
-namespace po = boost::program_options;
-
->>>>>>> .r39
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-
-	po::options_description desc("Allowed options");
-	desc.add_options()
-		("help", "produce help message")
-		("add", po::value<string>(), "add a regular expression to the set")
-		("set", po::value<string>(), "set to use")
-		("setOutputFormat", po::value<string>(), "")
-		;
-
 	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
