@@ -12,13 +12,14 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='--outputFormat=&quot;Blah blah&quot; --set test ' />
+				<Option parameters='--set test --add &quot;*.exe&quot;' />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
 					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
+					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
 				</Linker>
 			</Target>
 			<Target title="Release">

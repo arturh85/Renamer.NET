@@ -1,9 +1,8 @@
 #include "ruleset.h"
-#include <boost/program_options/options_description.hpp>
-#include <boost/program_options/variables_map.hpp>
-#include <boost/program_options/parsers.hpp>
+#include <boost/filesystem/path.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <exception>
+#include <strstream>
 
 namespace fs = boost::filesystem;
 namespace algo = boost::algorithm;
@@ -39,7 +38,7 @@ void exec(string sSql, sqlite3* db, sqlite3_callback cb=NULL, void* param=NULL) 
     if( nRetVal != SQLITE_OK ){
         string sSqliteErr(zErrMsg);
         sqlite3_free(zErrMsg);
-        throw runtime_error("sql " + sSql + " failed:" + sSqliteErr);
+        throw std::runtime_error("sql " + sSql + " failed:" + sSqliteErr);
     }
 }
 
@@ -61,7 +60,6 @@ void Ruleset::initDb() {
     string sSql;
 
     sSql = "CREATE TABLE regexes ("
-           "   id int,"
            "   regex string)";
     exec(sSql, mDb);
 
@@ -74,6 +72,7 @@ void Ruleset::initDb() {
     exec(sSql, mDb);
 }
 
+//! writes the outputFormat to the database
 void Ruleset::setOutputFormat(string exp) {
     string sSql =
         "UPDATE options "
@@ -81,13 +80,14 @@ void Ruleset::setOutputFormat(string exp) {
     exec(sSql, mDb);
 }
 
-
+//! sqlite callback that reads the first column to a string
 static int onReadFirstField(void *param, int argc, char **argv, char **azColName){
     string* sTarget = static_cast<string*>( param);
     *sTarget = argv[0];
     return SQLITE_OK;
 }
 
+//! Reads the outputFormat from the database.
 string Ruleset::getOutputFormat() const {
     int nRetVal = 0;
     char *zErrMsg = 0;
@@ -98,4 +98,25 @@ string Ruleset::getOutputFormat() const {
     exec(sSql.c_str(), mDb, onReadFirstField, &sRetVal);
 
     return sRetVal;
+}
+
+void Ruleset::addInputRule(string sRegex) {
+    using boost::regex;
+
+    try {
+
+        regex test(sRegex); //to check if this is a valid regex
+
+    } catch (exception& ex) {
+//        std::stringstream strErr;
+//        strErr  << "failed add regex, reason:"
+//                << ex.what();
+//        throw runtime_error(strErr.str());
+        throw runtime_error(string("failed add regex, reason:") + ex.what());
+    }
+
+    string sSql =
+        "INSERT INTO regexes (regex) "
+        "VALUES (" + cSqlStrOut(sRegex) + ")";
+    exec(sSql, mDb);
 }

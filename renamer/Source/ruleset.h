@@ -4,11 +4,6 @@
 #include "globals.h"
 #include <sqlite3.h>
 
-// Boost
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/exception.hpp>
-
 //! Verwaltet Reguläre Ausdrücke
 /**
 Mehrere Input Reguläre Ausdrücke (z.B. Formate für

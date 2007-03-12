@@ -28,6 +28,10 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
 
 int main(int argc, char** argv)
 {
+    cout    << "count " << argc << endl
+            << argv[4] << endl;
+    return 0;
+
     try {
         //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
         boost::filesystem::path::default_name_check(boost::filesystem::native);
@@ -62,12 +66,14 @@ int main(int argc, char** argv)
         Ruleset ruleSet( vm["set"].as<string>() );
 
         if (vm.count("outputFormat")) {
-//            std::cout   << "setOutputFormat '"
-//                        << vm["outputFormat"].as<string>()
-//                        << "'\n";
-
             ruleSet.setOutputFormat( vm["outputFormat"].as<string>() );
             cout << "set outputformat to " << ruleSet.getOutputFormat() << endl;
+            return 0;
+        }
+
+        if (vm.count("add")) {
+            ruleSet.addInputRule( vm["add"].as<string>() );
+            cout << "add " << vm["add"].as<string>() << endl;
             return 0;
         }
 

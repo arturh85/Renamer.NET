@@ -6,11 +6,13 @@
 #include <string>
 #include <vector>
 
-#include <boost/regex.hpp>
 
 // Boost
+#include <boost/regex.hpp>
+
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/exception.hpp>
+//#include <boost/filesystem/exception.hpp>
 
+//  STL
 using namespace std;
