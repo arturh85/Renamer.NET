@@ -65,6 +65,11 @@ void Ruleset::initDb() {
            "   regex string UNIQUE)";
     exec(sSql, mDb);
 
+    sSql = "CREATE TABLE history ("
+           "   fileName string UNIQUE,"
+           "   regex ROWID)";
+    exec(sSql, mDb);
+
     sSql = "CREATE TABLE options ("
            "   outputFormat string)";
     exec(sSql, mDb);
@@ -119,10 +124,15 @@ void Ruleset::addInputRule(string sRegex) {
     exec(sSql, mDb);
 }
 
-//! sqlite callback that adds the first column to a vector
+//! sqlite callback that adds each column as a vector to the param
 static int onAppendToVector(void *param, int argc, char **argv, char **azColName){
-    vector<string>* targetVector = static_cast<vector<string>*>( param);
-    targetVector->push_back(argv[0]);
+    //mind the space   -> <- here
+    vector<vector<string> >* targetVector = static_cast<vector<vector<string> >*>( param);
+    vector<string> newVector;
+    for (int i=0; i < argc; i++)
+      newVector.push_back(argv[i]);
+
+    targetVector->push_back(newVector);
     return SQLITE_OK;
 }
 
@@ -150,20 +160,26 @@ vector<string> stripVarNames(string sString) {
   return retVal;
 }
 
-
 bool Ruleset::applyTo(string fileName, string& outputFileName) {
 
-    vector<string> regexes;
+    vector<vector<string> > regexes;
     string sSql =
-        "SELECT regex FROM regexes";
+        "SELECT regex, rowid FROM regexes";
     exec(sSql.c_str(), mDb, onAppendToVector, &regexes);
-    for (vector<string>::iterator it=regexes.begin();
+    for (vector<vector<string> >::iterator it=regexes.begin();
          it != regexes.end(); it++) {
 
-        regex currentRegex(*it);
+        vector<string>& columns = *it;
+
+        regex currentRegex(columns[0]);
         smatch what;
         if (regex_match(fileName, what, currentRegex)) {
             //vector<string> vars = stripVarNames()
+            string sSql =   "INSERT OR IGNORE INTO history (fileName, regex) "
+                            "VALUES (" +
+                            cSqlStrOut(fileName) + ", " +
+                            columns[1] + ")";
+            exec(sSql, mDb);
             return true;
         }
     }
@@ -197,10 +213,17 @@ void Ruleset::unitTest() {
     myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
 
     string sDummy;
+
+    //these should work
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS.avi", sDummy ));
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N.avi", sDummy ));
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi", sDummy ));
+
+    //these lines are intentionally the same
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi", sDummy ));
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi", sDummy ));
+
+    // these are expected the be false
     BOOST_CHECK(!myRules.applyTo("Notice the ! left", sDummy ));
     BOOST_CHECK(!myRules.applyTo("blah", sDummy ));
 
