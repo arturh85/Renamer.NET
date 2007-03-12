@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "ruleset.h"
 #include <boost/filesystem/path.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -5,9 +7,6 @@
 #include <sstream>
 #include "sqlTools.h"
 
-#ifdef _MSC_VER
-#include "stdafx.h"
-#endif
 
 namespace fs = boost::filesystem;
 namespace algo = boost::algorithm;

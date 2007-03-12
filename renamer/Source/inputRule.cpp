@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "inputRule.h"
 
 InputRule::InputRule(long rowid, sqlite3* db) {

@@ -140,8 +140,10 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib sqlite.lib"
+				ShowProgress="2"
 				OutputFile="..\..\bin\$(ProjectName).exe"
-				LinkIncremental="1"
+				Version="0.0.1"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -285,11 +287,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\renamer\Source\inputRule.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\renamer\Source\inputRule.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\renamer\Source\ruleset.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\renamer\Source\ruleset.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\renamer\Source\sqlTools.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\renamer\Source\sqlTools.h"
 				>
 			</File>
 		</Filter>

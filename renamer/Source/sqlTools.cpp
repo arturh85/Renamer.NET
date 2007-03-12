@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "sqlTools.h"
 
 void exec(string sSql, sqlite3* db, sqlite3_callback cb, void* param) {

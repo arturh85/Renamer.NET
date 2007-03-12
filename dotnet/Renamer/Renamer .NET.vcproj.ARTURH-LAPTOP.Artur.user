@@ -38,7 +38,7 @@
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory="D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\bin"
+				WorkingDirectory="D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\bin"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
