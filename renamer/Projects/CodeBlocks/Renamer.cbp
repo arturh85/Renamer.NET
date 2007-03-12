@@ -61,12 +61,16 @@
 			<Add directory="..\..\..\sqlite3.3.12\bin" />
 		</Linker>
 		<Unit filename="..\..\Source\globals.h" />
+		<Unit filename="..\..\Source\inputRule.cpp" />
+		<Unit filename="..\..\Source\inputRule.h" />
 		<Unit filename="..\..\Source\main.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="..\..\Source\ruleset.cpp" />
 		<Unit filename="..\..\Source\ruleset.h" />
+		<Unit filename="..\..\Source\sqlTools.cpp" />
+		<Unit filename="..\..\Source\sqlTools.h" />
 		<Unit filename="..\..\Source\unitTest.cpp">
 			<Option target="unitTest" />
 		</Unit>

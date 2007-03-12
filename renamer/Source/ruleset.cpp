@@ -2,14 +2,13 @@
 
 #include "ruleset.h"
 #include <boost/filesystem/path.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <exception>
 #include <sstream>
 #include "sqlTools.h"
 
 
+
 namespace fs = boost::filesystem;
-namespace algo = boost::algorithm;
 using boost::regex;
 using boost::smatch;
 
@@ -30,31 +29,25 @@ Ruleset::Ruleset(string name)
 
 }
 
+Ruleset::Ruleset()
+{
+    mName = "memory";
+    if(sqlite3_open(":memory:", &mDb)) {
+        sqlite3_close(mDb);
+        throw std::runtime_error("could not open database file");
+    }
+
+    initDb();
+}
+
 Ruleset::~Ruleset()
 {
     sqlite3_close(mDb);
 }
 
-
-//! Prepares a string for use in a SqlStatement
-/** This function add singles quotes to the front/back und escapes
-    quotes in the middle with even more quotes.
-*/
-string cSqlStrOut(string sString) {
-//    string sRetVal =  sString;
-//    sRetVal = "'" + sRetVal + "'";
-//    return sRetVal;
-    algo::replace_all(sString, "'", "''");
-    return "'" + sString + "'";
-}
-
 //! Creates initial tables
 void Ruleset::initDb() {
     string sSql;
-
-    sSql = "CREATE TABLE regexes ("
-           "   regex string UNIQUE)";
-    exec(sSql, mDb);
 
     sSql = "CREATE TABLE history ("
            "   fileName string UNIQUE,"
@@ -68,6 +61,8 @@ void Ruleset::initDb() {
     sSql = "INSERT INTO options (outputFormat)"
            "VALUES ('')";
     exec(sSql, mDb);
+
+    InputRule::createTables(mDb);
 }
 
 //! writes the outputFormat to the database
@@ -89,23 +84,21 @@ string Ruleset::getOutputFormat() const {
 }
 
 //! writes the regex to the database
-void Ruleset::addInputRule(string sRegex) {
+InputRule Ruleset::addInputRule(string sRegex) {
     try {
 
-        regex test(sRegex); //to check if this is a valid regex
+        regex newRegex(sRegex); //to check if this is a valid regex
+        InputRule retVal( newRegex, mDb);
+        return retVal;
 
     } catch (exception& ex) {
-//        std::stringstream strErr;
-//        strErr  << "failed add regex, reason:"
-//                << ex.what();
-//        throw runtime_error(strErr.str());
-        throw runtime_error(string("failed add regex, reason:") + ex.what());
+        std::stringstream strErr;
+        strErr  << "failed add regex, reason:"
+                << ex.what();
+        throw runtime_error(strErr.str());
+//        throw runtime_error(string("failed add regex, reason:") + ex.what());
     }
 
-    string sSql =
-        "INSERT INTO regexes (regex) "
-        "VALUES (" + cSqlStrOut(sRegex) + ")";
-    exec(sSql, mDb);
 }
 
 //! sqlite callback that adds each column as a vector to the param
@@ -190,9 +183,14 @@ void Ruleset::unitTest() {
     if (fs::exists(fs::initial_path()/"unitTest.db3"))
         fs::remove(fs::initial_path()/"unitTest.db3");
 
-    Ruleset myRules("unitTest");
+//    Ruleset myRules("unitTest");
+    Ruleset myRules;
     myRules.setOutputFormat("Atlantis $staffel$x$folge$");
-    myRules.addInputRule("dummy");
+
+    InputRule rule;
+    rule=myRules.addInputRule("dummy");
+    BOOST_CHECK(rule.getRegex() == "dummy");
+
     myRules.addInputRule("HalloWelt!");
     myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
 

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "sqlTools.h"
+#include <boost/algorithm/string/replace.hpp>
+
+namespace algo = boost::algorithm;
 
 void exec(string sSql, sqlite3* db, sqlite3_callback cb, void* param) {
     int nRetVal = 0;
@@ -20,3 +23,10 @@ int onReadFirstField(void *param, int argc, char **argv, char **azColName) {
     return SQLITE_OK;
 }
 
+string cSqlStrOut(string sString) {
+//    string sRetVal =  sString;
+//    sRetVal = "'" + sRetVal + "'";
+//    return sRetVal;
+    algo::replace_all(sString, "'", "''");
+    return "'" + sString + "'";
+}

@@ -2,6 +2,7 @@
 #define RULESET_H
 
 #include "globals.h"
+#include "inputRule.h"
 #include <sqlite3.h>
 
 //! Verwaltet Reguläre Ausdrücke
@@ -18,13 +19,14 @@ public:
     //  constructors
 
     //! Creates or loads a Ruleset
+    Ruleset();
     Ruleset(string name);
 
     //  destructor
     virtual ~Ruleset();
 
     //  methodes
-    void addInputRule(string regexp);
+    InputRule addInputRule(string regexp);
     void setOutputFormat(string exp);
     string getOutputFormat() const;
 

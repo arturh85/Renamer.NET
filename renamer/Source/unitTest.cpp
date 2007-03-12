@@ -2,6 +2,7 @@
 #include <boost/test/included/unit_test_framework.hpp>
 #include "globals.h"
 #include "ruleset.h"
+#include "InputRule.h"
 
 using namespace std;
 using boost::unit_test::test_suite;
@@ -22,6 +23,7 @@ init_unit_test_suite( int, char* [] ) {
   test_suite* test= BOOST_TEST_SUITE( "distributedBackup" );
 
   test->add( BOOST_TEST_CASE( &Ruleset::unitTest ), 0 /* expected one error */ );
+  test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 0 /* expected one error */ );
   test->add( BOOST_TEST_CASE( &free_test_function ), 0 /* expected one error */ );
 //  test->add( BOOST_TEST_CASE( &free_test_function2 ), 0 /* expected no error */ );
 

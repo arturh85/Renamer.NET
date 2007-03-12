@@ -9,6 +9,7 @@
 
 //  sqlite
 #include <sqlite3.h>
+typedef long long sqlite_rowid;
 
 // Boost
 #include <boost/regex.hpp>
