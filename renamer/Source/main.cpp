@@ -62,11 +62,12 @@ int main(int argc, char** argv)
         Ruleset ruleSet( vm["set"].as<string>() );
 
         if (vm.count("outputFormat")) {
-            std::cout   << "setOutputFormat '"
-                        << vm["outputFormat"].as<string>()
-                        << "'\n";
+//            std::cout   << "setOutputFormat '"
+//                        << vm["outputFormat"].as<string>()
+//                        << "'\n";
 
             ruleSet.setOutputFormat( vm["outputFormat"].as<string>() );
+            cout << "set outputformat to " << ruleSet.getOutputFormat() << endl;
             return 0;
         }
 

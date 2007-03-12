@@ -31,7 +31,7 @@ public:
     //  methodes
     void addInputRule(string regexp);
     void setOutputFormat(string exp);
-    string getOutputRule() const;
+    string getOutputFormat() const;
 
     //! Wird für jede Datei aufgerufen die umbenannt werden soll
     /** Benennt die Datei aber nicht selber um, sondern

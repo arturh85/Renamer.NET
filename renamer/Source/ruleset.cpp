@@ -30,11 +30,11 @@ Ruleset::~Ruleset()
     sqlite3_close(mDb);
 }
 
-void exec(string sSql, sqlite3* db) {
+void exec(string sSql, sqlite3* db, sqlite3_callback cb=NULL, void* param=NULL) {
     int nRetVal = 0;
     char *zErrMsg = 0;
 
-    nRetVal = sqlite3_exec(db, sSql.c_str(), NULL, NULL, &zErrMsg);
+    nRetVal = sqlite3_exec(db, sSql.c_str(), cb, param, &zErrMsg);
 
     if( nRetVal != SQLITE_OK ){
         string sSqliteErr(zErrMsg);
@@ -79,4 +79,23 @@ void Ruleset::setOutputFormat(string exp) {
         "UPDATE options "
         "SET outputFormat = " + cSqlStrOut(exp) ;
     exec(sSql, mDb);
+}
+
+
+static int onReadFirstField(void *param, int argc, char **argv, char **azColName){
+    string* sTarget = static_cast<string*>( param);
+    *sTarget = argv[0];
+    return SQLITE_OK;
+}
+
+string Ruleset::getOutputFormat() const {
+    int nRetVal = 0;
+    char *zErrMsg = 0;
+    string sSql =
+        "SELECT outputFormat FROM options";
+
+    string sRetVal;
+    exec(sSql.c_str(), mDb, onReadFirstField, &sRetVal);
+
+    return sRetVal;
 }
