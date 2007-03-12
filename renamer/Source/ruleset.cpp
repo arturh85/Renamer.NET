@@ -60,7 +60,7 @@ void Ruleset::initDb() {
     string sSql;
 
     sSql = "CREATE TABLE regexes ("
-           "   regex string)";
+           "   regex string UNIQUE)";
     exec(sSql, mDb);
 
     sSql = "CREATE TABLE options ("

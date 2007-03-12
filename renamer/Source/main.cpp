@@ -28,10 +28,6 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
 
 int main(int argc, char** argv)
 {
-    cout    << "count " << argc << endl
-            << argv[4] << endl;
-    return 0;
-
     try {
         //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
         boost::filesystem::path::default_name_check(boost::filesystem::native);
