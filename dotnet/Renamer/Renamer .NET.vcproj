@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
+				AdditionalIncludeDirectories="&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -137,9 +137,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="sqlite.lib $(NOINHERIT)"
+				AdditionalDependencies="sqlite.lib libboost_filesystem-mgw-sd.lib libboost_Program_options-mgw-sd.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;"
+				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				EntryPointSymbol="main"

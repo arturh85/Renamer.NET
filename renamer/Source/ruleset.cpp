@@ -11,7 +11,7 @@ namespace algo = boost::algorithm;
 Ruleset::Ruleset(string name)
 {
     mName = name;
-    fs::path dbFile = fs::initial_path()/fs::path(name + ".db3");
+    fs::path dbFile = fs::initial_path() / fs::path(name + ".db3");
     //cout << "dbFile = " << dbFile.native_file_string() << endl;
 
     bool fIsNew = ( !fs::exists(dbFile) );
