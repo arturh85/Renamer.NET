@@ -42,7 +42,7 @@ int main(int argc, char** argv)
             ("help", "produce help message")
             ("add", po::value<string>(), "add a regular expression to the set")
             ("set", po::value<string>(), "set to use")
-            ("setOutputFormat", po::value<string>(), "")
+            ("outputFormat", po::value<string>(), "cc")
         ;
 
         po::variables_map vm;
@@ -60,6 +60,15 @@ int main(int argc, char** argv)
         }
 
         Ruleset ruleSet( vm["set"].as<string>() );
+
+        if (vm.count("outputFormat")) {
+            std::cout   << "setOutputFormat '"
+                        << vm["outputFormat"].as<string>()
+                        << "'\n";
+
+            ruleSet.setOutputFormat( vm["outputFormat"].as<string>() );
+            return 0;
+        }
 
     } catch (exception& ex) {
         cout << "exception caught: " << ex.what() << endl;

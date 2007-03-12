@@ -2,9 +2,11 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/parsers.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <exception>
 
 namespace fs = boost::filesystem;
+namespace algo = boost::algorithm;
 
 Ruleset::Ruleset(string name)
 {
@@ -37,31 +39,44 @@ void exec(string sSql, sqlite3* db) {
     if( nRetVal != SQLITE_OK ){
         string sSqliteErr(zErrMsg);
         sqlite3_free(zErrMsg);
-        throw runtime_error("sql failed:" + sSqliteErr);
+        throw runtime_error("sql " + sSql + " failed:" + sSqliteErr);
     }
 }
 
+
+//! Prepares a string for use in a SqlStatement
+/** This function add singles quotes to the front/back und escapes
+    quotes in the middle with even more quotes.
+*/
+string cSqlStrOut(string sString) {
+//    string sRetVal =  sString;
+//    sRetVal = "'" + sRetVal + "'";
+//    return sRetVal;
+    algo::replace_all(sString, "'", "''");
+    return "'" + sString + "'";
+}
+
+//! Creates initial tables
 void Ruleset::initDb() {
-    string sSql =
-        "CREATE TABLE regexes ("
-        "   id int,"
-        "   regex string)";
+    string sSql;
+
+    sSql = "CREATE TABLE regexes ("
+           "   id int,"
+           "   regex string)";
     exec(sSql, mDb);
 
-    sSql =
-        "CREATE TABLE options ("
-        "   outputFormat string)";
+    sSql = "CREATE TABLE options ("
+           "   outputFormat string)";
     exec(sSql, mDb);
 
-    sSql =
-        "INSERT INTO options (outputFormat)"
-        "VALUES ('')";
+    sSql = "INSERT INTO options (outputFormat)"
+           "VALUES ('')";
     exec(sSql, mDb);
 }
 
 void Ruleset::setOutputFormat(string exp) {
     string sSql =
-        "UPDATE regexes "
-        "SET outputFormat = " + exp ;
+        "UPDATE options "
+        "SET outputFormat = " + cSqlStrOut(exp) ;
     exec(sSql, mDb);
 }
