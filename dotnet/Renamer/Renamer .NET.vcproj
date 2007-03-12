@@ -119,8 +119,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+<<<<<<< .mine
+				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\renamer\Source&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
+=======
 				AdditionalIncludeDirectories="&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
+>>>>>>> .r39
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -137,7 +142,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+<<<<<<< .mine
 				LinkLibraryDependencies="false"
+				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib sqlite.lib"
+				OutputFile="..\bin\$(ProjectName).exe"
+=======
+				LinkLibraryDependencies="false"
+>>>>>>> .r39
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
 				GenerateDebugInformation="true"
@@ -234,11 +245,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Form1.h"
+				RelativePath=".\ApplicationForm.h"
 				FileType="3"
 				>
 				<File
-					RelativePath=".\Form1.resX"
+					RelativePath=".\ApplicationForm.resX"
 					SubType="Designer"
 					>
 				</File>
@@ -269,7 +280,23 @@
 		<Filter
 			Name="Renamer Source"
 			>
+<<<<<<< .mine
+			<File
+				RelativePath="..\..\renamer\Source\globals.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\renamer\Source\ruleset.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\renamer\Source\ruleset.h"
+				>
+			</File>
 		</Filter>
+=======
+		</Filter>
+>>>>>>> .r39
 	</Files>
 	<Globals>
 	</Globals>

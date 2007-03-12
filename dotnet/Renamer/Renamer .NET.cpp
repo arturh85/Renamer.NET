@@ -1,7 +1,7 @@
 // Renamer .NET.cpp: Hauptprojektdatei.
 
 #include "stdafx.h"
-#include "Form1.h"
+#include "ApplicationForm.h"
 
 #include "sqlite3.h"
 #include <string>
@@ -11,8 +11,13 @@
 using namespace RenamerNET;
 using namespace std;
 
+<<<<<<< .mine
+Ruleset* rule = NULL;
+
+=======
 namespace po = boost::program_options;
 
+>>>>>>> .r39
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
