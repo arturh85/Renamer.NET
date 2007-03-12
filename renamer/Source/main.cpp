@@ -12,11 +12,43 @@ umbennnen kann.
 
 #include "globals.h"
 #include <boost/program_options.hpp>
+#include <sqlite3.h>
 
 namespace po = boost::program_options;
 
+static int callback(void *NotUsed, int argc, char **argv, char **azColName){
+  int i;
+  for(i=0; i<argc; i++){
+    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+  return 0;
+}
+
 int main(int argc, char** argv)
 {
+    sqlite3* db;
+    int rc;
+    char *zErrMsg = 0;
+
+    if(sqlite3_open("test.db", &db)) {
+        cout << "can't open database" << endl;
+        sqlite3_close(db);
+        exit(1);
+    }
+
+    rc = sqlite3_exec(db, "SELECT * FROM test", callback, 0, &zErrMsg);
+
+    if( rc != SQLITE_OK ){
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+    }
+
+    cout << "ending ... " << endl;
+    sqlite3_close(db);
+    return 0;
+
+
     // Declare the supported options.
     po::options_description desc("Allowed options");
     desc.add_options()
