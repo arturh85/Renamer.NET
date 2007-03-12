@@ -4,6 +4,10 @@
 #include <exception>
 #include <strstream>
 
+#ifdef _MSC_VER
+#include "stdafx.h"
+#endif
+
 namespace fs = boost::filesystem;
 namespace algo = boost::algorithm;
 using boost::regex;
