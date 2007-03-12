@@ -34,6 +34,10 @@ public:
     */
     bool applyTo(string fileName, string& outputFileName);
 
+    #ifdef RENAMER_UNIT_TEST
+    static void unitTest();
+    #endif
+
 private:
     //  attributes
 //    vector<string> mInputRules;

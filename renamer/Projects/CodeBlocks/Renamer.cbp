@@ -41,6 +41,9 @@
 				<Option object_output="obj\unitTest\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DUNIT_TEST" />
+				</Compiler>
 				<Linker>
 					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 					<Add library='&quot;libboost_unit_test_framework-mgw-sd&quot;' />

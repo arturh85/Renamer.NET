@@ -128,3 +128,12 @@ void test() {
 //Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi
 //Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi
 }
+
+#ifdef RENAMER_UNIT_TEST
+#include <boost/test/test_tools.hpp>
+
+void Ruleset::unitTest() {
+    BOOST_CHECK(1==2);
+}
+
+#endif
