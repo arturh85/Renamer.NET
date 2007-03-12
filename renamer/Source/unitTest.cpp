@@ -21,8 +21,8 @@ init_unit_test_suite( int, char* [] ) {
   //  init tests
   test_suite* test= BOOST_TEST_SUITE( "distributedBackup" );
 
-  test->add( BOOST_TEST_CASE( &Ruleset::unitTest ), 1 /* expected one error */ );
-  test->add( BOOST_TEST_CASE( &free_test_function ), 1 /* expected one error */ );
+  test->add( BOOST_TEST_CASE( &Ruleset::unitTest ), 0 /* expected one error */ );
+  test->add( BOOST_TEST_CASE( &free_test_function ), 0 /* expected one error */ );
 //  test->add( BOOST_TEST_CASE( &free_test_function2 ), 0 /* expected no error */ );
 
   return test;

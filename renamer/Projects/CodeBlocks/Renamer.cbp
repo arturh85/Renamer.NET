@@ -20,7 +20,6 @@
 					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
 					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
-					<Add library='&quot;libboost_unit_test_framework-mgw-sd&quot;' />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -36,17 +35,17 @@
 				</Linker>
 			</Target>
 			<Target title="unitTest">
-				<Option output="Renamer-u.exe" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\Renamer-u.exe" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="..\..\bin\" />
 				<Option object_output="obj\unitTest\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-DUNIT_TEST" />
+					<Add option="-DRENAMER_UNIT_TEST" />
 				</Compiler>
 				<Linker>
-					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 					<Add library='&quot;libboost_unit_test_framework-mgw-sd&quot;' />
+					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
 					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
 					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
 				</Linker>

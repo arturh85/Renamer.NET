@@ -89,11 +89,8 @@ static int onReadFirstField(void *param, int argc, char **argv, char **azColName
 
 //! Reads the outputFormat from the database.
 string Ruleset::getOutputFormat() const {
-    int nRetVal = 0;
-    char *zErrMsg = 0;
     string sSql =
         "SELECT outputFormat FROM options";
-
     string sRetVal;
     exec(sSql.c_str(), mDb, onReadFirstField, &sRetVal);
 
@@ -122,18 +119,58 @@ void Ruleset::addInputRule(string sRegex) {
     exec(sSql, mDb);
 }
 
-void test() {
-//Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS.avi
-//Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N.avi
-//Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi
-//Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi
+//! sqlite callback that adds the first column to a vector
+static int onAppendToVector(void *param, int argc, char **argv, char **azColName){
+    vector<string>* targetVector = static_cast<vector<string>*>( param);
+    targetVector->push_back(argv[0]);
+    return SQLITE_OK;
+}
+
+
+bool Ruleset::applyTo(string fileName, string& outputFileName) {
+    using boost::regex;
+    using boost::smatch;
+
+    vector<string> regexes;
+    string sSql =
+        "SELECT regex FROM regexes";
+    exec(sSql.c_str(), mDb, onAppendToVector, &regexes);
+
+    for (vector<string>::iterator it=regexes.begin();
+         it != regexes.end(); it++) {
+
+        regex currentRegex(*it);
+        smatch what;
+        if (regex_match(fileName, what, currentRegex)) {
+
+            return true;
+        }
+    }
+    return false;
 }
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
 void Ruleset::unitTest() {
-    BOOST_CHECK(1==2);
+//    BOOST_CHECK(1==2);
+
+    if (fs::exists(fs::initial_path()/"unitTest.db3"))
+        fs::remove(fs::initial_path()/"unitTest.db3");
+
+    Ruleset myRules("unitTest");
+    myRules.addInputRule("dummy");
+    myRules.addInputRule("HalloWelt!");
+    myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
+
+    string sDummy;
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS.avi", sDummy ));
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N.avi", sDummy ));
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi", sDummy ));
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi", sDummy ));
+    BOOST_CHECK(!myRules.applyTo("Notice the ! left", sDummy ));
+    BOOST_CHECK(!myRules.applyTo("blah", sDummy ));
+
 }
 
 #endif
