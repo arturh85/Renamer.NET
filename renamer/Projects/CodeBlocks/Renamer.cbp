@@ -41,6 +41,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-W" />
 					<Add option="-DRENAMER_UNIT_TEST" />
 				</Compiler>
 				<Linker>

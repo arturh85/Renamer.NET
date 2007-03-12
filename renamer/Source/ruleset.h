@@ -30,6 +30,7 @@ public:
     void setOutputFormat(string exp);
     string getOutputFormat() const;
 
+
     //! Wird für jede Datei aufgerufen die umbenannt werden soll
     /** Benennt die Datei aber nicht selber um, sondern
         gibt den neuen Dateinamen zurück
