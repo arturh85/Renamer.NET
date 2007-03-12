@@ -1,3 +1,7 @@
+#pragma warning(disable : 4996)
+#pragma warning(disable : 4561)
+#pragma warning(disable : 4793)
+
 /*
 ** 2001 September 15
 **

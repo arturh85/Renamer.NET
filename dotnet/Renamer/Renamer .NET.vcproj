@@ -60,6 +60,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib sqlite.lib"
+				OutputFile="..\..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
 				GenerateDebugInformation="true"
@@ -122,7 +123,7 @@
 				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\renamer\Source&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -139,7 +140,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib sqlite.lib"
-				OutputFile="..\bin\$(ProjectName).exe"
+				OutputFile="..\..\bin\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
 				GenerateDebugInformation="true"
