@@ -7,10 +7,8 @@
 #pragma warning(disable : 4793)
 #endif
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
+//  sqlite
+#include <sqlite3.h>
 
 // Boost
 #include <boost/regex.hpp>
@@ -20,4 +18,8 @@
 //#include <boost/filesystem/exception.hpp>
 
 //  STL
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
 using namespace std;

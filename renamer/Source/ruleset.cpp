@@ -2,7 +2,8 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <exception>
-#include <strstream>
+#include <sstream>
+#include "sqlTools.h"
 
 #ifdef _MSC_VER
 #include "stdafx.h"
@@ -33,19 +34,6 @@ Ruleset::Ruleset(string name)
 Ruleset::~Ruleset()
 {
     sqlite3_close(mDb);
-}
-
-void exec(string sSql, sqlite3* db, sqlite3_callback cb=NULL, void* param=NULL) {
-    int nRetVal = 0;
-    char *zErrMsg = 0;
-
-    nRetVal = sqlite3_exec(db, sSql.c_str(), cb, param, &zErrMsg);
-
-    if( nRetVal != SQLITE_OK ){
-        string sSqliteErr(zErrMsg);
-        sqlite3_free(zErrMsg);
-        throw std::runtime_error("sql " + sSql + " failed:" + sSqliteErr);
-    }
 }
 
 
@@ -89,13 +77,6 @@ void Ruleset::setOutputFormat(string exp) {
         "UPDATE options "
         "SET outputFormat = " + cSqlStrOut(exp) ;
     exec(sSql, mDb);
-}
-
-//! sqlite callback that reads the first column to a string
-static int onReadFirstField(void *param, int argc, char **argv, char **azColName){
-    string* sTarget = static_cast<string*>( param);
-    *sTarget = argv[0];
-    return SQLITE_OK;
 }
 
 //! Reads the outputFormat from the database.
