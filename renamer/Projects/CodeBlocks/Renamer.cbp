@@ -8,6 +8,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="..\..\bin\Renamer-d.exe" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\..\bin\" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -34,7 +35,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="..\..\..\sqlite3.3.12\Source" />
 		</Compiler>
+		<Linker>
+			<Add library="SQLite" />
+			<Add directory="..\..\..\sqlite3.3.12\bin" />
+		</Linker>
 		<Unit filename="..\..\Source\globals.h" />
 		<Unit filename="..\..\Source\main.cpp" />
 		<Unit filename="..\..\Source\ruleset.cpp" />
