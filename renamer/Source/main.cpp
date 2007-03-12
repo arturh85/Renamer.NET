@@ -28,40 +28,46 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
 
 int main(int argc, char** argv)
 {
+    try {
+        //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
+        boost::filesystem::path::default_name_check(boost::filesystem::native);
 
-    //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
-    boost::filesystem::path::default_name_check(boost::filesystem::native);
+        //Zufallsgenerator initialisieren
+        srand(time(NULL));
 
-    //Zufallsgenerator initialisieren
-    srand(time(NULL));
 
-    int rc;
-    char *zErrMsg = 0;
+        // Declare the supported options.
+        po::options_description desc("Allowed options");
+        desc.add_options()
+            ("help", "produce help message")
+            ("add", po::value<string>(), "add a regular expression to the set")
+            ("set", po::value<string>(), "set to use")
+            ("setOutputFormat", po::value<string>(), "")
+        ;
 
-    // Declare the supported options.
-    po::options_description desc("Allowed options");
-    desc.add_options()
-        ("help", "produce help message")
-        ("add", po::value<string>(), "add a regular expression to the set")
-        ("set", po::value<string>(), "set to use")
-    ;
+        po::variables_map vm;
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
 
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
+        if (vm.count("help")) {
+            std::cout << desc << "\n";
+            return 0;
+        }
 
-    if (vm.count("help")) {
-        std::cout << desc << "\n";
-        return 0;
+        if (!vm.count("set")) {
+            cout << "the --set parameter is mandetory.\n";
+            return 1;
+        }
+
+        Ruleset ruleSet( vm["set"].as<string>() );
+
+    } catch (exception& ex) {
+        cout << "exception caught: " << ex.what() << endl;
+
+    } catch (...) {
+        cout << "unknown exception\n";
+
     }
-
-    if (vm.count("set")) {
-        std::cout << "Set was "
-     << vm["set"].as<string>() << ".\n";
-    }
-
-    Ruleset ruleSet( vm["set"].as<string>() );
-
     std::cout << std::endl;
     return 0;
 }

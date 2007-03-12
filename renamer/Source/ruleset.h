@@ -30,8 +30,8 @@ public:
 
     //  methodes
     void addInputRule(string regexp);
-    void setOutputRule(string exp);
-    string getOutputRule() const { return mOutputRule; };
+    void setOutputFormat(string exp);
+    string getOutputRule() const;
 
     //! Wird für jede Datei aufgerufen die umbenannt werden soll
     /** Benennt die Datei aber nicht selber um, sondern
@@ -40,10 +40,14 @@ public:
     bool applyTo(string fileName, string& outputFileName);
 
 private:
-    vector<string> mInputRules;
-    string mOutputRule;
+    //  attributes
+//    vector<string> mInputRules;
+//    string mOutputRule;
     string mName;
     sqlite3* mDb;
+
+    //  methodes
+    void initDb();
 
 };
 
