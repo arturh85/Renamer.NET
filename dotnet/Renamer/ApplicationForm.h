@@ -231,7 +231,7 @@ namespace RenamerNET {
 			this->Name = L"ApplicationForm";
 			this->Opacity = 0.95;
 			this->Text = L"Renamer Pre-Alpha";
-			this->Load += gcnew System::EventHandler(this, &ApplicationForm::Form1_Load);
+			this->Load += gcnew System::EventHandler(this, &ApplicationForm::ApplicationForm_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
 			this->contextMenuStrip1->ResumeLayout(false);
@@ -371,9 +371,9 @@ private: System::Void lstInputs_MouseDown(System::Object^  sender, System::Windo
 			 
 		 }
 private: System::Void bearbeitenToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
-//			lstInputs->Items->Remove(lstInputs->Items->SelectedIndex);
 		 }
 private: System::Void löschenToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 lstInputs->Items->RemoveAt(lstInputs->SelectedIndex);
 		 }
 };
 }
