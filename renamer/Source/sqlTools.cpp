@@ -23,6 +23,12 @@ int onReadFirstField(void *param, int argc, char **argv, char **azColName) {
     return SQLITE_OK;
 }
 
+int onFetchRules(void *param, int argc, char **argv, char **azColName) {
+	vector<string>* output = (vector<string>*) param;
+	output->push_back(string(argv[0]));
+	return SQLITE_OK;
+}
+
 string cSqlStrOut(string sString) {
 //    string sRetVal =  sString;
 //    sRetVal = "'" + sRetVal + "'";

@@ -6,6 +6,9 @@
 //! sqlite callback that reads the first column to a string
 int onReadFirstField(void *param, int argc, char **argv, char **azColName);
 
+//! sqlite callback that reads the first column to a string vector reference
+int onFetchRules(void *param, int argc, char **argv, char **azColName);
+
 //! Prepares a string for use in a SqlStatement
 /** This function add singles quotes to the front/back und escapes
     quotes in the middle with even more quotes.

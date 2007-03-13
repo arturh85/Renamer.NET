@@ -29,6 +29,7 @@ public:
     InputRule addInputRule(string regexp);
     void setOutputFormat(string exp);
     string getOutputFormat() const;
+	void fetchInputRules(vector<string>& outputParam);
 
 
     //! Wird für jede Datei aufgerufen die umbenannt werden soll
@@ -36,6 +37,8 @@ public:
         gibt den neuen Dateinamen zurück
     */
     bool applyTo(string fileName, string& outputFileName);
+
+	string getName() const;
 
     #ifdef RENAMER_UNIT_TEST
     static void unitTest();

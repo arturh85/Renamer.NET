@@ -20,10 +20,10 @@ namespace RenamerNET {
 	///          Anderenfalls können die Designer nicht korrekt mit den lokalisierten Ressourcen
 	///          arbeiten, die diesem Formular zugewiesen sind.
 	/// </summary>
-	public ref class Form1 : public System::Windows::Forms::Form
+	public ref class ApplicationForm : public System::Windows::Forms::Form
 	{
 	public:
-		Form1(void)
+		ApplicationForm(void)
 		{
 			InitializeComponent();
 			//
@@ -35,7 +35,7 @@ namespace RenamerNET {
 		/// <summary>
 		/// Verwendete Ressourcen bereinigen.
 		/// </summary>
-		~Form1()
+		~ApplicationForm()
 		{
 			if (components)
 			{
@@ -52,12 +52,22 @@ namespace RenamerNET {
 	private: System::Windows::Forms::TextBox^  txtOutputFormat;
 
 	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::FolderBrowserDialog^  dlgOpenFolder;
+	private: System::Windows::Forms::GroupBox^  groupBox1;
+	private: System::Windows::Forms::TextBox^  txtNewInput;
+
+	private: System::Windows::Forms::ListBox^  lstInputs;
+	private: System::Windows::Forms::Button^  cmdAddInput;
+	private: System::Windows::Forms::ContextMenuStrip^  contextMenuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^  bearbeitenToolStripMenuItem;
+	private: System::ComponentModel::IContainer^  components;
+
 
 	private:
 		/// <summary>
 		/// Erforderliche Designervariable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -66,11 +76,21 @@ namespace RenamerNET {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->cboSets = (gcnew System::Windows::Forms::ComboBox());
 			this->btnNewSet = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->txtOutputFormat = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->dlgOpenFolder = (gcnew System::Windows::Forms::FolderBrowserDialog());
+			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->txtNewInput = (gcnew System::Windows::Forms::TextBox());
+			this->lstInputs = (gcnew System::Windows::Forms::ListBox());
+			this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
+			this->bearbeitenToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->cmdAddInput = (gcnew System::Windows::Forms::Button());
+			this->groupBox1->SuspendLayout();
+			this->contextMenuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// cboSets
@@ -82,7 +102,8 @@ namespace RenamerNET {
 			this->cboSets->Name = L"cboSets";
 			this->cboSets->Size = System::Drawing::Size(318, 21);
 			this->cboSets->TabIndex = 0;
-			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::cboSets_SelectedIndexChanged);
+			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_SelectedIndexChanged);
+			this->cboSets->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_TextChanged);
 			// 
 			// btnNewSet
 			// 
@@ -93,7 +114,7 @@ namespace RenamerNET {
 			this->btnNewSet->TabIndex = 1;
 			this->btnNewSet->Text = L"neu";
 			this->btnNewSet->UseVisualStyleBackColor = true;
-			this->btnNewSet->Click += gcnew System::EventHandler(this, &Form1::btnNewSet_Click);
+			this->btnNewSet->Click += gcnew System::EventHandler(this, &ApplicationForm::btnNewSet_Click);
 			// 
 			// label1
 			// 
@@ -112,7 +133,7 @@ namespace RenamerNET {
 			this->txtOutputFormat->Name = L"txtOutputFormat";
 			this->txtOutputFormat->Size = System::Drawing::Size(371, 20);
 			this->txtOutputFormat->TabIndex = 3;
-			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &Form1::txtOutputFormat_TextChanged);
+			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::txtOutputFormat_TextChanged);
 			// 
 			// label2
 			// 
@@ -123,19 +144,79 @@ namespace RenamerNET {
 			this->label2->TabIndex = 4;
 			this->label2->Text = L"Ausgabe";
 			// 
-			// Form1
+			// groupBox1
+			// 
+			this->groupBox1->Controls->Add(this->txtNewInput);
+			this->groupBox1->Controls->Add(this->lstInputs);
+			this->groupBox1->Controls->Add(this->cmdAddInput);
+			this->groupBox1->Location = System::Drawing::Point(15, 74);
+			this->groupBox1->Name = L"groupBox1";
+			this->groupBox1->Size = System::Drawing::Size(227, 165);
+			this->groupBox1->TabIndex = 5;
+			this->groupBox1->TabStop = false;
+			this->groupBox1->Text = L"Reguläre Ausdrücke";
+			// 
+			// txtNewInput
+			// 
+			this->txtNewInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->txtNewInput->Location = System::Drawing::Point(7, 138);
+			this->txtNewInput->Name = L"txtNewInput";
+			this->txtNewInput->Size = System::Drawing::Size(162, 20);
+			this->txtNewInput->TabIndex = 2;
+			// 
+			// lstInputs
+			// 
+			this->lstInputs->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->lstInputs->ContextMenuStrip = this->contextMenuStrip1;
+			this->lstInputs->FormattingEnabled = true;
+			this->lstInputs->Location = System::Drawing::Point(7, 19);
+			this->lstInputs->Name = L"lstInputs";
+			this->lstInputs->Size = System::Drawing::Size(213, 108);
+			this->lstInputs->TabIndex = 1;
+			// 
+			// contextMenuStrip1
+			// 
+			this->contextMenuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->bearbeitenToolStripMenuItem});
+			this->contextMenuStrip1->Name = L"contextMenuStrip1";
+			this->contextMenuStrip1->Size = System::Drawing::Size(129, 26);
+			// 
+			// bearbeitenToolStripMenuItem
+			// 
+			this->bearbeitenToolStripMenuItem->Name = L"bearbeitenToolStripMenuItem";
+			this->bearbeitenToolStripMenuItem->Size = System::Drawing::Size(128, 22);
+			this->bearbeitenToolStripMenuItem->Text = L"Bearbeiten";
+			this->bearbeitenToolStripMenuItem->Click += gcnew System::EventHandler(this, &ApplicationForm::bearbeitenToolStripMenuItem_Click);
+			// 
+			// cmdAddInput
+			// 
+			this->cmdAddInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->cmdAddInput->Location = System::Drawing::Point(175, 136);
+			this->cmdAddInput->Name = L"cmdAddInput";
+			this->cmdAddInput->Size = System::Drawing::Size(45, 23);
+			this->cmdAddInput->TabIndex = 0;
+			this->cmdAddInput->Text = L"neu";
+			this->cmdAddInput->UseVisualStyleBackColor = true;
+			this->cmdAddInput->Click += gcnew System::EventHandler(this, &ApplicationForm::cmdAddInput_Click);
+			// 
+			// ApplicationForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(450, 455);
+			this->ClientSize = System::Drawing::Size(450, 345);
+			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->txtOutputFormat);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->btnNewSet);
 			this->Controls->Add(this->cboSets);
-			this->Name = L"Form1";
+			this->Name = L"ApplicationForm";
 			this->Text = L"Renamer Pre-Alpha";
-			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
+			this->Load += gcnew System::EventHandler(this, &ApplicationForm::Form1_Load);
+			this->groupBox1->ResumeLayout(false);
+			this->groupBox1->PerformLayout();
+			this->contextMenuStrip1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -145,13 +226,19 @@ namespace RenamerNET {
 				 if(rule)
 					 delete rule;
 				 string setName = toStdString(cboSets->Text);
-				 boost::filesystem::path dbFile = boost::filesystem::initial_path() / boost::filesystem::path(setName + ".db3");
-
 				 rule = new Ruleset(setName);
-				 refreshSetList();
-
-				 txtOutputFormat->Text = toClrString( rule->getOutputFormat());;
+				 //refreshSetList();
+				 onUpdateGuiForNewSet();
 			 }
+
+	 private: void onUpdateGuiForNewSet() {
+				  // update gui elements to this new set
+				  refreshInputsList();
+				  //refreshSetList();
+
+				  txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
+				  cboSets->Text = toClrString( rule ? rule->getName() : "");
+			  }
 
 	 private: bool To_string( String^ source, string &target )
 	 {
@@ -183,6 +270,18 @@ namespace RenamerNET {
 		return target;
 	 }
 
+
+	private: void refreshInputsList() {
+				 lstInputs->Items->Clear();
+				 vector<string> regExes;
+				 if(rule) 
+					 rule->fetchInputRules(regExes);
+
+				 for(unsigned int i=0; i<regExes.size(); i++) {
+					 lstInputs->Items->Add(toClrString(regExes[i]));
+				 }
+			 }
+
 	private: void refreshSetList() {
 				 cboSets->Items->Clear();
 
@@ -204,6 +303,9 @@ namespace RenamerNET {
 		 refreshSetList();
 	}
 	private: System::Void btnNewSet_Click(System::Object^  sender, System::EventArgs^  e) {
+		 if(cboSets->Text == "")
+			 return ;
+				 
 		 if(rule) {
 			delete rule;
 			rule = NULL;
@@ -212,8 +314,8 @@ namespace RenamerNET {
 		 else
 		 {
 			rule = new Ruleset(toStdString(cboSets->Text));
-			refreshSetList();
 		 }
+		 onUpdateGuiForNewSet();
 	}
 private: System::Void cboSets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			 onSetSelection();
@@ -222,6 +324,30 @@ private: System::Void txtOutputFormat_TextChanged(System::Object^  sender, Syste
 			 if(rule) {
 				rule->setOutputFormat(toStdString(txtOutputFormat->Text));
 			 }
+		 }
+private: System::Void cboSets_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+/*
+			 if(rule) {
+				string setName = rule->getName();
+				delete rule;
+				System::IO::File::Move(toClrString(setName), cboSets->Text);
+				rule = new Ruleset(toStdString(cboSets->Text));
+			 }
+
+			 else {
+				rule = new Ruleset(toStdString(cboSets->Text));
+			 }*/
+		 }
+private: System::Void cmdAddInput_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if(rule) {
+				 rule->addInputRule(toStdString(txtNewInput->Text));
+				 txtNewInput->Text = "";
+				 refreshInputsList();
+			 }
+			 //lstInputs->Items->Add(txtNewInput->Text);
+		 }
+private: System::Void bearbeitenToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			// lstInputs->Items->SelectedItem->Font->Bold;
 		 }
 };
 }

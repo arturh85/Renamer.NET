@@ -21,6 +21,6 @@ int main(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	// Hauptfenster erstellen und ausführen
-	Application::Run(gcnew Form1());
+	Application::Run(gcnew ApplicationForm());
 	return 0;
 }

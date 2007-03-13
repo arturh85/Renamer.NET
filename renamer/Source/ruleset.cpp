@@ -83,6 +83,10 @@ string Ruleset::getOutputFormat() const {
     return sRetVal;
 }
 
+string Ruleset::getName() const {
+	return mName;
+}
+
 //! writes the regex to the database
 InputRule Ruleset::addInputRule(string sRegex) {
     try {
@@ -99,6 +103,14 @@ InputRule Ruleset::addInputRule(string sRegex) {
 //        throw runtime_error(string("failed add regex, reason:") + ex.what());
     }
 
+}
+
+void Ruleset::fetchInputRules(vector<string>& outputParam) {
+	string sSql =
+		"SELECT regex FROM regexes";
+	string sRetVal;
+	exec(sSql.c_str(), mDb, onFetchRules, &outputParam);
+	return;
 }
 
 //! sqlite callback that adds each column as a vector to the param

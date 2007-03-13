@@ -5,6 +5,8 @@
 #pragma warning(disable : 4996)
 #pragma warning(disable : 4561)
 #pragma warning(disable : 4793)
+#pragma warning(disable : 4099)
+
 #endif
 
 //  sqlite

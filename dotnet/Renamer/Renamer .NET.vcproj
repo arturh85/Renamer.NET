@@ -44,7 +44,7 @@
 				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\renamer\Source&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
 				PreprocessorDefinitions="_WIN32;_DEBUG;SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -59,10 +59,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib sqlite.lib"
+				LinkLibraryDependencies="false"
+				AdditionalDependencies="boost_regex-vc80-mt-gd.lib boost_filesystem-vc80-mt-gd.lib SQLite-d.lib"
 				OutputFile="..\..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
+				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\SQLite\bin&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="2"
@@ -139,8 +140,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib sqlite.lib"
-				ShowProgress="2"
+				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib SQLite.lib"
+				ShowProgress="0"
 				OutputFile="..\..\bin\$(ProjectName).exe"
 				Version="0.0.1"
 				LinkIncremental="2"
@@ -196,6 +197,30 @@
 		<AssemblyReference
 			RelativePath="System.XML.dll"
 			AssemblyName="System.Xml, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+		/>
+		<AssemblyReference
+			RelativePath="System.Design.dll"
+			AssemblyName="System.Design, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
+		<AssemblyReference
+			RelativePath="System.Drawing.Design.dll"
+			AssemblyName="System.Drawing.Design, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
+		<AssemblyReference
+			RelativePath="Microsoft.VisualBasic.Compatibility.dll"
+			AssemblyName="Microsoft.VisualBasic.Compatibility, Version=8.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
+		<AssemblyReference
+			RelativePath="Microsoft.VisualBasic.dll"
+			AssemblyName="Microsoft.VisualBasic, Version=8.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
+		<AssemblyReference
+			RelativePath="System.Web.dll"
+			AssemblyName="System.Web, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=IA64"
+		/>
+		<AssemblyReference
+			RelativePath="stdole.dll"
+			AssemblyName="stdole, Version=7.0.3300.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 		/>
 	</References>
 	<Files>
