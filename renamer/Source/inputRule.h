@@ -30,4 +30,14 @@ class InputRule {
 
 };
 
+struct changeRegexFailure : public exception {
+    // Destructor
+    virtual ~changeRegexFailure() throw() {};
+
+    // Attributes
+    vector<string> fileNames;
+    boost::regex oldRegex;
+    boost::regex newRegex;
+};
+
 #endif //INPUT_RULE

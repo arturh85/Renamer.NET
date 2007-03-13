@@ -6,6 +6,7 @@
 
 using boost::regex;
 using boost::smatch;
+using namespace boost::filesystem;
 
 InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) {
     mRowid = rowid;
@@ -53,18 +54,22 @@ void InputRule::createTables(sqlite3* db) {
 
 //! change regex
 bool InputRule::setRegex(string sRegex) {
+
     regex newRegex(sRegex);
     vector<string> results;
 
     stringstream strSql;
-    strSql  << "SELECT history.fileName "
-            << "WHERE regexes.rowid = " << mRowid;
-    exec(strSql.str(), mDb, onAppendAllColumnsToVector, &results);
+    strSql  << "SELECT fileName FROM history "
+            << "WHERE regex = " << mRowid;
 
+    exec(strSql.str(), mDb, onAppendFirstColumnToVector, &results);
+
+    vector<string> mismatches;
     for (vector<string>::iterator it = results.begin();
          it != results.end(); it++) {
 
-        cout << "-> " << *it << endl;
+        //cout << "-> " << *it << endl;
+
     }
     return true;
 }
@@ -79,11 +84,10 @@ bool InputRule::applyTo(string fileName, string& outputFileName) {
     if (regex_match(fileName, what, exp)) {
         //vector<string> vars = stripVarNames()
         stringstream strSql;
-        strSql  << "INSERT OR IGNORE INTO history (fileName, regex) "
+        strSql  << "INSERT INTO history (fileName, regex) "
                 << "VALUES ("
                 << cSqlStrOut(fileName) << ", "
                 << mRowid << ")";
-
         exec(strSql.str(), mDb);
         return true;
     }
@@ -99,7 +103,13 @@ void InputRule::unitTest() {
 
     sqlite3* db;
 
-//    if(sqlite3_open("InputRule_unitTest.db3", &db)) {
+//    // test Ruleset class
+//    path dbFileName = initial_path()/"unitTest_InputRule.db3";
+//
+//    if (exists(dbFileName))
+//        boost::filesystem::remove(dbFileName);
+//
+//    if(sqlite3_open(dbFileName.native_file_string().c_str(), &db)) {
     if(sqlite3_open(":memory:", &db)) {
         sqlite3_close(db);
         throw std::runtime_error("could not open database file");
@@ -137,12 +147,20 @@ void InputRule::unitTest() {
     BOOST_CHECK(!ruleGamma.applyTo("Test.mpg", sDummy));
     BOOST_CHECK(ruleGamma.applyTo("Test.jpg", sDummy));
 
-    BOOST_CHECKPOINT("setRegex()");
-    //BOOST_CHECK
+    BOOST_CHECK(ruleAlpha.applyTo("Name mit Blank.avi", sDummy));
+    BOOST_CHECK(!ruleAlpha.applyTo("Name mit Blank.mpg", sDummy));
+    BOOST_CHECK(!ruleAlpha.applyTo("Name mit Blank.jpg", sDummy));
 
-    //!\todo this doesnt work, see http://tinyurl.com/3x984x
-    BOOST_WARN_THROW( string("a"), exception );
-    BOOST_WARN_NO_THROW( InputRule ruleAlpha(regex("("), db));
+    BOOST_CHECK(!ruleBeta.applyTo("Name mit Blank.avi", sDummy));
+    BOOST_CHECK(ruleBeta.applyTo("Name mit Blank.mpg", sDummy));
+    BOOST_CHECK(!ruleBeta.applyTo("Name mit Blank.jpg", sDummy));
+
+    BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.avi", sDummy));
+    BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.mpg", sDummy));
+    BOOST_CHECK(ruleGamma.applyTo("Name mit Blank.jpg", sDummy));
+
+    BOOST_CHECKPOINT("setRegex()");
+    BOOST_CHECK(ruleAlpha.setRegex("Test\\.*"));
 
     //  clean up
     sqlite3_close(db);
