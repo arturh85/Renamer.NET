@@ -58,7 +58,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="bin\$(ProjectName)-d.lib"
+				OutputFile="..\..\bin\$(ProjectName)-d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="bin\$(ProjectName).lib"
+				OutputFile="..\..\bin\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -157,259 +157,259 @@
 			Name="SQLite"
 			>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\alter.c"
+				RelativePath="..\..\Source\alter.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\analyze.c"
+				RelativePath="..\..\Source\analyze.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\attach.c"
+				RelativePath="..\..\Source\attach.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\auth.c"
+				RelativePath="..\..\Source\auth.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\btree.c"
+				RelativePath="..\..\Source\btree.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\btree.h"
+				RelativePath="..\..\Source\btree.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\build.c"
+				RelativePath="..\..\Source\build.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\callback.c"
+				RelativePath="..\..\Source\callback.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\complete.c"
+				RelativePath="..\..\Source\complete.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\date.c"
+				RelativePath="..\..\Source\date.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\delete.c"
+				RelativePath="..\..\Source\delete.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\expr.c"
+				RelativePath="..\..\Source\expr.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1.c"
+				RelativePath="..\..\Source\fts1.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1.h"
+				RelativePath="..\..\Source\fts1.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1_hash.c"
+				RelativePath="..\..\Source\fts1_hash.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1_hash.h"
+				RelativePath="..\..\Source\fts1_hash.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1_porter.c"
+				RelativePath="..\..\Source\fts1_porter.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1_tokenizer.h"
+				RelativePath="..\..\Source\fts1_tokenizer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\fts1_tokenizer1.c"
+				RelativePath="..\..\Source\fts1_tokenizer1.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\func.c"
+				RelativePath="..\..\Source\func.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\hash.c"
+				RelativePath="..\..\Source\hash.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\hash.h"
+				RelativePath="..\..\Source\hash.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\insert.c"
+				RelativePath="..\..\Source\insert.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\keywordhash.h"
+				RelativePath="..\..\Source\keywordhash.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\legacy.c"
+				RelativePath="..\..\Source\legacy.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\loadext.c"
+				RelativePath="..\..\Source\loadext.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\main.c"
+				RelativePath="..\..\Source\main.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\opcodes.c"
+				RelativePath="..\..\Source\opcodes.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\opcodes.h"
+				RelativePath="..\..\Source\opcodes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\os.c"
+				RelativePath="..\..\Source\os.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\os.h"
+				RelativePath="..\..\Source\os.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\os_common.h"
+				RelativePath="..\..\Source\os_common.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\os_os2.c"
+				RelativePath="..\..\Source\os_os2.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\os_unix.c"
+				RelativePath="..\..\Source\os_unix.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\os_win.c"
+				RelativePath="..\..\Source\os_win.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\pager.c"
+				RelativePath="..\..\Source\pager.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\pager.h"
+				RelativePath="..\..\Source\pager.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\parse.c"
+				RelativePath="..\..\Source\parse.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\parse.h"
+				RelativePath="..\..\Source\parse.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\pragma.c"
+				RelativePath="..\..\Source\pragma.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\prepare.c"
+				RelativePath="..\..\Source\prepare.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\printf.c"
+				RelativePath="..\..\Source\printf.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\random.c"
+				RelativePath="..\..\Source\random.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\select.c"
+				RelativePath="..\..\Source\select.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\shell.c"
+				RelativePath="..\..\Source\shell.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\sqlite3.h"
+				RelativePath="..\..\Source\sqlite3.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\sqlite3ext.h"
+				RelativePath="..\..\Source\sqlite3ext.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\sqliteInt.h"
+				RelativePath="..\..\Source\sqliteInt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\table.c"
+				RelativePath="..\..\Source\table.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\tokenize.c"
+				RelativePath="..\..\Source\tokenize.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\trigger.c"
+				RelativePath="..\..\Source\trigger.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\update.c"
+				RelativePath="..\..\Source\update.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\utf.c"
+				RelativePath="..\..\Source\utf.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\util.c"
+				RelativePath="..\..\Source\util.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vacuum.c"
+				RelativePath="..\..\Source\vacuum.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbe.c"
+				RelativePath="..\..\Source\vdbe.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbe.h"
+				RelativePath="..\..\Source\vdbe.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbeapi.c"
+				RelativePath="..\..\Source\vdbeapi.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbeaux.c"
+				RelativePath="..\..\Source\vdbeaux.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbefifo.c"
+				RelativePath="..\..\Source\vdbefifo.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbeInt.h"
+				RelativePath="..\..\Source\vdbeInt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vdbemem.c"
+				RelativePath="..\..\Source\vdbemem.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\vtab.c"
+				RelativePath="..\..\Source\vtab.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sqlite3.3.12\Source\where.c"
+				RelativePath="..\..\Source\where.c"
 				>
 			</File>
 		</Filter>

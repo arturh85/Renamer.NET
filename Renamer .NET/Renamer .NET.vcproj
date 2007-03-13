@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\renamer\Source&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
+				AdditionalIncludeDirectories="&quot;..\renamer\Source&quot;;&quot;..\SQLite\Source&quot;"
 				PreprocessorDefinitions="_WIN32;_DEBUG;SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -61,9 +61,9 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="boost_regex-vc80-mt-gd.lib boost_filesystem-vc80-mt-gd.lib SQLite-d.lib"
-				OutputFile="..\..\bin\$(ProjectName) Debug.exe"
+				OutputFile="..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\SQLite\bin&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\dotnet\release&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="2"
@@ -97,8 +97,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="..\tmp\$(ConfigurationName)"
+			IntermediateDirectory="..\tmp\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\renamer\Source&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\include\boost-1_33_1&quot;;&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\sqlite3.3.12\Source&quot;"
+				AdditionalIncludeDirectories="&quot;..\renamer\Source&quot;;&quot;..\SQLite\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -142,10 +142,10 @@
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib SQLite.lib"
 				ShowProgress="0"
-				OutputFile="..\..\bin\$(ProjectName).exe"
+				OutputFile="..\bin\$(ProjectName).exe"
 				Version="0.0.1"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;D:\Dokumente und Einstellungen\Artur\Desktop\Develop\Renamer\bin&quot;;&quot;D:\Programme\Codeblocks\Boost-1_33_1\lib&quot;;D:\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				EntryPointSymbol="main"
@@ -308,31 +308,31 @@
 			Name="Renamer Source"
 			>
 			<File
-				RelativePath="..\..\renamer\Source\globals.h"
+				RelativePath="..\renamer\Source\globals.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\renamer\Source\inputRule.cpp"
+				RelativePath="..\renamer\Source\inputRule.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\renamer\Source\inputRule.h"
+				RelativePath="..\renamer\Source\inputRule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\renamer\Source\ruleset.cpp"
+				RelativePath="..\renamer\Source\ruleset.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\renamer\Source\ruleset.h"
+				RelativePath="..\renamer\Source\ruleset.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\renamer\Source\sqlTools.cpp"
+				RelativePath="..\renamer\Source\sqlTools.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\renamer\Source\sqlTools.h"
+				RelativePath="..\renamer\Source\sqlTools.h"
 				>
 			</File>
 		</Filter>
