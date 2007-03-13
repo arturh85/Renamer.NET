@@ -23,7 +23,7 @@ int onReadFirstField(void *param, int argc, char **argv, char **azColName) {
     return SQLITE_OK;
 }
 
-int onFetchRules(void *param, int argc, char **argv, char **azColName) {
+int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azColName) {
 	vector<string>* output = (vector<string>*) param;
 	output->push_back(string(argv[0]));
 	return SQLITE_OK;
@@ -35,4 +35,15 @@ string cSqlStrOut(string sString) {
 //    return sRetVal;
     algo::replace_all(sString, "'", "''");
     return "'" + sString + "'";
+}
+
+int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColName){
+    //mind the space   -> <- here
+    vector<vector<string> >* targetVector = static_cast<vector<vector<string> >*>( param);
+    vector<string> newVector;
+    for (int i=0; i < argc; i++)
+      newVector.push_back(argv[i]);
+
+    targetVector->push_back(newVector);
+    return SQLITE_OK;
 }

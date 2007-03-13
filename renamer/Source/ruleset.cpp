@@ -109,20 +109,8 @@ void Ruleset::fetchInputRules(vector<string>& outputParam) {
 	string sSql =
 		"SELECT regex FROM regexes";
 	string sRetVal;
-	exec(sSql.c_str(), mDb, onFetchRules, &outputParam);
+	exec(sSql.c_str(), mDb, onAppendFirstColumnToVector, &outputParam);
 	return;
-}
-
-//! sqlite callback that adds each column as a vector to the param
-static int onAppendToVector(void *param, int argc, char **argv, char **azColName){
-    //mind the space   -> <- here
-    vector<vector<string> >* targetVector = static_cast<vector<vector<string> >*>( param);
-    vector<string> newVector;
-    for (int i=0; i < argc; i++)
-      newVector.push_back(argv[i]);
-
-    targetVector->push_back(newVector);
-    return SQLITE_OK;
 }
 
 vector<string> stripVarNames(string sString) {
@@ -154,7 +142,7 @@ bool Ruleset::applyTo(string fileName, string& outputFileName) {
     vector<vector<string> > regexes;
     string sSql =
         "SELECT regex, rowid FROM regexes";
-    exec(sSql.c_str(), mDb, onAppendToVector, &regexes);
+    exec(sSql.c_str(), mDb, onAppendAllColumnsToVector, &regexes);
     for (vector<vector<string> >::iterator it=regexes.begin();
          it != regexes.end(); it++) {
 
@@ -195,8 +183,8 @@ void Ruleset::unitTest() {
     if (fs::exists(fs::initial_path()/"unitTest.db3"))
         fs::remove(fs::initial_path()/"unitTest.db3");
 
-//    Ruleset myRules("unitTest");
-    Ruleset myRules;
+    Ruleset myRules("unitTest");
+//    Ruleset myRules;
     myRules.setOutputFormat("Atlantis $staffel$x$folge$");
 
     InputRule rule;

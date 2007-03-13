@@ -35,6 +35,7 @@ string InputRule::getRegex() const {
     return sRetVal;
 }
 
+//! Creates 'regexes' table
 void InputRule::createTables(sqlite3* db) {
     string sSql;
 
@@ -42,6 +43,24 @@ void InputRule::createTables(sqlite3* db) {
            "   regex string UNIQUE)";
     exec(sSql, db);
 
+}
+
+//! change regex
+void InputRule::setRegex(string sRegex) {
+    regex newRegex(sRegex);
+    vector<vector<string> > results;
+
+    stringstream strSql;
+    strSql  << "SELECT history.fileName "
+            << "WHERE regexes.rowid = " << mRowid;
+    exec(strSql.str(), mDb, onAppendAllColumnsToVector, &results);
+
+    for (vector<vector<string> >::iterator it = results.begin();
+         it != results.end(); it++) {
+
+        vector<string>& row = *it;
+    }
+    return;
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -59,9 +78,18 @@ void InputRule::unitTest() {
     BOOST_REQUIRE(db!=NULL);
 
     InputRule::createTables(db);
+
     InputRule ruleAlpha(regex("(.*)\\.avi"), db);
+    InputRule ruleBeta(regex("(.*)\\.mpg"), db);
+    InputRule ruleGamma(regex("(.*)\\.jpg"), db);
+
     BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
-    BOOST_WARN_NO_THROW( ruleAlpha.getRegex() == "(.*)\\.avi" );
+    BOOST_CHECK( ruleBeta.getRegex() == "(.*)\\.mpg" );
+    BOOST_CHECK( ruleGamma.getRegex() == "(.*)\\.jpg" );
+
+    BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
+    BOOST_CHECK( ruleBeta.getRegex() == "(.*)\\.mpg" );
+    BOOST_CHECK( ruleGamma.getRegex() == "(.*)\\.jpg" );
 
     //!\todo this doesnt work, see http://tinyurl.com/3x984x
     BOOST_WARN_THROW( string("a"), exception );
