@@ -75,6 +75,7 @@ namespace RenamerNET {
 	private: System::Windows::Forms::GroupBox^  groupBox2;
 	private: System::Windows::Forms::Button^  cmdSearchFiles;
 	private: System::Windows::Forms::ListBox^  lstFiles;
+	private: System::Windows::Forms::TreeView^  tvFiles;
 
 
 
@@ -115,6 +116,7 @@ namespace RenamerNET {
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->cmdSearchFiles = (gcnew System::Windows::Forms::Button());
 			this->lstFiles = (gcnew System::Windows::Forms::ListBox());
+			this->tvFiles = (gcnew System::Windows::Forms::TreeView());
 			this->contextMenuStrip1->SuspendLayout();
 			this->splitContainer1->Panel1->SuspendLayout();
 			this->splitContainer1->Panel2->SuspendLayout();
@@ -130,7 +132,7 @@ namespace RenamerNET {
 			this->cboSets->FormattingEnabled = true;
 			this->cboSets->Location = System::Drawing::Point(68, 12);
 			this->cboSets->Name = L"cboSets";
-			this->cboSets->Size = System::Drawing::Size(491, 21);
+			this->cboSets->Size = System::Drawing::Size(523, 21);
 			this->cboSets->TabIndex = 0;
 			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_SelectedIndexChanged);
 			this->cboSets->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_TextChanged);
@@ -138,7 +140,7 @@ namespace RenamerNET {
 			// btnNewSet
 			// 
 			this->btnNewSet->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->btnNewSet->Location = System::Drawing::Point(565, 10);
+			this->btnNewSet->Location = System::Drawing::Point(597, 10);
 			this->btnNewSet->Name = L"btnNewSet";
 			this->btnNewSet->Size = System::Drawing::Size(47, 23);
 			this->btnNewSet->TabIndex = 1;
@@ -161,7 +163,7 @@ namespace RenamerNET {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->txtOutputFormat->Location = System::Drawing::Point(68, 41);
 			this->txtOutputFormat->Name = L"txtOutputFormat";
-			this->txtOutputFormat->Size = System::Drawing::Size(544, 20);
+			this->txtOutputFormat->Size = System::Drawing::Size(576, 20);
 			this->txtOutputFormat->TabIndex = 3;
 			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::txtOutputFormat_TextChanged);
 			// 
@@ -216,8 +218,8 @@ namespace RenamerNET {
 			// splitContainer1.Panel2
 			// 
 			this->splitContainer1->Panel2->Controls->Add(this->groupBox2);
-			this->splitContainer1->Size = System::Drawing::Size(551, 301);
-			this->splitContainer1->SplitterDistance = 183;
+			this->splitContainer1->Size = System::Drawing::Size(583, 375);
+			this->splitContainer1->SplitterDistance = 273;
 			this->splitContainer1->TabIndex = 7;
 			// 
 			// groupBox1
@@ -230,7 +232,7 @@ namespace RenamerNET {
 			this->groupBox1->Controls->Add(this->cmdAddInput);
 			this->groupBox1->Location = System::Drawing::Point(3, 3);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(177, 293);
+			this->groupBox1->Size = System::Drawing::Size(267, 367);
 			this->groupBox1->TabIndex = 6;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Reguläre Ausdrücke";
@@ -239,9 +241,9 @@ namespace RenamerNET {
 			// 
 			this->txtNewInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->txtNewInput->Location = System::Drawing::Point(6, 264);
+			this->txtNewInput->Location = System::Drawing::Point(6, 338);
 			this->txtNewInput->Name = L"txtNewInput";
-			this->txtNewInput->Size = System::Drawing::Size(114, 20);
+			this->txtNewInput->Size = System::Drawing::Size(204, 20);
 			this->txtNewInput->TabIndex = 2;
 			// 
 			// lstInputs
@@ -254,13 +256,13 @@ namespace RenamerNET {
 			this->lstInputs->Location = System::Drawing::Point(6, 19);
 			this->lstInputs->Name = L"lstInputs";
 			this->lstInputs->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
-			this->lstInputs->Size = System::Drawing::Size(163, 238);
+			this->lstInputs->Size = System::Drawing::Size(253, 303);
 			this->lstInputs->TabIndex = 1;
 			// 
 			// cmdAddInput
 			// 
 			this->cmdAddInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->cmdAddInput->Location = System::Drawing::Point(126, 262);
+			this->cmdAddInput->Location = System::Drawing::Point(216, 336);
 			this->cmdAddInput->Name = L"cmdAddInput";
 			this->cmdAddInput->Size = System::Drawing::Size(45, 23);
 			this->cmdAddInput->TabIndex = 0;
@@ -272,19 +274,21 @@ namespace RenamerNET {
 			this->groupBox2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->groupBox2->Controls->Add(this->tvFiles);
 			this->groupBox2->Controls->Add(this->cmdSearchFiles);
 			this->groupBox2->Controls->Add(this->lstFiles);
 			this->groupBox2->Location = System::Drawing::Point(3, 3);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(358, 298);
+			this->groupBox2->Size = System::Drawing::Size(300, 372);
 			this->groupBox2->TabIndex = 7;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Dateien";
+			this->groupBox2->Enter += gcnew System::EventHandler(this, &ApplicationForm::groupBox2_Enter);
 			// 
 			// cmdSearchFiles
 			// 
 			this->cmdSearchFiles->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->cmdSearchFiles->Location = System::Drawing::Point(277, 262);
+			this->cmdSearchFiles->Location = System::Drawing::Point(219, 336);
 			this->cmdSearchFiles->Name = L"cmdSearchFiles";
 			this->cmdSearchFiles->Size = System::Drawing::Size(75, 23);
 			this->cmdSearchFiles->TabIndex = 1;
@@ -300,14 +304,21 @@ namespace RenamerNET {
 			this->lstFiles->Location = System::Drawing::Point(9, 19);
 			this->lstFiles->Name = L"lstFiles";
 			this->lstFiles->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
-			this->lstFiles->Size = System::Drawing::Size(343, 238);
+			this->lstFiles->Size = System::Drawing::Size(285, 56);
 			this->lstFiles->TabIndex = 0;
+			// 
+			// tvFiles
+			// 
+			this->tvFiles->Location = System::Drawing::Point(9, 81);
+			this->tvFiles->Name = L"tvFiles";
+			this->tvFiles->Size = System::Drawing::Size(285, 241);
+			this->tvFiles->TabIndex = 2;
 			// 
 			// ApplicationForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(623, 375);
+			this->ClientSize = System::Drawing::Size(655, 449);
 			this->Controls->Add(this->splitContainer1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -471,7 +482,10 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void dlgAddFiles_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			 for(int i=0; i<dlgAddFiles->FileNames->Length; i++) {
 				 lstFiles->Items->Add(dlgAddFiles->FileNames[i]);
+				 tvFiles->Nodes->Add(dlgAddFiles->FileNames[i]);
 			 }
+		 }
+private: System::Void groupBox2_Enter(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }
