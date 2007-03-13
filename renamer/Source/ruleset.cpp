@@ -163,6 +163,23 @@ bool Ruleset::applyTo(string fileName, string& outputFileName) {
     return false;
 }
 
+vector<InputRule> Ruleset::getInputRules() {
+    vector<InputRule> retVal;
+    vector<string> rowids;
+    string sSql = "SELECT rowid FROM regexes";
+    exec(sSql, mDb, onAppendFirstColumnToVector, &rowids);
+    for (vector<string>::iterator it = rowids.begin();
+         it != rowids.end(); it++) {
+
+        stringstream strRowid(*it);
+        sqlite_int64 rowid;
+        strRowid >> rowid;
+        InputRule newRule( rowid, mDb);
+        retVal.push_back(newRule);
+    }
+    return retVal;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
@@ -183,19 +200,24 @@ void Ruleset::unitTest() {
     if (fs::exists(fs::initial_path()/"unitTest.db3"))
         fs::remove(fs::initial_path()/"unitTest.db3");
 
-    Ruleset myRules("unitTest");
-//    Ruleset myRules;
+//    Ruleset myRules("unitTest");
+    Ruleset myRules;
     myRules.setOutputFormat("Atlantis $staffel$x$folge$");
 
+    BOOST_CHECKPOINT("Create myRules");
     InputRule rule;
     rule=myRules.addInputRule("dummy");
-    BOOST_CHECK(rule.getRegex() == "dummy");
-
     myRules.addInputRule("HalloWelt!");
     myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
 
+    BOOST_CHECKPOINT("checkmyRules.getInputRules()");
+    BOOST_CHECK( myRules.getInputRules().size() == 3);
+    BOOST_CHECK( myRules.getInputRules()[0].getRegex() == "dummy");
+    BOOST_CHECK( myRules.getInputRules()[1].getRegex() == "HalloWelt!");
+
     string sDummy;
 
+    BOOST_CHECKPOINT("myRules.applyTo");
     //these should work
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS.avi", sDummy ));
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N.avi", sDummy ));

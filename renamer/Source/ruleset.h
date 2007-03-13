@@ -31,12 +31,15 @@ public:
     string getOutputFormat() const;
 	void fetchInputRules(vector<string>& outputParam);
 
+	//! gets a collection of InputRule-Objects
+    vector<InputRule> getInputRules();
 
     //! Wird für jede Datei aufgerufen die umbenannt werden soll
     /** Benennt die Datei aber nicht selber um, sondern
         gibt den neuen Dateinamen zurück
     */
     bool applyTo(string fileName, string& outputFileName);
+
 
 	string getName() const;
 

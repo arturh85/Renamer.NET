@@ -6,10 +6,10 @@
 
 using boost::regex;
 
-//InputRule::InputRule(sqlite_rowid rowid, sqlite3* db) {
-//    mRowid = rowid;
-//    mDb = db;
-//}
+InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) {
+    mRowid = rowid;
+    mDb = db;
+}
 
 InputRule::InputRule(boost::regex exp, sqlite3* db) {
     mDb = db;
@@ -48,17 +48,17 @@ void InputRule::createTables(sqlite3* db) {
 //! change regex
 void InputRule::setRegex(string sRegex) {
     regex newRegex(sRegex);
-    vector<vector<string> > results;
+    vector<string> results;
 
     stringstream strSql;
     strSql  << "SELECT history.fileName "
             << "WHERE regexes.rowid = " << mRowid;
     exec(strSql.str(), mDb, onAppendAllColumnsToVector, &results);
 
-    for (vector<vector<string> >::iterator it = results.begin();
+    for (vector<string>::iterator it = results.begin();
          it != results.end(); it++) {
 
-        vector<string>& row = *it;
+        cout << "-> " << *it << endl;
     }
     return;
 }

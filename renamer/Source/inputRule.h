@@ -7,7 +7,7 @@ class InputRule {
     public:
         //  constructors
         InputRule() : mRowid(-1), mDb(NULL) {};
-        //InputRule(sqlite_rowid rowid, sqlite3* );
+        InputRule(sqlite_int64 rowid, sqlite3* );
         InputRule(boost::regex, sqlite3* );
 
         //  methodes
@@ -23,7 +23,7 @@ class InputRule {
     private:
 
         //  attributes
-        sqlite_rowid mRowid;
+        sqlite_int64 mRowid;
         sqlite3* mDb;
 
 };
