@@ -59,7 +59,13 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ListBox^  lstInputs;
 	private: System::Windows::Forms::Button^  cmdAddInput;
 	private: System::Windows::Forms::ContextMenuStrip^  contextMenuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^  löschenToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  bearbeitenToolStripMenuItem;
+
+
+
+
+
 	private: System::ComponentModel::IContainer^  components;
 
 
@@ -87,6 +93,7 @@ namespace RenamerNET {
 			this->txtNewInput = (gcnew System::Windows::Forms::TextBox());
 			this->lstInputs = (gcnew System::Windows::Forms::ListBox());
 			this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
+			this->löschenToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->bearbeitenToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->cmdAddInput = (gcnew System::Windows::Forms::Button());
 			this->groupBox1->SuspendLayout();
@@ -151,48 +158,58 @@ namespace RenamerNET {
 			this->groupBox1->Controls->Add(this->cmdAddInput);
 			this->groupBox1->Location = System::Drawing::Point(15, 74);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(227, 165);
+			this->groupBox1->Size = System::Drawing::Size(423, 259);
 			this->groupBox1->TabIndex = 5;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Reguläre Ausdrücke";
 			// 
 			// txtNewInput
 			// 
-			this->txtNewInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+			this->txtNewInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->txtNewInput->Location = System::Drawing::Point(7, 138);
+			this->txtNewInput->Location = System::Drawing::Point(6, 230);
 			this->txtNewInput->Name = L"txtNewInput";
-			this->txtNewInput->Size = System::Drawing::Size(162, 20);
+			this->txtNewInput->Size = System::Drawing::Size(360, 20);
 			this->txtNewInput->TabIndex = 2;
 			// 
 			// lstInputs
 			// 
-			this->lstInputs->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+			this->lstInputs->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->lstInputs->ContextMenuStrip = this->contextMenuStrip1;
 			this->lstInputs->FormattingEnabled = true;
 			this->lstInputs->Location = System::Drawing::Point(7, 19);
 			this->lstInputs->Name = L"lstInputs";
-			this->lstInputs->Size = System::Drawing::Size(213, 108);
+			this->lstInputs->Size = System::Drawing::Size(409, 199);
 			this->lstInputs->TabIndex = 1;
+			this->lstInputs->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &ApplicationForm::lstInputs_MouseDown);
 			// 
 			// contextMenuStrip1
 			// 
-			this->contextMenuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->bearbeitenToolStripMenuItem});
+			this->contextMenuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->löschenToolStripMenuItem, 
+				this->bearbeitenToolStripMenuItem});
 			this->contextMenuStrip1->Name = L"contextMenuStrip1";
-			this->contextMenuStrip1->Size = System::Drawing::Size(129, 26);
+			this->contextMenuStrip1->Size = System::Drawing::Size(153, 70);
+			// 
+			// löschenToolStripMenuItem
+			// 
+			this->löschenToolStripMenuItem->Name = L"löschenToolStripMenuItem";
+			this->löschenToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->löschenToolStripMenuItem->Text = L"Löschen";
+			this->löschenToolStripMenuItem->Click += gcnew System::EventHandler(this, &ApplicationForm::löschenToolStripMenuItem_Click);
 			// 
 			// bearbeitenToolStripMenuItem
 			// 
 			this->bearbeitenToolStripMenuItem->Name = L"bearbeitenToolStripMenuItem";
-			this->bearbeitenToolStripMenuItem->Size = System::Drawing::Size(128, 22);
+			this->bearbeitenToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->bearbeitenToolStripMenuItem->Text = L"Bearbeiten";
-			this->bearbeitenToolStripMenuItem->Click += gcnew System::EventHandler(this, &ApplicationForm::bearbeitenToolStripMenuItem_Click);
+			this->bearbeitenToolStripMenuItem->Click += gcnew System::EventHandler(this, &ApplicationForm::bearbeitenToolStripMenuItem_Click_1);
 			// 
 			// cmdAddInput
 			// 
-			this->cmdAddInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->cmdAddInput->Location = System::Drawing::Point(175, 136);
+			this->cmdAddInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
+			this->cmdAddInput->Location = System::Drawing::Point(372, 228);
 			this->cmdAddInput->Name = L"cmdAddInput";
 			this->cmdAddInput->Size = System::Drawing::Size(45, 23);
 			this->cmdAddInput->TabIndex = 0;
@@ -212,6 +229,7 @@ namespace RenamerNET {
 			this->Controls->Add(this->btnNewSet);
 			this->Controls->Add(this->cboSets);
 			this->Name = L"ApplicationForm";
+			this->Opacity = 0.95;
 			this->Text = L"Renamer Pre-Alpha";
 			this->Load += gcnew System::EventHandler(this, &ApplicationForm::Form1_Load);
 			this->groupBox1->ResumeLayout(false);
@@ -348,6 +366,14 @@ private: System::Void cmdAddInput_Click(System::Object^  sender, System::EventAr
 		 }
 private: System::Void bearbeitenToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			// lstInputs->Items->SelectedItem->Font->Bold;
+		 }
+private: System::Void lstInputs_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 
+		 }
+private: System::Void bearbeitenToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
+//			lstInputs->Items->Remove(lstInputs->Items->SelectedIndex);
+		 }
+private: System::Void löschenToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }

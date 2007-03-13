@@ -14,7 +14,7 @@ class InputRule {
         static void createTables(sqlite3* db);
         string getRegex() const;
         void setRegex(string);
-        long getId() const { return mRowid; };
+        long getId() const { return (long) mRowid; };
 
         #ifdef RENAMER_UNIT_TEST
         static void unitTest();
