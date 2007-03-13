@@ -2,6 +2,6 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Renamer Project">
 		<Project filename="renamer\Projects\CodeBlocks\Renamer.cbp" active="1" />
-		<Project filename="sqlite3.3.12\Projects\CodeBlocks\SQLite.cbp" />
+		<Project filename="SQLite\Projects\CodeBlocks\SQLite.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

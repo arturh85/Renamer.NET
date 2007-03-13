@@ -55,11 +55,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="..\..\..\sqlite3.3.12\Source" />
+			<Add directory="..\..\..\SQLite\Source" />
 		</Compiler>
 		<Linker>
 			<Add library="SQLite" />
-			<Add directory="..\..\..\sqlite3.3.12\bin" />
+			<Add directory="..\..\..\SQLite\bin" />
 		</Linker>
 		<Unit filename="..\..\Source\globals.h" />
 		<Unit filename="..\..\Source\inputRule.cpp" />
