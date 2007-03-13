@@ -49,11 +49,6 @@ Ruleset::~Ruleset()
 void Ruleset::initDb() {
     string sSql;
 
-    sSql = "CREATE TABLE history ("
-           "   fileName string UNIQUE,"
-           "   regex ROWID)";
-    exec(sSql, mDb);
-
     sSql = "CREATE TABLE options ("
            "   outputFormat string)";
     exec(sSql, mDb);

@@ -5,6 +5,7 @@
 #include "sqlTools.h"
 
 using boost::regex;
+using boost::smatch;
 
 InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) {
     mRowid = rowid;
@@ -35,7 +36,7 @@ string InputRule::getRegex() const {
     return sRetVal;
 }
 
-//! Creates 'regexes' table
+//! Creates 'regexes' and 'history' table
 void InputRule::createTables(sqlite3* db) {
     string sSql;
 
@@ -43,10 +44,15 @@ void InputRule::createTables(sqlite3* db) {
            "   regex string UNIQUE)";
     exec(sSql, db);
 
+    sSql = "CREATE TABLE history ("
+           "   fileName string UNIQUE,"
+           "   regex ROWID)";
+    exec(sSql, db);
+
 }
 
 //! change regex
-void InputRule::setRegex(string sRegex) {
+bool InputRule::setRegex(string sRegex) {
     regex newRegex(sRegex);
     vector<string> results;
 
@@ -60,7 +66,29 @@ void InputRule::setRegex(string sRegex) {
 
         cout << "-> " << *it << endl;
     }
-    return;
+    return true;
+}
+
+//! try to match a fileName against a single regex
+/**
+    This method updates the history table.
+*/
+bool InputRule::applyTo(string fileName, string& outputFileName) {
+    regex exp(getRegex());
+    smatch what;
+    if (regex_match(fileName, what, exp)) {
+        //vector<string> vars = stripVarNames()
+        stringstream strSql;
+        strSql  << "INSERT OR IGNORE INTO history (fileName, regex) "
+                << "VALUES ("
+                << cSqlStrOut(fileName) << ", "
+                << mRowid << ")";
+
+        exec(strSql.str(), mDb);
+        return true;
+    }
+
+    return false;
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -71,6 +99,7 @@ void InputRule::unitTest() {
 
     sqlite3* db;
 
+//    if(sqlite3_open("InputRule_unitTest.db3", &db)) {
     if(sqlite3_open(":memory:", &db)) {
         sqlite3_close(db);
         throw std::runtime_error("could not open database file");
@@ -79,17 +108,37 @@ void InputRule::unitTest() {
 
     InputRule::createTables(db);
 
+    BOOST_CHECKPOINT("InputRule new regex constructor");
     InputRule ruleAlpha(regex("(.*)\\.avi"), db);
     InputRule ruleBeta(regex("(.*)\\.mpg"), db);
     InputRule ruleGamma(regex("(.*)\\.jpg"), db);
 
+    BOOST_CHECKPOINT("getRegex(), first time");
     BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
     BOOST_CHECK( ruleBeta.getRegex() == "(.*)\\.mpg" );
     BOOST_CHECK( ruleGamma.getRegex() == "(.*)\\.jpg" );
 
+    BOOST_CHECKPOINT("getRegex(), second time");
     BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
     BOOST_CHECK( ruleBeta.getRegex() == "(.*)\\.mpg" );
     BOOST_CHECK( ruleGamma.getRegex() == "(.*)\\.jpg" );
+
+    BOOST_CHECKPOINT("applyTo()");
+    string sDummy;
+    BOOST_CHECK(ruleAlpha.applyTo("Test.avi", sDummy));
+    BOOST_CHECK(!ruleAlpha.applyTo("Test.mpg", sDummy));
+    BOOST_CHECK(!ruleAlpha.applyTo("Test.jpg", sDummy));
+
+    BOOST_CHECK(!ruleBeta.applyTo("Test.avi", sDummy));
+    BOOST_CHECK(ruleBeta.applyTo("Test.mpg", sDummy));
+    BOOST_CHECK(!ruleBeta.applyTo("Test.jpg", sDummy));
+
+    BOOST_CHECK(!ruleGamma.applyTo("Test.avi", sDummy));
+    BOOST_CHECK(!ruleGamma.applyTo("Test.mpg", sDummy));
+    BOOST_CHECK(ruleGamma.applyTo("Test.jpg", sDummy));
+
+    BOOST_CHECKPOINT("setRegex()");
+    //BOOST_CHECK
 
     //!\todo this doesnt work, see http://tinyurl.com/3x984x
     BOOST_WARN_THROW( string("a"), exception );
