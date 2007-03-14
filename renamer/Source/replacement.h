@@ -56,8 +56,16 @@ class Replacement {
           { return cSqlInFormated<sqlite_int64>(mRow.get("ownerId")); };
 
         //! set replacements.ownerId
-        sqlite_int64 setOwnerId(sqlite_int64 v)
+        void setOwnerId(sqlite_int64 v)
           { mRow.set("ownerId", cSqlOutFormated(v)); };
+
+        //! get replacements.ownerClass
+        string getOwnerClass() const
+          { return mRow.get("ownerClass"); };
+
+        //! set replacements.ownerClass
+        void setOwnerClass(string v)
+          { mRow.set("ownerClass", v); };
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

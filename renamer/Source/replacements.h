@@ -8,13 +8,19 @@ class Replacements {
     public:
         //---------------------------------------------------------------------
         //  constructors
-        Replacements(sqlite3* db, sqlite_int64 ownerId);
+        Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass);
+        Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass, Replacements& parent);
 
         //---------------------------------------------------------------------
         //  methodes
 
-        string replace(string);
+        //!apply replacements of this object and parents
+        string replace(string) const;
+
+        //! attach a new replacement to this object
         void addReplacement(string regex, string replacement);
+
+        //!get all the replacements attached to this object
         vector<Replacement> getReplacements() const;
 
         //! Creates replacementGroups table
@@ -32,6 +38,7 @@ class Replacements {
         sqlite3* mDb;
         Replacements* mParent;
         sqlite_int64 mOwnerId;
+        string mOwnerClass;
 };
 
 #endif //REPLACEMENTS_H
