@@ -53,11 +53,19 @@ void Replacement::unitTest() {
     BOOST_CHECK(rpAlpha.getOwnerClass() == "Replacement::unitTest");
 
     BOOST_CHECK(rpAlpha.replace("ABC") == "XBC");
+    BOOST_CHECK(rpAlpha.replace("ABCEFG") == "XBCEFG");
     BOOST_CHECK(rpAlpha.replace("abcABCCBA") == "abcXBCCBX");
+
     BOOST_CHECK(rpAlpha.replace("abc") != "XBC");
 
     BOOST_CHECKPOINT("getRowid");
     BOOST_CHECK(rpAlpha.getRowid() == sqlite3_last_insert_rowid(db));
+
+
+    Replacement rpBeta(db);
+    rpBeta.setRegex(regex("\\."));
+    rpBeta.setReplacement(" ");
+    BOOST_CHECK(rpBeta.replace("Family.Guy.S06E13.PDTV.XviD-LOL.avi") == "Family Guy S06E13 PDTV XviD-LOL avi");
 
 }
 

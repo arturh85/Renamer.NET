@@ -8,13 +8,12 @@ using boost::regex;
 using boost::smatch;
 using namespace boost::filesystem;
 
-//! Loads from Database
 InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) {
     mRowid = rowid;
     mDb = db;
+    mRplPtr = new Replacements(db, rowid, "InputRule");
 }
 
-//! Create a new regex in the database
 InputRule::InputRule(boost::regex exp, sqlite3* db) {
     mDb = db;
 
@@ -27,9 +26,18 @@ InputRule::InputRule(boost::regex exp, sqlite3* db) {
     exec(sSql, mDb);
 
     mRowid = sqlite3_last_insert_rowid(db);
+    mRplPtr = new Replacements(db, mRowid, "InputRule");
 }
 
-//! get the regex as a string from the database
+InputRule::~InputRule() {
+    //delete mRplPtr;
+}
+
+void InputRule::copy(const InputRule& source) {
+    mRowid = source.mRowid;
+}
+
+
 string InputRule::getRegex() const {
     string sRetVal;
     stringstream strSql;
@@ -94,6 +102,7 @@ bool InputRule::setRegex(string sRegex) {
     This method updates the history table.
 */
 bool InputRule::applyTo(string fileName, string& outputFileName) {
+    fileName = mRplPtr->replace(fileName);
     regex exp(getRegex());
     smatch what;
     if (regex_match(fileName, what, exp)) {
@@ -132,6 +141,8 @@ void InputRule::unitTest() {
     BOOST_REQUIRE(db!=NULL);
 
     InputRule::createTables(db);
+    Replacement::createTables(db);
+    Replacements::createTables(db);
 
     BOOST_CHECKPOINT("InputRule constructor(regex)");
     InputRule ruleAlpha(regex("(.*)\\.avi"), db);
@@ -200,9 +211,16 @@ void InputRule::unitTest() {
     BOOST_CHECK(ruleAlpha.getId() == ruleDelta.getId());
     BOOST_CHECK(ruleAlpha.getRegex() == ruleDelta.getRegex());
 
-//    ruleAlpha.remove();
-//    BOOST_CHECK_THROW(ruleAlpha.getRegex(), runtime_error );
-//    BOOST_CHECK_NO_THROW(ruleBeta.getRegex() );
+
+    BOOST_CHECKPOINT("replacements");
+    InputRule ruleEpsilon(regex("Family Guy.*"), db);
+    ruleEpsilon.getReplacements().addReplacement("\\."," ");
+//    ruleEpsilon.getReplacements().addReplacement("PDTV|Xvid","-");
+
+    BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
+//    BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
+//    BOOST_CHECK(ruleAlpha.applyTo("Test.avi", sDummy));
+
 
 
     //  clean up
