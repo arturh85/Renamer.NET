@@ -15,7 +15,10 @@ class TableRow {
         TableRow(sqlite3* db, string table, sqlite_int64 rowid );
 
         string read(string field);
-        void write(string field, string value);
+
+        string operator[](const string what) {
+            return read(what);
+        }
 
         //---------------------------------------------------------------------
         //  methodes
@@ -29,6 +32,9 @@ class TableRow {
         sqlite3* mDb;
         string mTable;
         sqlite_int64 mRowid;
+
+    protected:
+        void write(string field, string value);
 };
 
 #endif //TABLE_ROW

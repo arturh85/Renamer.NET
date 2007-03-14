@@ -53,6 +53,10 @@ string TableRow::read(string field) {
     return sReturn;
 }
 
+//string TableRow::operator[](const string what) {
+//    return
+//}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
@@ -65,6 +69,15 @@ void createTables(sqlite3* db) {
     exec(sSql, db);
 
 }
+
+class foobar : public TableRow {
+    public:
+        foobar(sqlite3*  db) : TableRow(db, "myTable") {};
+
+        void set(string field, string value) {
+            write(field, value);
+        };
+};
 
 void TableRow::unitTest() {
 
@@ -84,19 +97,19 @@ void TableRow::unitTest() {
 
     createTables(db);
 
-    TableRow rowAlpha(db, "myTable");
+    foobar rowAlpha(db);
     rowAlpha.write("uniqueField", "Hi");
     rowAlpha.write("dummy", "How are you?");
     BOOST_CHECK(rowAlpha.read("uniqueField") == "Hi");
     BOOST_CHECK(rowAlpha.read("dummy") == "How are you?");
 
-    TableRow rowBeta(db, "myTable");
+    foobar rowBeta(db);
     rowBeta.write("uniqueField", "dummy");
-    rowBeta.write("dummy", "How are you?");
+    rowBeta.write("dummy", "40647a02-d248-11db-8314-0800200c9a66");
     BOOST_CHECK(rowBeta.read("uniqueField") == "dummy");
-    BOOST_CHECK(rowBeta.read("dummy") == "How are you?");
+    BOOST_CHECK(rowBeta.read("dummy") == "40647a02-d248-11db-8314-0800200c9a66");
 
-    TableRow rowGamma(db, "myTable");
+    foobar rowGamma(db);
     rowGamma.write("uniqueField", "test");
     rowGamma.write("dummy", "How are you?");
     BOOST_CHECK(rowGamma.read("uniqueField") == "test");
@@ -104,6 +117,12 @@ void TableRow::unitTest() {
 
     BOOST_CHECK(rowAlpha.read("uniqueField") == "Hi");
     BOOST_CHECK(rowAlpha.read("dummy") == "How are you?");
+
+    BOOST_CHECKPOINT("operator[]");
+    BOOST_CHECK(rowAlpha["uniqueField"] == "Hi");
+    BOOST_CHECK(rowAlpha["dummy"] == "How are you?");
+    BOOST_CHECK(rowBeta["dummy"] == "40647a02-d248-11db-8314-0800200c9a66");
+
 }
 
 #endif //RENAMER_UNIT_TEST
