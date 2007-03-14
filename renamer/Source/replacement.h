@@ -14,16 +14,6 @@ class Replacement {
         static void createTables(sqlite3* db);
         string replace(string);
 
-
-        #ifdef RENAMER_UNIT_TEST
-        static void unitTest();
-        #endif
-
-//        //  attributes
-//        boost::regex expression;
-//        string replacement;
-//        bool inherit;
-
         void setInheritable(bool v)
             {mRow.set("inheritable",cSqlBoolOut(v));} ;
 
@@ -39,13 +29,9 @@ class Replacement {
         void setRegex(boost::regex v)
             {mRow.set("regex", v.str());} ;
 
-//        //!set the regex as string, the string is validated
-//        void setRegex(string v)
-//            {mRow.set("regex", boost::regex(v).str());} ;
-//
-//        //!set the regex as string, the string was validated
-//        string getRegex() const
-//            { return mRow.get("regex"); };
+        #ifdef RENAMER_UNIT_TEST
+        static void unitTest();
+        #endif
 
     private:
         sqlite3* mDb;
