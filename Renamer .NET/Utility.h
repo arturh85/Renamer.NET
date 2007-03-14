@@ -1,6 +1,7 @@
 #pragma once
 
-bool To_string( String^ source, string &target );
-bool To_CharStar( String^ source, char*& target );
-string toStdString(String^source);
-String^ toClrString( string source );
+#include "globals.h"
+#include "vcclr.h"
+
+string toStdString(System::String^ source);
+System::String^ toClrString( std::string source );

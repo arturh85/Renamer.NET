@@ -60,7 +60,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt-gd.lib boost_filesystem-vc80-mt-gd.lib SQLite-d.lib"
+				AdditionalDependencies="boost_regex-vc80-mt-gd.lib boost_filesystem-vc80-mt-gd.lib SQLite.lib"
 				OutputFile="..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
@@ -238,14 +238,6 @@
 					SubType="Designer"
 					>
 				</File>
-			</File>
-			<File
-				RelativePath=".\Renamer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Renamer.h"
-				>
 			</File>
 		</Filter>
 		<Filter

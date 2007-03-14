@@ -1,10 +1,9 @@
+#pragma region Header
 #pragma once
 #include <vcclr.h>
 #include "ruleset.h"
-#include "Renamer.h"
+#include "inputRule.h"
 #include "Utility.h"
-
-extern Ruleset* rule;
 
 namespace RenamerNET {
 	using namespace System;
@@ -13,8 +12,9 @@ namespace RenamerNET {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
-
+	using namespace System::IO;
+#pragma endregion
+#pragma region Form Declaration
 	/// <summary>
 	/// Zusammenfassung für Form1
 	///
@@ -46,62 +46,34 @@ namespace RenamerNET {
 				delete components;
 			}
 		}
+#pragma endregion
+#pragma region Form Attributes
+	// Attribute 
+	private: bool codeRunning;
+	private: Ruleset* rule;
 
-	public: bool codeRunning;
-	public: Renamer^ renamer;
-	public: System::Windows::Forms::ComboBox^  cboSets;
-	public: System::Windows::Forms::Button^  btnNewSet;
-	protected: 
-
-	protected: 
-
+    // Form Controls
+	private: System::Windows::Forms::ComboBox^  cboSets;
+	private: System::Windows::Forms::Button^  btnNewSet;
 	private: System::Windows::Forms::Label^  label1;
-	public: System::Windows::Forms::TextBox^  txtOutputFormat;
-
+	private: System::Windows::Forms::TextBox^  txtOutputFormat;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::FolderBrowserDialog^  dlgOpenFolder;
-
-
-
-
-
 	private: System::Windows::Forms::ContextMenuStrip^  contextMenuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  löschenToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  bearbeitenToolStripMenuItem;
-
-
-
-
-
-	public: System::Windows::Forms::OpenFileDialog^  dlgAddFiles;
+	private: System::Windows::Forms::OpenFileDialog^  dlgAddFiles;
 	private: System::Windows::Forms::SplitContainer^  splitContainer1;
 	private: System::Windows::Forms::GroupBox^  groupBox1;
-	public: System::Windows::Forms::TextBox^  txtNewInput;
-
-	public: System::Windows::Forms::Button^  cmdAddInput;
+	private: System::Windows::Forms::TextBox^  txtNewInput;
+	private: System::Windows::Forms::Button^  cmdAddInput;
 	private: System::Windows::Forms::GroupBox^  groupBox2;
-	public: System::Windows::Forms::Button^  cmdSearchFiles;
-
-	public: System::Windows::Forms::ListView^  lstInputRules;
+	private: System::Windows::Forms::Button^  cmdSearchFiles;
+	private: System::Windows::Forms::ListView^  lstInputRules;
 	private: System::Windows::Forms::ColumnHeader^  columnHeader1;
-	public: System::Windows::Forms::ListView^  lstFiles;
-	public: 
-	public: 
-
-
-
-
-
-
+	private: System::Windows::Forms::ListView^  lstFiles;
 	private: System::ComponentModel::IContainer^  components;
-
-
-	private:
-		/// <summary>
-		/// Erforderliche Designervariable.
-		/// </summary>
-
-
+#pragma endregion
 #pragma region Windows Form Designer generated code
 		/// <summary>
 		/// Erforderliche Methode für die Designerunterstützung.
@@ -350,6 +322,7 @@ namespace RenamerNET {
 
 		}
 #pragma endregion
+#pragma region Form Handlers
 
 	private: System::Void ApplicationForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		 //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
@@ -357,7 +330,7 @@ namespace RenamerNET {
 
 		 rule = NULL;
 		 codeRunning = false;
-		 renamer->refreshSetList();
+		 refreshSetList();
 	}
 	private: System::Void btnNewSet_Click(System::Object^  sender, System::EventArgs^  e) {
 		/* if(cboSets->Text == "")
@@ -374,12 +347,12 @@ namespace RenamerNET {
 		 }
 		 onUpdateGuiForNewSet();*/
 
-		 renamer->refreshSetList();
+		 refreshSetList();
 	}
 private: System::Void cboSets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(codeRunning) return ;
 			 codeRunning = true;
-			 renamer->onSetSelection();
+			 onSetSelection();
 			 codeRunning = false;
 		 }
 private: System::Void txtOutputFormat_TextChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -393,7 +366,7 @@ private: System::Void cmdAddInput_Click(System::Object^  sender, System::EventAr
 			 if(rule) {
 				 rule->addInputRule(toStdString(txtNewInput->Text));
 				 txtNewInput->Text = "";
-				 renamer->refreshInputsList();
+				 refreshInputRulesList();
 			 }
 			 //lstInputs->Items->Add(txtNewInput->Text);
 		 }
@@ -425,7 +398,7 @@ private: System::Void lstFiles_DragDrop(System::Object^  sender, System::Windows
 				 //! files were droped on this control
   			    array<String^>^ files = dynamic_cast<array<String^>^>(e->Data->GetData( "FileNameW" ));
 				for(int i=0; i<files->Length; i++)
-					renamer->addFile(files[i]);	
+					addFile(files[i]);	
 			 }
 		 }
 private: System::Void lstFiles_DragEnter(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
@@ -440,5 +413,88 @@ private: System::Void lstFiles_DragOver(System::Object^  sender, System::Windows
 			 }
 			 e->Effect = DragDropEffects::None;
 		 }
+#pragma endregion
+#pragma region Renamer Business Logic
+void addInputRule(long long inputRuleID) 
+{
+	//! \todo implement
+}
+
+void removeInputRule(long long inputRuleID) {
+	//! \todo implement
+}
+
+void loadOrCreateSet(String^ setName) 
+{
+	if(rule)
+		delete rule;
+	rule = new Ruleset(toStdString(setName));
+}
+
+void renameSet(String^ oldSetName, String^ newSetName) {
+	if(rule) {
+		string setName = rule->getName();
+		if(setName == toStdString(oldSetName)) {
+			delete rule;
+			File::Move(oldSetName + ".db3", newSetName + ".db3");
+			rule = new Ruleset(toStdString(newSetName));
+		}
+	}
+
+	else {
+		File::Move(oldSetName + ".db3", newSetName + ".db3");
+	}
+}
+
+
+void onSetSelection() 
+{
+	loadOrCreateSet(cboSets->Text);
+	refreshSetList();
+	refreshInputRulesList();
+
+	txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
+	cboSets->Text = toClrString( rule ? rule->getName() : "");
+}
+
+void refreshInputRulesList() 
+{
+	assert(rule != NULL);
+	if(rule == NULL) return ;
+
+	lstInputRules->Items->Clear();
+
+	vector<InputRule> inputRules = rule->getInputRules();
+	for(unsigned int i=0; i<inputRules.size(); i++) {
+		String^ text = toClrString(inputRules[i].getRegex());
+		ListViewItem^ item = gcnew ListViewItem(text,0);
+		lstInputRules->Items->Add(item);
+	}
+}
+
+void refreshSetList() 
+{
+	cboSets->Items->Clear();
+
+	using namespace System::IO;
+	array<String^>^fileNames = Directory::GetFiles( ".\\", "*.db3" );
+
+	for(int i=0; i<fileNames->Length; i++) {
+		String^ fileName = fileNames[i]->Substring(2);
+		String^ setName = fileName->Substring(0, fileName->Length-4);
+		cboSets->Items->Add(setName);
+	}
+}
+
+void addFile( String^ pathToFile )
+{
+	String^ fileName = System::IO::Path::GetFileNameWithoutExtension(pathToFile);
+	ListViewItem^ item = gcnew ListViewItem(fileName);
+	item->Tag = pathToFile;
+	lstFiles->Items->Add(item);
+}
+#pragma endregion
+#pragma region Footer
 };
 }
+#pragma endregion

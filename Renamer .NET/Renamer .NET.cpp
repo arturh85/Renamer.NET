@@ -3,15 +3,7 @@
 #include "stdafx.h"
 #include "ApplicationForm.h"
 
-#include "sqlite3.h"
-#include <string>
-
-#include <boost/program_options.hpp>
-
 using namespace RenamerNET;
-using namespace std;
-
-Ruleset* rule = NULL;
 
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
@@ -21,8 +13,6 @@ int main(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	// Hauptfenster erstellen und ausführen
-	ApplicationForm^ form = gcnew ApplicationForm();
-	form->renamer = gcnew Renamer(form);
-	Application::Run(form);
+	Application::Run(gcnew ApplicationForm());
 	return 0;
 }

@@ -1,7 +1,9 @@
 #include "StdAfx.h"
 #include "Utility.h"
 
-bool To_string( String^ source, string &target )
+using namespace System;
+
+static bool To_string( String^ source, string &target )
 {
 	pin_ptr<const wchar_t> wch = PtrToStringChars( source );
 	int len = (( source->Length+1) * 2);
@@ -12,7 +14,7 @@ bool To_string( String^ source, string &target )
 	return result;
 }
 
-bool To_CharStar( String^ source, char*& target )
+static bool To_CharStar( String^ source, char*& target )
 {
 	pin_ptr<const wchar_t> wch = PtrToStringChars( source );
 	int len = (( source->Length+1) * 2);
@@ -20,7 +22,7 @@ bool To_CharStar( String^ source, char*& target )
 	return wcstombs( target, wch, len ) != -1;
 }
 
-string toStdString(String^source) {
+string toStdString(String^ source) {
 	 string target;
 	 To_string(source, target);
 	 return target;
