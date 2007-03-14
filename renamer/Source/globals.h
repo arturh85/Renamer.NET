@@ -1,6 +1,9 @@
 //! In dieser Datei sollten keine Projektspezifischen
 //! Header Dateien eingebunden werden
 
+#ifndef GLOBALS_H
+#define GLOBALS_H
+
 #ifdef _MSC_VER
 #pragma warning(disable : 4996)
 #pragma warning(disable : 4561)
@@ -22,6 +25,9 @@
 //  STL
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 using namespace std;
+
+#endif //GLOBALS_H

@@ -18,6 +18,12 @@ int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColN
 */
 string cSqlStrOut(string sString);
 
+//! Executes a Sql query. Throws runtime_error in case of failure
 void exec(string sSql, sqlite3* db, sqlite3_callback cb=NULL, void* param=NULL);
+
+//! Executes a Sql query. Throws runtime_error in case of failure
+inline void exec(stringstream& strSql, sqlite3* db, sqlite3_callback cb=NULL, void* param=NULL) {
+    exec(strSql.str(), db, cb, param);
+};
 
 #endif //SQL_TOOLS

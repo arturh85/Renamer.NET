@@ -8,11 +8,13 @@ using boost::regex;
 using boost::smatch;
 using namespace boost::filesystem;
 
+//! Loads from Database
 InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) {
     mRowid = rowid;
     mDb = db;
 }
 
+//! Create a new regex in the database
 InputRule::InputRule(boost::regex exp, sqlite3* db) {
     mDb = db;
 
@@ -27,12 +29,17 @@ InputRule::InputRule(boost::regex exp, sqlite3* db) {
     mRowid = sqlite3_last_insert_rowid(db);
 }
 
+//! get the regex as a string from the database
 string InputRule::getRegex() const {
     string sRetVal;
     stringstream strSql;
     strSql  << "SELECT regex FROM regexes WHERE rowid = "
             << mRowid;
     exec(strSql.str(), mDb, onReadFirstField, &sRetVal );
+
+    if (!sRetVal.size()) {
+        throw runtime_error("query returned no results");
+    }
 
     return sRetVal;
 }
@@ -92,7 +99,7 @@ bool InputRule::applyTo(string fileName, string& outputFileName) {
     if (regex_match(fileName, what, exp)) {
         //vector<string> vars = stripVarNames()
         stringstream strSql;
-        strSql  << "INSERT INTO history (fileName, regex) "
+        strSql  << "INSERT OR IGNORE INTO history (fileName, regex) "
                 << "VALUES ("
                 << cSqlStrOut(fileName) << ", "
                 << mRowid << ")";
@@ -126,7 +133,7 @@ void InputRule::unitTest() {
 
     InputRule::createTables(db);
 
-    BOOST_CHECKPOINT("InputRule new regex constructor");
+    BOOST_CHECKPOINT("InputRule constructor(regex)");
     InputRule ruleAlpha(regex("(.*)\\.avi"), db);
     InputRule ruleBeta(regex("(.*)\\.mpg"), db);
     InputRule ruleGamma(regex("(.*)\\.jpg"), db);
@@ -140,6 +147,7 @@ void InputRule::unitTest() {
     BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
     BOOST_CHECK( ruleBeta.getRegex() == "(.*)\\.mpg" );
     BOOST_CHECK( ruleGamma.getRegex() == "(.*)\\.jpg" );
+
 
     BOOST_CHECKPOINT("applyTo()");
     string sDummy;
@@ -167,6 +175,7 @@ void InputRule::unitTest() {
     BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.mpg", sDummy));
     BOOST_CHECK(ruleGamma.applyTo("Name mit Blank.jpg", sDummy));
 
+
     BOOST_CHECKPOINT("setRegex()");
     BOOST_CHECK(ruleAlpha.setRegex("([\\w ]*)\\.avi"));
     BOOST_CHECK(!ruleAlpha.setRegex("([\\w ]*)\\.mpg"));
@@ -184,6 +193,17 @@ void InputRule::unitTest() {
     BOOST_CHECK( ruleAlpha.getRegex() == "([\\w ]*)\\.avi" );
     BOOST_CHECK( ruleBeta.getRegex() == "([\\w ]*)\\.mpg" );
     BOOST_CHECK( ruleGamma.getRegex() == "([\\w ]*)\\.jpg" );
+
+
+    BOOST_CHECKPOINT("InputRule constructor(regex)");
+    InputRule ruleDelta( ruleAlpha.getId() , db);
+    BOOST_CHECK(ruleAlpha.getId() == ruleDelta.getId());
+    BOOST_CHECK(ruleAlpha.getRegex() == ruleDelta.getRegex());
+
+//    ruleAlpha.remove();
+//    BOOST_CHECK_THROW(ruleAlpha.getRegex(), runtime_error );
+//    BOOST_CHECK_NO_THROW(ruleBeta.getRegex() );
+
 
     //  clean up
     sqlite3_close(db);

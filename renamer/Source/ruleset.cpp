@@ -29,6 +29,7 @@ Ruleset::Ruleset(string name)
 
 }
 
+//! Creates an anonymous ruleset in RAM
 Ruleset::Ruleset()
 {
     mName = "memory";
@@ -100,14 +101,6 @@ InputRule Ruleset::addInputRule(string sRegex) {
 
 }
 
-void Ruleset::fetchInputRules(vector<string>& outputParam) {
-	string sSql =
-		"SELECT regex FROM regexes";
-	string sRetVal;
-	exec(sSql.c_str(), mDb, onAppendFirstColumnToVector, &outputParam);
-	return;
-}
-
 vector<string> stripVarNames(string sString) {
     static const regex varRegex("\\$(\\w+)\\$");
     smatch what;
@@ -128,30 +121,19 @@ vector<string> stripVarNames(string sString) {
         flags |= boost::match_not_bob;
     }
 
-
-  return retVal;
+    return retVal;
 }
 
+//! Rename a file
+/**
+    walks through the InputRules and calls their applyTo-Method
+*/
 bool Ruleset::applyTo(string fileName, string& outputFileName) {
+    vector<InputRule> rules = getInputRules();
+    for (vector<InputRule>::iterator it = rules.begin();
+         it != rules.end(); it++) {
 
-    vector<vector<string> > regexes;
-    string sSql =
-        "SELECT regex, rowid FROM regexes";
-    exec(sSql.c_str(), mDb, onAppendAllColumnsToVector, &regexes);
-    for (vector<vector<string> >::iterator it=regexes.begin();
-         it != regexes.end(); it++) {
-
-        vector<string>& columns = *it;
-
-        regex currentRegex(columns[0]);
-        smatch what;
-        if (regex_match(fileName, what, currentRegex)) {
-            //vector<string> vars = stripVarNames()
-            string sSql =   "INSERT OR IGNORE INTO history (fileName, regex) "
-                            "VALUES (" +
-                            cSqlStrOut(fileName) + ", " +
-                            columns[1] + ")";
-            exec(sSql, mDb);
+        if (it->applyTo(fileName, outputFileName)) {
             return true;
         }
     }
@@ -173,6 +155,14 @@ vector<InputRule> Ruleset::getInputRules() {
         retVal.push_back(newRule);
     }
     return retVal;
+}
+
+void Ruleset::removeInputRule(sqlite_int64 rowid) {
+    stringstream strSql;
+    strSql  << "DELETE FROM regexes "
+            << "WHERE rowid = " << rowid;
+    exec(strSql, mDb);
+    return;
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -200,10 +190,13 @@ void Ruleset::unitTest() {
     myRules.setOutputFormat("Atlantis $staffel$x$folge$");
 
     BOOST_CHECKPOINT("Create myRules");
-    InputRule rule;
-    rule=myRules.addInputRule("dummy");
+    myRules.addInputRule("dummy");
     myRules.addInputRule("HalloWelt!");
     myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
+
+    BOOST_CHECK_THROW(myRules.addInputRule("dummy"), runtime_error);
+    BOOST_CHECK_THROW(myRules.addInputRule("HalloWelt!"), runtime_error);
+    BOOST_CHECK_THROW(myRules.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)"), runtime_error);
 
     BOOST_CHECKPOINT("checkmyRules.getInputRules()");
     BOOST_CHECK( myRules.getInputRules().size() == 3);
@@ -219,13 +212,25 @@ void Ruleset::unitTest() {
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi", sDummy ));
 
     //these lines are intentionally the same
+    BOOST_CHECKPOINT("myRules.applyTo (doubles check)");
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi", sDummy ));
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E20.HR.HDTV.AC3.2.0.XviD-NBS2.avi", sDummy ));
 
     // these are expected the be false
+    BOOST_CHECKPOINT("myRules.applyTo (failures)");
     BOOST_CHECK(!myRules.applyTo("Notice the ! left", sDummy ));
     BOOST_CHECK(!myRules.applyTo("blah", sDummy ));
 
+    BOOST_CHECKPOINT("myRules.removeInputRule");
+    myRules.removeInputRule(myRules.getInputRules()[0].getId());
+    BOOST_CHECK( myRules.getInputRules().size() == 2);
+    BOOST_CHECK( myRules.getInputRules()[0].getRegex() == "HalloWelt!");
+
+    myRules.removeInputRule(myRules.getInputRules()[0].getId());
+    BOOST_CHECK( myRules.getInputRules().size() == 1);
+
+    myRules.removeInputRule(myRules.getInputRules()[0].getId());
+    BOOST_CHECK( myRules.getInputRules().size() == 0);
 }
 
 #endif

@@ -14,9 +14,8 @@ class InputRule {
         static void createTables(sqlite3* db);
         string getRegex() const;
         bool setRegex(string);
-        long getId() const { return (long) mRowid; };
+        sqlite_int64 getId() const { return (long) mRowid; };
         bool applyTo(string fileName, string& outputFileName);
-        void remove();
 
         #ifdef RENAMER_UNIT_TEST
         static void unitTest();

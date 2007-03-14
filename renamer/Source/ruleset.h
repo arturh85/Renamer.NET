@@ -29,7 +29,6 @@ public:
     InputRule addInputRule(string regexp);
     void setOutputFormat(string exp);
     string getOutputFormat() const;
-	void fetchInputRules(vector<string>& outputParam);
 
 	//! gets a collection of InputRule-Objects
     vector<InputRule> getInputRules();
@@ -39,6 +38,9 @@ public:
         gibt den neuen Dateinamen zurück
     */
     bool applyTo(string fileName, string& outputFileName);
+
+    //! Removes an InputRule from the database
+    void removeInputRule(sqlite_int64);
 
 
 	string getName() const;
