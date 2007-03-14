@@ -4,6 +4,7 @@
 #include "ruleset.h"
 #include "InputRule.h"
 #include "replacement.h"
+#include "tableRow.h"
 
 using namespace std;
 using boost::unit_test::test_suite;
@@ -24,6 +25,7 @@ init_unit_test_suite( int, char* [] ) {
   test_suite* test= BOOST_TEST_SUITE( "distributedBackup" );
 
   test->add( BOOST_TEST_CASE( &free_test_function ), 0);
+  test->add( BOOST_TEST_CASE( &TableRow::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Replacement::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Ruleset::unitTest ), 0);

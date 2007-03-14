@@ -61,6 +61,10 @@
 			<Add library="SQLite" />
 			<Add directory="..\..\..\SQLite\bin" />
 		</Linker>
+		<Unit filename="..\..\Source\TableRow.cpp" />
+		<Unit filename="..\..\Source\TableRow.h" />
+		<Unit filename="..\..\Source\error.cpp" />
+		<Unit filename="..\..\Source\error.h" />
 		<Unit filename="..\..\Source\globals.h" />
 		<Unit filename="..\..\Source\inputRule.cpp" />
 		<Unit filename="..\..\Source\inputRule.h" />
@@ -68,6 +72,8 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="..\..\Source\replacement.cpp" />
+		<Unit filename="..\..\Source\replacement.h" />
 		<Unit filename="..\..\Source\ruleset.cpp" />
 		<Unit filename="..\..\Source\ruleset.h" />
 		<Unit filename="..\..\Source\sqlTools.cpp" />
