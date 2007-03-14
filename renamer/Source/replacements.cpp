@@ -1,11 +1,18 @@
 #include "replacements.h"
+#include "error.h"
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
+Replacements::Replacements(sqlite3* db) :
+    mDb(db)
+{
+    exAssert(db!=NULL);
+};
+
 void Replacements::unitTest() {
     sqlite3* db;
-//    path dbFileName = initial_path()/"unitTest_Replacement.db3";
+//    path dbFileName = initial_path()/"unitTest_Replacements.db3";
 //    if (exists(dbFileName))
 //        boost::filesystem::remove(dbFileName);
 //

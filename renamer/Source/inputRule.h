@@ -18,6 +18,7 @@ class InputRule {
         bool applyTo(string fileName, string& outputFileName);
 
         #ifdef RENAMER_UNIT_TEST
+        //! UnitTest this object
         static void unitTest();
         #endif
 

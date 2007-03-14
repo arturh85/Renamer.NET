@@ -9,7 +9,6 @@ string Replacement::replace(string sString) {
     return sRetVal;
 }
 
-//! Creates replacements table
 void Replacement::createTables(sqlite3* db) {
     string sSql;
 

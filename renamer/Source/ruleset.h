@@ -46,6 +46,7 @@ public:
 	string getName() const;
 
     #ifdef RENAMER_UNIT_TEST
+    //! UnitTest this object
     static void unitTest();
     #endif
 
