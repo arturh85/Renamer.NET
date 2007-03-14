@@ -1,6 +1,8 @@
 #pragma once
 #include <vcclr.h>
 #include "ruleset.h"
+#include "Renamer.h"
+#include "Utility.h"
 extern Ruleset* rule;
 
 namespace RenamerNET {
@@ -10,6 +12,7 @@ namespace RenamerNET {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+
 
 	/// <summary>
 	/// Zusammenfassung für Form1
@@ -42,14 +45,16 @@ namespace RenamerNET {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::ComboBox^  cboSets;
-	private: System::Windows::Forms::Button^  btnNewSet;
+
+	public: Renamer^ renamer;
+	public: System::Windows::Forms::ComboBox^  cboSets;
+	public: System::Windows::Forms::Button^  btnNewSet;
 	protected: 
 
 	protected: 
 
 	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::TextBox^  txtOutputFormat;
+	public: System::Windows::Forms::TextBox^  txtOutputFormat;
 
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::FolderBrowserDialog^  dlgOpenFolder;
@@ -66,16 +71,16 @@ namespace RenamerNET {
 
 
 
-	private: System::Windows::Forms::OpenFileDialog^  dlgAddFiles;
+	public: System::Windows::Forms::OpenFileDialog^  dlgAddFiles;
 	private: System::Windows::Forms::SplitContainer^  splitContainer1;
 	private: System::Windows::Forms::GroupBox^  groupBox1;
-	private: System::Windows::Forms::TextBox^  txtNewInput;
-	private: System::Windows::Forms::ListBox^  lstInputs;
-	private: System::Windows::Forms::Button^  cmdAddInput;
+	public: System::Windows::Forms::TextBox^  txtNewInput;
+	public: System::Windows::Forms::ListBox^  lstInputs;
+	public: System::Windows::Forms::Button^  cmdAddInput;
 	private: System::Windows::Forms::GroupBox^  groupBox2;
-	private: System::Windows::Forms::Button^  cmdSearchFiles;
-	private: System::Windows::Forms::ListBox^  lstFiles;
-	private: System::Windows::Forms::TreeView^  tvFiles;
+	public: System::Windows::Forms::Button^  cmdSearchFiles;
+	public: System::Windows::Forms::ListBox^  lstFiles;
+	public: System::Windows::Forms::TreeView^  tvFiles;
 
 
 
@@ -114,9 +119,9 @@ namespace RenamerNET {
 			this->lstInputs = (gcnew System::Windows::Forms::ListBox());
 			this->cmdAddInput = (gcnew System::Windows::Forms::Button());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->tvFiles = (gcnew System::Windows::Forms::TreeView());
 			this->cmdSearchFiles = (gcnew System::Windows::Forms::Button());
 			this->lstFiles = (gcnew System::Windows::Forms::ListBox());
-			this->tvFiles = (gcnew System::Windows::Forms::TreeView());
 			this->contextMenuStrip1->SuspendLayout();
 			this->splitContainer1->Panel1->SuspendLayout();
 			this->splitContainer1->Panel2->SuspendLayout();
@@ -283,7 +288,13 @@ namespace RenamerNET {
 			this->groupBox2->TabIndex = 7;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Dateien";
-			this->groupBox2->Enter += gcnew System::EventHandler(this, &ApplicationForm::groupBox2_Enter);
+			// 
+			// tvFiles
+			// 
+			this->tvFiles->Location = System::Drawing::Point(9, 81);
+			this->tvFiles->Name = L"tvFiles";
+			this->tvFiles->Size = System::Drawing::Size(285, 241);
+			this->tvFiles->TabIndex = 2;
 			// 
 			// cmdSearchFiles
 			// 
@@ -294,6 +305,7 @@ namespace RenamerNET {
 			this->cmdSearchFiles->TabIndex = 1;
 			this->cmdSearchFiles->Text = L"suchen";
 			this->cmdSearchFiles->UseVisualStyleBackColor = true;
+			this->cmdSearchFiles->Click += gcnew System::EventHandler(this, &ApplicationForm::cmdSearchFiles_Click);
 			// 
 			// lstFiles
 			// 
@@ -306,13 +318,6 @@ namespace RenamerNET {
 			this->lstFiles->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
 			this->lstFiles->Size = System::Drawing::Size(285, 56);
 			this->lstFiles->TabIndex = 0;
-			// 
-			// tvFiles
-			// 
-			this->tvFiles->Location = System::Drawing::Point(9, 81);
-			this->tvFiles->Name = L"tvFiles";
-			this->tvFiles->Size = System::Drawing::Size(285, 241);
-			this->tvFiles->TabIndex = 2;
 			// 
 			// ApplicationForm
 			// 
@@ -341,88 +346,16 @@ namespace RenamerNET {
 
 		}
 #pragma endregion
-	private: void onSetSelection() {
-				 if(rule)
-					 delete rule;
-				 string setName = toStdString(cboSets->Text);
-				 rule = new Ruleset(setName);
-				 //refreshSetList();
-				 onUpdateGuiForNewSet();
-			 }
-
-	 private: void onUpdateGuiForNewSet() {
-				  // update gui elements to this new set
-				  refreshInputsList();
-				  //refreshSetList();
-
-				  txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
-				  cboSets->Text = toClrString( rule ? rule->getName() : "");
-			  }
-
-	 private: bool To_string( String^ source, string &target )
-	 {
-		 pin_ptr<const wchar_t> wch = PtrToStringChars( source );
-		 int len = (( source->Length+1) * 2);
-		 char *ch = new char[ len ];
-		 bool result = wcstombs( ch, wch, len ) != -1;
-		 target = ch;
-		 delete ch;
-		 return result;
-	 }
-
-	private: bool To_CharStar( String^ source, char*& target )
-	{
-		pin_ptr<const wchar_t> wch = PtrToStringChars( source );
-		int len = (( source->Length+1) * 2);
-		target = new char[ len ];
-		return wcstombs( target, wch, len ) != -1;
-	}
-
-	private: string toStdString(String^source) {
-				string target;
-				To_string(source, target);
-				return target;
-			 }
-	 private: String^ toClrString( string source )
-	 {
-		 String^ target = gcnew String( source.c_str() );
-		return target;
-	 }
-
-
-	private: void refreshInputsList() {
-				 lstInputs->Items->Clear();
-				 vector<string> regExes;
-				 if(rule) 
-					 rule->fetchInputRules(regExes);
-
-				 for(unsigned int i=0; i<regExes.size(); i++) {
-					 lstInputs->Items->Add(toClrString(regExes[i]));
-				 }
-			 }
-
-	private: void refreshSetList() {
-				 cboSets->Items->Clear();
-
-				 using namespace System::IO;
-				 array<String^>^fileNames = Directory::GetFiles( ".\\", "*.db3" );
-
-				 for(int i=0; i<fileNames->Length; i++) {
-					 String^ fileName = fileNames[i]->Substring(2);
-					 String^ setName = fileName->Substring(0, fileName->Length-4);
-					 cboSets->Items->Add(setName);
-				 }
-			 }
 
 	private: System::Void ApplicationForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		 //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
 		 boost::filesystem::path::default_name_check(boost::filesystem::native);
 
 		 rule = NULL;
-		 refreshSetList();
+		 renamer->refreshSetList();
 	}
 	private: System::Void btnNewSet_Click(System::Object^  sender, System::EventArgs^  e) {
-		 if(cboSets->Text == "")
+		/* if(cboSets->Text == "")
 			 return ;
 				 
 		 if(rule) {
@@ -434,10 +367,10 @@ namespace RenamerNET {
 		 {
 			rule = new Ruleset(toStdString(cboSets->Text));
 		 }
-		 onUpdateGuiForNewSet();
+		 onUpdateGuiForNewSet();*/
 	}
 private: System::Void cboSets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-			 onSetSelection();
+			 renamer->onSetSelection();
 		 }
 private: System::Void txtOutputFormat_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(rule) {
@@ -445,48 +378,34 @@ private: System::Void txtOutputFormat_TextChanged(System::Object^  sender, Syste
 			 }
 		 }
 private: System::Void cboSets_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-/*
-			 if(rule) {
-				string setName = rule->getName();
-				delete rule;
-				System::IO::File::Move(toClrString(setName), cboSets->Text);
-				rule = new Ruleset(toStdString(cboSets->Text));
-			 }
-
-			 else {
-				rule = new Ruleset(toStdString(cboSets->Text));
-			 }*/
 		 }
 private: System::Void cmdAddInput_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(rule) {
 				 rule->addInputRule(toStdString(txtNewInput->Text));
 				 txtNewInput->Text = "";
-				 refreshInputsList();
+				 renamer->refreshInputsList();
 			 }
 			 //lstInputs->Items->Add(txtNewInput->Text);
 		 }
 private: System::Void bearbeitenToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			// lstInputs->Items->SelectedItem->Font->Bold;
 		 }
-private: System::Void lstInputs_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 
-		 }
 private: System::Void bearbeitenToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void löschenToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 lstInputs->Items->RemoveAt(lstInputs->SelectedIndex);
+			 for(int i=0; i <= lstInputs->SelectedItems->Count; i++)
+				 lstInputs->Items->Remove(lstInputs->SelectedItems[i]);
+
+			 //if(lstInputs->SelectedIndex != -1)
 		 }
-private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void cmdSearchFiles_Click(System::Object^  sender, System::EventArgs^  e) {
 			 dlgAddFiles->ShowDialog();
 		 }
 private: System::Void dlgAddFiles_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			 for(int i=0; i<dlgAddFiles->FileNames->Length; i++) {
 				 lstFiles->Items->Add(dlgAddFiles->FileNames[i]);
 				 tvFiles->Nodes->Add(dlgAddFiles->FileNames[i]);
-			 }
-		 }
-private: System::Void groupBox2_Enter(System::Object^  sender, System::EventArgs^  e) {
+			 }	
 		 }
 };
 }
-

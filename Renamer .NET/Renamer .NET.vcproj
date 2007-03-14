@@ -225,52 +225,10 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Quelldateien"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
-			<File
-				RelativePath=".\Application.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AssemblyInfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Renamer .NET.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Headerdateien"
+			Name="Application"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\Application.h"
-				>
-			</File>
 			<File
 				RelativePath=".\ApplicationForm.h"
 				FileType="3"
@@ -282,11 +240,11 @@
 				</File>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath=".\Renamer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath=".\Renamer.h"
 				>
 			</File>
 		</Filter>
@@ -333,6 +291,54 @@
 			</File>
 			<File
 				RelativePath="..\renamer\Source\sqlTools.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name=".NET"
+			>
+			<File
+				RelativePath=".\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Renamer .NET.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility.h"
 				>
 			</File>
 		</Filter>

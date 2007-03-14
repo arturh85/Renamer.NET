@@ -82,7 +82,8 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = "D:/Dokumente und Einstellungen/Artur/Desktop/Develop/Renamer/renamer/Source"
+INPUT                  = "D:/Dokumente und Einstellungen/Artur/Desktop/Develop/Renamer/renamer/Source" \
+                         "D:/Dokumente und Einstellungen/Artur/Desktop/Develop/Renamer/Renamer .NET"
 FILE_PATTERNS          = *.c \
                          *.cc \
                          *.cxx \
