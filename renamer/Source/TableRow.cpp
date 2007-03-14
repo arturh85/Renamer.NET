@@ -1,5 +1,6 @@
 #include "TableRow.h"
 #include "sqlTools.h"
+#include "error.h"
 
 
 TableRow::TableRow(sqlite3* db, string table) {
@@ -29,6 +30,7 @@ void TableRow::write(string field, string value) {
                 <<" ) VALUES ( " << cSqlStrOut(value) << ")";
         exec(strSql, mDb);
         mRowid = sqlite3_last_insert_rowid(mDb);
+        exAssert(mRowid != -1);
 
     } else {
         strSql  << "UPDATE " << mTable
@@ -38,6 +40,19 @@ void TableRow::write(string field, string value) {
     }
 }
 
+string TableRow::read(string field) {
+    string sReturn;
+
+    if (mRowid != -1) {
+        stringstream strSql;
+        strSql  << "SELECT " << field
+                << " FROM " << mTable
+                << " WHERE rowid =" << mRowid;
+        exec(strSql, mDb, onReadFirstField, &sReturn);
+    }
+    return sReturn;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
@@ -45,7 +60,7 @@ void createTables(sqlite3* db) {
     string sSql;
 
     sSql = "CREATE TABLE myTable ("
-           "   someField string UNIQUE,"
+           "   uniqueField string UNIQUE,"
            "   dummy string)";
     exec(sSql, db);
 
@@ -70,8 +85,25 @@ void TableRow::unitTest() {
     createTables(db);
 
     TableRow rowAlpha(db, "myTable");
-    rowAlpha.write("someField", "Hi");
+    rowAlpha.write("uniqueField", "Hi");
     rowAlpha.write("dummy", "How are you?");
+    BOOST_CHECK(rowAlpha.read("uniqueField") == "Hi");
+    BOOST_CHECK(rowAlpha.read("dummy") == "How are you?");
+
+    TableRow rowBeta(db, "myTable");
+    rowBeta.write("uniqueField", "dummy");
+    rowBeta.write("dummy", "How are you?");
+    BOOST_CHECK(rowBeta.read("uniqueField") == "dummy");
+    BOOST_CHECK(rowBeta.read("dummy") == "How are you?");
+
+    TableRow rowGamma(db, "myTable");
+    rowGamma.write("uniqueField", "test");
+    rowGamma.write("dummy", "How are you?");
+    BOOST_CHECK(rowGamma.read("uniqueField") == "test");
+    BOOST_CHECK(rowGamma.read("dummy") == "How are you?");
+
+    BOOST_CHECK(rowAlpha.read("uniqueField") == "Hi");
+    BOOST_CHECK(rowAlpha.read("dummy") == "How are you?");
 }
 
 #endif //RENAMER_UNIT_TEST
