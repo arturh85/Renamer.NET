@@ -69,8 +69,16 @@ bool InputRule::setRegex(string sRegex) {
          it != results.end(); it++) {
 
         //cout << "-> " << *it << endl;
-
+        if (!regex_match(*it, newRegex)) {
+            return false;
+        }
     }
+
+    strSql.str(""); //clear
+    strSql  << "UPDATE regexes SET "
+            << "regex = " << cSqlStrOut(sRegex)
+            << " WHERE rowid = " << mRowid;
+    exec(strSql.str(), mDb);
     return true;
 }
 
@@ -160,7 +168,22 @@ void InputRule::unitTest() {
     BOOST_CHECK(ruleGamma.applyTo("Name mit Blank.jpg", sDummy));
 
     BOOST_CHECKPOINT("setRegex()");
-    BOOST_CHECK(ruleAlpha.setRegex("Test\\.*"));
+    BOOST_CHECK(ruleAlpha.setRegex("([\\w ]*)\\.avi"));
+    BOOST_CHECK(!ruleAlpha.setRegex("([\\w ]*)\\.mpg"));
+    BOOST_CHECK(!ruleAlpha.setRegex("Test\\..*"));
+
+    BOOST_CHECK(!ruleBeta.setRegex("([\\w ]*)\\.avi"));
+    BOOST_CHECK(ruleBeta.setRegex("([\\w ]*)\\.mpg"));
+    BOOST_CHECK(!ruleBeta.setRegex("Test\\..*"));
+
+    BOOST_CHECK(ruleGamma.setRegex("([\\w ]*)\\.jpg"));
+    BOOST_CHECK(!ruleGamma.setRegex("([\\w ]*)\\.mpg"));
+    BOOST_CHECK(!ruleGamma.setRegex("Test\\..*"));
+
+    BOOST_CHECKPOINT("getRegex(), third time");
+    BOOST_CHECK( ruleAlpha.getRegex() == "([\\w ]*)\\.avi" );
+    BOOST_CHECK( ruleBeta.getRegex() == "([\\w ]*)\\.mpg" );
+    BOOST_CHECK( ruleGamma.getRegex() == "([\\w ]*)\\.jpg" );
 
     //  clean up
     sqlite3_close(db);
