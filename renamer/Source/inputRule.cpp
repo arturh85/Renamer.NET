@@ -103,6 +103,7 @@ bool InputRule::setRegex(string sRegex) {
 */
 bool InputRule::applyTo(string fileName, string& outputFileName) {
     fileName = mRplPtr->replace(fileName);
+    outputFileName = fileName;
     regex exp(getRegex());
     smatch what;
     if (regex_match(fileName, what, exp)) {
@@ -213,13 +214,13 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("replacements");
-    InputRule ruleEpsilon(regex("Family Guy.*"), db);
+    InputRule ruleEpsilon(regex("Family Guy S06E13 *avi"), db);
     ruleEpsilon.getReplacements().addReplacement("\\."," ");
-//    ruleEpsilon.getReplacements().addReplacement("PDTV|Xvid","-");
+    ruleEpsilon.getReplacements().addReplacement("PDTV|XviD|-LOL","");
 
     BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
-//    BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
-//    BOOST_CHECK(ruleAlpha.applyTo("Test.avi", sDummy));
+    BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
+    BOOST_CHECK(ruleAlpha.applyTo("Test.avi", sDummy));
 
 
 

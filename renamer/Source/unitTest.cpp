@@ -29,8 +29,8 @@ init_unit_test_suite( int, char* [] ) {
   test->add( BOOST_TEST_CASE( &TableRow::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Replacement::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Replacements::unitTest ), 0);
-  test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 1);
-  //test->add( BOOST_TEST_CASE( &Ruleset::unitTest ));
+  test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 0);
+  test->add( BOOST_TEST_CASE( &Ruleset::unitTest ));
 
   return test;
 }

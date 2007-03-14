@@ -59,6 +59,7 @@ void Ruleset::initDb() {
     exec(sSql, mDb);
 
     InputRule::createTables(mDb);
+    Replacement::createTables(mDb);
 }
 
 //! writes the outputFormat to the database
