@@ -33,6 +33,9 @@ class TableRow {
         #endif
 
     private:
+        //---------------------------------------------------------------------
+        //  attributes
+
         sqlite3* mDb;
         string mTable;
         sqlite_int64 mRowid;

@@ -74,6 +74,8 @@
 		</Unit>
 		<Unit filename="..\..\Source\replacement.cpp" />
 		<Unit filename="..\..\Source\replacement.h" />
+		<Unit filename="..\..\Source\replacements.cpp" />
+		<Unit filename="..\..\Source\replacements.h" />
 		<Unit filename="..\..\Source\ruleset.cpp" />
 		<Unit filename="..\..\Source\ruleset.h" />
 		<Unit filename="..\..\Source\sqlTools.cpp" />

@@ -23,7 +23,7 @@ init_unit_test_suite( int, char* [] ) {
   srand(time(NULL));
 
   //  init tests
-  test_suite* test= BOOST_TEST_SUITE( "distributedBackup" );
+  test_suite* test= BOOST_TEST_SUITE( "renamer" );
 
   test->add( BOOST_TEST_CASE( &free_test_function ), 0);
   test->add( BOOST_TEST_CASE( &TableRow::unitTest ), 0);
