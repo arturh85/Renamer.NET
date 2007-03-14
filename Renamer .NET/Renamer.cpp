@@ -46,22 +46,22 @@ void Renamer::onSetSelection()
 	loadOrCreateSet(mForm->cboSets->Text);
 	refreshSetList();
 	refreshInputsList();
+
 	mForm->txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
 	mForm->cboSets->Text = toClrString( rule ? rule->getName() : "");
 }
 
-
-
-
 void Renamer::refreshInputsList() 
 {
-	 mForm->lstInputs->Items->Clear();
+	 mForm->lstInputRules->Items->Clear();
 	 vector<string> regExes;
 	 if(rule) 
 		 rule->fetchInputRules(regExes);
 
 	 for(unsigned int i=0; i<regExes.size(); i++) {
-		 mForm->lstInputs->Items->Add(toClrString(regExes[i]));
+		 String^ text = toClrString(regExes[i]);
+		 ListViewItem^ item = gcnew ListViewItem(text,0);
+		 mForm->lstInputRules->Items->Add(item);
 	 }
 }
 
@@ -77,5 +77,13 @@ void Renamer::refreshSetList()
 		 String^ setName = fileName->Substring(0, fileName->Length-4);
 		 mForm->cboSets->Items->Add(setName);
 	 }
+}
+
+void Renamer::addFile( String^ pathToFile )
+{
+	String^ fileName = System::IO::Path::GetFileNameWithoutExtension(pathToFile);
+	ListViewItem^ item = gcnew ListViewItem(fileName);
+	item->Tag = pathToFile;
+	mForm->lstFiles->Items->Add(item);
 }
 }
