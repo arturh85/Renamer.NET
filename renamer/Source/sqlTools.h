@@ -17,6 +17,7 @@ int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColN
     quotes in the middle with even more quotes.
 */
 string cSqlStrOut(string sString);
+string cSqlBoolOut(bool);
 
 //! Executes a Sql query. Throws runtime_error in case of failure
 void exec(string sSql, sqlite3* db, sqlite3_callback cb=NULL, void* param=NULL);

@@ -47,3 +47,7 @@ int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColN
     targetVector->push_back(newVector);
     return SQLITE_OK;
 }
+
+string cSqlBoolOut(bool value) {
+    return value?"1":"0";
+}

@@ -2,6 +2,7 @@
 #include "sqlTools.h"
 #include "error.h"
 
+static const sqlite_int64 NO_TABLE = -1;
 
 TableRow::TableRow(sqlite3* db, string table) {
     //we cant do anything usefull here because
@@ -9,8 +10,8 @@ TableRow::TableRow(sqlite3* db, string table) {
     //no field names available here, we cant do
     //anything
     //we will rember that through the magic number
-    //-1 in mRowid
-    mRowid = -1;
+    //NO_TABLE (-1) in mRowid
+    mRowid = NO_TABLE;
     mDb = db;
     mTable = table;
 }
@@ -21,10 +22,10 @@ TableRow::TableRow(sqlite3* db, string table, sqlite_int64 rowid) {
     mTable = table;
 }
 
-void TableRow::write(string field, string value) {
+void TableRow::set(string field, string value) {
     stringstream strSql;
 
-    if (mRowid == -1) {
+    if (mRowid == NO_TABLE) {
         strSql  << "INSERT INTO " << mTable
                 << " (" << field
                 <<" ) VALUES ( " << cSqlStrOut(value) << ")";
@@ -40,10 +41,10 @@ void TableRow::write(string field, string value) {
     }
 }
 
-string TableRow::read(string field) {
+string TableRow::get(string field) const {
     string sReturn;
 
-    if (mRowid != -1) {
+    if (mRowid != NO_TABLE) {
         stringstream strSql;
         strSql  << "SELECT " << field
                 << " FROM " << mTable
@@ -70,16 +71,8 @@ void createTables(sqlite3* db) {
 
 }
 
-class foobar : public TableRow {
-    public:
-        foobar(sqlite3*  db) : TableRow(db, "myTable") {};
-
-        void set(string field, string value) {
-            write(field, value);
-        };
-};
-
 void TableRow::unitTest() {
+    using boost::regex;
 
     sqlite3* db;
 //    // test Ruleset class
@@ -97,31 +90,32 @@ void TableRow::unitTest() {
 
     createTables(db);
 
-    foobar rowAlpha(db);
-    rowAlpha.write("uniqueField", "Hi");
-    rowAlpha.write("dummy", "How are you?");
-    BOOST_CHECK(rowAlpha.read("uniqueField") == "Hi");
-    BOOST_CHECK(rowAlpha.read("dummy") == "How are you?");
+    TableRow rowAlpha(db, "myTable");
+    rowAlpha.set("uniqueField", "Alpha");
+    rowAlpha.set("dummy", "How are you?");
+    BOOST_CHECK(rowAlpha.get("uniqueField") == "Alpha");
+    BOOST_CHECK(rowAlpha.get("dummy") == "How are you?");
 
-    foobar rowBeta(db);
-    rowBeta.write("uniqueField", "dummy");
-    rowBeta.write("dummy", "40647a02-d248-11db-8314-0800200c9a66");
-    BOOST_CHECK(rowBeta.read("uniqueField") == "dummy");
-    BOOST_CHECK(rowBeta.read("dummy") == "40647a02-d248-11db-8314-0800200c9a66");
+    TableRow rowBeta(db, "myTable");
+    rowBeta.set("uniqueField", "Beta");
+    rowBeta.set("dummy", "40647a02-d248-11db-8314-0800200c9a66");
+    BOOST_CHECK(rowBeta.get("uniqueField") == "Beta");
+    BOOST_CHECK(rowBeta.get("dummy") == "40647a02-d248-11db-8314-0800200c9a66");
 
-    foobar rowGamma(db);
-    rowGamma.write("uniqueField", "test");
-    rowGamma.write("dummy", "How are you?");
-    BOOST_CHECK(rowGamma.read("uniqueField") == "test");
-    BOOST_CHECK(rowGamma.read("dummy") == "How are you?");
+    TableRow rowGamma(db, "myTable");
+    rowGamma.set("uniqueField", "Gamma");
+    rowGamma.set("dummy", "D'oh''");
+    BOOST_CHECK(rowGamma.get("uniqueField") == "Gamma");
+    BOOST_CHECK(rowGamma.get("dummy") == "D'oh''");
 
-    BOOST_CHECK(rowAlpha.read("uniqueField") == "Hi");
-    BOOST_CHECK(rowAlpha.read("dummy") == "How are you?");
 
     BOOST_CHECKPOINT("operator[]");
-    BOOST_CHECK(rowAlpha["uniqueField"] == "Hi");
+    BOOST_CHECK(rowAlpha["uniqueField"] == "Alpha");
     BOOST_CHECK(rowAlpha["dummy"] == "How are you?");
     BOOST_CHECK(rowBeta["dummy"] == "40647a02-d248-11db-8314-0800200c9a66");
+
+
+
 
 }
 

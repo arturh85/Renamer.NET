@@ -2,10 +2,10 @@
 #include "sqlTools.h"
 
 string Replacement::replace(string sString) {
+    using namespace boost;
+
     string sRetVal;
-
-    sRetVal = regex_replace(sString, expression, replacement);
-
+    sRetVal = boost::regex_replace(sString, getRegex(), getReplacement());
     return sRetVal;
 }
 
@@ -25,12 +25,11 @@ void Replacement::createTables(sqlite3* db) {
 #include <boost/test/test_tools.hpp>
 
 void Replacement::unitTest() {
-    BOOST_CHECK(true);
+    using boost::regex;
+    using namespace boost::filesystem;
 
     sqlite3* db;
-//    // test Ruleset class
-//    path dbFileName = initial_path()/"unitTest_InputRule.db3";
-//
+//    path dbFileName = initial_path()/"unitTest_Replacement.db3";
 //    if (exists(dbFileName))
 //        boost::filesystem::remove(dbFileName);
 //
@@ -43,11 +42,10 @@ void Replacement::unitTest() {
     createTables(db);
 
     Replacement rpAlpha(db);
-    rpAlpha.expression = "A";
-    rpAlpha.replacement = "X";
-
-    rpAlpha.write("replacement", "X");
-    BOOST_CHECK(rpAlpha["replacement"] == "X");
+    rpAlpha.setRegex(regex("A"));
+    rpAlpha.setReplacement("X");
+    BOOST_CHECK(rpAlpha.getRegex() == regex("A"));
+    BOOST_CHECK(rpAlpha.getReplacement() == "X");
 
     BOOST_CHECK(rpAlpha.replace("ABC") == "XBC");
     BOOST_CHECK(rpAlpha.replace("abcABCCBA") == "abcXBCCBX");

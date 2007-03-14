@@ -14,10 +14,14 @@ class TableRow {
         //! Load a row
         TableRow(sqlite3* db, string table, sqlite_int64 rowid );
 
-        string read(string field);
+        //! writes to column
+        string get(string field) const;
 
-        string operator[](const string what) {
-            return read(what);
+        //! read a column
+        void set(string field, string value);
+
+        string operator[](const string what) const {
+            return get(what);
         }
 
         //---------------------------------------------------------------------
@@ -32,10 +36,8 @@ class TableRow {
         sqlite3* mDb;
         string mTable;
         sqlite_int64 mRowid;
-
-    protected:
-        void write(string field, string value);
 };
+
 
 #endif //TABLE_ROW
 
