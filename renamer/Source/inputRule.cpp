@@ -214,9 +214,11 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("replacements");
-    InputRule ruleEpsilon(regex("Family Guy S06E13 *avi"), db);
-    ruleEpsilon.getReplacements().addReplacement("\\."," ");
+    InputRule ruleEpsilon(regex("Family Guy S06E13"), db);
     ruleEpsilon.getReplacements().addReplacement("PDTV|XviD|-LOL","");
+    ruleEpsilon.getReplacements().addReplacement(" *$","");
+    ruleEpsilon.getReplacements().addReplacement("\\."," ");
+    ruleEpsilon.getReplacements().addReplacement("avi$","");
 
     BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
     BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));

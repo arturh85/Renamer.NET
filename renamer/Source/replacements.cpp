@@ -31,8 +31,8 @@ void Replacements::addReplacement(string sRegex, string replacement) {
 }
 
 void Replacements::createTables(sqlite3* db) {
-    stringstream strSql;
-
+//    stringstream strSql;
+//
 //    strSql  << "CREATE TABLE replacementGroups ("
 //            << "replacementId ROWID, "
 //            << "ownerId ROWID) ";
@@ -50,8 +50,6 @@ vector<Replacement> Replacements::getReplacements() const {
             << "WHERE ownerId = " << mOwnerId
             << " AND ownerClass = " << cSqlStrOut(mOwnerClass);
     exec(strSql, mDb, onAppendFirstColumnToVector, &rowidStrings);
-//    cout << "sql "<< sSql << endl;
-//    cout << "COUNT "<< rowidStrings.size() << endl;
 
     for (vector<string>::iterator it = rowidStrings.begin();
          it != rowidStrings.end(); it++) {
@@ -67,10 +65,21 @@ vector<Replacement> Replacements::getReplacements() const {
 string Replacements::replace(string sString) const {
     string sRetVal = sString;
     vector<Replacement> replacements = getReplacements();
-    for (vector<Replacement>::iterator it= replacements.begin();
-         it != replacements.end(); it++) {
 
-        sRetVal = it->replace(sRetVal);
+    for (int nAttempt = 0; nAttempt < 5; nAttempt++) {
+        //cout << "loop: " << sRetVal << " >" << nAttempt << endl;
+        bool fLoop = false;
+        for (vector<Replacement>::iterator it= replacements.begin();
+             it != replacements.end(); it++) {
+
+            string sNewString = it->replace(sRetVal);
+            if (sRetVal != sNewString) {
+                sRetVal = sNewString;
+                fLoop = true;
+            }
+        }
+
+        if (!fLoop) break;
     }
 
     if (mParent)
