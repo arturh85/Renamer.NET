@@ -1,15 +1,17 @@
+#include "stdafx.h"
 #include "TableRow.h"
 #include "sqlTools.h"
 #include "error.h"
+#include "globals.h"
 
 static const sqlite_int64 NO_TABLE = -1;
 
 TableRow::TableRow(sqlite3* db, string table) {
-    //we cant do anything usefull here because
+    //we cant do anything useful here because
     //you cant INSERT a empty row. Since we have
     //no field names available here, we cant do
     //anything
-    //we will rember that through the magic number
+    //we will remember that through the magic number
     //NO_TABLE (-1) in mRowid
     mRowid = NO_TABLE;
     mDb = db;

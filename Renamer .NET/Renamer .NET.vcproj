@@ -258,6 +258,14 @@
 			Name="Renamer Source"
 			>
 			<File
+				RelativePath="..\renamer\Source\error.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\error.h"
+				>
+			</File>
+			<File
 				RelativePath="..\renamer\Source\globals.h"
 				>
 			</File>
@@ -267,6 +275,22 @@
 			</File>
 			<File
 				RelativePath="..\renamer\Source\inputRule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\replacement.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\replacement.h"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\replacements.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\replacements.h"
 				>
 			</File>
 			<File
@@ -283,6 +307,14 @@
 			</File>
 			<File
 				RelativePath="..\renamer\Source\sqlTools.h"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\TableRow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\TableRow.h"
 				>
 			</File>
 		</Filter>
