@@ -1,11 +1,9 @@
-#include <iostream>
 #include <boost/test/included/unit_test_framework.hpp>
 #include "globals.h"
 #include "ruleset.h"
 #include "InputRule.h"
-#include "replacement.h"
 #include "replacements.h"
-#include "tableRow.h"
+#include "gem.h"
 
 using namespace std;
 using boost::unit_test::test_suite;
@@ -29,6 +27,7 @@ init_unit_test_suite( int, char* [] ) {
   test->add( BOOST_TEST_CASE( &TableRow::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Replacement::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Replacements::unitTest ), 0);
+  test->add( BOOST_TEST_CASE( &Gem::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Ruleset::unitTest ));
 
