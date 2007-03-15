@@ -17,13 +17,17 @@ void exec(string sSql, sqlite3* db, sqlite3_callback cb, void* param) {
     }
 }
 
-int onReadFirstField(void *param, int argc, char **argv, char **azColName) {
+// this is the prototype for sqlite callbacks
+//int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azColName) {
+
+
+int onReadFirstField(void *param, int, char **argv, char**) {
     string* sTarget = static_cast<string*>( param);
     *sTarget = argv[0];
     return SQLITE_OK;
 }
 
-int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azColName) {
+int onAppendFirstColumnToVector(void *param, int , char **argv, char **) {
 	vector<string>* output = (vector<string>*) param;
 	output->push_back(string(argv[0]));
 	return SQLITE_OK;
@@ -37,7 +41,7 @@ string cSqlStrOut(string sString) {
     return "'" + sString + "'";
 }
 
-int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColName){
+int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **){
     //mind the space   -> <- here
     vector<vector<string> >* targetVector = static_cast<vector<vector<string> >*>( param);
     vector<string> newVector;
