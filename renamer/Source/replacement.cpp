@@ -16,7 +16,7 @@ void Replacement::createTables(sqlite3* db) {
     sSql = "CREATE TABLE replacements ("
            "    regex string, "
            "    replacement string, "
-           "    ownerId ROWI, "
+           "    ownerId ROWID, "
            "    ownerClass string)";
     exec(sSql, db);
 

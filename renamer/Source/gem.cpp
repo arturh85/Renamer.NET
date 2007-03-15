@@ -5,10 +5,9 @@ void Gem::createTables(sqlite3* db) {
     string sSql;
 
     sSql = "CREATE TABLE Gems ("
-           "    regex string, "
-           "    Gem string, "
-           "    ownerId ROWI, "
-           "    ownerClass string)";
+           "    regexId ROWID, "
+           "    name string, "
+           "    position int)";
     exec(sSql, db);
 
 }
@@ -34,8 +33,11 @@ void Gem::unitTest() {
     BOOST_REQUIRE(db!=NULL);
     createTables(db);
 
-    Gem rpAlpha(db);
-
+    Gem gemAlpha(db);
+    gemAlpha.setName("Test");
+    gemAlpha.setPosition(123);
+    BOOST_CHECK(gemAlpha.getName() =="Test");
+    BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 123);
 }
 
 #endif

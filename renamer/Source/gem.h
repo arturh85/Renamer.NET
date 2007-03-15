@@ -24,17 +24,26 @@ class Gem {
         //! Creates Gems table
         static void createTables(sqlite3* db);
 
-        //! if the regex matches it is replaced with this
-        string getGem() const
-            { return mRow.get("Gem"); };
-
-        //! if the regex matches it is replaced with this
-        void setGem(string v)
-            {mRow.set("Gem",v);} ;
-
         //! get Gems.rowid
         sqlite_int64 getRowid() const
           { return cSqlInFormated<sqlite_int64>(mRow.get("rowid")); };
+
+        //! the name of a jam is what the user wants it to be
+        string getName() const
+            { return mRow.get("name"); };
+
+        //! the name of a jam is what the user wants it to be
+        void setName(string v)
+            {mRow.set("name",v);} ;
+
+        //! the Position of a jam is what the user wants it to be
+        int getPosition() const
+            { return cSqlInFormated<int>(mRow.get("position")); };
+
+        //! the Position of a jam is what the user wants it to be
+        void setPosition(int v)
+            {mRow.set("position", cSqlOutFormated(v));} ;
+
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
