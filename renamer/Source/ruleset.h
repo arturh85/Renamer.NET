@@ -20,7 +20,8 @@ public:
 
     //! Creates or loads a Ruleset
     Ruleset();
-    Ruleset(string name);
+	Ruleset(string name);
+	Ruleset(wstring name);
 
     //  destructor
     virtual ~Ruleset();

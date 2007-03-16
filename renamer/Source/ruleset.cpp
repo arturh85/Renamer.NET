@@ -7,7 +7,6 @@
 #include "sqlTools.h"
 
 
-
 namespace fs = boost::filesystem;
 using boost::regex;
 using boost::smatch;
@@ -19,13 +18,30 @@ Ruleset::Ruleset(string name)
     //cout << "dbFile = " << dbFile.native_file_string() << endl;
 
     bool fIsNew = ( !fs::exists(dbFile) );
-    if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
+    if(sqlite3_open16(dbFile.native_file_string().c_str(), &mDb)) {
         sqlite3_close(mDb);
         throw std::runtime_error("could not open database file");
     }
 
     if (fIsNew)
       initDb();
+}
+
+Ruleset::Ruleset(wstring name)
+{
+	mName = toStdString(name);
+	fs::path dbFile = fs::initial_path() / fs::path(toStdString(name) + ".db3");
+	//cout << "dbFile = " << dbFile.native_file_string() << endl;
+
+	bool fIsNew = ( !fs::exists(dbFile) );
+	string fileName = dbFile.native_file_string().c_str();
+	if(sqlite3_open16(toStdWString(fileName).c_str(), &mDb)) {
+		sqlite3_close(mDb);
+		throw std::runtime_error("could not open database file");
+	}
+
+	if (fIsNew)
+	initDb();
 }
 
 //! Creates an anonymous ruleset in RAM

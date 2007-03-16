@@ -4,6 +4,7 @@
 #include "ruleset.h"
 #include "inputRule.h"
 #include "Utility.h"
+#include "stdlib.h"
 
 namespace RenamerNET {
 	using namespace System;
@@ -723,10 +724,22 @@ private: System::Void tsmiDeleteSet_Click(System::Object^  sender, System::Event
 			 refreshSetList();
 		 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 sqlite3* mDb;
-			 if(sqlite3_open("testüdatei.db3", &mDb)) {
+			 /*sqlite3* mDb;
+			 
+			 if(sqlite3_open16(toStdWString(txtNewInput->Text).c_str(), &mDb)) {
 				 sqlite3_close(mDb);
-			 }
+			 }*/
+
+			 String^ text = txtNewInput->Text;
+			 string stext = toStdString(text);
+			 wstring wstext = toStdWString(text);
+			 wstring wstext2 = toStdWString(stext);
+			 string stext2 = toStdString(wstext);
+
+			 String^ text2 = toClrString(stext);
+			 String^ text3 = toClrString(wstext);
+
+			 Ruleset s(toStdWString(txtNewInput->Text));
 		 }
 };
 }
