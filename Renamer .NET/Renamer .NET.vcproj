@@ -313,6 +313,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\renamer\Source\stlUtility.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\stlUtility.h"
+				>
+			</File>
+			<File
 				RelativePath="..\renamer\Source\TableRow.cpp"
 				>
 			</File>
@@ -326,6 +334,14 @@
 			>
 			<File
 				RelativePath=".\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\clrUtility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\clrUtility.h"
 				>
 			</File>
 			<File
@@ -358,14 +374,6 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility.h"
 				>
 			</File>
 		</Filter>

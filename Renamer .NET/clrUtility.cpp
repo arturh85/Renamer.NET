@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "Utility.h"
+#include "clrUtility.h"
 
 using namespace System;
 
@@ -26,30 +26,6 @@ string toStdString(String^ source) {
 	 string target;
 	 To_string(source, target);
 	 return target;
-}
-
-string toStdString(wstring source) {
-	char* cstring = new char[source.size() +1];
-/*	wcscpy_s(wcstring, (wchar_t *)source.c_str());
-	delete[] wcstring;*/
-	size_t convertedChars = 0;
-	//mbstowcs_s(&convertedChars, wcstring, source.size(), source.c_str(), _TRUNCATE)
-	wcstombs_s(&convertedChars, cstring, source.size(), source.c_str(), _TRUNCATE);
-
-	string ret(cstring);
-	delete[] cstring;
-	return ret;
-}
-
-wstring toStdWString(string source) {
-	wchar_t* wcstring = new wchar_t[source.size() +2];
-	size_t convertedChars = 0;
-	mbstowcs_s(&convertedChars, wcstring, source.size(), source.c_str(), _TRUNCATE);
-
-	wstring ret(wcstring);
-	
-	delete[] wcstring;
-	return ret;
 }
 
 wstring toStdWString(System::String^ source) {

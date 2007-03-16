@@ -5,6 +5,7 @@
 #include <exception>
 #include <sstream>
 #include "sqlTools.h"
+#include "stlUtility.h"
 
 
 namespace fs = boost::filesystem;
@@ -35,7 +36,8 @@ Ruleset::Ruleset(wstring name)
 
 	bool fIsNew = ( !fs::exists(dbFile) );
 	string fileName = dbFile.native_file_string().c_str();
-	if(sqlite3_open16(toStdWString(fileName).c_str(), &mDb)) {
+	wstring WfileName = toStdWString(fileName);
+	if(sqlite3_open16(WfileName.c_str(), &mDb)) {
 		sqlite3_close(mDb);
 		throw std::runtime_error("could not open database file");
 	}
