@@ -10,7 +10,7 @@ Replacements::Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass)
 };
 
 Replacements::Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass, Replacements& parent) :
-    mDb(db), mOwnerId(ownerId), mParent(&parent), mOwnerClass(ownerClass)
+    mDb(db), mOwnerId(ownerId), mOwnerClass(ownerClass), mParent(&parent)
 {
     exAssert(db!=NULL);
 };
@@ -31,7 +31,7 @@ void Replacements::addReplacement(string sRegex, string replacement) {
     return;
 }
 
-void Replacements::createTables(sqlite3* db) {
+void Replacements::createTables(sqlite3*) {
 //    stringstream strSql;
 //
 //    strSql  << "CREATE TABLE replacementGroups ("
@@ -121,7 +121,6 @@ void Replacements::unitTest() {
     rpAlpha.addReplacement("\\d", "Zahl");
     BOOST_CHECK(rpAlpha.getReplacements().size()==2);
 
-    int n=rpAlpha.getReplacements().size();
     BOOST_CHECK_EQUAL(int(rpAlpha.getReplacements().size()) , 2);
 
     BOOST_CHECK(rpAlpha.getReplacements()[0].getRegex().str() == "test");

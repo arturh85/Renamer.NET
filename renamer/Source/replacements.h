@@ -36,9 +36,9 @@ class Replacements {
         //  attributes
 
         sqlite3* mDb;
-        Replacements* mParent;
         sqlite_int64 mOwnerId;
         string mOwnerClass;
+        Replacements* mParent;
 };
 
 #endif //REPLACEMENTS_H
