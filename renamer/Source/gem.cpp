@@ -5,6 +5,7 @@ void Gem::createTables(sqlite3* db) {
     string sSql;
 
     sSql = "CREATE TABLE Gems ("
+           "    ruleId ROWID, "
            "    regexId ROWID, "
            "    name string, "
            "    position int)";
@@ -36,8 +37,18 @@ void Gem::unitTest() {
     Gem gemAlpha(db);
     gemAlpha.setName("Test");
     gemAlpha.setPosition(123);
+    gemAlpha.setRuleId(112233);
     BOOST_CHECK(gemAlpha.getName() =="Test");
     BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 123);
+    BOOST_CHECK_EQUAL(gemAlpha.getRuleId(), 112233);
+
+    Gem gemBeta(db);
+    gemBeta.setName("Umlaute: ײִÜצהü");
+    gemBeta.setPosition(123);
+    gemBeta.setRuleId(-1);
+    BOOST_CHECK(gemBeta.getName() =="Umlaute: ײִÜצהü");
+    BOOST_CHECK_EQUAL(gemBeta.getPosition(), 123);
+    BOOST_CHECK_EQUAL(gemBeta.getRuleId(), -1);
 }
 
 #endif

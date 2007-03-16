@@ -65,6 +65,8 @@
 		<Unit filename="..\..\Source\TableRow.h" />
 		<Unit filename="..\..\Source\error.cpp" />
 		<Unit filename="..\..\Source\error.h" />
+		<Unit filename="..\..\Source\gem.cpp" />
+		<Unit filename="..\..\Source\gem.h" />
 		<Unit filename="..\..\Source\globals.h" />
 		<Unit filename="..\..\Source\inputRule.cpp" />
 		<Unit filename="..\..\Source\inputRule.h" />
