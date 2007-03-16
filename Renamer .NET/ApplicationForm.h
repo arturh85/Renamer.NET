@@ -59,6 +59,9 @@ namespace RenamerNET {
     //! set which is currently renamed, if none its empty string
 	private: String^ renamingSet; 
 
+	private: const String^ cmdNewSet_DefaultText = "Neues Set";
+	private: const String^ cmdNewSet_SaveText = "Speichern";
+
     // Form Controls
 	private: System::Windows::Forms::ComboBox^  cboSets;
 
@@ -85,17 +88,22 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ListView^  lstInputRules;
 	private: System::Windows::Forms::ColumnHeader^  columnHeader1;
 	private: System::Windows::Forms::ListView^  lstFiles;
-	private: System::Windows::Forms::ToolStrip^  toolStrip1;
-	private: System::Windows::Forms::ToolStripSplitButton^  toolStripSplitButton1;
-	private: System::Windows::Forms::ToolStripMenuItem^  neuesSetToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  umbenennneToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  löschenToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSplitButton^  cmdNewSet;
 
+
+
+
+
+
+
+
+
+
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::ToolStrip^  toolStrip1;
+	private: System::Windows::Forms::ToolStripSplitButton^  cmdNewSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiNewSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiRenameSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiDeleteSet;
-	private: System::Windows::Forms::Button^  button1;
 	private: System::ComponentModel::IContainer^  components;
 #pragma endregion
 #pragma region Windows Form Designer generated code
@@ -127,10 +135,6 @@ namespace RenamerNET {
 			this->lstFiles = (gcnew System::Windows::Forms::ListView());
 			this->cmdAddFiles = (gcnew System::Windows::Forms::Button());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
-			this->toolStripSplitButton1 = (gcnew System::Windows::Forms::ToolStripSplitButton());
-			this->neuesSetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->umbenennneToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->löschenToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->cmdNewSet = (gcnew System::Windows::Forms::ToolStripSplitButton());
 			this->tsmiNewSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiRenameSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -150,9 +154,9 @@ namespace RenamerNET {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->cboSets->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cboSets->FormattingEnabled = true;
-			this->cboSets->Location = System::Drawing::Point(67, 14);
+			this->cboSets->Location = System::Drawing::Point(69, 14);
 			this->cboSets->Name = L"cboSets";
-			this->cboSets->Size = System::Drawing::Size(523, 21);
+			this->cboSets->Size = System::Drawing::Size(472, 21);
 			this->cboSets->TabIndex = 0;
 			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_SelectedIndexChanged);
 			this->cboSets->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_TextChanged);
@@ -171,9 +175,9 @@ namespace RenamerNET {
 			// 
 			this->txtOutputFormat->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->txtOutputFormat->Location = System::Drawing::Point(68, 41);
+			this->txtOutputFormat->Location = System::Drawing::Point(69, 41);
 			this->txtOutputFormat->Name = L"txtOutputFormat";
-			this->txtOutputFormat->Size = System::Drawing::Size(576, 20);
+			this->txtOutputFormat->Size = System::Drawing::Size(564, 20);
 			this->txtOutputFormat->TabIndex = 3;
 			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::txtOutputFormat_TextChanged);
 			// 
@@ -345,76 +349,44 @@ namespace RenamerNET {
 			// toolStrip1
 			// 
 			this->toolStrip1->Dock = System::Windows::Forms::DockStyle::None;
-			this->toolStrip1->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->toolStripSplitButton1, 
-				this->cmdNewSet});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->cmdNewSet});
 			this->toolStrip1->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::Flow;
-			this->toolStrip1->Location = System::Drawing::Point(578, 15);
+			this->toolStrip1->Location = System::Drawing::Point(544, 14);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->RenderMode = System::Windows::Forms::ToolStripRenderMode::System;
-			this->toolStrip1->Size = System::Drawing::Size(49, 23);
+			this->toolStrip1->Size = System::Drawing::Size(121, 23);
 			this->toolStrip1->TabIndex = 8;
 			this->toolStrip1->TabStop = true;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
-			// toolStripSplitButton1
-			// 
-			this->toolStripSplitButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->toolStripSplitButton1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->neuesSetToolStripMenuItem, 
-				this->umbenennneToolStripMenuItem, this->löschenToolStripMenuItem});
-			this->toolStripSplitButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->toolStripSplitButton1->Name = L"toolStripSplitButton1";
-			this->toolStripSplitButton1->Size = System::Drawing::Size(16, 4);
-			this->toolStripSplitButton1->Text = L"toolStripSplitButton1";
-			// 
-			// neuesSetToolStripMenuItem
-			// 
-			this->neuesSetToolStripMenuItem->Name = L"neuesSetToolStripMenuItem";
-			this->neuesSetToolStripMenuItem->Size = System::Drawing::Size(141, 22);
-			this->neuesSetToolStripMenuItem->Text = L"Neues Set";
-			// 
-			// umbenennneToolStripMenuItem
-			// 
-			this->umbenennneToolStripMenuItem->Name = L"umbenennneToolStripMenuItem";
-			this->umbenennneToolStripMenuItem->Size = System::Drawing::Size(141, 22);
-			this->umbenennneToolStripMenuItem->Text = L"Umbenennne";
-			// 
-			// löschenToolStripMenuItem
-			// 
-			this->löschenToolStripMenuItem->Name = L"löschenToolStripMenuItem";
-			this->löschenToolStripMenuItem->Size = System::Drawing::Size(141, 22);
-			this->löschenToolStripMenuItem->Text = L"Löschen";
-			// 
 			// cmdNewSet
 			// 
-			this->cmdNewSet->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 			this->cmdNewSet->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsmiNewSet, 
 				this->tsmiRenameSet, this->tsmiDeleteSet});
 			this->cmdNewSet->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"cmdNewSet.Image")));
 			this->cmdNewSet->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->cmdNewSet->Name = L"cmdNewSet";
-			this->cmdNewSet->Size = System::Drawing::Size(32, 20);
+			this->cmdNewSet->Size = System::Drawing::Size(89, 20);
 			this->cmdNewSet->Text = L"Neues Set";
 			this->cmdNewSet->ButtonClick += gcnew System::EventHandler(this, &ApplicationForm::cmdNewSet_ButtonClick);
 			// 
 			// tsmiNewSet
 			// 
 			this->tsmiNewSet->Name = L"tsmiNewSet";
-			this->tsmiNewSet->Size = System::Drawing::Size(128, 22);
+			this->tsmiNewSet->Size = System::Drawing::Size(152, 22);
 			this->tsmiNewSet->Text = L"Neu";
 			this->tsmiNewSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiNewSet_Click);
 			// 
 			// tsmiRenameSet
 			// 
 			this->tsmiRenameSet->Name = L"tsmiRenameSet";
-			this->tsmiRenameSet->Size = System::Drawing::Size(128, 22);
+			this->tsmiRenameSet->Size = System::Drawing::Size(152, 22);
 			this->tsmiRenameSet->Text = L"Bearbeiten";
 			this->tsmiRenameSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiRenameSet_Click);
 			// 
 			// tsmiDeleteSet
 			// 
 			this->tsmiDeleteSet->Name = L"tsmiDeleteSet";
-			this->tsmiDeleteSet->Size = System::Drawing::Size(128, 22);
+			this->tsmiDeleteSet->Size = System::Drawing::Size(152, 22);
 			this->tsmiDeleteSet->Text = L"Löschen";
 			this->tsmiDeleteSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiDeleteSet_Click);
 			// 
@@ -425,10 +397,10 @@ namespace RenamerNET {
 			this->ClientSize = System::Drawing::Size(655, 449);
 			this->Controls->Add(this->splitContainer1);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->txtOutputFormat);
 			this->Controls->Add(this->cboSets);
+			this->Controls->Add(this->toolStrip1);
+			this->Controls->Add(this->txtOutputFormat);
 			this->Name = L"ApplicationForm";
 			this->Opacity = 0.95;
 			this->Text = L"Renamer Pre-Alpha";
@@ -490,7 +462,7 @@ namespace RenamerNET {
 					delete rule;
 					File::Move(oldSetName + ".db3", newSetName + ".db3");
 					string s = toStdString(newSetName);
-					rule = new Ruleset(s);
+					rule = new Ruleset(toStdWString(s));
 				} else {
 					File::Move(oldSetName + ".db3", newSetName + ".db3");
 				}
@@ -576,7 +548,7 @@ namespace RenamerNET {
 		 refreshSetList();
 
 		 if(cboSets->Items->Count == 0) {
-			 setSetEditMode(true);
+			 tsmiNewSet_Click(sender, e);
 		 }
 
 		 else {
@@ -595,9 +567,6 @@ namespace RenamerNET {
 			 Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "last_set47110815", cboSets->Text);
 	}
 
-	private: System::Void cmdNewSet_Click(System::Object^  sender, System::EventArgs^  e) {
-
-	}
 private: System::Void cboSets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(codeRunning) return ;
 			 codeRunning = true;
@@ -684,15 +653,18 @@ private: System::Void tsmiNewSet_Click(System::Object^  sender, System::EventArg
 			 if(setEditMode == false) {
 				// enable entering a new set name
 				setSetEditMode(true);
+				cmdNewSet->Text = "Speichern";
 				cboSets->Text = "";
 			 } else {
 				 // disable edit mode and create the set
+				 cmdNewSet->Text = "Neues Set";
 				 String^ setName = cboSets->Text;
-				 loadOrCreateSet(setName);
 				 setSetEditMode(false);
-				 cboSets->Text = setName;
-				 onSetSelection();
-				 //selectSet(setName);
+				 if(setName->Length > 0) {
+					 loadOrCreateSet(setName);
+					 cboSets->Text = setName;
+					 onSetSelection();
+				 }
 			 }
 		 }
 private: System::Void tsmiRenameSet_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -700,6 +672,7 @@ private: System::Void tsmiRenameSet_Click(System::Object^  sender, System::Event
 				 return ;
 			 renamingSet = cboSets->Text;
 			 setSetEditMode(true);
+			 cmdNewSet->Text = "Speichern";
 		 }
 private: System::Void cboSets_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 			 if(setEditMode && e->KeyCode == Keys::Return) {

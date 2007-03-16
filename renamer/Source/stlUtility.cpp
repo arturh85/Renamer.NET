@@ -2,6 +2,10 @@
 #include "globals.h"
 #include "stlUtility.h"
 
+#if !defined(_TRUNCATE)
+#define _TRUNCATE ((size_t)-1)
+#endif
+
 string toStdString(wstring source) {
 	char* cstring = new char[source.size() +2];
 	size_t convertedChars = 0;
