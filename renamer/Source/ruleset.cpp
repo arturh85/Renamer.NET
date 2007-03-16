@@ -80,6 +80,7 @@ void Ruleset::initDb() {
 
     InputRule::createTables(mDb);
     Replacement::createTables(mDb);
+    Gem::createTables(mDb);
 }
 
 //! writes the outputFormat to the database
@@ -154,7 +155,8 @@ bool Ruleset::applyTo(string fileName, string& outputFileName) {
     for (vector<InputRule>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
-        if (it->applyTo(fileName, outputFileName)) {
+        vector<GemValue> gems;
+        if (it->applyTo(fileName, gems)) {
             return true;
         }
     }
@@ -270,6 +272,7 @@ void Ruleset::unitTest() {
     BOOST_CHECK_THROW(testName("Some other?"), exFileLineDesc);
     BOOST_CHECK_THROW(testName(" Some other"), exFileLineDesc);
     BOOST_CHECK_THROW(testName(""), exFileLineDesc);
+
 }
 
 #endif

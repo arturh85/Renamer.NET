@@ -26,10 +26,10 @@ void Gem::createTables(sqlite3* db) {
            "    position int)";
     exec(sSql, db);
 
-    sSql = "CREATE INDEX Gems_GroupedPrimaryKey "
-           "ON Gems ("
-           " ruleId, regexId)";
-    exec(sSql, db);
+//    sSql = "CREATE INDEX Gems_GroupedPrimaryKey "
+//           "ON Gems ("
+//           " ruleId, regexId)";
+//    exec(sSql, db);
 
 }
 

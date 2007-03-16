@@ -5,6 +5,21 @@
 #include "replacements.h"
 #include "gem.h"
 
+
+class GemValue : public Gem {
+    public:
+        //---------------------------------------------------------------------
+        //  constructors
+
+        //! creates a new GemValue object.
+        GemValue(sqlite3* db, sqlite_int64 ruleId, sqlite_int64 row) :
+            Gem(db, ruleId, row) {};
+
+        //---------------------------------------------------------------------
+        //  attributes
+        string value;
+};
+
 class InputRule {
     public:
         //---------------------------------------------------------------------
@@ -29,11 +44,13 @@ class InputRule {
         static void createTables(sqlite3* db);
         bool setRegex(string);
         sqlite_int64 getId() const { return (long) mRowid; };
-        bool applyTo(string fileName, string& outputFileName);
         Replacements& getReplacements() const { return *mRplPtr; };
 
         //! get all gems available for this InputRule.
         vector<Gem> getGems() const;
+
+        //! extract gems out of a filename
+        bool applyTo(string fileName, vector<GemValue>& matches);
 
         void addGem(string name);
 
