@@ -68,7 +68,8 @@ void createTables(sqlite3* db) {
 
     sSql = "CREATE TABLE myTable ("
            "   uniqueField string UNIQUE,"
-           "   dummy string)";
+           "   dummy string, "
+           "NullColum string)";
     exec(sSql, db);
 
 }
@@ -116,7 +117,8 @@ void TableRow::unitTest() {
     BOOST_CHECK(rowAlpha["dummy"] == "How are you?");
     BOOST_CHECK(rowBeta["dummy"] == "40647a02-d248-11db-8314-0800200c9a66");
 
-
+    BOOST_CHECKPOINT("null behauviour");
+    //BOOST_CHECK(rowAlpha["NullColum"] == "");
 
 
 }

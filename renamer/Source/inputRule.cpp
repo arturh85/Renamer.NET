@@ -120,6 +120,30 @@ bool InputRule::applyTo(string fileName, string& outputFileName) {
     return false;
 }
 
+void InputRule::addGem(string name) {
+    Gem newGem(mDb, mRowid);
+    newGem.setName(name);
+    return;
+}
+
+vector<Gem> InputRule::getGems() const {
+    vector<Gem> retVal;
+    vector<string> queryResults;
+    stringstream strSql;
+    strSql  << "SELECT rowid FROM gems WHERE "
+            << "ruleId =" << mRowid
+            << " ORDER BY position";
+    exec(strSql, mDb, onAppendFirstColumnToVector, &queryResults);
+    for (vector<string>::iterator it = queryResults.begin();
+         it != queryResults.end(); it++) {
+
+        Gem newGem(mDb, mRowid, cSqlInFormated<sqlite_int64>(*it) );
+        retVal.push_back(newGem);
+    }
+
+    return retVal;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
@@ -141,9 +165,11 @@ void InputRule::unitTest() {
     }
     BOOST_REQUIRE(db!=NULL);
 
+    BOOST_CHECKPOINT("create Tables");
     InputRule::createTables(db);
     Replacement::createTables(db);
     Replacements::createTables(db);
+    Gem::createTables(db);
 
     BOOST_CHECKPOINT("InputRule constructor(regex)");
     InputRule ruleAlpha(regex("(.*)\\.avi"), db);
@@ -223,6 +249,13 @@ void InputRule::unitTest() {
     BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
     BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", sDummy));
     BOOST_CHECK(ruleAlpha.applyTo("Test.avi", sDummy));
+
+    BOOST_CHECKPOINT("gems");
+    ruleAlpha.addGem("test");
+    ruleAlpha.addGem("foobar");
+    BOOST_CHECK(ruleAlpha.getGems().size() == 2);
+    BOOST_CHECK(ruleAlpha.getGems()[0].getPosition() == 1);
+    BOOST_CHECK(ruleAlpha.getGems()[1].getPosition() == 2);
 
 
 

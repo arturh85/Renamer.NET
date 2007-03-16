@@ -6,7 +6,7 @@
 #include <sstream>
 #include "sqlTools.h"
 #include "stlUtility.h"
-
+#include "error.h"
 
 namespace fs = boost::filesystem;
 using boost::regex;
@@ -14,12 +14,15 @@ using boost::smatch;
 
 Ruleset::Ruleset(string name)
 {
+    static const regex allowedNames("^\\w[\\w ]*\\w$");
+    exAssertDesc(regex_match(name, allowedNames), "invalid name");
+
     mName = name;
     fs::path dbFile = fs::initial_path() / fs::path(name + ".db3");
     //cout << "dbFile = " << dbFile.native_file_string() << endl;
 
     bool fIsNew = ( !fs::exists(dbFile) );
-    if(sqlite3_open16(dbFile.native_file_string().c_str(), &mDb)) {
+    if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
         sqlite3_close(mDb);
         throw std::runtime_error("could not open database file");
     }
@@ -186,6 +189,15 @@ void Ruleset::removeInputRule(sqlite_int64 rowid) {
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
+void testName(string name) {
+    {
+        Ruleset x(name);
+    }
+
+    BOOST_CHECK(fs::exists(name + ".db3"));
+    fs::remove(name + ".db3");
+}
+
 void Ruleset::unitTest() {
     // test global functions
     vector<string> tmpVector;
@@ -249,6 +261,15 @@ void Ruleset::unitTest() {
 
     myRules.removeInputRule(myRules.getInputRules()[0].getId());
     BOOST_CHECK( myRules.getInputRules().size() == 0);
+
+
+    BOOST_CHECKPOINT("check allowed Names");
+    testName("Stargate Atlantis");
+    testName("24");
+    BOOST_CHECK_THROW(testName("Some one "), exFileLineDesc);
+    BOOST_CHECK_THROW(testName("Some other?"), exFileLineDesc);
+    BOOST_CHECK_THROW(testName(" Some other"), exFileLineDesc);
+    BOOST_CHECK_THROW(testName(""), exFileLineDesc);
 }
 
 #endif

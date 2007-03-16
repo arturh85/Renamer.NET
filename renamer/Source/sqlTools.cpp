@@ -21,15 +21,29 @@ void exec(string sSql, sqlite3* db, sqlite3_callback cb, void* param) {
 //int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azColName) {
 
 
-int onReadFirstField(void *param, int, char **argv, char**) {
-    string* sTarget = static_cast<string*>( param);
-    *sTarget = argv[0];
+int onReadFirstField(void *param, int argc, char **argv, char** azColName) {
+    assert(param != NULL);
+    assert(argc > 0);
+    assert(argv != NULL);
+    //cout << azColName[0] << endl;
+
+    string* sTarget = static_cast<string*>(param);
+    if (argv[0])
+        *sTarget = argv[0];
+    else
+        *sTarget = "";
+
     return SQLITE_OK;
 }
 
 int onAppendFirstColumnToVector(void *param, int , char **argv, char **) {
 	vector<string>* output = (vector<string>*) param;
-	output->push_back(string(argv[0]));
+
+    if (argv[0])
+        output->push_back(string(argv[0]));
+    else
+        output->push_back(string(""));
+
 	return SQLITE_OK;
 }
 
@@ -45,8 +59,12 @@ int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **){
     //mind the space   -> <- here
     vector<vector<string> >* targetVector = static_cast<vector<vector<string> >*>( param);
     vector<string> newVector;
-    for (int i=0; i < argc; i++)
-      newVector.push_back(argv[i]);
+    for (int i=0; i < argc; i++) {
+        if (argv[i])
+            newVector.push_back(argv[i]);
+        else
+            newVector.push_back("");
+    }
 
     targetVector->push_back(newVector);
     return SQLITE_OK;

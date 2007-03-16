@@ -32,6 +32,18 @@ T cSqlInFormated(string sString) {
 
 //! kind of a lazy type conversion
 /** If it can be shifted through a stream, you'll get a result.
+    2nd param is returnt if this did not work out.
+*/
+template<typename T>
+T cSqlInFormated(string sString, T defaultValue) {
+    stringstream strValue(sString);
+    T retVal = defaultValue;
+    strValue >> retVal;
+    return retVal;
+}
+
+//! kind of a lazy type conversion
+/** If it can be shifted through a stream, you'll get a result.
 */
 template<typename T>
 string cSqlOutFormated(T value) {

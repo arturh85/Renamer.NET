@@ -3,6 +3,7 @@
 
 #include "globals.h"
 #include "replacements.h"
+#include "gem.h"
 
 class InputRule {
     public:
@@ -30,6 +31,11 @@ class InputRule {
         sqlite_int64 getId() const { return (long) mRowid; };
         bool applyTo(string fileName, string& outputFileName);
         Replacements& getReplacements() const { return *mRplPtr; };
+
+        //! get all gems available for this InputRule.
+        vector<Gem> getGems() const;
+
+        void addGem(string name);
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

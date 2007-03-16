@@ -12,10 +12,11 @@ class Gem {
 
         //! creates a new Gem object.
         /** All Values are empty */
-        Gem(sqlite3* db) : mRow(db, "Gems") {}  ;
+        Gem(sqlite3* db, sqlite_int64 ruleId);
 
         //! creates a new Gem object with existing data
-        Gem(sqlite3* db, sqlite_int64 row) : mRow(db, "Gems", row) {}  ;
+        Gem(sqlite3* db, sqlite_int64 ruleId, sqlite_int64 row) : mRow(db, "Gems", row)
+            { setRuleId(ruleId); }  ;
 
         //---------------------------------------------------------------------
         //  methodes
@@ -38,20 +39,15 @@ class Gem {
 
         //! the Position of a gem is what the user wants it to be
         int getPosition() const
-            { return cSqlInFormated<int>(mRow.get("position")); };
+            { return cSqlInFormated<int>(mRow.get("position"), -1); };
 
         //! the Position of a gem is what the user wants it to be
-        void setPosition(int v)
-            {mRow.set("position", cSqlOutFormated(v));} ;
+        void setPosition(int v);
+
 
         //! the RuleId ties the gem to a InputRule
         sqlite_int64 getRuleId() const
             { return cSqlInFormated<sqlite_int64>(mRow.get("ruleId")); };
-
-        //! the RuleId ties the gem to a InputRule
-        void setRuleId(sqlite_int64 v)
-            {mRow.set("ruleId", cSqlOutFormated(v));} ;
-
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
@@ -63,6 +59,13 @@ class Gem {
         //  attributes
         sqlite3* mDb;
         TableRow mRow;
+
+        //---------------------------------------------------------------------
+        //  methodes
+
+        //! the RuleId ties the gem to a InputRule
+        void setRuleId(sqlite_int64 v)
+            {mRow.set("ruleId", cSqlOutFormated(v));} ;
 };
 
 #endif //GEM_H
