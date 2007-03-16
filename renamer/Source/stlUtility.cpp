@@ -1,15 +1,12 @@
 #include "stdafx.h"
 #include "globals.h"
 #include "stlUtility.h"
-
-#if !defined(_TRUNCATE)
-#define _TRUNCATE ((size_t)-1)
-#endif
+#include <stdlib.h>
 
 string toStdString(wstring source) {
 	char* cstring = new char[source.size() +2];
 	size_t convertedChars = 0;
-	wcstombs_s(&convertedChars, cstring, source.size()+1, source.c_str(), _TRUNCATE);
+	wcstombs(cstring, source.c_str(), source.size()+1);
 	string ret(cstring);
 	delete[] cstring;
 	return ret;
@@ -18,7 +15,7 @@ string toStdString(wstring source) {
 wstring toStdWString(string source) {
 	wchar_t* wcstring = new wchar_t[source.size() +2];
 	size_t convertedChars = 0;
-	mbstowcs_s(&convertedChars, wcstring, source.size()+1, source.c_str(), _TRUNCATE);
+	mbstowcs(wcstring, source.c_str(), source.size()+1);
 	wstring ret(wcstring);
 	delete[] wcstring;
 	return ret;

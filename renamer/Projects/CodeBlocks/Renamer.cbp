@@ -59,6 +59,7 @@
 		</Compiler>
 		<Linker>
 			<Add library="SQLite" />
+			<Add library="stdc++" />
 			<Add directory="..\..\..\SQLite\bin" />
 		</Linker>
 		<Unit filename="..\..\Source\TableRow.cpp" />
@@ -82,6 +83,8 @@
 		<Unit filename="..\..\Source\ruleset.h" />
 		<Unit filename="..\..\Source\sqlTools.cpp" />
 		<Unit filename="..\..\Source\sqlTools.h" />
+		<Unit filename="..\..\Source\stlUtility.cpp" />
+		<Unit filename="..\..\Source\stlUtility.h" />
 		<Unit filename="..\..\Source\unitTest.cpp">
 			<Option target="unitTest" />
 		</Unit>
