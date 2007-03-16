@@ -54,6 +54,9 @@ namespace RenamerNET {
 
 	private: bool setEditMode;
 
+    //! set which is currently renamed, if none its empty string
+	private: String^ renamingSet; 
+
     // Form Controls
 	private: System::Windows::Forms::ComboBox^  cboSets;
 
@@ -90,6 +93,7 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiNewSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiRenameSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiDeleteSet;
+	private: System::Windows::Forms::Button^  button1;
 	private: System::ComponentModel::IContainer^  components;
 #pragma endregion
 #pragma region Windows Form Designer generated code
@@ -117,6 +121,7 @@ namespace RenamerNET {
 			this->txtNewInput = (gcnew System::Windows::Forms::TextBox());
 			this->cmdAddInputRule = (gcnew System::Windows::Forms::Button());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->lstFiles = (gcnew System::Windows::Forms::ListView());
 			this->cmdAddFiles = (gcnew System::Windows::Forms::Button());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
@@ -149,6 +154,7 @@ namespace RenamerNET {
 			this->cboSets->TabIndex = 0;
 			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_SelectedIndexChanged);
 			this->cboSets->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_TextChanged);
+			this->cboSets->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ApplicationForm::cboSets_KeyDown);
 			// 
 			// label1
 			// 
@@ -247,16 +253,19 @@ namespace RenamerNET {
 			this->lstInputRules->AutoArrange = false;
 			this->lstInputRules->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(1) {this->columnHeader1});
 			this->lstInputRules->ContextMenuStrip = this->cmsInputRules;
+			this->lstInputRules->FullRowSelect = true;
 			this->lstInputRules->Location = System::Drawing::Point(7, 19);
 			this->lstInputRules->Name = L"lstInputRules";
 			this->lstInputRules->Size = System::Drawing::Size(252, 311);
+			this->lstInputRules->Sorting = System::Windows::Forms::SortOrder::Ascending;
 			this->lstInputRules->TabIndex = 3;
 			this->lstInputRules->UseCompatibleStateImageBehavior = false;
-			this->lstInputRules->View = System::Windows::Forms::View::List;
+			this->lstInputRules->View = System::Windows::Forms::View::Details;
 			// 
 			// columnHeader1
 			// 
 			this->columnHeader1->Text = L"InputRules";
+			this->columnHeader1->Width = 111;
 			// 
 			// txtNewInput
 			// 
@@ -283,6 +292,7 @@ namespace RenamerNET {
 			this->groupBox2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->groupBox2->Controls->Add(this->button1);
 			this->groupBox2->Controls->Add(this->lstFiles);
 			this->groupBox2->Controls->Add(this->cmdAddFiles);
 			this->groupBox2->Location = System::Drawing::Point(3, 3);
@@ -291,6 +301,16 @@ namespace RenamerNET {
 			this->groupBox2->TabIndex = 7;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Dateien";
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(6, 336);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->TabIndex = 3;
+			this->button1->Text = L"debug";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &ApplicationForm::button1_Click);
 			// 
 			// lstFiles
 			// 
@@ -323,12 +343,14 @@ namespace RenamerNET {
 			// toolStrip1
 			// 
 			this->toolStrip1->Dock = System::Windows::Forms::DockStyle::None;
+			this->toolStrip1->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
 			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->toolStripSplitButton1, 
 				this->cmdNewSet});
 			this->toolStrip1->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::Flow;
-			this->toolStrip1->Location = System::Drawing::Point(596, 12);
+			this->toolStrip1->Location = System::Drawing::Point(578, 15);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(80, 23);
+			this->toolStrip1->RenderMode = System::Windows::Forms::ToolStripRenderMode::System;
+			this->toolStrip1->Size = System::Drawing::Size(49, 23);
 			this->toolStrip1->TabIndex = 8;
 			this->toolStrip1->TabStop = true;
 			this->toolStrip1->Text = L"toolStrip1";
@@ -370,36 +392,38 @@ namespace RenamerNET {
 			this->cmdNewSet->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->cmdNewSet->Name = L"cmdNewSet";
 			this->cmdNewSet->Size = System::Drawing::Size(32, 20);
-			this->cmdNewSet->Text = L"toolStripSplitButton2";
-			this->cmdNewSet->ButtonClick += gcnew System::EventHandler(this, &ApplicationForm::toolStripSplitButton2_ButtonClick);
+			this->cmdNewSet->Text = L"Neues Set";
+			this->cmdNewSet->ButtonClick += gcnew System::EventHandler(this, &ApplicationForm::cmdNewSet_ButtonClick);
 			// 
 			// tsmiNewSet
 			// 
 			this->tsmiNewSet->Name = L"tsmiNewSet";
-			this->tsmiNewSet->Size = System::Drawing::Size(152, 22);
+			this->tsmiNewSet->Size = System::Drawing::Size(128, 22);
 			this->tsmiNewSet->Text = L"Neu";
 			this->tsmiNewSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiNewSet_Click);
 			// 
 			// tsmiRenameSet
 			// 
 			this->tsmiRenameSet->Name = L"tsmiRenameSet";
-			this->tsmiRenameSet->Size = System::Drawing::Size(152, 22);
+			this->tsmiRenameSet->Size = System::Drawing::Size(128, 22);
 			this->tsmiRenameSet->Text = L"Bearbeiten";
+			this->tsmiRenameSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiRenameSet_Click);
 			// 
 			// tsmiDeleteSet
 			// 
 			this->tsmiDeleteSet->Name = L"tsmiDeleteSet";
-			this->tsmiDeleteSet->Size = System::Drawing::Size(152, 22);
+			this->tsmiDeleteSet->Size = System::Drawing::Size(128, 22);
 			this->tsmiDeleteSet->Text = L"Löschen";
+			this->tsmiDeleteSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiDeleteSet_Click);
 			// 
 			// ApplicationForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(655, 449);
-			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->splitContainer1);
 			this->Controls->Add(this->label2);
+			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->txtOutputFormat);
 			this->Controls->Add(this->cboSets);
@@ -445,6 +469,7 @@ namespace RenamerNET {
 
 		void removeInputRule(long long inputRuleID) {
 			//! \todo implement
+			//rule->removeInputRule(inputRuleID);
 		}
 
 		void loadOrCreateSet(String^ setName) 
@@ -462,7 +487,10 @@ namespace RenamerNET {
 				if(setName == toStdString(oldSetName)) {
 					delete rule;
 					File::Move(oldSetName + ".db3", newSetName + ".db3");
-					rule = new Ruleset(toStdString(newSetName));
+					string s = toStdString(newSetName);
+					rule = new Ruleset(s);
+				} else {
+					File::Move(oldSetName + ".db3", newSetName + ".db3");
 				}
 			}
 
@@ -471,8 +499,15 @@ namespace RenamerNET {
 			}
 		}
 
-		void removeSet(String^ setName) {
-
+		void deleteSet(String^ setName) {
+			if(rule) {
+				string ruleSetName = rule->getName();
+				if(ruleSetName == toStdString(setName)) {
+					delete rule;
+					rule = NULL;
+				}
+			}
+			File::Delete(setName + ".db3");
 		}
 
 		void addFile( String^ pathToFile )
@@ -490,7 +525,9 @@ namespace RenamerNET {
 			refreshInputRulesList();
 
 			txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
-			cboSets->Text = toClrString( rule ? rule->getName() : "");
+			//cboSets->Text = toClrString( rule ? rule->getName() : "");
+			if(rule)
+				selectSet(toClrString(rule->getName()));
 		}
 
 		void refreshInputRulesList() 
@@ -506,6 +543,11 @@ namespace RenamerNET {
 				ListViewItem^ item = gcnew ListViewItem(text,0);
 				lstInputRules->Items->Add(item);
 			}
+		}
+		
+		void selectSet(String^ setName) {
+			int i = cboSets->FindString(setName);
+			cboSets->SelectedIndex = i;
 		}
 
 		void refreshSetList() 
@@ -527,6 +569,7 @@ namespace RenamerNET {
 	private: System::Void ApplicationForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		 rule = NULL;
 		 codeRunning = false;
+		 renamingSet = "";
 		 setSetEditMode(false);
 		 refreshSetList();
 
@@ -541,7 +584,7 @@ namespace RenamerNET {
 				 cboSets->SelectedIndex = 0;
 			 }
 			 else {
-				 cboSets->SelectedIndex = cboSets->FindString(lastOpenedSetName);
+				 selectSet(lastOpenedSetName);
 			 }
 		 }
 	}
@@ -620,8 +663,20 @@ private: System::Void lstFiles_DragOver(System::Object^  sender, System::Windows
 private: System::Void cmdAddInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		 }
-private: System::Void toolStripSplitButton2_ButtonClick(System::Object^  sender, System::EventArgs^  e) {
-			 tsmiNewSet_Click(sender, e);
+private: System::Void cmdNewSet_ButtonClick(System::Object^  sender, System::EventArgs^  e) {
+			 if(renamingSet == "")
+				tsmiNewSet_Click(sender, e);
+			 else if(setEditMode == true) {
+				 // we are finishing renaming a set
+				 String^ newSetName = cboSets->Text;
+				 setSetEditMode(false);
+				 renameSet(renamingSet, newSetName);
+				 //refreshSetList();
+				 cboSets->Text = newSetName;
+				 renamingSet = "";
+				 onSetSelection();
+				 selectSet(newSetName);
+			 }
 		 }
 private: System::Void tsmiNewSet_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(setEditMode == false) {
@@ -633,8 +688,44 @@ private: System::Void tsmiNewSet_Click(System::Object^  sender, System::EventArg
 				 String^ setName = cboSets->Text;
 				 loadOrCreateSet(setName);
 				 setSetEditMode(false);
-				 cboSets->SelectedIndex = cboSets->FindString(setName);
+				 cboSets->Text = setName;
 				 onSetSelection();
+				 //selectSet(setName);
+			 }
+		 }
+private: System::Void tsmiRenameSet_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if(cboSets->Items->Count == 0 ||setEditMode == true)
+				 return ;
+			 renamingSet = cboSets->Text;
+			 setSetEditMode(true);
+		 }
+private: System::Void cboSets_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			 if(setEditMode && e->KeyCode == Keys::Return) {
+				cmdNewSet_ButtonClick(sender, e);
+			 }
+
+			 if(setEditMode && e->KeyCode == Keys::Escape) {
+				 if(renamingSet == "") {
+					// we are creating a new set, abort that
+					 setSetEditMode(false);
+					 refreshSetList();
+				 } else {
+					 setSetEditMode(false);
+					 refreshSetList();
+					 cboSets->Text = renamingSet;
+					 renamingSet = "";
+					 onSetSelection();
+				 }
+			 }
+		 }
+private: System::Void tsmiDeleteSet_Click(System::Object^  sender, System::EventArgs^  e) {
+			 deleteSet(cboSets->Text);
+			 refreshSetList();
+		 }
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 sqlite3* mDb;
+			 if(sqlite3_open("testüdatei.db3", &mDb)) {
+				 sqlite3_close(mDb);
 			 }
 		 }
 };

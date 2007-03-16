@@ -26,7 +26,6 @@ Ruleset::Ruleset(string name)
 
     if (fIsNew)
       initDb();
-
 }
 
 //! Creates an anonymous ruleset in RAM
@@ -35,7 +34,7 @@ Ruleset::Ruleset()
     mName = "memory";
     if(sqlite3_open(":memory:", &mDb)) {
         sqlite3_close(mDb);
-        throw std::runtime_error("could not open database file");
+        throw std::runtime_error("could not open database file in memory");
     }
 
     initDb();
