@@ -24,7 +24,6 @@ class InputRule {
     public:
         //---------------------------------------------------------------------
         //  constructors
-        //InputRule() : mRowid(-1), mDb(NULL) {};
 
         //! Loads from Database
         InputRule(sqlite_int64 rowid, sqlite3* );
@@ -41,7 +40,9 @@ class InputRule {
         //! get the regex as a string from the database
         string getRegex() const;
 
+        //! Creates 'regexes' and 'history' table
         static void createTables(sqlite3* db);
+
         bool setRegex(string);
         sqlite_int64 getId() const { return (long) mRowid; };
         Replacements& getReplacements() const { return *mRplPtr; };

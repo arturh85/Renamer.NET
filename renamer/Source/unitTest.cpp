@@ -4,6 +4,7 @@
 #include "InputRule.h"
 #include "replacements.h"
 #include "gem.h"
+#include "outputFormat.h"
 
 using namespace std;
 using boost::unit_test::test_suite;
@@ -29,6 +30,7 @@ init_unit_test_suite( int, char* [] ) {
   test->add( BOOST_TEST_CASE( &Replacements::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Gem::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 0);
+  test->add( BOOST_TEST_CASE( &OutputFormat::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Ruleset::unitTest ));
 
   return test;

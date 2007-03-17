@@ -52,7 +52,6 @@ string InputRule::getRegex() const {
     return sRetVal;
 }
 
-//! Creates 'regexes' and 'history' table
 void InputRule::createTables(sqlite3* db) {
     string sSql;
 
@@ -275,13 +274,12 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("ruleZeta");
-    InputRule ruleZeta(regex("Numb3rs\\.S(\\d+)E(\\d+).*"), db);
-//    InputRule ruleZeta(regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"), db);
+    InputRule ruleZeta(regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"), db);
     ruleZeta.addGem("season");
     ruleZeta.addGem("episode");
 
     gems.clear();
-//    BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E13.Mein Titel.HDTV.XviD-NoTV", gems));
+    BOOST_CHECK(!ruleZeta.applyTo("Numb3rs.S03E13.Mein Titel.HDTV.XviD-NoTV", gems));
     BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E13.HDTV.XviD-NoTV", gems));
     BOOST_CHECK(gems[0].getName() == "season");
     BOOST_CHECK(gems[0].value == "03");

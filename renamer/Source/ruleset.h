@@ -2,8 +2,8 @@
 #define RULESET_H
 
 #include "globals.h"
-#include "inputRule.h"
 #include <sqlite3.h>
+#include "outputFormat.h"
 
 //! Verwaltet Reguläre Ausdrücke
 /**
@@ -15,51 +15,51 @@ in ein gemeinsames Format konvertiert werden können.
 
 class Ruleset
 {
-public:
-    //  constructors
+    public:
+        //---------------------------------------------------------------------
+        //  constructors & destructor
 
-    //! Creates or loads a Ruleset
-    Ruleset();
-	Ruleset(string name);
-	Ruleset(wstring name);
+        //! Creates an anonymous ruleset in RAM
+        Ruleset();
 
-    //  destructor
-    virtual ~Ruleset();
+        Ruleset(string name);
+        Ruleset(wstring name);
 
-    //  methodes
-    InputRule addInputRule(string regexp);
-    void setOutputFormat(string exp);
-    string getOutputFormat() const;
+        virtual ~Ruleset();
 
-	//! gets a collection of InputRule-Objects
-    vector<InputRule> getInputRules();
+        //---------------------------------------------------------------------
+        //  methodes
+        //void setOutputFormat(string exp);
+        //string getOutputFormat() const;
 
-    //! Wird für jede Datei aufgerufen die umbenannt werden soll
-    /** Benennt die Datei aber nicht selber um, sondern
-        gibt den neuen Dateinamen zurück
-    */
-    bool applyTo(string fileName, string& outputFileName);
+        //! Wird für jede Datei aufgerufen die umbenannt werden soll
+        /** Benennt die Datei aber nicht selber um, sondern
+            gibt den neuen Dateinamen zurück
+        */
+        bool applyTo(string fileName, string& outputFileName);
 
-    //! Removes an InputRule from the database
-    void removeInputRule(sqlite_int64);
+        //! this creates a new OutputFormat object
+        OutputFormat addOutputFormat();
+
+        //! gets a collection of OutputFormat objects
+        vector<OutputFormat> getOutputFormats();
 
 
-	string getName() const;
+        string getName() const;
 
-    #ifdef RENAMER_UNIT_TEST
-    //! UnitTest this object
-    static void unitTest();
-    #endif
+        #ifdef RENAMER_UNIT_TEST
+        //! UnitTest this object
+        static void unitTest();
+        #endif
 
-private:
-    //  attributes
-//    vector<string> mInputRules;
-//    string mOutputRule;
-    string mName;
-    sqlite3* mDb;
+    private:
+        //  attributes
+        string mName;
+        sqlite3* mDb;
 
-    //  methodes
-    void initDb();
+        //  methodes
+        //! Creates initial tables
+        void initDb();
 
 };
 
