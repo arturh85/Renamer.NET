@@ -73,11 +73,11 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiDeleteInputRule;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiEditInputRule;
 	private: System::Windows::Forms::OpenFileDialog^  dlgAddFiles;
-	private: System::Windows::Forms::SplitContainer^  splitContainer1;
-	private: System::Windows::Forms::GroupBox^  groupBox1;
+
+
 	private: System::Windows::Forms::TextBox^  txtNewInput;
 	private: System::Windows::Forms::Button^  cmdAddInputRule;
-	private: System::Windows::Forms::GroupBox^  groupBox2;
+
 	private: System::Windows::Forms::Button^  cmdAddFiles;
 	private: System::Windows::Forms::ListView^  lstInputRules;
 	private: System::Windows::Forms::ColumnHeader^  columnHeader1;
@@ -88,6 +88,7 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiNewSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiRenameSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiDeleteSet;
+	private: System::Windows::Forms::RichTextBox^  richTextBox1;
 	private: System::ComponentModel::IContainer^  components;
 
 #pragma endregion
@@ -99,6 +100,9 @@ namespace RenamerNET {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
+			System::Windows::Forms::SplitContainer^  splitContainer1;
+			System::Windows::Forms::GroupBox^  groupBox1;
+			System::Windows::Forms::GroupBox^  groupBox2;
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ApplicationForm::typeid));
 			this->cboSets = (gcnew System::Windows::Forms::ComboBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -109,13 +113,10 @@ namespace RenamerNET {
 			this->tsmiDeleteInputRule = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiEditInputRule = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->dlgAddFiles = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
-			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->lstInputRules = (gcnew System::Windows::Forms::ListView());
 			this->columnHeader1 = (gcnew System::Windows::Forms::ColumnHeader());
 			this->txtNewInput = (gcnew System::Windows::Forms::TextBox());
 			this->cmdAddInputRule = (gcnew System::Windows::Forms::Button());
-			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->lstFiles = (gcnew System::Windows::Forms::ListView());
 			this->cmdAddFiles = (gcnew System::Windows::Forms::Button());
@@ -124,12 +125,16 @@ namespace RenamerNET {
 			this->tsmiNewSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiRenameSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiDeleteSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->cmsInputRules->SuspendLayout();
-			this->splitContainer1->Panel1->SuspendLayout();
-			this->splitContainer1->Panel2->SuspendLayout();
-			this->splitContainer1->SuspendLayout();
-			this->groupBox1->SuspendLayout();
-			this->groupBox2->SuspendLayout();
+			splitContainer1->Panel1->SuspendLayout();
+			splitContainer1->Panel2->SuspendLayout();
+			splitContainer1->SuspendLayout();
+			groupBox1->SuspendLayout();
+			groupBox2->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -204,37 +209,37 @@ namespace RenamerNET {
 			// 
 			// splitContainer1
 			// 
-			this->splitContainer1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			splitContainer1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->splitContainer1->Location = System::Drawing::Point(59, 67);
-			this->splitContainer1->Name = L"splitContainer1";
+			splitContainer1->Location = System::Drawing::Point(59, 67);
+			splitContainer1->Name = L"splitContainer1";
 			// 
 			// splitContainer1.Panel1
 			// 
-			this->splitContainer1->Panel1->Controls->Add(this->groupBox1);
+			splitContainer1->Panel1->Controls->Add(groupBox1);
 			// 
 			// splitContainer1.Panel2
 			// 
-			this->splitContainer1->Panel2->Controls->Add(this->groupBox2);
-			this->splitContainer1->Size = System::Drawing::Size(583, 375);
-			this->splitContainer1->SplitterDistance = 282;
-			this->splitContainer1->TabIndex = 7;
+			splitContainer1->Panel2->Controls->Add(groupBox2);
+			splitContainer1->Size = System::Drawing::Size(583, 260);
+			splitContainer1->SplitterDistance = 282;
+			splitContainer1->TabIndex = 7;
 			// 
 			// groupBox1
 			// 
-			this->groupBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			groupBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->groupBox1->Controls->Add(this->lstInputRules);
-			this->groupBox1->Controls->Add(this->txtNewInput);
-			this->groupBox1->Controls->Add(this->cmdAddInputRule);
-			this->groupBox1->Location = System::Drawing::Point(3, 3);
-			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(276, 367);
-			this->groupBox1->TabIndex = 6;
-			this->groupBox1->TabStop = false;
-			this->groupBox1->Text = L"Reguläre Ausdrücke";
+			groupBox1->Controls->Add(this->lstInputRules);
+			groupBox1->Controls->Add(this->txtNewInput);
+			groupBox1->Controls->Add(this->cmdAddInputRule);
+			groupBox1->Location = System::Drawing::Point(3, 3);
+			groupBox1->Name = L"groupBox1";
+			groupBox1->Size = System::Drawing::Size(276, 252);
+			groupBox1->TabIndex = 6;
+			groupBox1->TabStop = false;
+			groupBox1->Text = L"Reguläre Ausdrücke";
 			// 
 			// lstInputRules
 			// 
@@ -247,7 +252,7 @@ namespace RenamerNET {
 			this->lstInputRules->FullRowSelect = true;
 			this->lstInputRules->Location = System::Drawing::Point(7, 19);
 			this->lstInputRules->Name = L"lstInputRules";
-			this->lstInputRules->Size = System::Drawing::Size(261, 311);
+			this->lstInputRules->Size = System::Drawing::Size(261, 196);
 			this->lstInputRules->Sorting = System::Windows::Forms::SortOrder::Ascending;
 			this->lstInputRules->TabIndex = 3;
 			this->lstInputRules->UseCompatibleStateImageBehavior = false;
@@ -262,15 +267,15 @@ namespace RenamerNET {
 			// 
 			this->txtNewInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->txtNewInput->Location = System::Drawing::Point(6, 338);
+			this->txtNewInput->Location = System::Drawing::Point(7, 223);
 			this->txtNewInput->Name = L"txtNewInput";
-			this->txtNewInput->Size = System::Drawing::Size(213, 20);
+			this->txtNewInput->Size = System::Drawing::Size(212, 20);
 			this->txtNewInput->TabIndex = 2;
 			// 
 			// cmdAddInputRule
 			// 
 			this->cmdAddInputRule->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->cmdAddInputRule->Location = System::Drawing::Point(225, 336);
+			this->cmdAddInputRule->Location = System::Drawing::Point(225, 221);
 			this->cmdAddInputRule->Name = L"cmdAddInputRule";
 			this->cmdAddInputRule->Size = System::Drawing::Size(45, 23);
 			this->cmdAddInputRule->TabIndex = 0;
@@ -280,18 +285,18 @@ namespace RenamerNET {
 			// 
 			// groupBox2
 			// 
-			this->groupBox2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			groupBox2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->groupBox2->Controls->Add(this->button1);
-			this->groupBox2->Controls->Add(this->lstFiles);
-			this->groupBox2->Controls->Add(this->cmdAddFiles);
-			this->groupBox2->Location = System::Drawing::Point(3, 3);
-			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(291, 372);
-			this->groupBox2->TabIndex = 7;
-			this->groupBox2->TabStop = false;
-			this->groupBox2->Text = L"Dateien";
+			groupBox2->Controls->Add(this->button1);
+			groupBox2->Controls->Add(this->lstFiles);
+			groupBox2->Controls->Add(this->cmdAddFiles);
+			groupBox2->Location = System::Drawing::Point(3, 3);
+			groupBox2->Name = L"groupBox2";
+			groupBox2->Size = System::Drawing::Size(291, 257);
+			groupBox2->TabIndex = 7;
+			groupBox2->TabStop = false;
+			groupBox2->Text = L"Dateien";
 			// 
 			// button1
 			// 
@@ -311,7 +316,7 @@ namespace RenamerNET {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->lstFiles->Location = System::Drawing::Point(6, 19);
 			this->lstFiles->Name = L"lstFiles";
-			this->lstFiles->Size = System::Drawing::Size(279, 311);
+			this->lstFiles->Size = System::Drawing::Size(279, 196);
 			this->lstFiles->TabIndex = 2;
 			this->lstFiles->UseCompatibleStateImageBehavior = false;
 			this->lstFiles->View = System::Windows::Forms::View::List;
@@ -323,7 +328,7 @@ namespace RenamerNET {
 			// cmdAddFiles
 			// 
 			this->cmdAddFiles->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->cmdAddFiles->Location = System::Drawing::Point(210, 336);
+			this->cmdAddFiles->Location = System::Drawing::Point(210, 221);
 			this->cmdAddFiles->Name = L"cmdAddFiles";
 			this->cmdAddFiles->Size = System::Drawing::Size(75, 23);
 			this->cmdAddFiles->TabIndex = 1;
@@ -375,12 +380,21 @@ namespace RenamerNET {
 			this->tsmiDeleteSet->Text = L"Löschen";
 			this->tsmiDeleteSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiDeleteSet_Click);
 			// 
+			// richTextBox1
+			// 
+			this->richTextBox1->Location = System::Drawing::Point(69, 333);
+			this->richTextBox1->Name = L"richTextBox1";
+			this->richTextBox1->Size = System::Drawing::Size(564, 96);
+			this->richTextBox1->TabIndex = 9;
+			this->richTextBox1->Text = L"";
+			// 
 			// ApplicationForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(655, 449);
-			this->Controls->Add(this->splitContainer1);
+			this->ClientSize = System::Drawing::Size(655, 519);
+			this->Controls->Add(this->richTextBox1);
+			this->Controls->Add(splitContainer1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->cboSets);
@@ -392,12 +406,12 @@ namespace RenamerNET {
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &ApplicationForm::ApplicationForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &ApplicationForm::ApplicationForm_Load);
 			this->cmsInputRules->ResumeLayout(false);
-			this->splitContainer1->Panel1->ResumeLayout(false);
-			this->splitContainer1->Panel2->ResumeLayout(false);
-			this->splitContainer1->ResumeLayout(false);
-			this->groupBox1->ResumeLayout(false);
-			this->groupBox1->PerformLayout();
-			this->groupBox2->ResumeLayout(false);
+			splitContainer1->Panel1->ResumeLayout(false);
+			splitContainer1->Panel2->ResumeLayout(false);
+			splitContainer1->ResumeLayout(false);
+			groupBox1->ResumeLayout(false);
+			groupBox1->PerformLayout();
+			groupBox2->ResumeLayout(false);
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
 			this->ResumeLayout(false);
