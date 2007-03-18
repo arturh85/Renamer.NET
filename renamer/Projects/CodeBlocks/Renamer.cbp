@@ -75,6 +75,8 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="..\..\Source\outputFormat.cpp" />
+		<Unit filename="..\..\Source\outputFormat.h" />
 		<Unit filename="..\..\Source\replacement.cpp" />
 		<Unit filename="..\..\Source\replacement.h" />
 		<Unit filename="..\..\Source\replacements.cpp" />

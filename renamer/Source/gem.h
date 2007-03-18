@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "TableRow.h"
 #include "sqlTools.h"
+#include "replacements.h"
 
 class Gem {
     public:
@@ -15,8 +16,8 @@ class Gem {
         Gem(sqlite3* db, sqlite_int64 ruleId);
 
         //! creates a new Gem object with existing data
-        Gem(sqlite3* db, sqlite_int64 ruleId, sqlite_int64 row) : mRow(db, "Gems", row)
-            { setRuleId(ruleId); }  ;
+        Gem(sqlite3* db, sqlite_int64 ruleId, sqlite_int64 row) :
+            mRow(db, "Gems", row), replacers(db, "gem", row) { setRuleId(ruleId); }  ;
 
         //---------------------------------------------------------------------
         //  methodes
@@ -44,7 +45,6 @@ class Gem {
         //! the Position of a gem is what the user wants it to be
         void setPosition(int v);
 
-
         //! the RuleId ties the gem to a InputRule
         sqlite_int64 getRuleId() const
             { return cSqlInFormated<sqlite_int64>(mRow.get("ruleId")); };
@@ -66,6 +66,13 @@ class Gem {
         //! the RuleId ties the gem to a InputRule
         void setRuleId(sqlite_int64 v)
             {mRow.set("ruleId", cSqlOutFormated(v));} ;
+
+    public:
+        //---------------------------------------------------------------------
+        //  attributes
+        Replacements replacers;
+
+
 };
 
 #endif //GEM_H

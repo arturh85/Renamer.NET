@@ -75,6 +75,7 @@ void Ruleset::initDb() {
 
     InputRule::createTables(mDb);
     Replacement::createTables(mDb);
+    Replacements::createTables(mDb);
     Gem::createTables(mDb);
     OutputFormat::createTables(mDb);
 }
@@ -106,20 +107,35 @@ vector<string> stripVarNames(string sString) {
     return retVal;
 }
 
+vector<OutputFormat> Ruleset::getOutputFormats() {
+    vector<OutputFormat> retVal;
+    vector<string> rowids;
+    string sSql = "SELECT rowid FROM outputFormats";
+    exec(sSql, mDb, onAppendFirstColumnToVector, &rowids);
+    for (vector<string>::iterator it = rowids.begin();
+         it != rowids.end(); it++) {
+
+        sqlite_int64 rowid = cSqlInFormated<sqlite_int64>(*it);
+        OutputFormat newFormat(mDb, rowid);
+        retVal.push_back(newFormat);
+    }
+    return retVal;
+}
+
 //! Rename a file
 /**
     walks through the InputRules and calls their applyTo-Method
 */
 bool Ruleset::applyTo(string fileName, string& outputFileName) {
-//    vector<InputRule> rules = getInputRules();
-//    for (vector<InputRule>::iterator it = rules.begin();
-//         it != rules.end(); it++) {
-//
-//        vector<GemValue> gems;
-//        if (it->applyTo(fileName, gems)) {
-//            return true;
-//        }
-//    }
+    vector<OutputFormat> rules = getOutputFormats();
+
+    for (vector<OutputFormat>::iterator it = rules.begin();
+         it != rules.end(); it++) {
+
+        if (it->applyTo(fileName, outputFileName)) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -162,16 +178,44 @@ void Ruleset::unitTest() {
 //    Ruleset myRules("unitTest");
     Ruleset myRules;
     OutputFormat simpleFormat = myRules.addOutputFormat();
-    simpleFormat.setFormat("Stargate Atlantis - $season$x$episode$");
+    simpleFormat.setFormat("$series$ - $season$x$episode$");
 
-    InputRule newRule = simpleFormat.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
-    newRule.addGem("season");
-    newRule.addGem("episode");
+    InputRule ruleStargate = simpleFormat.addInputRule("^(Stargate\\.Atlantis|The\\.Simpsons)\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
+    ruleStargate.addGem("season");
+    ruleStargate.addGem("episode");
+
+    //  added 2007-03-18-01.15
+    Gem gemSeries = ruleStargate.addGem("series");
+    gemSeries.replacers.addReplacement("\\.", " ") ; //Stargate Atlantis
+    gemSeries.setPosition(1);
+    // --
+
+    //these should work
+    string sNewFileName;
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "Stargate Atlantis - 03x17");
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "Stargate Atlantis - 03x18");
+    BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E19.HDTV.XviD-MiNT.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "Stargate Atlantis - 03x19");
+
+
+    BOOST_CHECKPOINT("ruleSimpsons");
+    BOOST_CHECK(myRules.applyTo("The.Simpsons.S18E10.PDTV.XviD-NoTV.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "The Simpsons - 18x10");
+    BOOST_CHECK(myRules.applyTo("The.Simpsons.S18E12.PDTV.XviD-LOL.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "The Simpsons - 18x12");
+    BOOST_CHECK(myRules.applyTo("The.Simpsons.S18E13.PDTV.XviD-2HD.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "The Simpsons - 18x13");
+    BOOST_CHECK(myRules.applyTo("The.Simpsons.S18E14.PDTV.XviD-LOL.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "The Simpsons - 18x14");
+    BOOST_CHECK(myRules.applyTo("The.Simpsons.S18E16.PDTV.XviD-LOL.avi", sNewFileName ));
+    BOOST_CHECK(sNewFileName == "The Simpsons - 18x16");
+
 
 //    myRules.setOutputFormat("Atlantis $staffel$x$folge$");
 //
 //
-//    string sDummy;
 //
 //    BOOST_CHECKPOINT("myRules.applyTo");
 //    //these should work

@@ -16,8 +16,7 @@ void Replacement::createTables(sqlite3* db) {
     sSql = "CREATE TABLE replacements ("
            "    regex string, "
            "    replacement string, "
-           "    ownerId ROWID, "
-           "    ownerClass string)";
+           "    groupId ROWID)";
     exec(sSql, db);
 
 }
@@ -46,12 +45,10 @@ void Replacement::unitTest() {
     Replacement rpAlpha(db);
     rpAlpha.setRegex(regex("A"));
     rpAlpha.setReplacement("X");
-    rpAlpha.setOwnerId(4711);
-    rpAlpha.setOwnerClass("Replacement::unitTest");
+    rpAlpha.setGroupId(4711);
     BOOST_CHECK(rpAlpha.getRegex() == regex("A"));
     BOOST_CHECK(rpAlpha.getReplacement() == "X");
-    BOOST_CHECK(rpAlpha.getOwnerId() == 4711);
-    BOOST_CHECK(rpAlpha.getOwnerClass() == "Replacement::unitTest");
+    BOOST_CHECK(rpAlpha.getGroupId() == 4711);
 
     BOOST_CHECK(rpAlpha.replace("ABC") == "XBC");
     BOOST_CHECK(rpAlpha.replace("ABCEFG") == "XBCEFG");

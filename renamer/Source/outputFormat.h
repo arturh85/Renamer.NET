@@ -11,11 +11,12 @@ class OutputFormat {
 
         //! creates a new Replacement object.
         /** All Values are empty */
-        OutputFormat(sqlite3* db) : mDb(db), mRow(db, "outputFormats") {}  ;
+        OutputFormat(sqlite3* db) : mDb(db), mRow(db, "outputFormats")
+            {setFormat(""); };
 
         //! creates a new Replacement object with existing data
         OutputFormat(sqlite3* db, sqlite_int64 row) :
-            mRow(db, "outputFormats", row) {}  ;
+            mDb(db), mRow(db, "outputFormats", row) {}  ;
 
         virtual ~OutputFormat() {};
 

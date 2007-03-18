@@ -8,8 +8,7 @@ class Replacements {
     public:
         //---------------------------------------------------------------------
         //  constructors
-        Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass);
-        Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass, Replacements& parent);
+        Replacements(sqlite3* db, string name, sqlite_int64 ownerId);
 
         //---------------------------------------------------------------------
         //  methodes
@@ -36,9 +35,22 @@ class Replacements {
         //  attributes
 
         sqlite3* mDb;
+
+        /** this is stored as an attribute, because we dont
+            wont add an entry to the replacementGroups table
+            even if there are no replacements. to do this a row
+            is only inserted in the addReplacement method.
+        */
+        string mName;
         sqlite_int64 mOwnerId;
-        string mOwnerClass;
-        Replacements* mParent;
+
+//        /** this point is null if no replacements
+//            available
+//        */
+//        TableRow* mGroupPtr;
+
+
+//        Replacements* mParent;
 };
 
 #endif //REPLACEMENTS_H

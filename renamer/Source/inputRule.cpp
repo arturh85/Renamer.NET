@@ -9,40 +9,34 @@ using boost::regex;
 using boost::smatch;
 using namespace boost::filesystem;
 
-InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) {
-    mRowid = rowid;
+InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) :
+    mRow(db, "regexes", rowid)
+{
     mDb = db;
-    mRplPtr = new Replacements(db, rowid, "InputRule");
+    mRplPtr = new Replacements(db, "inputRule", rowid );
 }
 
-InputRule::InputRule(boost::regex exp, sqlite3* db) {
+InputRule::InputRule(boost::regex exp, sqlite3* db)  :
+    mRow(db, "regexes")
+{
     mDb = db;
 
     stringstream strRegex;
     strRegex << strRegex;
 
-    string sSql =
-        "INSERT INTO regexes (regex) "
-        "VALUES (" + cSqlStrOut(exp.str()) + ")";
-    exec(sSql, mDb);
-
-    mRowid = sqlite3_last_insert_rowid(db);
-    mRplPtr = new Replacements(db, mRowid, "InputRule");
+    mRow.set("regex", cSqlOutFormated(exp));
+    mRplPtr = new Replacements(db, "inputRule", mRow.getRowId());
 }
 
 InputRule::~InputRule() {
     //delete mRplPtr;
 }
 
-void InputRule::copy(const InputRule& source) {
-    mRowid = source.mRowid;
-}
-
 string InputRule::getRegex() const {
     string sRetVal;
     stringstream strSql;
     strSql  << "SELECT regex FROM regexes WHERE rowid = "
-            << mRowid;
+            << mRow.getRowId();
     exec(strSql.str(), mDb, onReadFirstField, &sRetVal );
 
     if (!sRetVal.size()) {
@@ -56,7 +50,8 @@ void InputRule::createTables(sqlite3* db) {
     string sSql;
 
     sSql = "CREATE TABLE regexes ("
-           "   regex string UNIQUE)";
+           "    regex string UNIQUE, "
+           "    outputFormatId ROWID)";
     exec(sSql, db);
 
     sSql = "CREATE TABLE history ("
@@ -74,7 +69,7 @@ bool InputRule::setRegex(string sRegex) {
 
     stringstream strSql;
     strSql  << "SELECT fileName FROM history "
-            << "WHERE regex = " << mRowid;
+            << "WHERE regex = " << mRow.getRowId();
 
     exec(strSql.str(), mDb, onAppendFirstColumnToVector, &results);
 
@@ -91,7 +86,7 @@ bool InputRule::setRegex(string sRegex) {
     strSql.str(""); //clear
     strSql  << "UPDATE regexes SET "
             << "regex = " << cSqlStrOut(sRegex)
-            << " WHERE rowid = " << mRowid;
+            << " WHERE rowid = " << mRow.getRowId();
     exec(strSql.str(), mDb);
     return true;
 }
@@ -110,7 +105,8 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
         //what[0] is the whole matched thing
         exAssertDesc(what.size() > myGems.size(), "matched not all gems");
         for (int nGemIndex=0;nGemIndex < static_cast<int>(myGems.size()); nGemIndex++ ) {
-            GemValue newValue(mDb, mRowid,  myGems[nGemIndex].getRowid());
+            GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex].getRowid());
+            //newValue.value = getReplacements().replace(what[nGemIndex+1]); // 1based
             newValue.value = what[nGemIndex+1]; // 1based
             matches.push_back(newValue);
         }
@@ -119,7 +115,7 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
         strSql  << "INSERT OR IGNORE INTO history (fileName, regex) "
                 << "VALUES ("
                 << cSqlStrOut(fileName) << ", "
-                << mRowid << ")";
+                << mRow.getRowId() << ")";
         exec(strSql.str(), mDb);
         return true;
     }
@@ -127,10 +123,10 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
     return false;
 }
 
-void InputRule::addGem(string name) {
-    Gem newGem(mDb, mRowid);
+Gem InputRule::addGem(string name) {
+    Gem newGem(mDb, mRow.getRowId());
     newGem.setName(name);
-    return;
+    return newGem;
 }
 
 vector<Gem> InputRule::getGems() const {
@@ -138,13 +134,13 @@ vector<Gem> InputRule::getGems() const {
     vector<string> queryResults;
     stringstream strSql;
     strSql  << "SELECT rowid FROM gems WHERE "
-            << "ruleId =" << mRowid
+            << "ruleId =" << mRow.getRowId()
             << " ORDER BY position";
     exec(strSql, mDb, onAppendFirstColumnToVector, &queryResults);
     for (vector<string>::iterator it = queryResults.begin();
          it != queryResults.end(); it++) {
 
-        Gem newGem(mDb, mRowid, cSqlInFormated<sqlite_int64>(*it) );
+        Gem newGem(mDb, mRow.getRowId(), cSqlInFormated<sqlite_int64>(*it) );
         retVal.push_back(newGem);
     }
 
@@ -263,7 +259,6 @@ void InputRule::unitTest() {
 
     BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems));
     BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems));
-    BOOST_CHECK(ruleAlpha.applyTo("Test.avi", gems));
 
     BOOST_CHECKPOINT("gems");
     ruleEpsilon.addGem("test");
@@ -277,6 +272,7 @@ void InputRule::unitTest() {
     InputRule ruleZeta(regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"), db);
     ruleZeta.addGem("season");
     ruleZeta.addGem("episode");
+    BOOST_CHECK(ruleZeta.getGems().size() == 2);
 
     gems.clear();
     BOOST_CHECK(!ruleZeta.applyTo("Numb3rs.S03E13.Mein Titel.HDTV.XviD-NoTV", gems));

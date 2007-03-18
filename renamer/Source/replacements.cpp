@@ -1,43 +1,60 @@
 #include "stdafx.h"
 #include "replacements.h"
 #include "error.h"
+#include "sqlTools.h"
 
-Replacements::Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass) :
-    mDb(db), mOwnerId(ownerId), mOwnerClass(ownerClass)
-{
-    mParent = NULL;
-    exAssert(db!=NULL);
-};
-
-Replacements::Replacements(sqlite3* db, sqlite_int64 ownerId, string ownerClass, Replacements& parent) :
-    mDb(db), mOwnerId(ownerId), mOwnerClass(ownerClass), mParent(&parent)
+Replacements::Replacements(sqlite3* db, string name, sqlite_int64 ownerId) :
+    mDb(db), mName(name), mOwnerId(ownerId)
 {
     exAssert(db!=NULL);
+    exAssertDesc(ownerId > 0, "ownerId should be greater null");
 };
 
 void Replacements::addReplacement(string sRegex, string replacement) {
+
     Replacement newReplacement(mDb);
     newReplacement.setRegex(sRegex);
     newReplacement.setReplacement(replacement);
-    newReplacement.setOwnerId(mOwnerId);
-    newReplacement.setOwnerClass(mOwnerClass);
+    //newReplacement.setname(mname);
+
+    stringstream strSql;
+    strSql  << "SELECT rowid FROM replacementGroups "
+            << "WHERE name = " << cSqlStrOut(mName)
+            << " AND ownerId = " << mOwnerId;
+    string sRowId;
+    exec(strSql, mDb, onReadFirstField, &sRowId);
+    if (sRowId.length() > 0) {
+        //sqlite_int64 rowId = cSqlInFormated<sqlite_int64>(sRowId);
+        newReplacement.setGroupId(cSqlInFormated<sqlite_int64>(sRowId));
+    } else {
+        strSql.str(""); //clear
+        strSql  << "INSERT INTO replacementGroups "
+                << "(name, ownerId) VALUES ("
+                << cSqlStrOut(mName) << ", "
+                << mOwnerId << ")";
+        exec(strSql, mDb);
+
+        newReplacement.setGroupId(sqlite3_last_insert_rowid(mDb));
+    }
+
 
 //    stringstream strSql;
 //    strSql  << "INSERT INTO replacementGroups "
-//            << "(replacementId, ownerId) VALUES ( "
+//            << "(replacementId, GroupId) VALUES ( "
 //            << newReplacement.getRowid() << ", "
-//            << mOwnerId << ")";
+//            << mGroupId << ")";
 //    exec(strSql, mDb);
     return;
 }
 
-void Replacements::createTables(sqlite3*) {
-//    stringstream strSql;
-//
-//    strSql  << "CREATE TABLE replacementGroups ("
-//            << "replacementId ROWID, "
-//            << "ownerId ROWID) ";
-//    exec(strSql, db);
+void Replacements::createTables(sqlite3* db) {
+    stringstream strSql;
+
+    strSql  << "CREATE TABLE replacementGroups ("
+//            << "rowid INTEGER PRIMARY KEY, "
+            << "name string, "
+            << "ownerId ROWID) ";
+    exec(strSql, db);
 }
 
 vector<Replacement> Replacements::getReplacements() const {
@@ -46,10 +63,13 @@ vector<Replacement> Replacements::getReplacements() const {
     vector<string> rowidStrings;
 
     stringstream strSql;
-    strSql  << "SELECT rowid "
-            << "FROM replacements "
-            << "WHERE ownerId = " << mOwnerId
-            << " AND ownerClass = " << cSqlStrOut(mOwnerClass);
+    strSql  << "SELECT rpl.rowid "
+               "FROM replacements rpl "
+               "JOIN replacementGroups grp "
+                    "ON (rpl.groupId = grp.rowid) "
+               "WHERE name = " << cSqlStrOut(mName) <<
+               " AND ownerId = " << mOwnerId;
+
     exec(strSql, mDb, onAppendFirstColumnToVector, &rowidStrings);
 
     for (vector<string>::iterator it = rowidStrings.begin();
@@ -83,9 +103,6 @@ string Replacements::replace(string sString) const {
         if (!fLoop) break;
     }
 
-    if (mParent)
-      sRetVal = mParent->replace(sRetVal);
-
     return sRetVal;
 }
 
@@ -111,18 +128,17 @@ void Replacements::unitTest() {
     createTables(db);
 
     BOOST_CHECKPOINT("create objects");
-    Replacements rpAlpha(db, -1, "Replacements::unitTest");
-    Replacements rpBeta(db, -100, "Replacements::unitTest");
+    Replacements rpAlpha(db, "Replacements::unitTest", 1);
+    Replacements rpBeta(db, "Replacements::unitTest", 100);
     rpAlpha.addReplacement("test", "TEST");
-    BOOST_CHECK_EQUAL(int(rpAlpha.getReplacements().size()) , 1);
+    BOOST_REQUIRE(int(rpAlpha.getReplacements().size()) == 1);
 
     BOOST_CHECKPOINT("getReplacements()");
     rpBeta.addReplacement("\\d", "Zahl");
     rpAlpha.addReplacement("\\d", "Zahl");
-    BOOST_CHECK(rpAlpha.getReplacements().size()==2);
+    BOOST_REQUIRE(rpAlpha.getReplacements().size() == 2);
 
-    BOOST_CHECK_EQUAL(int(rpAlpha.getReplacements().size()) , 2);
-
+    BOOST_REQUIRE_EQUAL(int(rpAlpha.getReplacements().size()) , 2);
     BOOST_CHECK(rpAlpha.getReplacements()[0].getRegex().str() == "test");
     BOOST_CHECK(rpAlpha.getReplacements()[0].getReplacement() == "TEST");
     BOOST_CHECK(rpAlpha.getReplacements()[1].getRegex().str() == "\\d");
@@ -134,17 +150,13 @@ void Replacements::unitTest() {
     BOOST_CHECK(rpAlpha.replace("te3sting") == "teZahlsting");
 
 
-    BOOST_CHECKPOINT("inheritence");
-    Replacements rpGamma(db, -200, "Replacements::unitTest", rpAlpha );
-    rpGamma.addReplacement("xyz", "?");
-    BOOST_CHECK(rpGamma.replace("testing") == "TESTing");
-    BOOST_CHECK(rpGamma.replace("te3sting") == "teZahlsting");
-
-    BOOST_CHECKPOINT("ownerClass");
-    Replacements rpZeta(db, -200, "foobar");
-    BOOST_CHECK_EQUAL(int(rpZeta.getReplacements().size()) , 0);
-
-
+    BOOST_CHECKPOINT("Gamma");
+    Replacements rpGamma(db, "Replacements::unitTest", 1);
+    BOOST_REQUIRE_EQUAL(int(rpGamma.getReplacements().size()) , 2);
+    BOOST_CHECK(rpGamma.getReplacements()[0].getRegex().str() == "test");
+    BOOST_CHECK(rpGamma.getReplacements()[0].getReplacement() == "TEST");
+    BOOST_CHECK(rpGamma.getReplacements()[1].getRegex().str() == "\\d");
+    BOOST_CHECK(rpGamma.getReplacements()[1].getReplacement() == "Zahl");
 }
 
 #endif

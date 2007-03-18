@@ -21,6 +21,7 @@ InputRule OutputFormat::addInputRule(string sRegex) {
 
         regex newRegex(sRegex); //to check if this is a valid regex
         InputRule retVal( newRegex, mDb);
+        retVal.setOutputFormatId(mRow.getRowId());
         return retVal;
 
     } catch (exception& ex) {
@@ -35,8 +36,11 @@ InputRule OutputFormat::addInputRule(string sRegex) {
 vector<InputRule> OutputFormat::getInputRules() {
     vector<InputRule> retVal;
     vector<string> rowids;
-    string sSql = "SELECT rowid FROM regexes";
-    exec(sSql, mDb, onAppendFirstColumnToVector, &rowids);
+    stringstream strSql;
+    strSql << "SELECT rowid FROM regexes "
+              "WHERE outputFormatId = " << cSqlOutFormated(mRow.getRowId()) ;
+
+    exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
     for (vector<string>::iterator it = rowids.begin();
          it != rowids.end(); it++) {
 
@@ -70,7 +74,8 @@ bool OutputFormat::applyTo(string fileName, string& outputFileName) {
 
                 stringstream strVar;
                 strVar << "$" << itGem->getName() << "$";
-                algo::replace_all(outputFileName, strVar.str(), itGem->value);
+                string sValue = itGem->replacers.replace(itGem->value);
+                algo::replace_all(outputFileName, strVar.str(), sValue);
             }
             return true;
         }
@@ -136,6 +141,23 @@ void OutputFormat::unitTest() {
 
     BOOST_CHECK(formatBeta.applyTo("House.S03E14.HDTV.XviD-XOR", sNewFilename));
     BOOST_CHECK(sNewFilename == "Dr. House - 03x14");
+
+
+    BOOST_CHECKPOINT("Create formatGamma");
+    OutputFormat formatGamma(db);
+    formatGamma.setFormat("$name$");
+    InputRule ruleGamma = formatGamma.addInputRule("(.*)");
+    BOOST_REQUIRE(formatGamma.getInputRules().size() > 0);
+    BOOST_CHECK(formatGamma.getInputRules().size() == 1);
+    BOOST_CHECK(formatGamma.getInputRules()[0].getRegex() == "(.*)");
+
+    ruleGamma.addGem("name").replacers.addReplacement("\\."," ");
+    BOOST_REQUIRE(formatGamma.getInputRules()[0].getGems().size() == 1);
+    BOOST_CHECK(formatGamma.getInputRules()[0].getGems()[0].replacers.getReplacements().size() == 1);
+    //BOOST_CHECK(ruleGamma.addGem("name").replacers.getReplacements().size() == 1);
+    BOOST_CHECK(formatGamma.applyTo("House.S03E13.HDTV.XviD-LOL", sNewFilename));
+    BOOST_CHECK(sNewFilename == "House S03E13 HDTV XviD-LOL");
+//    cout << "sNewFilename " << sNewFilename << endl;
 
 }
 

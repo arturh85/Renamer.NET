@@ -51,21 +51,13 @@ class Replacement {
         sqlite_int64 getRowid() const
           { return cSqlInFormated<sqlite_int64>(mRow.get("rowid")); };
 
-        //! get replacements.ownerId
-        sqlite_int64 getOwnerId() const
-          { return cSqlInFormated<sqlite_int64>(mRow.get("ownerId")); };
+        //! get replacements.GroupId
+        sqlite_int64 getGroupId() const
+          { return cSqlInFormated<sqlite_int64>(mRow.get("GroupId")); };
 
-        //! set replacements.ownerId
-        void setOwnerId(sqlite_int64 v)
-          { mRow.set("ownerId", cSqlOutFormated(v)); };
-
-        //! get replacements.ownerClass
-        string getOwnerClass() const
-          { return mRow.get("ownerClass"); };
-
-        //! set replacements.ownerClass
-        void setOwnerClass(string v)
-          { mRow.set("ownerClass", v); };
+        //! set replacements.GroupId
+        void setGroupId(sqlite_int64 v)
+          { mRow.set("GroupId", cSqlOutFormated(v)); };
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

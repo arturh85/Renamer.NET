@@ -11,6 +11,9 @@ class TableRow {
         //! Create a new row
         TableRow(sqlite3* db, string table);
 
+        //! Create a new row and set one value
+        TableRow(sqlite3* db, string table, string field, string value);
+
         //! Load a row
         TableRow(sqlite3* db, string table, sqlite_int64 rowid );
 
@@ -23,6 +26,9 @@ class TableRow {
         string operator[](const string what) const {
             return get(what);
         }
+
+        //! get the rowId
+        sqlite_int64 getRowId() const;
 
         //---------------------------------------------------------------------
         //  methodes

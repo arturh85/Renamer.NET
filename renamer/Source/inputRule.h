@@ -44,7 +44,7 @@ class InputRule {
         static void createTables(sqlite3* db);
 
         bool setRegex(string);
-        sqlite_int64 getId() const { return (long) mRowid; };
+        sqlite_int64 getId() const { return mRow.getRowId(); };
         Replacements& getReplacements() const { return *mRplPtr; };
 
         //! get all gems available for this InputRule.
@@ -53,7 +53,10 @@ class InputRule {
         //! extract gems out of a filename
         bool applyTo(string fileName, vector<GemValue>& matches);
 
-        void addGem(string name);
+        Gem addGem(string name);
+
+        void setOutputFormatId(sqlite_int64 v)
+            {mRow.set("outputFormatId", cSqlOutFormated(v)); };
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
@@ -65,7 +68,8 @@ class InputRule {
     private:
         //---------------------------------------------------------------------
         //  attributes
-        sqlite_int64 mRowid;
+        //sqlite_int64 mRowid;
+        TableRow mRow;
         sqlite3* mDb;
         Replacements* mRplPtr;
 

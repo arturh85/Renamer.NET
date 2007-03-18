@@ -18,6 +18,13 @@ TableRow::TableRow(sqlite3* db, string table) {
     mTable = table;
 }
 
+TableRow::TableRow(sqlite3* db, string table, string field, string value) {
+    mRowid = NO_TABLE;
+    mDb = db;
+    mTable = table;
+    set(field, value);
+}
+
 TableRow::TableRow(sqlite3* db, string table, sqlite_int64 rowid) {
     mRowid = rowid;
     mDb = db;
@@ -73,6 +80,11 @@ void createTables(sqlite3* db) {
     exec(sSql, db);
 
 }
+
+sqlite_int64 TableRow::getRowId() const {
+    exAssertDesc(mRowid != NO_TABLE, "nothing written yet");
+    return mRowid;
+};
 
 void TableRow::unitTest() {
     using boost::regex;

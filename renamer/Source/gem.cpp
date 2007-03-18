@@ -3,9 +3,10 @@
 #include "error.h"
 
 Gem::Gem(sqlite3* db, sqlite_int64 ruleId) :
-    mDb(db), mRow(db, "Gems")
+    mDb(db), mRow(db, "Gems", "ruleId", cSqlOutFormated(ruleId)),
+    replacers(db, "gem", mRow.getRowId())
 {
-    setRuleId(ruleId);
+    //setRuleId(ruleId);
 
     stringstream strSql;
     string sMaxPos;
@@ -14,6 +15,8 @@ Gem::Gem(sqlite3* db, sqlite_int64 ruleId) :
             << "ruleId = " << ruleId;
     exec(strSql, mDb, onReadFirstField, &sMaxPos);
     setPosition(cSqlInFormated<sqlite_int64>(sMaxPos,0)+1);
+
+    Replacements newReplacements(mDb, "gem", mRow.getRowId() );
 }
 
 void Gem::createTables(sqlite3* db) {
@@ -23,7 +26,8 @@ void Gem::createTables(sqlite3* db) {
            "    ruleId ROWID , "
            "    regexId ROWID, "
            "    name string, "
-           "    position int)";
+           "    position int, "
+           "    replacementGrpId)";
     exec(sSql, db);
 
 //    sSql = "CREATE INDEX Gems_GroupedPrimaryKey "
@@ -51,9 +55,9 @@ void Gem::setPosition(int v) {
 
 void Gem::unitTest() {
     using boost::regex;
-    using namespace boost::filesystem;
 
     sqlite3* db;
+//    using namespace boost::filesystem;
 //    path dbFileName = initial_path()/"unitTest_Gem.db3";
 //    if (exists(dbFileName))
 //        boost::filesystem::remove(dbFileName);
@@ -66,6 +70,8 @@ void Gem::unitTest() {
     BOOST_REQUIRE(db!=NULL);
     BOOST_CHECKPOINT("create Tables");
     createTables(db);
+    Replacement::createTables(db);
+    Replacements::createTables(db);
 
     BOOST_CHECKPOINT("gemAlpha");
     Gem gemAlpha(db, 112233);
@@ -102,6 +108,10 @@ void Gem::unitTest() {
     BOOST_CHECK_EQUAL(gemBeta.getPosition(), 4);
     BOOST_CHECK_EQUAL(gemGamma.getPosition(), 3);
     BOOST_CHECK_EQUAL(gemDelta.getPosition(), 1);
+
+    BOOST_CHECKPOINT("replacers");
+    gemAlpha.replacers.addReplacement(".*","test");
+    BOOST_CHECK(gemAlpha.replacers.getReplacements().size()==1);
 }
 
 #endif
