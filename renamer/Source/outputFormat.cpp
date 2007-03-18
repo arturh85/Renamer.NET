@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "outputFormat.h"
 #include "inputRule.h"
 #include <boost/algorithm/string/replace.hpp>
@@ -12,7 +13,6 @@ void OutputFormat::createTables(sqlite3* db) {
     sSql = "CREATE TABLE outputFormats ("
            "   format string)";
     exec(sSql, db);
-
 }
 
 //! writes the regex to the database

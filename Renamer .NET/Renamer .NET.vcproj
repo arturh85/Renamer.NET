@@ -269,6 +269,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\renamer\Source\gem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\gem.h"
+				>
+			</File>
+			<File
 				RelativePath="..\renamer\Source\globals.h"
 				>
 			</File>
@@ -278,6 +286,14 @@
 			</File>
 			<File
 				RelativePath="..\renamer\Source\inputRule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\outputFormat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\outputFormat.h"
 				>
 			</File>
 			<File

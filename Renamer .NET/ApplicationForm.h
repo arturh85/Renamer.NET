@@ -53,11 +53,13 @@ namespace RenamerNET {
 #pragma region Form Attributes
 	// Attribute 
 	private: bool codeRunning;
-	private: Ruleset* rule;
+	private: Ruleset* ruleSet;
+	private: OutputFormat* outputFormat;
 
 	private: bool setEditMode;
 
     //! set which is currently renamed, if none its empty string
+    //! \todo is this really needed because of ruleSet var?
 	private: String^ renamingSet; 
 
 	private: static String^ cmdNewSet_DefaultText = L"Neues Set";
@@ -89,6 +91,10 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiRenameSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiDeleteSet;
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
+	private: System::Windows::Forms::ComboBox^  comboBox1;
+	private: System::Windows::Forms::ToolStrip^  toolStrip2;
+	private: System::Windows::Forms::ToolStripDropDownButton^  cmdOutputFormat;
+	private: System::Windows::Forms::Label^  label3;
 	private: System::ComponentModel::IContainer^  components;
 
 #pragma endregion
@@ -104,108 +110,44 @@ namespace RenamerNET {
 			System::Windows::Forms::GroupBox^  groupBox1;
 			System::Windows::Forms::GroupBox^  groupBox2;
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ApplicationForm::typeid));
-			this->cboSets = (gcnew System::Windows::Forms::ComboBox());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->txtOutputFormat = (gcnew System::Windows::Forms::TextBox());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->dlgOpenFolder = (gcnew System::Windows::Forms::FolderBrowserDialog());
+			this->lstInputRules = (gcnew System::Windows::Forms::ListView());
+			this->columnHeader1 = (gcnew System::Windows::Forms::ColumnHeader());
 			this->cmsInputRules = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			this->tsmiDeleteInputRule = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiEditInputRule = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->dlgAddFiles = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->lstInputRules = (gcnew System::Windows::Forms::ListView());
-			this->columnHeader1 = (gcnew System::Windows::Forms::ColumnHeader());
 			this->txtNewInput = (gcnew System::Windows::Forms::TextBox());
 			this->cmdAddInputRule = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->lstFiles = (gcnew System::Windows::Forms::ListView());
 			this->cmdAddFiles = (gcnew System::Windows::Forms::Button());
+			this->cboSets = (gcnew System::Windows::Forms::ComboBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->txtOutputFormat = (gcnew System::Windows::Forms::TextBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->dlgOpenFolder = (gcnew System::Windows::Forms::FolderBrowserDialog());
+			this->dlgAddFiles = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->cmdNewSet = (gcnew System::Windows::Forms::ToolStripSplitButton());
 			this->tsmiNewSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiRenameSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiDeleteSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->toolStrip2 = (gcnew System::Windows::Forms::ToolStrip());
+			this->cmdOutputFormat = (gcnew System::Windows::Forms::ToolStripDropDownButton());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
 			groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->cmsInputRules->SuspendLayout();
 			splitContainer1->Panel1->SuspendLayout();
 			splitContainer1->Panel2->SuspendLayout();
 			splitContainer1->SuspendLayout();
 			groupBox1->SuspendLayout();
+			this->cmsInputRules->SuspendLayout();
 			groupBox2->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
+			this->toolStrip2->SuspendLayout();
 			this->SuspendLayout();
-			// 
-			// cboSets
-			// 
-			this->cboSets->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->cboSets->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-			this->cboSets->FormattingEnabled = true;
-			this->cboSets->Location = System::Drawing::Point(69, 14);
-			this->cboSets->Name = L"cboSets";
-			this->cboSets->Size = System::Drawing::Size(472, 21);
-			this->cboSets->TabIndex = 0;
-			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_SelectedIndexChanged);
-			this->cboSets->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_TextChanged);
-			this->cboSets->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ApplicationForm::cboSets_KeyDown);
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(38, 17);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(23, 13);
-			this->label1->TabIndex = 2;
-			this->label1->Text = L"Set";
-			// 
-			// txtOutputFormat
-			// 
-			this->txtOutputFormat->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->txtOutputFormat->Location = System::Drawing::Point(69, 41);
-			this->txtOutputFormat->Name = L"txtOutputFormat";
-			this->txtOutputFormat->Size = System::Drawing::Size(564, 20);
-			this->txtOutputFormat->TabIndex = 3;
-			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::txtOutputFormat_TextChanged);
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(12, 44);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(49, 13);
-			this->label2->TabIndex = 4;
-			this->label2->Text = L"Ausgabe";
-			// 
-			// cmsInputRules
-			// 
-			this->cmsInputRules->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsmiDeleteInputRule, 
-				this->tsmiEditInputRule});
-			this->cmsInputRules->Name = L"contextMenuStrip1";
-			this->cmsInputRules->Size = System::Drawing::Size(129, 48);
-			// 
-			// tsmiDeleteInputRule
-			// 
-			this->tsmiDeleteInputRule->Name = L"tsmiDeleteInputRule";
-			this->tsmiDeleteInputRule->Size = System::Drawing::Size(128, 22);
-			this->tsmiDeleteInputRule->Text = L"Löschen";
-			this->tsmiDeleteInputRule->Click += gcnew System::EventHandler(this, &ApplicationForm::löschenToolStripMenuItem_Click);
-			// 
-			// tsmiEditInputRule
-			// 
-			this->tsmiEditInputRule->Name = L"tsmiEditInputRule";
-			this->tsmiEditInputRule->Size = System::Drawing::Size(128, 22);
-			this->tsmiEditInputRule->Text = L"Bearbeiten";
-			this->tsmiEditInputRule->Click += gcnew System::EventHandler(this, &ApplicationForm::bearbeitenToolStripMenuItem_Click_1);
-			// 
-			// dlgAddFiles
-			// 
-			this->dlgAddFiles->FileName = L"*.*";
-			this->dlgAddFiles->Multiselect = true;
-			this->dlgAddFiles->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &ApplicationForm::dlgAddFiles_FileOk);
 			// 
 			// splitContainer1
 			// 
@@ -263,6 +205,27 @@ namespace RenamerNET {
 			this->columnHeader1->Text = L"InputRules";
 			this->columnHeader1->Width = 111;
 			// 
+			// cmsInputRules
+			// 
+			this->cmsInputRules->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsmiDeleteInputRule, 
+				this->tsmiEditInputRule});
+			this->cmsInputRules->Name = L"contextMenuStrip1";
+			this->cmsInputRules->Size = System::Drawing::Size(129, 48);
+			// 
+			// tsmiDeleteInputRule
+			// 
+			this->tsmiDeleteInputRule->Name = L"tsmiDeleteInputRule";
+			this->tsmiDeleteInputRule->Size = System::Drawing::Size(128, 22);
+			this->tsmiDeleteInputRule->Text = L"Löschen";
+			this->tsmiDeleteInputRule->Click += gcnew System::EventHandler(this, &ApplicationForm::löschenToolStripMenuItem_Click);
+			// 
+			// tsmiEditInputRule
+			// 
+			this->tsmiEditInputRule->Name = L"tsmiEditInputRule";
+			this->tsmiEditInputRule->Size = System::Drawing::Size(128, 22);
+			this->tsmiEditInputRule->Text = L"Bearbeiten";
+			this->tsmiEditInputRule->Click += gcnew System::EventHandler(this, &ApplicationForm::bearbeitenToolStripMenuItem_Click_1);
+			// 
 			// txtNewInput
 			// 
 			this->txtNewInput->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
@@ -316,7 +279,7 @@ namespace RenamerNET {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->lstFiles->Location = System::Drawing::Point(6, 19);
 			this->lstFiles->Name = L"lstFiles";
-			this->lstFiles->Size = System::Drawing::Size(279, 196);
+			this->lstFiles->Size = System::Drawing::Size(277, 196);
 			this->lstFiles->TabIndex = 2;
 			this->lstFiles->UseCompatibleStateImageBehavior = false;
 			this->lstFiles->View = System::Windows::Forms::View::List;
@@ -335,6 +298,54 @@ namespace RenamerNET {
 			this->cmdAddFiles->Text = L"suchen";
 			this->cmdAddFiles->UseVisualStyleBackColor = true;
 			this->cmdAddFiles->Click += gcnew System::EventHandler(this, &ApplicationForm::cmdSearchFiles_Click);
+			// 
+			// cboSets
+			// 
+			this->cboSets->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->cboSets->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+			this->cboSets->FormattingEnabled = true;
+			this->cboSets->Location = System::Drawing::Point(69, 14);
+			this->cboSets->Name = L"cboSets";
+			this->cboSets->Size = System::Drawing::Size(472, 21);
+			this->cboSets->TabIndex = 0;
+			this->cboSets->SelectedIndexChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_SelectedIndexChanged);
+			this->cboSets->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::cboSets_TextChanged);
+			this->cboSets->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ApplicationForm::cboSets_KeyDown);
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(38, 17);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(23, 13);
+			this->label1->TabIndex = 2;
+			this->label1->Text = L"Set";
+			// 
+			// txtOutputFormat
+			// 
+			this->txtOutputFormat->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->txtOutputFormat->Location = System::Drawing::Point(4, 110);
+			this->txtOutputFormat->Name = L"txtOutputFormat";
+			this->txtOutputFormat->Size = System::Drawing::Size(67, 20);
+			this->txtOutputFormat->TabIndex = 3;
+			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::txtOutputFormat_TextChanged);
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(22, 44);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(39, 13);
+			this->label2->TabIndex = 4;
+			this->label2->Text = L"Format";
+			// 
+			// dlgAddFiles
+			// 
+			this->dlgAddFiles->FileName = L"*.*";
+			this->dlgAddFiles->Multiselect = true;
+			this->dlgAddFiles->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &ApplicationForm::dlgAddFiles_FileOk);
 			// 
 			// toolStrip1
 			// 
@@ -362,58 +373,99 @@ namespace RenamerNET {
 			// tsmiNewSet
 			// 
 			this->tsmiNewSet->Name = L"tsmiNewSet";
-			this->tsmiNewSet->Size = System::Drawing::Size(152, 22);
+			this->tsmiNewSet->Size = System::Drawing::Size(128, 22);
 			this->tsmiNewSet->Text = L"Neu";
 			this->tsmiNewSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiNewSet_Click);
 			// 
 			// tsmiRenameSet
 			// 
 			this->tsmiRenameSet->Name = L"tsmiRenameSet";
-			this->tsmiRenameSet->Size = System::Drawing::Size(152, 22);
+			this->tsmiRenameSet->Size = System::Drawing::Size(128, 22);
 			this->tsmiRenameSet->Text = L"Bearbeiten";
 			this->tsmiRenameSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiRenameSet_Click);
 			// 
 			// tsmiDeleteSet
 			// 
 			this->tsmiDeleteSet->Name = L"tsmiDeleteSet";
-			this->tsmiDeleteSet->Size = System::Drawing::Size(152, 22);
+			this->tsmiDeleteSet->Size = System::Drawing::Size(128, 22);
 			this->tsmiDeleteSet->Text = L"Löschen";
 			this->tsmiDeleteSet->Click += gcnew System::EventHandler(this, &ApplicationForm::tsmiDeleteSet_Click);
 			// 
 			// richTextBox1
 			// 
-			this->richTextBox1->Location = System::Drawing::Point(69, 333);
+			this->richTextBox1->Location = System::Drawing::Point(69, 362);
 			this->richTextBox1->Name = L"richTextBox1";
 			this->richTextBox1->Size = System::Drawing::Size(564, 96);
 			this->richTextBox1->TabIndex = 9;
 			this->richTextBox1->Text = L"";
+			// 
+			// comboBox1
+			// 
+			this->comboBox1->FormattingEnabled = true;
+			this->comboBox1->Location = System::Drawing::Point(69, 41);
+			this->comboBox1->Name = L"comboBox1";
+			this->comboBox1->Size = System::Drawing::Size(472, 21);
+			this->comboBox1->TabIndex = 10;
+			// 
+			// toolStrip2
+			// 
+			this->toolStrip2->Dock = System::Windows::Forms::DockStyle::None;
+			this->toolStrip2->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->toolStrip2->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->cmdOutputFormat});
+			this->toolStrip2->Location = System::Drawing::Point(544, 39);
+			this->toolStrip2->Name = L"toolStrip2";
+			this->toolStrip2->Size = System::Drawing::Size(87, 25);
+			this->toolStrip2->TabIndex = 11;
+			this->toolStrip2->Text = L"toolStrip2";
+			// 
+			// cmdOutputFormat
+			// 
+			this->cmdOutputFormat->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"cmdOutputFormat.Image")));
+			this->cmdOutputFormat->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->cmdOutputFormat->Name = L"cmdOutputFormat";
+			this->cmdOutputFormat->Size = System::Drawing::Size(84, 22);
+			this->cmdOutputFormat->Text = L"Speichern";
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(69, 343);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(77, 13);
+			this->label3->TabIndex = 12;
+			this->label3->Text = L"RichTextEditor";
 			// 
 			// ApplicationForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(655, 519);
+			this->Controls->Add(this->label3);
+			this->Controls->Add(this->toolStrip2);
 			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(splitContainer1);
 			this->Controls->Add(this->label2);
+			this->Controls->Add(this->comboBox1);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->cboSets);
 			this->Controls->Add(this->toolStrip1);
+			this->Controls->Add(this->cboSets);
 			this->Controls->Add(this->txtOutputFormat);
 			this->Name = L"ApplicationForm";
 			this->Opacity = 0.95;
 			this->Text = L"Renamer Pre-Alpha";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &ApplicationForm::ApplicationForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &ApplicationForm::ApplicationForm_Load);
-			this->cmsInputRules->ResumeLayout(false);
 			splitContainer1->Panel1->ResumeLayout(false);
 			splitContainer1->Panel2->ResumeLayout(false);
 			splitContainer1->ResumeLayout(false);
 			groupBox1->ResumeLayout(false);
 			groupBox1->PerformLayout();
+			this->cmsInputRules->ResumeLayout(false);
 			groupBox2->ResumeLayout(false);
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
+			this->toolStrip2->ResumeLayout(false);
+			this->toolStrip2->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -422,7 +474,7 @@ namespace RenamerNET {
 #pragma region Renamer Business Logic
 		void addInputRule(String^ regexp) 
 		{
-			rule->addInputRule(toStdString(regexp));
+//			rule->addInputRule(toStdString(regexp));
 			txtNewInput->Text = "";
 			refreshInputRulesList();
 		}
@@ -448,9 +500,9 @@ namespace RenamerNET {
 		void loadOrCreateSet(String^ setName) 
 		{
 			exAssert(setName != "");
-			if(rule)
-				delete rule;
-			rule = new Ruleset(toStdWString(setName));
+			if(ruleSet)
+				delete ruleSet;
+			ruleSet = new Ruleset(toStdWString(setName));
 
 			Text = "Renamer - " + setName;
 		}
@@ -458,13 +510,13 @@ namespace RenamerNET {
 		void renameSet(String^ oldSetName, String^ newSetName) {
 			exAssert(oldSetName != "");
 			exAssert(newSetName != "");
-			if(rule) {
-				string setName = rule->getName();
+			if(ruleSet) {
+				string setName = ruleSet->getName();
 				if(setName == toStdString(oldSetName)) {
-					delete rule;
+					delete ruleSet;
 					File::Move(oldSetName + ".db3", newSetName + ".db3");
 					string s = toStdString(newSetName);
-					rule = new Ruleset(toStdWString(s));
+					ruleSet = new Ruleset(toStdWString(s));
 				} else {
 					File::Move(oldSetName + ".db3", newSetName + ".db3");
 				}
@@ -476,11 +528,11 @@ namespace RenamerNET {
 		}
 
 		void deleteSet(String^ setName) {
-			if(rule) {
-				string ruleSetName = rule->getName();
+			if(ruleSet) {
+				string ruleSetName = ruleSet->getName();
 				if(ruleSetName == toStdString(setName)) {
-					delete rule;
-					rule = NULL;
+					delete ruleSet;
+					ruleSet = NULL;
 				}
 			}
 			File::Delete(setName + ".db3");
@@ -500,25 +552,25 @@ namespace RenamerNET {
 			refreshSetList();
 			refreshInputRulesList();
 
-			txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
+//			txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
 			//cboSets->Text = toClrString( rule ? rule->getName() : "");
-			if(rule)
-				selectSet(toClrString(rule->getName()));
+			if(ruleSet)
+				selectSet(toClrString(ruleSet->getName()));
 		}
 
 		void refreshInputRulesList() 
 		{
-			assert(rule != NULL);
-			if(rule == NULL) return ;
+			assert(ruleSet != NULL);
+			if(ruleSet == NULL) return ;
 
 			lstInputRules->Items->Clear();
 
-			vector<InputRule> inputRules = rule->getInputRules();
+/*			vector<InputRule> inputRules = ruleSet->getInputRules();
 			for(unsigned int i=0; i<inputRules.size(); i++) {
 				String^ text = toClrString(inputRules[i].getRegex());
 				ListViewItem^ item = gcnew ListViewItem(text,0);
 				lstInputRules->Items->Add(item);
-			}
+			}*/
 		}
 		
 		void selectSet(String^ setName) {
@@ -543,7 +595,7 @@ namespace RenamerNET {
 #pragma region Form Handlers
 
 	private: System::Void ApplicationForm_Load(System::Object^  sender, System::EventArgs^  e) {
-		 rule = NULL;
+		 ruleSet = NULL;
 		 codeRunning = false;
 		 renamingSet = "";
 		 setSetEditMode(false);
@@ -579,14 +631,14 @@ private: System::Void cboSets_SelectedIndexChanged(System::Object^  sender, Syst
 			 codeRunning = false;
 		 }
 private: System::Void txtOutputFormat_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-			 if(rule) {
-				rule->setOutputFormat(toStdString(txtOutputFormat->Text));
-			 }
+/*			 if(ruleSet) {
+				ruleSet->setOutputFormat(toStdString(txtOutputFormat->Text));
+			 }*/
 		 }
 private: System::Void cboSets_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void cmdNewInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if(rule) {
+			 if(ruleSet) {
 				 addInputRule(txtNewInput->Text);
 			 }
 			 //lstInputs->Items->Add(txtNewInput->Text);

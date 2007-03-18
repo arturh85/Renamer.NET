@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Gem.h"
 #include "sqlTools.h"
 #include "error.h"

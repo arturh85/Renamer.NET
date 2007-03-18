@@ -144,6 +144,7 @@ OutputFormat Ruleset::addOutputFormat() {
     return retVal;
 }
 
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
