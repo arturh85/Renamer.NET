@@ -107,11 +107,16 @@ vector<string> stripVarNames(string sString) {
     return retVal;
 }
 
-vector<OutputFormat> Ruleset::getOutputFormats() {
+vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
     vector<OutputFormat> retVal;
     vector<string> rowids;
-    string sSql = "SELECT rowid FROM outputFormats";
-    exec(sSql, mDb, onAppendFirstColumnToVector, &rowids);
+
+    stringstream strSql;
+    strSql  << "SELECT rowid FROM outputFormats";
+    if (sOrderBy.length())
+        strSql << " ORDER BY " << sOrderBy;
+
+    exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
     for (vector<string>::iterator it = rowids.begin();
          it != rowids.end(); it++) {
 

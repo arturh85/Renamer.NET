@@ -42,7 +42,7 @@ class Ruleset
         OutputFormat addOutputFormat();
 
         //! gets a collection of OutputFormat objects
-        vector<OutputFormat> getOutputFormats();
+        vector<OutputFormat> getOutputFormats(string sOrderBy = "");
 
 
         string getName() const;

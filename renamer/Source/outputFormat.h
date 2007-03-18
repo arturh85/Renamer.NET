@@ -53,7 +53,8 @@ class OutputFormat {
         */
        bool applyTo(string fileName, string& outputFileName);
 
-
+        sqlite_int64 getRowId() const
+            { return mRow.getRowId(); };
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

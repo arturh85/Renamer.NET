@@ -57,6 +57,7 @@ int main(int argc, char** argv)
 
         enum {
             MANAGE_OUTPUTFORMATS,
+            MANAGE_OUTPUTFORMAT,
             MANAGE_INPUTRULE,
             MANAGE_GEM,
             MANAGE_REPLACEMENTS,
@@ -65,13 +66,16 @@ int main(int argc, char** argv)
         state = MANAGE_OUTPUTFORMATS;
 
         stringstream strResult;
+        OutputFormat* actFormatPtr = NULL;
+
 
         while (state != QUIT) {
             //cout << "1) a
             system("cls");
+            string sChoice;
 
             switch (state) {
-            case MANAGE_OUTPUTFORMATS:
+            case MANAGE_OUTPUTFORMATS: {
                 cout    << "current position: "
                         << ruleSet.getName() << "/\n";
 
@@ -82,51 +86,83 @@ int main(int argc, char** argv)
                         "1) create new outputFormat\n"
                         "2) modify an existing set\n"
                         "0) quit\n";
-                break;
-            };
 
-            string sChoice;
-            cin >> sChoice;
+                cin >> sChoice;
+                if (sChoice == "1") {
+                    try {
+                        cout << "Enter outputFormat: ";
 
-            if (sChoice == "1") {
-                try {
-                    cout << "Enter outputFormat: ";
+                        char szBuffer[256];
+                        cin.sync();
+                        cin.getline(szBuffer, 256);
 
-                    char szBuffer[256];
-                    cin.sync();
-                    cin.getline(szBuffer, 256);
+                        OutputFormat format = ruleSet.addOutputFormat();
+                        format.setFormat(szBuffer);
+                        strResult   << "outputFormat '" << szBuffer
+                                    << "' added successful!\n";
 
-                    OutputFormat format = ruleSet.addOutputFormat();
-                    format.setFormat(szBuffer);
-                    strResult   << "outputFormat '" << szBuffer
-                                << "' added successful!\n";
+                    } catch (exception& ex) {
+                        strResult << "Error: " << ex.what() << endl;
+                    }
 
-                } catch (exception& ex) {
-                    strResult << "Error: " << ex.what() << endl;
+                } else if (sChoice == "2") {
+                    vector<OutputFormat> formats = ruleSet.getOutputFormats();
+                    for (vector<OutputFormat>::iterator it = formats.begin();
+                         it != formats.end(); it++) {
+
+                        cout << it->getRowId() << ")\t"
+                             << it->getFormat() << endl;
+                    }
+                    cin >> sChoice;
+                    for (vector<OutputFormat>::iterator it = formats.begin();
+                         it != formats.end(); it++) {
+
+                        if ( cSqlOutFormated(it->getRowId()) == sChoice) {
+                            //position.push_back(it->getRowId());
+                            actFormatPtr = new OutputFormat(*it);
+                            state = MANAGE_OUTPUTFORMAT;
+                            break;
+                        }
+                    }
+
+                } else {
+                    strResult << "invalid choice\n";
                 }
 
-            } else if (regex_match(sChoice, regex("q|0"))) {
-                state = QUIT;
                 break;
+            }
 
-            } else {
-                strResult << "invalid choice\n";
+            case MANAGE_OUTPUTFORMAT: {
+                cout    << "current position: "
+                        << ruleSet.getName() << "/"
+                        << actFormatPtr->getFormat() << "/\n";
+
+                cout << "\nWhat do you want to do?\n"
+                        "0) back\n"
+                        "q) quit\n";
+
+                cin >> sChoice;
+
+                if (sChoice == "0") {
+                    state = MANAGE_OUTPUTFORMAT;
+                    delete actFormatPtr;
+                    actFormatPtr = NULL;
+
+                } else {
+                    strResult << "invalid choice\n";
+                }
+                break;
+            }
+
+            };
+
+            if (regex_match(sChoice, regex("q"))) {
+                state = QUIT;
+
 
             }
 
         };
-
-//        if (vm.count("outputFormat")) {
-//            ruleSet.setOutputFormat( vm["outputFormat"].as<string>() );
-//            cout << "set outputformat to " << ruleSet.getOutputFormat() << endl;
-//            return 0;
-//        }
-
-//        if (vm.count("add")) {
-//            ruleSet.addInputRule( vm["add"].as<string>() );
-//            cout << "add " << vm["add"].as<string>() << endl;
-//            return 0;
-//        }
 
     } catch (exception& ex) {
         cout << "exception caught: " << ex.what() << endl;
