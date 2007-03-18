@@ -91,7 +91,10 @@ namespace RenamerNET {
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiRenameSet;
 	private: System::Windows::Forms::ToolStripMenuItem^  tsmiDeleteSet;
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
-	private: System::Windows::Forms::ComboBox^  comboBox1;
+	private: System::Windows::Forms::ComboBox^  cboOutputFormats;
+	private: System::Windows::Forms::ComboBox^  cboOutputFormats;
+
+
 	private: System::Windows::Forms::ToolStrip^  toolStrip2;
 	private: System::Windows::Forms::ToolStripDropDownButton^  cmdOutputFormat;
 	private: System::Windows::Forms::Label^  label3;
@@ -132,7 +135,7 @@ namespace RenamerNET {
 			this->tsmiRenameSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsmiDeleteSet = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->cboOutputFormats = (gcnew System::Windows::Forms::ComboBox());
 			this->toolStrip2 = (gcnew System::Windows::Forms::ToolStrip());
 			this->cmdOutputFormat = (gcnew System::Windows::Forms::ToolStripDropDownButton());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -399,13 +402,13 @@ namespace RenamerNET {
 			this->richTextBox1->TabIndex = 9;
 			this->richTextBox1->Text = L"";
 			// 
-			// comboBox1
+			// cboOutputFormats
 			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(69, 41);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(472, 21);
-			this->comboBox1->TabIndex = 10;
+			this->cboOutputFormats->FormattingEnabled = true;
+			this->cboOutputFormats->Location = System::Drawing::Point(69, 41);
+			this->cboOutputFormats->Name = L"cboOutputFormats";
+			this->cboOutputFormats->Size = System::Drawing::Size(472, 21);
+			this->cboOutputFormats->TabIndex = 10;
 			// 
 			// toolStrip2
 			// 
@@ -445,7 +448,7 @@ namespace RenamerNET {
 			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(splitContainer1);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->comboBox1);
+			this->Controls->Add(this->cboOutputFormats);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->cboSets);
@@ -551,6 +554,7 @@ namespace RenamerNET {
 			loadOrCreateSet(cboSets->Text);
 			refreshSetList();
 			refreshInputRulesList();
+			refresbOutputRulesList();
 
 //			txtOutputFormat->Text = toClrString( rule ? rule->getOutputFormat() : "");
 			//cboSets->Text = toClrString( rule ? rule->getName() : "");
@@ -572,10 +576,24 @@ namespace RenamerNET {
 				lstInputRules->Items->Add(item);
 			}*/
 		}
-		
-		void selectSet(String^ setName) {
-			int i = cboSets->FindString(setName);
-			cboSets->SelectedIndex = i;
+
+		void refreshOutputRulesList() 
+		{
+			exAssert(ruleSet != NULL);
+			if(ruleSet == NULL) return ;
+
+			cboOutputFormats->Items->Clear();
+			vector<OutputFormat> outputFormats = ruleSet->getOutputFormats();
+			for(unsigned int i=0; i<outputFormats->size(); i++) {
+				cboOutputFormats->Items->Add(OutputFormat[i]->getFormat());
+			}
+ 
+			if(cboOutputFormats->Items->Count == 0)
+			{
+				//! \\todo set cboOutputFormats to editable mode
+			}
+
+			cboOutputFormats->SelectedIndex = 0;			
 		}
 
 		void refreshSetList() 
@@ -591,6 +609,17 @@ namespace RenamerNET {
 				cboSets->Items->Add(setName);
 			}
 		}
+
+		void selectSet(String^ setName) {
+			int i = cboSets->FindString(setName);
+			cboSets->SelectedIndex = i;
+		}
+
+		void selectOutputFormat(String^ outputFormatName) {
+			int i = cboOutputFormats->FindString(outputFormatName);
+			cboOutputFormats->SelectedIndex = i;
+		}
+
 #pragma endregion
 #pragma region Form Handlers
 
