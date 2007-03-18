@@ -6,6 +6,7 @@
 #include "gem.h"
 
 
+//! yummy precious information.
 class GemValue : public Gem {
     public:
         //---------------------------------------------------------------------
@@ -20,6 +21,7 @@ class GemValue : public Gem {
         string value;
 };
 
+//! one rule (regex) to match a filename.
 class InputRule {
     public:
         //---------------------------------------------------------------------

@@ -5,6 +5,7 @@
 #include "TableRow.h"
 #include "sqlTools.h"
 
+//! a regex with replacement values, which stored in the db
 class Replacement {
     public:
         //---------------------------------------------------------------------

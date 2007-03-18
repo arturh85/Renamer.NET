@@ -13,6 +13,7 @@ Klasse, und mit Hilfe eines Output Ausdrucks
 in ein gemeinsames Format konvertiert werden können.
 */
 
+//! the root of all objects (so far :)
 class Ruleset
 {
     public:

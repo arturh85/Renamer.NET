@@ -3,6 +3,7 @@
 
 #include "globals.h"
 
+//! generic access to sqlite tables
 class TableRow {
     public:
         //---------------------------------------------------------------------

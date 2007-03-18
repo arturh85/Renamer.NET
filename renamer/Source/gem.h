@@ -6,6 +6,7 @@
 #include "sqlTools.h"
 #include "replacements.h"
 
+//! a gem is the description of a extracted string
 class Gem {
     public:
         //---------------------------------------------------------------------

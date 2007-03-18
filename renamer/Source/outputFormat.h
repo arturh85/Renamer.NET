@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "inputRule.h"
 
+//! an output format is the fileName as the it should be with placeholder for the gems
 class OutputFormat {
     public:
         //---------------------------------------------------------------------

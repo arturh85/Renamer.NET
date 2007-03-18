@@ -20,20 +20,3 @@ const char* exFileLineDesc::what () const throw () {
 
   return strReturn.str().c_str();
 }
-
-//-------------------------------------------------------------------------
-//    Class exString
-
-exString::exString(string sDescription, string sClass) {
-  msDescription = sDescription;
-  msClass = sClass;
-}
-
-const char* exString::what () const throw () {
-  stringstream  strReturn;
-  strReturn << "[" << msClass << "]: "
-            << msDescription;
-
-  return strReturn.str().c_str();
-}
-

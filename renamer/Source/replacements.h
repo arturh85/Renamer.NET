@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "replacement.h"
 
+//! collection of replacements
 class Replacements {
     public:
         //---------------------------------------------------------------------

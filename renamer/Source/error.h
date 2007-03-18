@@ -3,6 +3,7 @@
 
 #include "globals.h"
 
+//! thrown by exAssert
 class exFileLineDesc : public exception {
     string msModule;
     string msDescription;
@@ -14,17 +15,6 @@ class exFileLineDesc : public exception {
     virtual const char* what () const throw ();
 };
 
-
-class exString : public exception {
-    string msClass;
-    string msDescription;
-
-  public:
-    exString(string sDescription, string sClass);
-    ~exString() throw() {};
-    virtual const char* what () const throw ();
-
-};
 
 #define exAssert(expr) \
         if (!(expr)) exAssertFail (__FILE__, __LINE__, "" )
