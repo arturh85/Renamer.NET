@@ -13,7 +13,6 @@
 
 //  sqlite
 #include <sqlite3.h>
-//typedef long long sqlite_rowid; --> sqlite_int64
 
 // Boost
 #include <boost/regex.hpp>

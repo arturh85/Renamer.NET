@@ -14,17 +14,11 @@ umbennnen kann.
 #include <boost/program_options.hpp>
 #include "ruleSet.h"
 #include <sqlite3.h>
+#include "error.h"
 
 namespace po = boost::program_options;
-
-static int callback(void *NotUsed, int argc, char **argv, char **azColName){
-  int i;
-  for(i=0; i<argc; i++){
-    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-  }
-  printf("\n");
-  return 0;
-}
+using boost::regex;
+using boost::smatch;
 
 int main(int argc, char** argv)
 {
@@ -40,9 +34,9 @@ int main(int argc, char** argv)
         po::options_description desc("Allowed options");
         desc.add_options()
             ("help", "produce help message")
-            ("add", po::value<string>(), "add a regular expression to the set")
-            ("set", po::value<string>(), "set to use")
-            ("outputFormat", po::value<string>(), "cc")
+            ("ruleSet,s", po::value<string>())
+//            ("outputFormat,f",po::value<string>())
+//            ("addOutputFormat,f",po::value<string>(), ")
         ;
 
         po::variables_map vm;
@@ -54,24 +48,85 @@ int main(int argc, char** argv)
             return 0;
         }
 
-        if (!vm.count("set")) {
+        if (!vm.count("ruleSet")) {
             cout << "the --set parameter is mandetory.\n";
             return 1;
         }
 
-        Ruleset ruleSet( vm["set"].as<string>() );
+        Ruleset ruleSet( vm["ruleSet"].as<string>() );
 
-        if (vm.count("outputFormat")) {
-            ruleSet.setOutputFormat( vm["outputFormat"].as<string>() );
-            cout << "set outputformat to " << ruleSet.getOutputFormat() << endl;
-            return 0;
-        }
+        enum {
+            MANAGE_OUTPUTFORMATS,
+            MANAGE_INPUTRULE,
+            MANAGE_GEM,
+            MANAGE_REPLACEMENTS,
+            QUIT
+        } state;
+        state = MANAGE_OUTPUTFORMATS;
 
-        if (vm.count("add")) {
-            ruleSet.addInputRule( vm["add"].as<string>() );
-            cout << "add " << vm["add"].as<string>() << endl;
-            return 0;
-        }
+        stringstream strResult;
+
+        while (state != QUIT) {
+            //cout << "1) a
+            system("cls");
+
+            switch (state) {
+            case MANAGE_OUTPUTFORMATS:
+                cout    << "current position: "
+                        << ruleSet.getName() << "/\n";
+
+                cout << strResult.str();
+                strResult.str(""); //clear
+
+                cout << "\nWhat do you want to do?\n"
+                        "1) create new outputFormat\n"
+                        "2) modify an existing set\n"
+                        "0) quit\n";
+                break;
+            };
+
+            string sChoice;
+            cin >> sChoice;
+
+            if (sChoice == "1") {
+                try {
+                    cout << "Enter outputFormat: ";
+
+                    char szBuffer[256];
+                    cin.sync();
+                    cin.getline(szBuffer, 256);
+
+                    OutputFormat format = ruleSet.addOutputFormat();
+                    format.setFormat(szBuffer);
+                    strResult   << "outputFormat '" << szBuffer
+                                << "' added successful!\n";
+
+                } catch (exception& ex) {
+                    strResult << "Error: " << ex.what() << endl;
+                }
+
+            } else if (regex_match(sChoice, regex("q|0"))) {
+                state = QUIT;
+                break;
+
+            } else {
+                strResult << "invalid choice\n";
+
+            }
+
+        };
+
+//        if (vm.count("outputFormat")) {
+//            ruleSet.setOutputFormat( vm["outputFormat"].as<string>() );
+//            cout << "set outputformat to " << ruleSet.getOutputFormat() << endl;
+//            return 0;
+//        }
+
+//        if (vm.count("add")) {
+//            ruleSet.addInputRule( vm["add"].as<string>() );
+//            cout << "add " << vm["add"].as<string>() << endl;
+//            return 0;
+//        }
 
     } catch (exception& ex) {
         cout << "exception caught: " << ex.what() << endl;

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "inputRule.h"
 #include "sqlTools.h"
-#include <sstream>
-#include "sqlTools.h"
 #include "error.h"
 
 using boost::regex;

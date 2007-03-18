@@ -139,7 +139,10 @@ bool Ruleset::applyTo(string fileName, string& outputFileName) {
     return false;
 }
 
-
+OutputFormat Ruleset::addOutputFormat() {
+    OutputFormat retVal(mDb);
+    return retVal;
+}
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
@@ -151,11 +154,6 @@ void testName(string name) {
 
     BOOST_CHECK(fs::exists(name + ".db3"));
     fs::remove(name + ".db3");
-}
-
-OutputFormat Ruleset::addOutputFormat() {
-    OutputFormat retVal(mDb);
-    return retVal;
 }
 
 void Ruleset::unitTest() {

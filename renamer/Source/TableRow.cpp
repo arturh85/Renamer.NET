@@ -63,9 +63,10 @@ string TableRow::get(string field) const {
     return sReturn;
 }
 
-//string TableRow::operator[](const string what) {
-//    return
-//}
+sqlite_int64 TableRow::getRowId() const {
+    exAssertDesc(mRowid != NO_TABLE, "nothing written yet");
+    return mRowid;
+};
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
@@ -80,11 +81,6 @@ void createTables(sqlite3* db) {
     exec(sSql, db);
 
 }
-
-sqlite_int64 TableRow::getRowId() const {
-    exAssertDesc(mRowid != NO_TABLE, "nothing written yet");
-    return mRowid;
-};
 
 void TableRow::unitTest() {
     using boost::regex;
