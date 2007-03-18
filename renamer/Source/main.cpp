@@ -85,7 +85,8 @@ int main(int argc, char** argv)
                 cout << "\nWhat do you want to do?\n"
                         "1) create new outputFormat\n"
                         "2) modify an existing set\n"
-                        "0) quit\n";
+                        "0) quit\n"
+                        "q) quit\n";
 
                 cin >> sChoice;
                 if (sChoice == "1") {
@@ -125,6 +126,9 @@ int main(int argc, char** argv)
                         }
                     }
 
+                } else if (sChoice == "0") {
+                    sChoice = "q";
+
                 } else {
                     strResult << "invalid choice\n";
                 }
@@ -138,13 +142,20 @@ int main(int argc, char** argv)
                         << actFormatPtr->getFormat() << "/\n";
 
                 cout << "\nWhat do you want to do?\n"
+                        "1) delete this\n"
                         "0) back\n"
                         "q) quit\n";
 
                 cin >> sChoice;
 
                 if (sChoice == "0") {
-                    state = MANAGE_OUTPUTFORMAT;
+                    state = MANAGE_OUTPUTFORMATS;
+                    delete actFormatPtr;
+                    actFormatPtr = NULL;
+
+                } else if (sChoice == "1") {
+                    ruleSet.removeOutputFormat(actFormatPtr->getRowId());
+                    state = MANAGE_OUTPUTFORMATS;
                     delete actFormatPtr;
                     actFormatPtr = NULL;
 
@@ -158,8 +169,6 @@ int main(int argc, char** argv)
 
             if (regex_match(sChoice, regex("q"))) {
                 state = QUIT;
-
-
             }
 
         };

@@ -44,6 +44,7 @@ class Ruleset
         //! gets a collection of OutputFormat objects
         vector<OutputFormat> getOutputFormats(string sOrderBy = "");
 
+        void removeOutputFormat(sqlite_int64);
 
         string getName() const;
 

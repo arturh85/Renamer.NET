@@ -127,10 +127,15 @@ vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
     return retVal;
 }
 
-//! Rename a file
-/**
-    walks through the InputRules and calls their applyTo-Method
-*/
+void Ruleset::removeOutputFormat(sqlite_int64 id) {
+    stringstream strSql;
+    strSql << "DELETE FROM outputFormats WHERE rowid = "
+           << cSqlOutFormated(id);
+    exec(strSql, mDb);
+    return;
+}
+
+
 bool Ruleset::applyTo(string fileName, string& outputFileName) {
     vector<OutputFormat> rules = getOutputFormats();
 
