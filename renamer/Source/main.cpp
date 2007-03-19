@@ -20,6 +20,63 @@ namespace po = boost::program_options;
 using boost::regex;
 using boost::smatch;
 
+
+using namespace std;
+
+#include <windows.h>
+//void coutColor(WORD farbe) {
+//    cout << flush;
+//    //output_color=output_color | farbe;
+//    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), farbe);
+//}
+
+class colorString {
+	public:
+        enum farben {
+            schwarz,
+            dunkelblau,
+            dunkelgruen,
+            blaugruen,
+            dunkelrot,
+            lila,
+            ocker,
+            hellgrau,
+            dunkelgrau,
+            blau,
+            gruen,
+            zyan,
+            rot,
+            magenta,
+            gelb,
+            weiss,
+        };
+
+		colorString(farben c, string s) : mValue(s), mColor(c) {};
+		virtual ~colorString() {};
+
+		friend ostream&  operator<<(ostream& str, const colorString& cs) {
+            cout << flush;
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), cs.mColor);
+		    str << cs.mValue;
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), hellgrau);
+            cout << flush;
+
+            //background: output_color=(background << 4) | output_color;
+            //foreground: SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), output_color);
+
+		    return str;
+		};
+
+        static const farben defaultColor = hellgrau;
+
+	protected:
+
+	private:
+        string mValue;
+        farben mColor;
+};
+
+
 string getUserInput(string sQuestion, string sRegex) {
 
     regex allow(sRegex);
@@ -91,14 +148,25 @@ int main(int argc, char** argv)
             //cout << "1) a
             system("cls");
             string sChoice;
+            //cout << "\02731m";
+
+            cout    << "current position: "
+                    << ruleSet.getName() << "/";
+            if (actFormatPtr) {
+                cout << colorString(colorString::dunkelgruen, actFormatPtr->getFormat()) << "/";
+            }
+
+            if (actRulePtr) {
+                cout << colorString(colorString::gruen, actRulePtr->getRegex()) << "/";
+            }
+            cout << endl << endl;
 
             switch (state) {
             case MANAGE_OUTPUTFORMATS: {
-                cout    << "current position: "
-                        << ruleSet.getName() << "/\n";
-
                 cout << strResult.str();
                 strResult.str(""); //clear
+
+                cout << "--> " << colorString(colorString::rot, "Testing") << " <--\n";
 
                 cout << "\nWhat do you want to do?\n"
                         "1) create new outputFormat\n"
@@ -106,8 +174,6 @@ int main(int argc, char** argv)
                         "0) quit\n"
                         "q) quit\n";
 
-//                cin >> sChoice;
-//                cout << endl;
                 sChoice = getUserInput("? ", "[120q]");
 
                 if (sChoice == "1") {
@@ -155,10 +221,6 @@ int main(int argc, char** argv)
             }
 
             case MANAGE_OUTPUTFORMAT: {
-                cout    << "current position: "
-                        << ruleSet.getName() << "/"
-                        << actFormatPtr->getFormat() << "/\n";
-
                 cout << "\nWhat do you want to do?\n"
                         "1) delete this\n"
                         "2) change this\n"
@@ -231,11 +293,6 @@ int main(int argc, char** argv)
             }
 
             case MANAGE_INPUTRULE: {
-                cout    << "current position: "
-                        << ruleSet.getName() << "/"
-                        << actFormatPtr->getFormat() << "/"
-                        << actRulePtr->getRegex() << "/\n";
-
                 cout << "\nWhat do you want to do?\n"
                         "1) delete this\n"
                         "2) change this\n"
