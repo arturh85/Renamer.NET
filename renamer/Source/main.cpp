@@ -84,6 +84,7 @@ int main(int argc, char** argv)
 
         stringstream strResult;
         OutputFormat* actFormatPtr = NULL;
+        InputRule* actRulePtr = NULL;
 
 
         while (state != QUIT) {
@@ -101,7 +102,7 @@ int main(int argc, char** argv)
 
                 cout << "\nWhat do you want to do?\n"
                         "1) create new outputFormat\n"
-                        "2) modify an existing set\n"
+                        "2) modify an existing outputFormat\n"
                         "0) quit\n"
                         "q) quit\n";
 
@@ -161,6 +162,83 @@ int main(int argc, char** argv)
                 cout << "\nWhat do you want to do?\n"
                         "1) delete this\n"
                         "2) change this\n"
+                        "3) add inputRule\n"
+                        "4) modify an existing inputRule\n"
+                        "0) back\n"
+                        "q) quit\n";
+
+                sChoice = getUserInput("? ", "[12340q]");
+
+                if (sChoice == "0") {
+                    state = MANAGE_OUTPUTFORMATS;
+                    delete actFormatPtr;
+                    actFormatPtr = NULL;
+
+                } else if (sChoice == "1") {
+                    ruleSet.removeOutputFormat(actFormatPtr->getRowId());
+                    state = MANAGE_OUTPUTFORMATS;
+                    delete actFormatPtr;
+                    actFormatPtr = NULL;
+
+                } else if (sChoice == "2") {
+                    try {
+                        sChoice = getUserInput("new format: ", ".*");
+                        actFormatPtr->setFormat(sChoice);
+                    } catch (exception& ex) {
+                        strResult << "Error: " << ex.what() << endl;
+                    };
+
+                } else if (sChoice == "3") {
+
+                    for (bool done = false;!done;)
+                        try {
+                            //regex userRegex(sRegex);
+                            actFormatPtr->addInputRule(getUserInput("regex: ", ".*"));
+                        	done = true;
+                        } catch (exception &ex) {
+                            cout << "Error: " << ex.what() << endl;
+                        }
+
+                } else if (sChoice == "4") {
+                    vector<InputRule> formats = actFormatPtr->getInputRules();
+                    for (vector<InputRule>::iterator it = formats.begin();
+                         it != formats.end(); it++) {
+
+                        cout << it->getRowId() << ")\t"
+                             << it->getRegex() << endl;
+                    }
+
+                    //!\todo if no rule is avaible, the user will be stuck
+                    sChoice = getUserInput("? ", "\\d+|q");
+
+                    for (vector<InputRule>::iterator it = formats.begin();
+                         it != formats.end(); it++) {
+
+                        if ( cSqlOutFormated(it->getRowId()) == sChoice) {
+                            //position.push_back(it->getRowId());
+                            actRulePtr = new InputRule(*it);
+                            state = MANAGE_INPUTRULE;
+                            break;
+                        }
+                    }
+
+                    strResult << "invalid choice\n";
+
+                } else {
+                    strResult << "this should not happen\n";
+                }
+                break;
+            }
+
+            case MANAGE_INPUTRULE: {
+                cout    << "current position: "
+                        << ruleSet.getName() << "/"
+                        << actFormatPtr->getFormat() << "/"
+                        << actRulePtr->getRegex() << "/\n";
+
+                cout << "\nWhat do you want to do?\n"
+                        "1) delete this\n"
+                        "2) change this\n"
                         "3) add inputRule to outputFormat\n"
                         "0) back\n"
                         "q) quit\n";
@@ -186,12 +264,24 @@ int main(int argc, char** argv)
                         strResult << "Error: " << ex.what() << endl;
                     };
 
+                } else if (sChoice == "3") {
+
+                    for (bool done = false;!done;)
+                        try {
+                            //regex userRegex(sRegex);
+                            actFormatPtr->addInputRule(getUserInput("regex: ", ".*"));
+                        	done = true;
+                        } catch (exception &ex) {
+                            cout << "Error: " << ex.what() << endl;
+                        }
 
                 } else {
                     strResult << "this should not happen\n";
                 }
                 break;
             }
+
+
 
             };
 

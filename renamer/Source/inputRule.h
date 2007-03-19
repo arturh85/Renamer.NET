@@ -52,13 +52,18 @@ class InputRule {
         //! get all gems available for this InputRule.
         vector<Gem> getGems() const;
 
-        //! extract gems out of a filename
+        //! extract GemValue objects out of a filename
         bool applyTo(string fileName, vector<GemValue>& matches);
 
+        //! creates a new Gem and attaches it to this InputRule
         Gem addGem(string name);
 
         void setOutputFormatId(sqlite_int64 v)
             {mRow.set("outputFormatId", cSqlOutFormated(v)); };
+
+        //! primary key field of the row this object is stored in
+        sqlite_int64 getRowId() const
+            { return mRow.getRowId(); };
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

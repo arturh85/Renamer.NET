@@ -54,6 +54,7 @@ class OutputFormat {
         */
        bool applyTo(string fileName, string& outputFileName);
 
+        //! primary key field of the row this object is stored in
         sqlite_int64 getRowId() const
             { return mRow.getRowId(); };
 
