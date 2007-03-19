@@ -20,6 +20,23 @@ namespace po = boost::program_options;
 using boost::regex;
 using boost::smatch;
 
+string getUserInput(string sQuestion, string sRegex) {
+
+    regex allow(sRegex);
+
+    char szBuffer[256];
+    //cin.sync();
+    cout << sQuestion;
+    cin.getline(szBuffer, 256);
+    while (!regex_match(szBuffer, allow)) {
+        cout << "Invalid choice.\n";
+        cout << sQuestion;
+        cin.getline(szBuffer, 256);
+    }
+    cout << endl;
+    return szBuffer;
+};
+
 int main(int argc, char** argv)
 {
     try {
@@ -88,19 +105,15 @@ int main(int argc, char** argv)
                         "0) quit\n"
                         "q) quit\n";
 
-                cin >> sChoice;
+//                cin >> sChoice;
+//                cout << endl;
+                sChoice = getUserInput("? ", "[120q]");
+
                 if (sChoice == "1") {
                     try {
-                        cout << "Enter outputFormat: ";
-
-                        char szBuffer[256];
-                        cin.sync();
-                        cin.getline(szBuffer, 256);
-
                         OutputFormat format = ruleSet.addOutputFormat();
-                        format.setFormat(szBuffer);
-                        strResult   << "outputFormat '" << szBuffer
-                                    << "' added successful!\n";
+                        string sFormat = getUserInput("Enter outputFormat: ", ".*");
+                        format.setFormat(sFormat);
 
                     } catch (exception& ex) {
                         strResult << "Error: " << ex.what() << endl;
@@ -114,7 +127,9 @@ int main(int argc, char** argv)
                         cout << it->getRowId() << ")\t"
                              << it->getFormat() << endl;
                     }
-                    cin >> sChoice;
+
+                    sChoice = getUserInput("? ", "\\d+|q");
+
                     for (vector<OutputFormat>::iterator it = formats.begin();
                          it != formats.end(); it++) {
 
@@ -125,6 +140,8 @@ int main(int argc, char** argv)
                             break;
                         }
                     }
+
+                    strResult << "invalid choice\n";
 
                 } else if (sChoice == "0") {
                     sChoice = "q";
@@ -143,10 +160,12 @@ int main(int argc, char** argv)
 
                 cout << "\nWhat do you want to do?\n"
                         "1) delete this\n"
+                        "2) change this\n"
+                        "3) add inputRule to outputFormat\n"
                         "0) back\n"
                         "q) quit\n";
 
-                cin >> sChoice;
+                sChoice = getUserInput("? ", "[1230q]");
 
                 if (sChoice == "0") {
                     state = MANAGE_OUTPUTFORMATS;
@@ -159,8 +178,17 @@ int main(int argc, char** argv)
                     delete actFormatPtr;
                     actFormatPtr = NULL;
 
+                } else if (sChoice == "2") {
+                    try {
+                        sChoice = getUserInput("new format: ", ".*");
+                        actFormatPtr->setFormat(sChoice);
+                    } catch (exception& ex) {
+                        strResult << "Error: " << ex.what() << endl;
+                    };
+
+
                 } else {
-                    strResult << "invalid choice\n";
+                    strResult << "this should not happen\n";
                 }
                 break;
             }
