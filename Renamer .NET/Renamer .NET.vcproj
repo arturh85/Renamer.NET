@@ -225,6 +225,10 @@
 			RelativePath="stdole.dll"
 			AssemblyName="stdole, Version=7.0.3300.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 		/>
+		<AssemblyReference
+			RelativePath="System.DirectoryServices.dll"
+			AssemblyName="System.DirectoryServices, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
 	</References>
 	<Files>
 		<Filter
