@@ -12,7 +12,7 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s Test" />
+				<Option parameters="-s Test .\TestFiles\*.avi" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -62,6 +62,7 @@
 			<Add library="stdc++" />
 			<Add directory="..\..\..\SQLite\bin" />
 		</Linker>
+		<Unit filename="..\..\Source\PropertyObject.h" />
 		<Unit filename="..\..\Source\TableRow.cpp" />
 		<Unit filename="..\..\Source\TableRow.h" />
 		<Unit filename="..\..\Source\error.cpp" />

@@ -4,6 +4,7 @@
 #include "globals.h"
 #include <sqlite3.h>
 #include "outputFormat.h"
+#include "PropertyObject.h"
 
 //! Verwaltet Reguläre Ausdrücke
 /**
@@ -14,7 +15,7 @@ in ein gemeinsames Format konvertiert werden können.
 */
 
 //! the root of all objects (so far :)
-class Ruleset
+class Ruleset : public PropertyObject
 {
     public:
         //---------------------------------------------------------------------
@@ -49,10 +50,15 @@ class Ruleset
 
         string getName() const;
 
+
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();
         #endif
+
+        //---------------------------------------------------------------------
+        //  methodes (inherited from PropertyObject)
+        PropertyObject* toPropertyObjectPtr() const;
 
     private:
         //  attributes

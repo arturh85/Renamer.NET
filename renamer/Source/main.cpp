@@ -19,16 +19,25 @@ umbennnen kann.
 namespace po = boost::program_options;
 using boost::regex;
 using boost::smatch;
-
+using namespace boost::filesystem;
 
 using namespace std;
 
 #include <windows.h>
-//void coutColor(WORD farbe) {
-//    cout << flush;
-//    //output_color=output_color | farbe;
-//    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), farbe);
-//}
+
+//  Prototypes
+enum consoleStates{
+    MANAGE_OUTPUTFORMATS,
+    MANAGE_OUTPUTFORMAT,
+    MANAGE_INPUTRULE,
+    MANAGE_GEM,
+    MANAGE_REPLACEMENTS,
+    QUIT
+};
+
+consoleStates manageOutputFormats(stack<PropertyObject*>);
+
+//  Implementations
 
 class colorString {
 	public:
@@ -58,7 +67,7 @@ class colorString {
             cout << flush;
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), cs.mColor);
 		    str << cs.mValue;
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), hellgrau);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), defaultColor);
             cout << flush;
 
             //background: output_color=(background << 4) | output_color;
@@ -75,7 +84,6 @@ class colorString {
         string mValue;
         farben mColor;
 };
-
 
 string getUserInput(string sQuestion, string sRegex) {
 
@@ -94,8 +102,108 @@ string getUserInput(string sQuestion, string sRegex) {
     return szBuffer;
 };
 
-int main(int argc, char** argv)
-{
+regex buildRegex(vector<string> samples) {
+    vector<string> regexParts;
+    bool fCommandMode = true;
+
+    for (vector<string>::iterator it = samples.begin();
+         it!=samples.end();it++ ) {
+           cout << *it << endl;
+     }
+
+    for (bool fEverythingMatched = false;!fEverythingMatched ; ) {
+
+        string sInput = getUserInput( fCommandMode?": ":"" ,".*");
+        if (fCommandMode) {
+            if (sInput == "begin") {
+            	fCommandMode = false;
+                continue;
+
+            } else if (sInput == "undo") {
+                if (regexParts.size() > 0)
+                    regexParts.pop_back();
+
+            } else if (regex_match(sInput,regex("help|\\?"))) {
+                cout << "<begin> enter regex\n"
+                        "<undo> last input\n";
+                continue;
+
+            } else {
+
+            }
+        } else {
+            if (sInput.length()) {
+                regexParts.push_back(sInput);
+            } else {
+                fCommandMode = true;
+                continue;
+            }
+
+        }
+
+
+
+        if (regexParts.size() == 0) {
+            //just output the variable names;
+            for (vector<string>::iterator it = samples.begin();
+                 it!=samples.end();it++ ) {
+                   cout << *it << endl;
+             }
+
+        } else {
+
+            string sRegex = "^";
+            for (vector<string>::iterator it=regexParts.begin();
+                 it != regexParts.end();it++ ) {
+
+                sRegex+=*it;
+            }
+
+            try {
+                cout << colorString(colorString::weiss, sRegex) << endl;
+                regex testRegex(sRegex);
+//                bool fPopOnFailure = true;
+
+                for (vector<string>::iterator it = samples.begin();
+                     it!=samples.end();it++ ) {
+
+    //               string::const_iterator start, end;
+    //               start = it->begin();
+    //               end = it->end();
+                    smatch what;
+
+                    if (regex_search(*it, what, testRegex)) {
+
+                       cout << colorString(colorString::gruen, what[0])
+                            << it->substr(what[0].length())
+                            << endl;
+                    } else {
+                       cout << colorString(colorString::rot, *it) << endl;
+                       fCommandMode = true;
+//                       if (fPopOnFailure) {
+//                           fPopOnFailure = false;
+//                           fCommandMode = true;
+//                           //regexParts.pop_back();
+//                       }
+                    }
+
+                }
+
+            } catch (exception &ex) {
+                fCommandMode = true;
+                cout << colorString(colorString::rot, string("Error: ") + ex.what()) << endl;
+            }
+
+
+        }
+
+//        string sInput = getUserInput( "" ,".*");
+
+    }
+    return regex();
+}
+
+int main(int argc, char** argv) {
     try {
         //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
         boost::filesystem::path::default_name_check(boost::filesystem::native);
@@ -109,13 +217,22 @@ int main(int argc, char** argv)
         desc.add_options()
             ("help", "produce help message")
             ("ruleSet,s", po::value<string>())
+            ("inputFile,f", po::value<vector<string> >()->multitoken(), "get filenames from here")
+//            ("inputFile,f", po::value<vector<string> >(&files)->multitoken(), "get filenames from here")
 //            ("outputFormat,f",po::value<string>())
 //            ("addOutputFormat,f",po::value<string>(), ")
         ;
 
         po::variables_map vm;
-        po::store(po::parse_command_line(argc, argv, desc), vm);
+//        po::store(po::parse_command_line(argc, argv, desc), vm);
+
+        po::positional_options_description posDesc;
+        posDesc.add("inputFile", -1);
+        po::store(po::command_line_parser(argc, argv).
+                  options(desc).positional(posDesc).run(), vm);
+
         po::notify(vm);
+
 
         if (vm.count("help")) {
             std::cout << desc << "\n";
@@ -129,26 +246,34 @@ int main(int argc, char** argv)
 
         Ruleset ruleSet( vm["ruleSet"].as<string>() );
 
-        enum {
-            MANAGE_OUTPUTFORMATS,
-            MANAGE_OUTPUTFORMAT,
-            MANAGE_INPUTRULE,
-            MANAGE_GEM,
-            MANAGE_REPLACEMENTS,
-            QUIT
-        } state;
-        state = MANAGE_OUTPUTFORMATS;
+        //enumarate files
+        vector<string> filesFullpath = vm["inputFile"].as<vector<string> >();
+        vector<string> fileNames;
+        for (vector<string>::iterator it = filesFullpath.begin();
+             it!=filesFullpath.end();it++ ) {
+
+               path file(*it);
+               //cout << basename(file.leaf()) << endl;
+               fileNames.push_back(basename(file.leaf()));
+         }
+
+
+//        regex newRegex = buildRegex(fileNames);
+//        cout << "newRegex " << newRegex << endl;
+//        return 0;
 
         stringstream strResult;
         OutputFormat* actFormatPtr = NULL;
         InputRule* actRulePtr = NULL;
 
+        consoleStates currentState = MANAGE_OUTPUTFORMATS;
+        stack<PropertyObject*> propertyStack;
 
-        while (state != QUIT) {
-            //cout << "1) a
+        propertyStack.push(ruleSet.toPropertyObjectPtr());
+
+        while (currentState != QUIT) {
             system("cls");
             string sChoice;
-            //cout << "\02731m";
 
             cout    << "current position: "
                     << ruleSet.getName() << "/";
@@ -161,192 +286,16 @@ int main(int argc, char** argv)
             }
             cout << endl << endl;
 
-            switch (state) {
-            case MANAGE_OUTPUTFORMATS: {
-                cout << strResult.str();
-                strResult.str(""); //clear
 
-                cout << "--> " << colorString(colorString::rot, "Testing") << " <--\n";
-
-                cout << "\nWhat do you want to do?\n"
-                        "1) create new outputFormat\n"
-                        "2) modify an existing outputFormat\n"
-                        "0) quit\n"
-                        "q) quit\n";
-
-                sChoice = getUserInput("? ", "[120q]");
-
-                if (sChoice == "1") {
-                    try {
-                        OutputFormat format = ruleSet.addOutputFormat();
-                        string sFormat = getUserInput("Enter outputFormat: ", ".*");
-                        format.setFormat(sFormat);
-
-                    } catch (exception& ex) {
-                        strResult << "Error: " << ex.what() << endl;
-                    }
-
-                } else if (sChoice == "2") {
-                    vector<OutputFormat> formats = ruleSet.getOutputFormats();
-                    for (vector<OutputFormat>::iterator it = formats.begin();
-                         it != formats.end(); it++) {
-
-                        cout << it->getRowId() << ")\t"
-                             << it->getFormat() << endl;
-                    }
-
-                    sChoice = getUserInput("? ", "\\d+|q");
-
-                    for (vector<OutputFormat>::iterator it = formats.begin();
-                         it != formats.end(); it++) {
-
-                        if ( cSqlOutFormated(it->getRowId()) == sChoice) {
-                            //position.push_back(it->getRowId());
-                            actFormatPtr = new OutputFormat(*it);
-                            state = MANAGE_OUTPUTFORMAT;
-                            break;
-                        }
-                    }
-
-                    strResult << "invalid choice\n";
-
-                } else if (sChoice == "0") {
-                    sChoice = "q";
-
-                } else {
-                    strResult << "invalid choice\n";
+            switch (currentState) {
+                case MANAGE_OUTPUTFORMATS: {
+                    currentState = manageOutputFormats(propertyStack);
+                    break;
                 }
+            }; //switch state
 
-                break;
-            }
+        }
 
-            case MANAGE_OUTPUTFORMAT: {
-                cout << "\nWhat do you want to do?\n"
-                        "1) delete this\n"
-                        "2) change this\n"
-                        "3) add inputRule\n"
-                        "4) modify an existing inputRule\n"
-                        "0) back\n"
-                        "q) quit\n";
-
-                sChoice = getUserInput("? ", "[12340q]");
-
-                if (sChoice == "0") {
-                    state = MANAGE_OUTPUTFORMATS;
-                    delete actFormatPtr;
-                    actFormatPtr = NULL;
-
-                } else if (sChoice == "1") {
-                    ruleSet.removeOutputFormat(actFormatPtr->getRowId());
-                    state = MANAGE_OUTPUTFORMATS;
-                    delete actFormatPtr;
-                    actFormatPtr = NULL;
-
-                } else if (sChoice == "2") {
-                    try {
-                        sChoice = getUserInput("new format: ", ".*");
-                        actFormatPtr->setFormat(sChoice);
-                    } catch (exception& ex) {
-                        strResult << "Error: " << ex.what() << endl;
-                    };
-
-                } else if (sChoice == "3") {
-
-                    for (bool done = false;!done;)
-                        try {
-                            //regex userRegex(sRegex);
-                            actFormatPtr->addInputRule(getUserInput("regex: ", ".*"));
-                        	done = true;
-                        } catch (exception &ex) {
-                            cout << "Error: " << ex.what() << endl;
-                        }
-
-                } else if (sChoice == "4") {
-                    vector<InputRule> formats = actFormatPtr->getInputRules();
-                    for (vector<InputRule>::iterator it = formats.begin();
-                         it != formats.end(); it++) {
-
-                        cout << it->getRowId() << ")\t"
-                             << it->getRegex() << endl;
-                    }
-
-                    //!\todo if no rule is avaible, the user will be stuck
-                    sChoice = getUserInput("? ", "\\d+|q");
-
-                    for (vector<InputRule>::iterator it = formats.begin();
-                         it != formats.end(); it++) {
-
-                        if ( cSqlOutFormated(it->getRowId()) == sChoice) {
-                            //position.push_back(it->getRowId());
-                            actRulePtr = new InputRule(*it);
-                            state = MANAGE_INPUTRULE;
-                            break;
-                        }
-                    }
-
-                    strResult << "invalid choice\n";
-
-                } else {
-                    strResult << "this should not happen\n";
-                }
-                break;
-            }
-
-            case MANAGE_INPUTRULE: {
-                cout << "\nWhat do you want to do?\n"
-                        "1) delete this\n"
-                        "2) change this\n"
-                        "3) add inputRule to outputFormat\n"
-                        "0) back\n"
-                        "q) quit\n";
-
-                sChoice = getUserInput("? ", "[1230q]");
-
-                if (sChoice == "0") {
-                    state = MANAGE_OUTPUTFORMATS;
-                    delete actFormatPtr;
-                    actFormatPtr = NULL;
-
-                } else if (sChoice == "1") {
-                    ruleSet.removeOutputFormat(actFormatPtr->getRowId());
-                    state = MANAGE_OUTPUTFORMATS;
-                    delete actFormatPtr;
-                    actFormatPtr = NULL;
-
-                } else if (sChoice == "2") {
-                    try {
-                        sChoice = getUserInput("new format: ", ".*");
-                        actFormatPtr->setFormat(sChoice);
-                    } catch (exception& ex) {
-                        strResult << "Error: " << ex.what() << endl;
-                    };
-
-                } else if (sChoice == "3") {
-
-                    for (bool done = false;!done;)
-                        try {
-                            //regex userRegex(sRegex);
-                            actFormatPtr->addInputRule(getUserInput("regex: ", ".*"));
-                        	done = true;
-                        } catch (exception &ex) {
-                            cout << "Error: " << ex.what() << endl;
-                        }
-
-                } else {
-                    strResult << "this should not happen\n";
-                }
-                break;
-            }
-
-
-
-            };
-
-            if (regex_match(sChoice, regex("q"))) {
-                state = QUIT;
-            }
-
-        };
 
     } catch (exception& ex) {
         cout << "exception caught: " << ex.what() << endl;
@@ -358,3 +307,13 @@ int main(int argc, char** argv)
     std::cout << std::endl;
     return 0;
 }
+
+consoleStates manageOutputFormats(stack<PropertyObject*>) {
+    cout << "Hi!\n";
+
+
+
+    return QUIT;
+    return MANAGE_OUTPUTFORMATS;
+}
+

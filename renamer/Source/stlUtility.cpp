@@ -5,7 +5,7 @@
 
 string toStdString(wstring source) {
 	char* cstring = new char[source.size() +2];
-	size_t convertedChars = 0;
+	//unused        size_t convertedChars = 0;
 	wcstombs(cstring, source.c_str(), source.size()+1);
 	string ret(cstring);
 	delete[] cstring;
@@ -14,7 +14,7 @@ string toStdString(wstring source) {
 
 wstring toStdWString(string source) {
 	wchar_t* wcstring = new wchar_t[source.size() +2];
-	size_t convertedChars = 0;
+	//unused        size_t convertedChars = 0;
 	mbstowcs(wcstring, source.c_str(), source.size()+1);
 	wstring ret(wcstring);
 	delete[] wcstring;

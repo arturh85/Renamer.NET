@@ -155,6 +155,16 @@ OutputFormat Ruleset::addOutputFormat() {
 }
 
 
+
+
+PropertyObject* Ruleset::toPropertyObjectPtr() const {
+    Ruleset* retVal = new Ruleset(*this);
+
+
+
+    return retVal;
+};
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
