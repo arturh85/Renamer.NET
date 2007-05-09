@@ -48,7 +48,7 @@ void InputRule::createTables(sqlite3* db) {
     string sSql;
 
     sSql = "CREATE TABLE regexes ("
-           "    regex string UNIQUE, "
+           "    regex string, "
            "    outputFormatId ROWID)";
     exec(sSql, db);
 

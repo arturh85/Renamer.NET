@@ -14,6 +14,9 @@ Klasse, und mit Hilfe eines Output Ausdrucks
 in ein gemeinsames Format konvertiert werden können.
 */
 
+
+const int MAGIC_OWNER_ID = 4711;
+
 //! the root of all objects (so far :)
 class Ruleset : public PropertyObject
 {
@@ -24,8 +27,8 @@ class Ruleset : public PropertyObject
         //! Creates an anonymous ruleset in RAM
         Ruleset();
 
-        Ruleset(string name);
-        Ruleset(wstring name);
+        Ruleset(string filename);
+        Ruleset(wstring filename);
 
         virtual ~Ruleset();
 
@@ -44,11 +47,15 @@ class Ruleset : public PropertyObject
         OutputFormat addOutputFormat();
 
         //! gets a collection of OutputFormat objects
-        vector<OutputFormat> getOutputFormats(string sOrderBy = "");
+		vector<OutputFormat> getOutputFormats(string sOrderBy = "");
+		Replacements& getReplacements() const { return *mRplPtr; };
 
         void removeOutputFormat(sqlite_int64);
 
         string getName() const;
+		string getFilename() const;
+
+		sqlite3* getDatabase();
 
 
         #ifdef RENAMER_UNIT_TEST
@@ -63,7 +70,9 @@ class Ruleset : public PropertyObject
     private:
         //  attributes
         string mName;
-        sqlite3* mDb;
+		string mFilename;
+		sqlite3* mDb;
+		Replacements* mRplPtr;
 
         //  methodes
         //! Creates initial tables

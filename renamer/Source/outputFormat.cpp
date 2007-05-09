@@ -18,12 +18,10 @@ void OutputFormat::createTables(sqlite3* db) {
 //! writes the regex to the database
 InputRule OutputFormat::addInputRule(string sRegex) {
     try {
-
         regex newRegex(sRegex); //to check if this is a valid regex
         InputRule retVal( newRegex, mDb);
         retVal.setOutputFormatId(mRow.getRowId());
         return retVal;
-
     } catch (exception& ex) {
         std::stringstream strErr;
         strErr  << "failed add regex, reason:"

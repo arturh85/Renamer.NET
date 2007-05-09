@@ -246,6 +246,10 @@
 					>
 				</File>
 			</File>
+			<File
+				RelativePath=".\RulesetProperties.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
@@ -298,6 +302,10 @@
 			</File>
 			<File
 				RelativePath="..\renamer\Source\outputFormat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\renamer\Source\PropertyObject.h"
 				>
 			</File>
 			<File
@@ -397,7 +405,15 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\RulesetProperties.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="app.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

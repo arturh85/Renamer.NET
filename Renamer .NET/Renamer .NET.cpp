@@ -9,8 +9,8 @@ using namespace RenamerNET;
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-	boost::filesystem::path::default_name_check(boost::filesystem::native);
-
+	boost::filesystem::path::default_name_check(boost::filesystem::no_check);
+	
 	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 

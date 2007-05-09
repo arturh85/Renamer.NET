@@ -9,14 +9,14 @@ namespace fs = boost::filesystem;
 using boost::regex;
 using boost::smatch;
 
-Ruleset::Ruleset(string name)
+Ruleset::Ruleset(string filename)
 {
-    static const regex allowedNames("^\\w[\\w ]*\\w$");
-    exAssertDesc(regex_match(name, allowedNames), "invalid name");
+	fs::path dbFile = fs::path(filename);
+	mFilename = filename;
+	mName = dbFile.leaf();
 
-    mName = name;
-    fs::path dbFile = fs::initial_path() / fs::path(name + ".db3");
-    //cout << "dbFile = " << dbFile.native_file_string() << endl;
+	static const regex allowedNames("^\\w[\\w ]*\\w$");
+	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
 
     bool fIsNew = ( !fs::exists(dbFile) );
     if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
@@ -26,24 +26,46 @@ Ruleset::Ruleset(string name)
 
     if (fIsNew)
       initDb();
+
+	mRplPtr = new Replacements(mDb, "ruleset", MAGIC_OWNER_ID);
 }
 
-Ruleset::Ruleset(wstring name)
+Ruleset::Ruleset(wstring filename)
 {
-	mName = toStdString(name);
-	fs::path dbFile = fs::initial_path() / fs::path(toStdString(name) + ".db3");
-	//cout << "dbFile = " << dbFile.native_file_string() << endl;
+/*	fs::path p("c:", fs::windows_name);
+	string testpath = "/bin/llwget.bat";
+
+
+	fs::path p2 = p / testpath;
+	string res = p2.string();
+
+	fs::path dbFile = fs::path(toStdString(filename));
+	mFilename = toStdString(filename);
+	mName = fs::basename(dbFile.leaf());
+	mName = mName.substr(0, mName.find_last_of("."));*/
+
+
+	mFilename = toStdString(filename);
+	fs::path dbFile = fs::path(mFilename);
+
+	mName = fs::basename(mFilename.substr( mFilename.find_last_of("\\") + 1));
+
+
+//	static const regex allowedNames("^\\w[\\w ]*\\w$");
+//	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
 
 	bool fIsNew = ( !fs::exists(dbFile) );
-	string fileName = dbFile.native_file_string().c_str();
-	wstring WfileName = toStdWString(fileName);
-	if(sqlite3_open16(WfileName.c_str(), &mDb)) {
+//	string fileName = dbFile.native_file_string().c_str();
+//	wstring WfileName = toStdWString(fileName);
+	if(sqlite3_open16(filename.c_str(), &mDb)) {
 		sqlite3_close(mDb);
 		throw std::runtime_error("could not open database file");
 	}
 
 	if (fIsNew)
 	initDb();
+
+	mRplPtr = new Replacements(mDb, "ruleset", MAGIC_OWNER_ID);
 }
 
 Ruleset::Ruleset()
@@ -55,6 +77,9 @@ Ruleset::Ruleset()
     }
 
     initDb();
+
+
+	mRplPtr = new Replacements(mDb, "ruleset", MAGIC_OWNER_ID);
 }
 
 Ruleset::~Ruleset()
@@ -84,6 +109,11 @@ string Ruleset::getName() const {
 	return mName;
 }
 
+string Ruleset::getFilename() const {
+	return mFilename;
+}
+
+
 vector<string> stripVarNames(string sString) {
     static const regex varRegex("\\$(\\w+)\\$");
     smatch what;
@@ -105,6 +135,10 @@ vector<string> stripVarNames(string sString) {
     }
 
     return retVal;
+}
+
+sqlite3* Ruleset::getDatabase() {
+	return mDb;
 }
 
 vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
