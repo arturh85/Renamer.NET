@@ -574,11 +574,18 @@ private: System::Windows::Forms::SaveFileDialog^  saveRulesetFileDialog;
 			this->lstOutputFormat->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->lstOutputFormat->FullRowSelect = true;
+			this->lstOutputFormat->GridLines = true;
+			this->lstOutputFormat->HideSelection = false;
+			this->lstOutputFormat->HoverSelection = true;
 			this->lstOutputFormat->Location = System::Drawing::Point(21, 40);
+			this->lstOutputFormat->MultiSelect = false;
 			this->lstOutputFormat->Name = L"lstOutputFormat";
 			this->lstOutputFormat->Size = System::Drawing::Size(271, 104);
+			this->lstOutputFormat->Sorting = System::Windows::Forms::SortOrder::Ascending;
 			this->lstOutputFormat->TabIndex = 1;
 			this->lstOutputFormat->UseCompatibleStateImageBehavior = false;
+			this->lstOutputFormat->View = System::Windows::Forms::View::List;
 			// 
 			// label2
 			// 

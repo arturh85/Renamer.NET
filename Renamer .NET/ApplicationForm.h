@@ -684,13 +684,13 @@ namespace RenamerNET {
 		}
 
 		System::Void addBeforeReplacement_Clicked(System::Object^  sender, System::EventArgs^  e) {
-			Replacements replacements = ruleset->getReplacements();
+			Replacements replacements = ruleset->getBeforeReplacements();
 			replacements.addReplacement("//", "");
 			loadNodeProperties(guiObjectTree->SelectedNode);
 		}
 
 		System::Void addAfterReplacement_Clicked(System::Object^  sender, System::EventArgs^  e) {
-			Replacements replacements = ruleset->getReplacements();
+			Replacements replacements = ruleset->getAfterReplacements();
 			replacements.addReplacement("//", "");
 			loadNodeProperties(guiObjectTree->SelectedNode);
 		}
@@ -779,7 +779,7 @@ namespace RenamerNET {
 				insertLinkLabelToPanel(1, "AddBeforeReplacement", gcnew System::EventHandler(this, &ApplicationForm::addBeforeReplacement_Clicked));
 				insertLinkLabelToPanel(2, "AddAfterReplacment", gcnew System::EventHandler(this, &ApplicationForm::addAfterReplacement_Clicked));
 
-				Replacements replacements = ruleset->getReplacements();
+				Replacements replacements = ruleset->getAfterReplacements();
 				vector<Replacement> replacementsVector = replacements.getReplacements();
 
 				guiPropertyPanel->RowCount += replacementsVector.size();
@@ -844,7 +844,7 @@ namespace RenamerNET {
 						for(unsigned int l=0; l<gems.size(); l++) {
 							TreeNode^ gemNode = gcnew TreeNode(toClrString(gems[l].getName()));
 							gemNode->ContextMenuStrip = cmsGems;
-							gemNode->Tag = gcnew _PairStringInt(L"gem", gems[l].getRowid());
+							gemNode->Tag = gcnew _PairStringInt(L"gem", gems[l].getRowId());
 
 							inputRuleNode->Nodes->Add(gemNode);
 						}
