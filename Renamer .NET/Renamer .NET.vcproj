@@ -246,10 +246,6 @@
 					>
 				</File>
 			</File>
-			<File
-				RelativePath=".\RulesetProperties.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
@@ -405,10 +401,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\RulesetProperties.cpp"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global

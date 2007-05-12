@@ -19,13 +19,13 @@ class Replacement {
         Replacement(sqlite3* db, sqlite_int64 row) : mRow(db, "replacements", row) {}  ;
 
         //---------------------------------------------------------------------
-        //  methodes
+        //  methods
 
 
         //! Creates replacements table
         static void createTables(sqlite3* db);
 
-        //! a result is returnt regardless wether something matched
+        //! a result is returned regardless whether something matched
         string replace(string);
 
         //! if the regex matches it is replaced with this

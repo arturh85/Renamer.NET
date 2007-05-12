@@ -81,10 +81,10 @@ class InputRule {
         Replacements* mRplPtr;
 
         //---------------------------------------------------------------------
-        //  methodes
+        //  methods
 
         //! copies member attributes
-        /** dublicates pointer targets, so they can be safely deleted
+        /** duplicates pointer targets, so they can be safely deleted
         */
         void copy(const InputRule& source);
 

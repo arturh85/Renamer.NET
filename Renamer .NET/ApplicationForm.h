@@ -8,10 +8,11 @@
 #include "stdlib.h"
 #include "error.h"
 
-#include "RulesetProperties.h"
-
 //! List of all loaded Rulesets
-	vector<Ruleset*> ruleSets;
+/**
+ Needs to be global, because managed classes may not have unmanaged classes as members
+*/
+	vector<Ruleset*> rulesetList;
 
 namespace RenamerNET {
 	using namespace System;
@@ -40,15 +41,9 @@ namespace RenamerNET {
 		ApplicationForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Konstruktorcode hier hinzufügen.
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Verwendete Ressourcen bereinigen.
-		/// </summary>
 		~ApplicationForm()
 		{
 			if (components)
@@ -60,7 +55,7 @@ namespace RenamerNET {
 #pragma region Form Attributes
 
     //! Currently used Ruleset
-	private: Ruleset* ruleSet;
+	private: Ruleset* ruleset;
 
 
 	private: static String^ WindowTitle = "Renamer";
@@ -120,6 +115,7 @@ namespace RenamerNET {
 	private: System::Windows::Forms::SaveFileDialog^  newFileDialog;
 	private: System::Windows::Forms::ContextMenuStrip^  cmsGems;
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
+	private: System::Windows::Forms::ToolStripMenuItem^  closeToolStripMenuItem;
 
 	private: System::ComponentModel::IContainer^  components;
 
@@ -172,6 +168,7 @@ namespace RenamerNET {
 			this->newFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->cmsGems = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->closeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
 			splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
 			fileListToolStrip = (gcnew System::Windows::Forms::ToolStrip());
@@ -484,9 +481,10 @@ namespace RenamerNET {
 			// 
 			// cmsRulesets
 			// 
-			this->cmsRulesets->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsmiCreateOutputFormat});
+			this->cmsRulesets->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsmiCreateOutputFormat, 
+				this->closeToolStripMenuItem});
 			this->cmsRulesets->Name = L"contextMenuStrip1";
-			this->cmsRulesets->Size = System::Drawing::Size(185, 26);
+			this->cmsRulesets->Size = System::Drawing::Size(185, 70);
 			// 
 			// tsmiCreateOutputFormat
 			// 
@@ -526,6 +524,13 @@ namespace RenamerNET {
 			this->richTextBox1->Text = L"";
 			this->richTextBox1->TextChanged += gcnew System::EventHandler(this, &ApplicationForm::richTextBox1_TextChanged);
 			// 
+			// closeToolStripMenuItem
+			// 
+			this->closeToolStripMenuItem->Name = L"closeToolStripMenuItem";
+			this->closeToolStripMenuItem->Size = System::Drawing::Size(184, 22);
+			this->closeToolStripMenuItem->Text = L"Close";
+			this->closeToolStripMenuItem->Click += gcnew System::EventHandler(this, &ApplicationForm::closeToolStripMenuItem_Click);
+			// 
 			// ApplicationForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -560,12 +565,12 @@ namespace RenamerNET {
 		}
 #pragma endregion
 #pragma region Renamer Business Logic
-		void createRuleSet(String^ ruleSetFileName) {
-			String^ ruleSetName = System::IO::Path::GetFileNameWithoutExtension(ruleSetFileName);
-			exAssert(ruleSetName != "");
+		void createRuleset(String^ rulesetFileName) {
+			String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(rulesetFileName);
+			exAssert(rulesetName != "");
 
 			try {
-				ruleSets.push_back(new Ruleset(toStdWString(ruleSetFileName)));
+				rulesetList.push_back(new Ruleset(toStdWString(rulesetFileName)));
 			}
 
 			catch(exception& e) {
@@ -574,6 +579,14 @@ namespace RenamerNET {
 				MessageBox::Show(message, L"Exception!" );
 				return;
 			}
+		}
+
+		TreeNode^ getTreeNode(int rulesetIndex) {
+			for(int i=0; i<guiObjectTree->Nodes->Count; i++) {
+				if(((_PairStringInt^)guiObjectTree->Nodes[i]->Tag)->value == rulesetIndex)
+					return guiObjectTree->Nodes[i];
+			}
+			return nullptr;
 		}
 
 		void loadContextStripToEditMenu(System::Windows::Forms::ContextMenuStrip^ cms) {
@@ -611,21 +624,21 @@ namespace RenamerNET {
 				return false;
 			}
 
-			for(unsigned int i=0; i<ruleSets.size(); i++) {
-				if(toClrString(ruleSets[i]->getFilename()) == filename)
+			for(unsigned int i=0; i<rulesetList.size(); i++) {
+				if(toClrString(rulesetList[i]->getFilename()) == filename)
 					return false;
 			}
 
 
 
 			exAssert(filename != "");
-			String^ ruleSetName = System::IO::Path::GetFileNameWithoutExtension(filename);
-			exAssert(ruleSetName != "");
+			String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(filename);
+			exAssert(rulesetName != "");
 
 
 
 			try {
-				ruleSets.push_back(new Ruleset(toStdWString(filename)));
+				rulesetList.push_back(new Ruleset(toStdWString(filename)));
 			}
 
 			catch(exception& e) {
@@ -638,27 +651,27 @@ namespace RenamerNET {
 			return true;
 		}
 
-		void renameRuleSet(int ruleSetIndex, String^ newRuleSetName) {
-			if(ruleSets[ruleSetIndex]) {
-				String^ oldRuleSetName = toClrString(ruleSets[ruleSetIndex]->getName());
-				String^ oldRuleSetFileName = toClrString(ruleSets[ruleSetIndex]->getFilename());
-				String^ newRuleSetFileName = oldRuleSetFileName->Substring(0, oldRuleSetFileName->LastIndexOf(L'\\')+1) + newRuleSetName +  oldRuleSetFileName->Substring(oldRuleSetFileName->LastIndexOf(L'.'));
-				// if newRuleSetName is invalid, don't rename ...
-				if(newRuleSetName == "" || System::IO::File::Exists(newRuleSetFileName))
+		void renameRuleset(int rulesetIndex, String^ newRulesetName) {
+			if(rulesetList[rulesetIndex]) {
+				String^ oldRulesetName = toClrString(rulesetList[rulesetIndex]->getName());
+				String^ oldRulesetFileName = toClrString(rulesetList[rulesetIndex]->getFilename());
+				String^ newRulesetFileName = oldRulesetFileName->Substring(0, oldRulesetFileName->LastIndexOf(L'\\')+1) + newRulesetName +  oldRulesetFileName->Substring(oldRulesetFileName->LastIndexOf(L'.'));
+				// if newRulesetName is invalid, don't rename ...
+				if(newRulesetName == "" || System::IO::File::Exists(newRulesetFileName))
 					return ;
-				delete ruleSets[ruleSetIndex];
-				File::Move(oldRuleSetFileName, newRuleSetFileName);
-				string s = toStdString(newRuleSetName);
-				ruleSets[ruleSetIndex] = new Ruleset(toStdWString(newRuleSetFileName));
+				delete rulesetList[rulesetIndex];
+				File::Move(oldRulesetFileName, newRulesetFileName);
+				string s = toStdString(newRulesetName);
+				rulesetList[rulesetIndex] = new Ruleset(toStdWString(newRulesetFileName));
 			}
 		}
 
-		void deleteRuleSet(int ruleSetIndex) {
-			if(ruleSets[ruleSetIndex]) {
-				String^ ruleSetFileNmae = toClrString(ruleSets[ruleSetIndex]->getFilename());
-				delete ruleSets[ruleSetIndex];
-				ruleSets[ruleSetIndex] = NULL;
-				File::Delete(ruleSetFileNmae);
+		void deleteRuleset(int rulesetIndex) {
+			if(rulesetList[rulesetIndex]) {
+				String^ rulesetFileNmae = toClrString(rulesetList[rulesetIndex]->getFilename());
+				delete rulesetList[rulesetIndex];
+				rulesetList[rulesetIndex] = NULL;
+				File::Delete(rulesetFileNmae);
 			}
 		}
 
@@ -670,27 +683,43 @@ namespace RenamerNET {
 			guiFileList->Items->Add(item);
 		}
 
-		System::Void ruleSetName_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-			RichTextBox^ propertyEdit = (RichTextBox^) sender;
-			String^ newRuleSetName = propertyEdit->Text;
-			int ruleSetIndex = int(((_PairStringInt^) guiObjectTree->SelectedNode->Tag)->value);
-			
-			if(!System::Text::RegularExpressions::Regex::IsMatch(newRuleSetName, "^[\\w \\.\\-_]*$")) {
-				// invalid ruleset name
-				propertyEdit->Text = toClrString(ruleSets[ruleSetIndex]->getName());
-				return ;
-			}
+		System::Void addBeforeReplacement_Clicked(System::Object^  sender, System::EventArgs^  e) {
+			Replacements replacements = ruleset->getReplacements();
+			replacements.addReplacement("//", "");
+			loadNodeProperties(guiObjectTree->SelectedNode);
+		}
 
-			renameRuleSet(ruleSetIndex, newRuleSetName);
-			guiObjectTree->SelectedNode->Text = newRuleSetName;
+		System::Void addAfterReplacement_Clicked(System::Object^  sender, System::EventArgs^  e) {
+			Replacements replacements = ruleset->getReplacements();
+			replacements.addReplacement("//", "");
+			loadNodeProperties(guiObjectTree->SelectedNode);
 		}
 
 
-		void insertPropertyToPanel(int row, String^ label, String^ value, System::EventHandler^ handler_TextChanged) {
+		System::Void replacementField_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+		}
+
+		System::Void rulesetName_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+			TextBox^ propertyEdit = (TextBox^) sender;
+			String^ newRulesetName = propertyEdit->Text;
+			int rulesetIndex = int(((_PairStringInt^) guiObjectTree->SelectedNode->Tag)->value);
+			
+			if(!System::Text::RegularExpressions::Regex::IsMatch(newRulesetName, "^[\\w \\.\\-_]*$")) {
+				// invalid ruleset name
+				propertyEdit->Text = toClrString(rulesetList[rulesetIndex]->getName());
+				return ;
+			}
+
+			renameRuleset(rulesetIndex, newRulesetName);
+			guiObjectTree->SelectedNode->Text = newRulesetName;
+		}
+
+		void insertEditPropertyToPanel(int row, String^ label, String^ value, System::EventHandler^ handler_TextChanged) {
 			Label^ propertyLabel = gcnew Label();
 			propertyLabel->Text = label;
 
-			RichTextBox^ propertyEdit = gcnew RichTextBox();
+			TextBox^ propertyEdit = gcnew TextBox();
 			propertyEdit->Text = value;
 			propertyEdit->Multiline = false;
 			propertyEdit->Height = 18;
@@ -701,55 +730,101 @@ namespace RenamerNET {
 
 			guiPropertyPanel->Controls->Add(propertyLabel, 0,row);
 			guiPropertyPanel->Controls->Add(propertyEdit,  1,row);
-
 		}
+
+
+		void insertReplacementPropertyToPanel(int row, Replacement replacement, System::EventHandler^ handler_TextChanged) {
+			TextBox^ propertyEdit1 = gcnew TextBox();
+			propertyEdit1->Text = toClrString(replacement.getRegex().str());
+			propertyEdit1->Multiline = false;
+			propertyEdit1->Height = 18;
+
+			TextBox^ propertyEdit2 = gcnew TextBox();
+			propertyEdit2->Text = toClrString(replacement.getReplacement());
+			propertyEdit2->Multiline = false;
+			propertyEdit2->Height = 18;
+
+			// adding event handlers
+			if(handler_TextChanged != nullptr) {
+				propertyEdit1->TextChanged += handler_TextChanged;
+				propertyEdit2->TextChanged += handler_TextChanged;
+			}
+
+			guiPropertyPanel->Controls->Add(propertyEdit1, 0,row);
+			guiPropertyPanel->Controls->Add(propertyEdit2, 1,row);
+		}
+
+		void insertLinkLabelToPanel(int row, String^ label, System::EventHandler^ handler_Click) {
+			LinkLabel^ propertyLinkLabel = gcnew LinkLabel();
+			propertyLinkLabel->Text = label;
+
+			// adding event handlers
+			if(handler_Click != nullptr)
+				propertyLinkLabel->Click += handler_Click;
+
+			guiPropertyPanel->Controls->Add(propertyLinkLabel, 0,row);
+		}
+
 
 		void loadNodeProperties(TreeNode^ node) {
 			_PairStringInt^ properties = (_PairStringInt^) node->Tag;
 
+			guiPropertyPanel->SuspendLayout();
 			guiPropertyPanel->Controls->Clear();
 
 			if(properties->key == L"ruleset") {
-				ruleSet = ruleSets[(int) properties->value];
-				guiPropertyPanel->RowCount = 1;
-				insertPropertyToPanel(0, "Name", toClrString(ruleSet->getName()), gcnew System::EventHandler(this, &ApplicationForm::ruleSetName_TextChanged));
+				ruleset = rulesetList[(int) properties->value];
+				guiPropertyPanel->RowCount = 3;
+				insertEditPropertyToPanel(0, "Name", toClrString(ruleset->getName()), gcnew System::EventHandler(this, &ApplicationForm::rulesetName_TextChanged));
+				insertLinkLabelToPanel(1, "AddBeforeReplacement", gcnew System::EventHandler(this, &ApplicationForm::addBeforeReplacement_Clicked));
+				insertLinkLabelToPanel(2, "AddAfterReplacment", gcnew System::EventHandler(this, &ApplicationForm::addAfterReplacement_Clicked));
+
+				Replacements replacements = ruleset->getReplacements();
+				vector<Replacement> replacementsVector = replacements.getReplacements();
+
+				guiPropertyPanel->RowCount += replacementsVector.size();
+				for(unsigned int i=0; i<replacementsVector.size(); i++) {
+					insertReplacementPropertyToPanel(3+i, replacementsVector[i], gcnew System::EventHandler(this, &ApplicationForm::replacementField_TextChanged));
+				}
+
 			} else if (properties->key == L"outputformat") {
 				_PairStringInt^ rulesetProperties = (_PairStringInt^) node->Parent->Tag;
-				ruleSet = ruleSets[(int) rulesetProperties->value];				
+				ruleset = rulesetList[(int) rulesetProperties->value];				
 
-				OutputFormat outputFormat(ruleSet->getDatabase(), properties->value);
+				OutputFormat outputFormat(ruleset->getDatabase(), properties->value);
 				guiPropertyPanel->RowCount = 1;
-				insertPropertyToPanel(0, "OutputFormat", toClrString(outputFormat.getFormat()), nullptr);
+				insertEditPropertyToPanel(0, "OutputFormat", toClrString(outputFormat.getFormat()), nullptr);
 			} else if (properties->key== L"inputrule") {
 				_PairStringInt^ rulesetProperties = (_PairStringInt^) node->Parent->Parent->Tag;
-				ruleSet = ruleSets[(int) rulesetProperties->value];				
+				ruleset = rulesetList[(int) rulesetProperties->value];				
 
-				InputRule inputRule(properties->value, ruleSet->getDatabase());
+				InputRule inputRule(properties->value, ruleset->getDatabase());
 				guiPropertyPanel->RowCount = 1;
-				insertPropertyToPanel(0, "Regular Expression", toClrString(inputRule.getRegex()), nullptr);
+				insertEditPropertyToPanel(0, "Regular Expression", toClrString(inputRule.getRegex()), nullptr);
 			} else if (properties->key == L"gem") {
 				_PairStringInt^ rulesetProperties = (_PairStringInt^) node->Parent->Parent->Parent->Tag;
-				ruleSet = ruleSets[(int) rulesetProperties->value];				
+				ruleset = rulesetList[(int) rulesetProperties->value];				
 				_PairStringInt^ inputRuleProperties = (_PairStringInt^) node->Parent->Tag;
 
-				Gem gem(ruleSet->getDatabase(), inputRuleProperties->value, properties->value);
+				Gem gem(ruleset->getDatabase(), inputRuleProperties->value, properties->value);
 				guiPropertyPanel->RowCount = 1;
-				insertPropertyToPanel(0, "Name", toClrString(gem.getName()), nullptr);
+				insertEditPropertyToPanel(0, "Name", toClrString(gem.getName()), nullptr);
 			}
+			guiPropertyPanel->ResumeLayout();
 		}
 
 		void loadObjectTree() 
 		{
 			guiObjectTree->Nodes->Clear();
 
-			for(unsigned int i=0; i<ruleSets.size(); i++) {
-				TreeNode^ rulesetNode = gcnew TreeNode(toClrString(ruleSets[i]->getName()));
+			for(unsigned int i=0; i<rulesetList.size(); i++) {
+				TreeNode^ rulesetNode = gcnew TreeNode(toClrString(rulesetList[i]->getName()));
 				rulesetNode->ContextMenuStrip = cmsRulesets;
 				rulesetNode->Tag = gcnew _PairStringInt(L"ruleset", i);
 
 				guiObjectTree->Nodes->Add(rulesetNode);
 
-				vector<OutputFormat> outputFormats = ruleSets[i]->getOutputFormats();
+				vector<OutputFormat> outputFormats = rulesetList[i]->getOutputFormats();
 				for(unsigned int j=0; j<outputFormats.size(); j++) {
 					TreeNode^ outputFormatNode = gcnew TreeNode(toClrString(outputFormats[j].getFormat()));
 					outputFormatNode->ContextMenuStrip = cmsOutputFormats;
@@ -781,7 +856,7 @@ namespace RenamerNET {
 
 			}
 
-			if(ruleSets.size() == 0) {
+			if(rulesetList.size() == 0) {
 				TreeNode^ dummyNode = gcnew TreeNode("No Rulesets found!");
 				dummyNode->Tag = gcnew _PairStringInt(L"dummy", 0);
 				guiObjectTree->Nodes->Add(dummyNode);
@@ -792,7 +867,7 @@ namespace RenamerNET {
 
 	private: System::Void ApplicationForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		 Text = WindowTitle;
-		 ruleSet = NULL;
+		 ruleset = NULL;
 
 		 String^ lastRulesets = Microsoft::VisualBasic::Interaction::GetSetting("Renamer", "Settings", "rulesets", "--empty--");
 
@@ -810,15 +885,17 @@ namespace RenamerNET {
 	}
 	
 	private: System::Void ApplicationForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
-			 String^ ruleSetList = L"";
+			 //! creates a | seperated list of ruleset filenames
+			 String^ rulesetStringList = L"";
 
-			 for(unsigned int i=0; i<ruleSets.size(); i++) {
-					ruleSetList += toClrString(ruleSets[i]->getFilename());
-					if(i < (ruleSets.size() -1)) 
-						ruleSetList += L"|";
+			 for(unsigned int i=0; i<rulesetList.size(); i++) {
+					rulesetStringList += toClrString(rulesetList[i]->getFilename());
+					// don't add a | on the end of the list, only in between filenames
+					if(i < (rulesetList.size() -1)) 
+						rulesetStringList += L"|";
 			 }
 				 
-			 Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "rulesets", ruleSetList);
+			 Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "rulesets", rulesetStringList);
 	}
 
 private: System::Void dlgAddFiles_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
@@ -828,10 +905,10 @@ private: System::Void dlgAddFiles_FileOk(System::Object^  sender, System::Compon
 		 }
 
 private: System::Void tsmiRenameSet_Click(System::Object^  sender, System::EventArgs^  e) {
-			/* if(cboRuleSets->Items->Count == 0 ||ruleSetEditMode == true)
+			/* if(cboRulesets->Items->Count == 0 ||rulesetEditMode == true)
 				 return ;
-			 renamingSet = cboRuleSets->Text;
-			 setRuleSetEditMode(true);
+			 renamingSet = cboRulesets->Text;
+			 setRulesetEditMode(true);
 			 cmdNewSet->Text = cmdNewSet_SaveText;*/
 		 }
 private: System::Void guiObjectTree_AfterSelect(System::Object^  sender, System::Windows::Forms::TreeViewEventArgs^  e) {
@@ -839,21 +916,21 @@ private: System::Void guiObjectTree_AfterSelect(System::Object^  sender, System:
 			 //loadContextStripToEditMenu(e->Node->ContextMenuStrip);
 		 }
 private: System::Void tsmiCreateOutputFormat_Click(System::Object^  sender, System::EventArgs^  e) {
-			 OutputFormat newOutputFormat = ruleSet->addOutputFormat();
+			 OutputFormat newOutputFormat = ruleset->addOutputFormat();
 			 newOutputFormat.setFormat("new OutputFormat");
 
 			 loadObjectTree();
 		 }
 private: System::Void tsmiCreateGem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 sqlite_int64  rowid = ((_PairStringInt^)(guiObjectTree->SelectedNode->Tag))->value;
-			 InputRule senderInputRule(rowid, ruleSet->getDatabase());
+			 InputRule senderInputRule(rowid, ruleset->getDatabase());
 			 Gem newGem = senderInputRule.addGem("new Gem");
 
 			 loadObjectTree();
 		 }
 private: System::Void tsmiCreateInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 sqlite_int64  rowid = ((_PairStringInt^)(guiObjectTree->SelectedNode->Tag))->value;
-			 OutputFormat senderOutputFormat(ruleSet->getDatabase(), rowid);
+			 OutputFormat senderOutputFormat(ruleset->getDatabase(), rowid);
 			 InputRule newInputRule = senderOutputFormat.addInputRule("new InputRule");
 
 			 loadObjectTree();
@@ -905,7 +982,7 @@ private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, Syste
 			 //! \todo Ask yourself if we really need this Save button?
 		 }
 private: System::Void saveAsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 saveAsFileDialog->FileName = toClrString(ruleSet->getFilename());
+			 saveAsFileDialog->FileName = toClrString(ruleset->getFilename());
 			 saveAsFileDialog->ShowDialog();
 		 }
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -920,14 +997,14 @@ private: System::Void saveFileDialog_FileOk(System::Object^  sender, System::Com
 		 }
 private: System::Void saveAsFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			 if(!e->Cancel) {
-				 System::IO::File::Copy(toClrString(ruleSet->getFilename()), saveAsFileDialog->FileName);
+				 System::IO::File::Copy(toClrString(ruleset->getFilename()), saveAsFileDialog->FileName);
 				 loadRuleset(saveAsFileDialog->FileName);
 				 loadObjectTree();
 			 }
 		 }
 private: System::Void newFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			 if(!e->Cancel) {
-				createRuleSet(newFileDialog->FileName);
+				createRuleset(newFileDialog->FileName);
 				loadRuleset(newFileDialog->FileName);
 				loadObjectTree();
 			 }
@@ -939,6 +1016,9 @@ private: System::Void openFileDialog_FileOk(System::Object^  sender, System::Com
 			 }
 		 }
 private: System::Void richTextBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void closeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
 		 }
 };
 }
