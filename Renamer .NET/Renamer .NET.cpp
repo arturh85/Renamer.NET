@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "ApplicationForm.h"
+#include "WizardForm.h"
 #include "globals.h"
 
 using namespace RenamerNET;
@@ -16,6 +17,6 @@ int main(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	// Hauptfenster erstellen und ausführen
-	Application::Run(gcnew ApplicationForm());
+	Application::Run(gcnew WizardForm());
 	return 0;
 }

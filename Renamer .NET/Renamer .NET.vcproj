@@ -229,6 +229,10 @@
 			RelativePath="System.DirectoryServices.dll"
 			AssemblyName="System.DirectoryServices, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 		/>
+		<AssemblyReference
+			RelativePath="System.ServiceProcess.dll"
+			AssemblyName="System.ServiceProcess, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -242,6 +246,16 @@
 				>
 				<File
 					RelativePath=".\ApplicationForm.resX"
+					SubType="Designer"
+					>
+				</File>
+			</File>
+			<File
+				RelativePath=".\WizardForm.h"
+				FileType="3"
+				>
+				<File
+					RelativePath=".\WizardForm.resx"
 					SubType="Designer"
 					>
 				</File>
@@ -401,6 +415,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\WizardForm.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 		<Global
