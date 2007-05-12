@@ -60,4 +60,18 @@ inline void exec(stringstream& strSql, sqlite3* db, sqlite3_callback cb=NULL, vo
     exec(strSql.str(), db, cb, param);
 };
 
+//! Executes a Sql query. And returns the value of the first field or nothing
+inline string query(stringstream strSql, sqlite3* db) {
+    string sRetVal;
+    exec(strSql.str(), db, onReadFirstField, &sRetVal);
+    return sRetVal;
+};
+
+//! Executes a Sql query. And returns the value of the first field or nothing
+inline string query(string sSql, sqlite3* db) {
+    string sRetVal;
+    exec(sSql, db, onReadFirstField, &sRetVal);
+    return sRetVal;
+};
+
 #endif //SQL_TOOLS

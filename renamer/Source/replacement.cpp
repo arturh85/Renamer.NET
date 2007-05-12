@@ -56,8 +56,8 @@ void Replacement::unitTest() {
 
     BOOST_CHECK(rpAlpha.replace("abc") != "XBC");
 
-    BOOST_CHECKPOINT("getRowid");
-    BOOST_CHECK(rpAlpha.getRowid() == sqlite3_last_insert_rowid(db));
+    BOOST_CHECKPOINT("getRowId");
+    BOOST_CHECK(rpAlpha.getRowId() == sqlite3_last_insert_rowid(db));
 
 
     Replacement rpBeta(db);

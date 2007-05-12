@@ -51,14 +51,6 @@ vector<InputRule> OutputFormat::getInputRules() {
     return retVal;
 }
 
-void OutputFormat::removeInputRule(sqlite_int64 rowid) {
-    stringstream strSql;
-    strSql  << "DELETE FROM regexes "
-            << "WHERE rowid = " << rowid;
-    exec(strSql, mDb);
-    return;
-}
-
 bool OutputFormat::applyTo(string fileName, string& outputFileName) {
     vector<InputRule> rules = getInputRules();
     for (vector<InputRule>::iterator it = rules.begin();
@@ -80,6 +72,22 @@ bool OutputFormat::applyTo(string fileName, string& outputFileName) {
 
     }
     return false;
+}
+
+void OutputFormat::remove() {
+    vector<InputRule> rules = getInputRules();
+    for (vector<InputRule>::iterator it = rules.begin();
+         it != rules.end(); it++) {
+
+      it->remove();
+    }
+
+    stringstream strSql;
+    strSql << "DELETE FROM outputFormats WHERE rowid = "
+           << cSqlOutFormated(getRowId());
+    exec(strSql, mDb);
+    return;
+
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -111,13 +119,15 @@ void OutputFormat::unitTest() {
 
     BOOST_CHECKPOINT("Create formatAlpha");
     OutputFormat formatAlpha(db);
+    BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "1");
+    BOOST_CHECK_THROW(OutputFormat formatAlpha(db, -1), runtime_error);
     formatAlpha.addInputRule("dummy");
     formatAlpha.addInputRule("HalloWelt!");
     formatAlpha.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)");
 
-    BOOST_CHECK_THROW(formatAlpha.addInputRule("dummy"), runtime_error);
-    BOOST_CHECK_THROW(formatAlpha.addInputRule("HalloWelt!"), runtime_error);
-    BOOST_CHECK_THROW(formatAlpha.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)"), runtime_error);
+//    BOOST_CHECK_THROW(formatAlpha.addInputRule("dummy"), runtime_error);
+//    BOOST_CHECK_THROW(formatAlpha.addInputRule("HalloWelt!"), runtime_error);
+//    BOOST_CHECK_THROW(formatAlpha.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)"), runtime_error);
 
     BOOST_CHECKPOINT("checkformatAlpha.getInputRules()");
     BOOST_CHECK( formatAlpha.getInputRules().size() == 3);
@@ -127,6 +137,7 @@ void OutputFormat::unitTest() {
 
     BOOST_CHECKPOINT("Create formatBeta");
     OutputFormat formatBeta(db);
+    BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "2");
 
     formatBeta.setFormat("Dr. House - $season$x$episode$");
     InputRule ruleBeta = formatBeta.addInputRule("House\\.S(\\d+)E(\\d+).*");
@@ -143,6 +154,7 @@ void OutputFormat::unitTest() {
 
     BOOST_CHECKPOINT("Create formatGamma");
     OutputFormat formatGamma(db);
+    BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "3");
     formatGamma.setFormat("$name$");
     InputRule ruleGamma = formatGamma.addInputRule("(.*)");
     BOOST_REQUIRE(formatGamma.getInputRules().size() > 0);
@@ -156,6 +168,17 @@ void OutputFormat::unitTest() {
     BOOST_CHECK(formatGamma.applyTo("House.S03E13.HDTV.XviD-LOL", sNewFilename));
     BOOST_CHECK(sNewFilename == "House S03E13 HDTV XviD-LOL");
 //    cout << "sNewFilename " << sNewFilename << endl;
+
+    BOOST_CHECKPOINT("Create formatZeta");
+    BOOST_CHECK_THROW(OutputFormat formatZeta(db, -1), runtime_error);
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM outputFormats", db) , "3");
+
+    BOOST_CHECKPOINT("delete formatZeta");
+    formatAlpha.remove();
+    formatBeta.remove();
+    formatGamma.remove();
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM outputFormats", db) , "0");
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM regexes", db) , "0");
 
 }
 

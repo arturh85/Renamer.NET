@@ -47,16 +47,21 @@ class Ruleset : public PropertyObject
         OutputFormat addOutputFormat();
 
         //! gets a collection of OutputFormat objects
-		vector<OutputFormat> getOutputFormats(string sOrderBy = "");
-		Replacements& getReplacements() const { return *mRplPtr; };
+        vector<OutputFormat> getOutputFormats(string sOrderBy = "");
 
         void removeOutputFormat(sqlite_int64);
 
         string getName() const;
-		string getFilename() const;
+        string getFilename() const;
 
-		sqlite3* getDatabase();
+        ///\todo this is bad :(
+        sqlite3* getDatabase();
 
+        ///these are applied before anything else is done with the filename
+        Replacements& getBeforeReplacements() const { return *mBeforeReplacementsPtr; };
+
+        ///these are applied at the very end of everyting
+        Replacements& getAfterReplacements() const { return *mAfterReplacementsPtr; };
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
@@ -70,9 +75,10 @@ class Ruleset : public PropertyObject
     private:
         //  attributes
         string mName;
-		string mFilename;
-		sqlite3* mDb;
-		Replacements* mRplPtr;
+        string mFilename;
+        sqlite3* mDb;
+        Replacements* mBeforeReplacementsPtr;
+        Replacements* mAfterReplacementsPtr;
 
         //  methodes
         //! Creates initial tables

@@ -103,7 +103,7 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
         //what[0] is the whole matched thing
         exAssertDesc(what.size() > myGems.size(), "matched not all gems");
         for (int nGemIndex=0;nGemIndex < static_cast<int>(myGems.size()); nGemIndex++ ) {
-            GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex].getRowid());
+            GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex].getRowId());
             //newValue.value = getReplacements().replace(what[nGemIndex+1]); // 1based
             newValue.value = what[nGemIndex+1]; // 1based
             matches.push_back(newValue);
@@ -145,6 +145,23 @@ vector<Gem> InputRule::getGems() const {
     return retVal;
 }
 
+void InputRule::remove() {
+    vector<Gem> gems = getGems();
+    for (vector<Gem>::iterator it = gems.begin();
+         it != gems.end(); it++) {
+
+       it->remove();
+    }
+
+    stringstream strSql;
+    strSql << "DELETE FROM regexes WHERE rowid = "
+           << cSqlOutFormated(getRowId());
+//    cout << strSql.str() << endl;
+    exec(strSql, mDb);
+    return;
+
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
@@ -179,6 +196,10 @@ void InputRule::unitTest() {
     ruleAlpha.addGem("fileName");
     ruleBeta.addGem("fileName");
     ruleGamma.addGem("fileName");
+
+    BOOST_CHECKPOINT("get gem");
+    BOOST_CHECK(ruleAlpha.getGems().size() == 1);
+    BOOST_CHECK(ruleAlpha.getGems()[0].getName() == "fileName");
 
     BOOST_CHECKPOINT("getRegex(), first time");
     BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
@@ -287,7 +308,15 @@ void InputRule::unitTest() {
     BOOST_CHECK(gems[1].getName() == "episode");
     BOOST_CHECK(gems[1].value == "16");
 
-    //  clean up
+    BOOST_CHECKPOINT("clean up");
+    ruleAlpha.remove();
+    ruleBeta.remove();
+    ruleGamma.remove();
+    ruleEpsilon.remove();
+    ruleZeta.remove();
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM regexes", db) , "0");
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM gems", db) , "0");
+
     sqlite3_close(db);
 }
 

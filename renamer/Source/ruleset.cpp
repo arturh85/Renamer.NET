@@ -27,7 +27,8 @@ Ruleset::Ruleset(string filename)
     if (fIsNew)
       initDb();
 
-	mRplPtr = new Replacements(mDb, "ruleset", MAGIC_OWNER_ID);
+	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
+	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
 
 Ruleset::Ruleset(wstring filename)
@@ -65,7 +66,8 @@ Ruleset::Ruleset(wstring filename)
 	if (fIsNew)
 	initDb();
 
-	mRplPtr = new Replacements(mDb, "ruleset", MAGIC_OWNER_ID);
+	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
+	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
 
 Ruleset::Ruleset()
@@ -79,7 +81,8 @@ Ruleset::Ruleset()
     initDb();
 
 
-	mRplPtr = new Replacements(mDb, "ruleset", MAGIC_OWNER_ID);
+    mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
+    mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
 
 Ruleset::~Ruleset()
@@ -161,15 +164,6 @@ vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
     return retVal;
 }
 
-void Ruleset::removeOutputFormat(sqlite_int64 id) {
-    stringstream strSql;
-    strSql << "DELETE FROM outputFormats WHERE rowid = "
-           << cSqlOutFormated(id);
-    exec(strSql, mDb);
-    return;
-}
-
-
 bool Ruleset::applyTo(string fileName, string& outputFileName) {
     vector<OutputFormat> rules = getOutputFormats();
 
@@ -187,9 +181,6 @@ OutputFormat Ruleset::addOutputFormat() {
     OutputFormat retVal(mDb);
     return retVal;
 }
-
-
-
 
 PropertyObject* Ruleset::toPropertyObjectPtr() const {
     Ruleset* retVal = new Ruleset(*this);

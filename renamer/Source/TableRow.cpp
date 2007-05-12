@@ -26,6 +26,20 @@ TableRow::TableRow(sqlite3* db, string table, string field, string value) {
 }
 
 TableRow::TableRow(sqlite3* db, string table, sqlite_int64 rowid) {
+    stringstream strSql;
+    strSql  << "SELECT COUNT(*) FROM " << table
+            << " WHERE rowid = " << rowid;
+    string sRetVal;
+    exec(strSql, db, onReadFirstField, &sRetVal);
+    //exAssertDesc(sRetVal == "1", "no such row");
+    if(sRetVal != "1") {
+      stringstream strErrMsg;
+      strErrMsg << "no row "
+                << rowid << " in table '"
+                << table << "'";
+      throw runtime_error( strErrMsg.str() );
+    }
+
     mRowid = rowid;
     mDb = db;
     mTable = table;

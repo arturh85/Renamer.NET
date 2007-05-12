@@ -49,7 +49,7 @@ class Replacement {
             {mRow.set("regex", v.str());} ;
 
         //! get replacements.rowid
-        sqlite_int64 getRowid() const
+        sqlite_int64 getRowId() const
           { return cSqlInFormated<sqlite_int64>(mRow.get("rowid")); };
 
         //! get replacements.GroupId

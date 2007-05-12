@@ -18,7 +18,7 @@ class Gem {
 
         //! creates a new Gem object with existing data
         Gem(sqlite3* db, sqlite_int64 ruleId, sqlite_int64 row) :
-            mRow(db, "Gems", row), replacers(db, "gem", row) { setRuleId(ruleId); }  ;
+            mDb(db), mRow(db, "Gems", row), replacers(db, "gem", row) { setRuleId(ruleId); }  ;
 
         //---------------------------------------------------------------------
         //  methodes
@@ -28,8 +28,9 @@ class Gem {
         static void createTables(sqlite3* db);
 
         //! get Gems.rowid
-        sqlite_int64 getRowid() const
-            { return cSqlInFormated<sqlite_int64>(mRow.get("rowid")); };
+        sqlite_int64 getRowId() const
+            { return mRow.getRowId(); };
+            //{ return cSqlInFormated<sqlite_int64>(mRow.get("rowid")); };
 
         //! the name of a gem is what the user wants it to be
         string getName() const
@@ -49,6 +50,9 @@ class Gem {
         //! the RuleId ties the gem to a InputRule
         sqlite_int64 getRuleId() const
             { return cSqlInFormated<sqlite_int64>(mRow.get("ruleId")); };
+
+        //! reomves this object and all its children
+        void remove();
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

@@ -41,7 +41,7 @@ void Replacements::addReplacement(string sRegex, string replacement) {
 //    stringstream strSql;
 //    strSql  << "INSERT INTO replacementGroups "
 //            << "(replacementId, GroupId) VALUES ( "
-//            << newReplacement.getRowid() << ", "
+//            << newReplacement.getRowId() << ", "
 //            << mGroupId << ")";
 //    exec(strSql, mDb);
     return;
@@ -130,6 +130,7 @@ void Replacements::unitTest() {
     BOOST_CHECKPOINT("create objects");
     Replacements rpAlpha(db, "Replacements::unitTest", 1);
     Replacements rpBeta(db, "Replacements::unitTest", 100);
+    //BOOST_CHECK_THROW(Replacements rpGamma(db, "Replacements::unitTest"), runtime_error);
     rpAlpha.addReplacement("test", "TEST");
     BOOST_REQUIRE(int(rpAlpha.getReplacements().size()) == 1);
 

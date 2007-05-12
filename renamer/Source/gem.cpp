@@ -25,10 +25,10 @@ void Gem::createTables(sqlite3* db) {
 
     sSql = "CREATE TABLE gems ("
            "    ruleId ROWID , "
-           "    regexId ROWID, "
+//           "    regexId ROWID, "
            "    name string, "
-           "    position int, "
-           "    replacementGrpId)";
+           "    position int)";
+//           "    replacementGrpId)";
     exec(sSql, db);
 
 //    sSql = "CREATE INDEX Gems_GroupedPrimaryKey "
@@ -49,6 +49,16 @@ void Gem::setPosition(int v) {
     exec(strSql, mDb);
 
     mRow.set("position", cSqlOutFormated(v));
+}
+
+void Gem::remove() {
+    stringstream strSql;
+    strSql << "DELETE FROM gems WHERE rowid = "
+           << cSqlOutFormated(getRowId());
+    //cout << strSql.str() << endl;
+    exec(strSql, mDb);
+    return;
+
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -113,6 +123,15 @@ void Gem::unitTest() {
     BOOST_CHECKPOINT("replacers");
     gemAlpha.replacers.addReplacement(".*","test");
     BOOST_CHECK(gemAlpha.replacers.getReplacements().size()==1);
+
+    BOOST_CHECKPOINT("clean up");
+    gemAlpha.remove();
+    gemBeta.remove();
+    gemDelta.remove();
+    gemGamma.remove();
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM gems", db) , "0");
+
+
 }
 
 #endif

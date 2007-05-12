@@ -27,9 +27,6 @@ class OutputFormat {
         //! Creates 'regexes' and 'history' table
         static void createTables(sqlite3* db);
 
-        //! Removes an InputRule from the database
-        void removeInputRule(sqlite_int64);
-
         //! gets a collection of InputRule-Objects
         vector<InputRule> getInputRules();
 
@@ -57,6 +54,9 @@ class OutputFormat {
         //! primary key field of the row this object is stored in
         sqlite_int64 getRowId() const
             { return mRow.getRowId(); };
+
+        //! reomves this object and all its children
+        void remove();
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
