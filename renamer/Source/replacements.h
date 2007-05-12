@@ -26,6 +26,9 @@ class Replacements {
         //! Creates replacementGroups table
         static void createTables(sqlite3* db);
 
+        //! reomves this object and all its children
+        void remove();
+
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();

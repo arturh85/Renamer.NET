@@ -52,6 +52,8 @@ void Gem::setPosition(int v) {
 }
 
 void Gem::remove() {
+    replacers.remove();
+
     stringstream strSql;
     strSql << "DELETE FROM gems WHERE rowid = "
            << cSqlOutFormated(getRowId());
@@ -130,6 +132,8 @@ void Gem::unitTest() {
     gemDelta.remove();
     gemGamma.remove();
     BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM gems", db) , "0");
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM replacements", db) , "0");
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM replacementGroups", db) , "0");
 
 
 }

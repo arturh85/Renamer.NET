@@ -7,14 +7,14 @@ using boost::regex;
 using boost::smatch;
 using namespace boost::filesystem;
 
-InputRule::InputRule(sqlite_int64 rowid, sqlite3* db) :
+InputRule::InputRule(sqlite3* db, sqlite_int64 rowid) :
     mRow(db, "regexes", rowid)
 {
     mDb = db;
     mRplPtr = new Replacements(db, "inputRule", rowid );
 }
 
-InputRule::InputRule(boost::regex exp, sqlite3* db)  :
+InputRule::InputRule(sqlite3* db, boost::regex exp)  :
     mRow(db, "regexes")
 {
     mDb = db;
@@ -190,9 +190,9 @@ void InputRule::unitTest() {
     Gem::createTables(db);
 
     BOOST_CHECKPOINT("InputRule constructor(regex)");
-    InputRule ruleAlpha(regex("(.*)\\.avi"), db);
-    InputRule ruleBeta(regex("(.*)\\.mpg"), db);
-    InputRule ruleGamma(regex("(.*)\\.jpg"), db);
+    InputRule ruleAlpha(db, regex("(.*)\\.avi"));
+    InputRule ruleBeta(db, regex("(.*)\\.mpg"));
+    InputRule ruleGamma(db, regex("(.*)\\.jpg"));
     ruleAlpha.addGem("fileName");
     ruleBeta.addGem("fileName");
     ruleGamma.addGem("fileName");
@@ -264,13 +264,13 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("InputRule constructor(regex)");
-    InputRule ruleDelta( ruleAlpha.getId() , db);
+    InputRule ruleDelta(db, ruleAlpha.getId());
     BOOST_CHECK(ruleAlpha.getId() == ruleDelta.getId());
     BOOST_CHECK(ruleAlpha.getRegex() == ruleDelta.getRegex());
 
 
     BOOST_CHECKPOINT("replacements");
-    InputRule ruleEpsilon(regex("Family Guy S06E13"), db);
+    InputRule ruleEpsilon(db, regex("Family Guy S06E13"));
     ruleEpsilon.getReplacements().addReplacement("PDTV|XviD|-LOL","");
     ruleEpsilon.getReplacements().addReplacement(" *$","");
     ruleEpsilon.getReplacements().addReplacement("\\."," ");
@@ -288,7 +288,7 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("ruleZeta");
-    InputRule ruleZeta(regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"), db);
+    InputRule ruleZeta(db, regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"));
     ruleZeta.addGem("season");
     ruleZeta.addGem("episode");
     BOOST_CHECK(ruleZeta.getGems().size() == 2);

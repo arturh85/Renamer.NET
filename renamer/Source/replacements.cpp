@@ -106,6 +106,25 @@ string Replacements::replace(string sString) const {
     return sRetVal;
 }
 
+void Replacements::remove() {
+    stringstream strSql;
+    strSql  << "DELETE  FROM replacements "
+               "WHERE groupId IN ("
+                  "SELECT rowid FROM replacementGroups "
+                  "WHERE name = " << cSqlStrOut(mName) <<
+                  " AND ownerId = " << mOwnerId <<
+                ")";
+
+    exec(strSql, mDb);
+
+    strSql.str("");
+    strSql  << "DELETE FROM replacementGroups "
+                  "WHERE name = " << cSqlStrOut(mName) <<
+                  " AND ownerId = " << mOwnerId;
+    exec(strSql, mDb);
+    return;
+
+}
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>

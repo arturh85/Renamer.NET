@@ -28,10 +28,10 @@ class InputRule {
         //  constructors
 
         //! Loads from Database
-        InputRule(sqlite_int64 rowid, sqlite3* );
+        InputRule(sqlite3*, sqlite_int64 rowid);
 
         //! Create a new regex in the database
-        InputRule(boost::regex, sqlite3* );
+        InputRule(sqlite3*, boost::regex);
 
         //  destructor
         virtual ~InputRule();

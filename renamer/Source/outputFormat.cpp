@@ -19,7 +19,7 @@ void OutputFormat::createTables(sqlite3* db) {
 InputRule OutputFormat::addInputRule(string sRegex) {
     try {
         regex newRegex(sRegex); //to check if this is a valid regex
-        InputRule retVal( newRegex, mDb);
+        InputRule retVal(mDb, newRegex);
         retVal.setOutputFormatId(mRow.getRowId());
         return retVal;
     } catch (exception& ex) {
@@ -45,7 +45,7 @@ vector<InputRule> OutputFormat::getInputRules() {
         stringstream strRowid(*it);
         sqlite_int64 rowid;
         strRowid >> rowid;
-        InputRule newRule( rowid, mDb);
+        InputRule newRule(mDb,  rowid);
         retVal.push_back(newRule);
     }
     return retVal;
