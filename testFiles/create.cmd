@@ -1,5 +1,12 @@
-echo > The.Simpsons.S18E10.PDTV.XviD-NoTV.av
+echo > The.Simpsons.S18E10.PDTV.XviD-NoTV.avi
 echo > The.Simpsons.S18E12.PDTV.XviD-LOL.avi
 echo > The.Simpsons.S18E13.PDTV.XviD-2HD.avi
 echo > The.Simpsons.S18E14.PDTV.XviD-LOL.avi
 echo > The.Simpsons.S18E16.PDTV.XviD-LOL.avi
+echo > the.unit.219.repack.hdtv.xvid.notv.[VTV].avi
+echo > The.Unit.S02E16.HDTV.XviD-NoTV.avi
+echo > The.Unit.S02E17.HDTV.XviD-XOR.avi
+echo > The.Unit.S02E18.HDTV.XviD-NoTV.avi
+echo > The.Unit.S02E20.HDTV.XviD-LOL.avi
+echo > The.Unit.S02E21.HDTV.XviD-XOR.avi.part
+echo > The.Unit.S02E22.Freefall.HDTV.XviD-FQM.avi.part
