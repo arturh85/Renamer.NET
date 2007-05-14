@@ -21,6 +21,15 @@ void Replacement::createTables(sqlite3* db) {
 
 }
 
+void Replacement::remove() {
+    stringstream strSql;
+    strSql << "DELETE FROM replacements WHERE rowid = "
+           << cSqlOutFormated(getRowId());
+    //cout << strSql.str() << endl;
+    exec(strSql, mDb);
+    return;
+
+}
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
@@ -64,6 +73,11 @@ void Replacement::unitTest() {
     rpBeta.setRegex(regex("\\."));
     rpBeta.setReplacement(" ");
     BOOST_CHECK(rpBeta.replace("Family.Guy.S06E13.PDTV.XviD-LOL.avi") == "Family Guy S06E13 PDTV XviD-LOL avi");
+
+    BOOST_CHECKPOINT("clean up");
+    rpAlpha.remove();
+    rpBeta.remove();
+    BOOST_CHECK_EQUAL(query("SELECT COUNT(*) FROM replacements", db) , "0");
 
 }
 

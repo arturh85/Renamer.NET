@@ -9,14 +9,12 @@ namespace fs = boost::filesystem;
 using boost::regex;
 using boost::smatch;
 
-Ruleset::Ruleset(string filename)
-{
-	fs::path dbFile = fs::path(filename);
-	mFilename = filename;
+void Ruleset::loadDb(fs::path dbFile) {
+	mFilename = dbFile.native_file_string();
 	mName = dbFile.leaf();
 
-	static const regex allowedNames("^\\w[\\w ]*\\w$");
-	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
+//	static const regex allowedNames("^\\w[\\w ]*\\w$");
+//	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
 
     bool fIsNew = ( !fs::exists(dbFile) );
     if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
@@ -31,47 +29,11 @@ Ruleset::Ruleset(string filename)
 	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
 
-Ruleset::Ruleset(wstring filename)
-{
-/*	fs::path p("c:", fs::windows_name);
-	string testpath = "/bin/llwget.bat";
+Ruleset::Ruleset(wstring filename) {
+    loadDb(boost::filesystem::path(toStdString(filename)));
+};
 
-
-	fs::path p2 = p / testpath;
-	string res = p2.string();
-
-	fs::path dbFile = fs::path(toStdString(filename));
-	mFilename = toStdString(filename);
-	mName = fs::basename(dbFile.leaf());
-	mName = mName.substr(0, mName.find_last_of("."));*/
-
-
-	mFilename = toStdString(filename);
-	fs::path dbFile = fs::path(mFilename);
-
-	mName = fs::basename(mFilename.substr( mFilename.find_last_of("\\") + 1));
-
-
-//	static const regex allowedNames("^\\w[\\w ]*\\w$");
-//	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
-
-	bool fIsNew = ( !fs::exists(dbFile) );
-//	string fileName = dbFile.native_file_string().c_str();
-//	wstring WfileName = toStdWString(fileName);
-	if(sqlite3_open16(filename.c_str(), &mDb)) {
-		sqlite3_close(mDb);
-		throw std::runtime_error("could not open database file");
-	}
-
-	if (fIsNew)
-	initDb();
-
-	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
-	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
-}
-
-Ruleset::Ruleset()
-{
+Ruleset::Ruleset() {
     mName = "memory";
     if(sqlite3_open(":memory:", &mDb)) {
         sqlite3_close(mDb);
@@ -85,21 +47,12 @@ Ruleset::Ruleset()
     mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
 
-Ruleset::~Ruleset()
-{
+Ruleset::~Ruleset() {
     sqlite3_close(mDb);
 }
 
 void Ruleset::initDb() {
     string sSql;
-
-    sSql = "CREATE TABLE options ("
-           "   outputFormat string)";
-    exec(sSql, mDb);
-
-    sSql = "INSERT INTO options (outputFormat)"
-           "VALUES ('')";
-    exec(sSql, mDb);
 
     InputRule::createTables(mDb);
     Replacement::createTables(mDb);
@@ -115,7 +68,6 @@ string Ruleset::getName() const {
 string Ruleset::getFilename() const {
 	return mFilename;
 }
-
 
 vector<string> stripVarNames(string sString) {
     static const regex varRegex("\\$(\\w+)\\$");
@@ -210,16 +162,23 @@ void Ruleset::unitTest() {
     BOOST_CHECK(tmpVector[0] == "staffel");
     BOOST_CHECK(tmpVector[1] == "folge");
 
-    tmpVector.clear();
-    tmpVector = stripVarNames("$fieserTest $$_$");
-    BOOST_REQUIRE(tmpVector.size() == 1);
-    BOOST_CHECK(tmpVector[0] == "_");
-
+//    tmpVector.clear();
+//    tmpVector = stripVarNames("$fieserTest $$_$");
+//    BOOST_REQUIRE(tmpVector.size() == 1);
+//    BOOST_CHECK(tmpVector[0] == "_");
+//
+//    // test Ruleset class
+//    if (fs::exists(fs::initial_path()/"unitTest.db3"))
+//        fs::remove(fs::initial_path()/"unitTest.db3");
+//
     // test Ruleset class
-    if (fs::exists(fs::initial_path()/"unitTest.db3"))
-        fs::remove(fs::initial_path()/"unitTest.db3");
+    using namespace boost::filesystem;
+    path dbFileName = initial_path()/"unitTest.db3";
 
-//    Ruleset myRules("unitTest");
+    if (exists(dbFileName))
+        boost::filesystem::remove(dbFileName);
+
+//    Ruleset myRules(dbFileName);
     Ruleset myRules;
     OutputFormat simpleFormat = myRules.addOutputFormat();
     simpleFormat.setFormat("$series$ - $season$x$episode$");

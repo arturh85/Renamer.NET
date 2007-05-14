@@ -27,7 +27,15 @@ class Ruleset : public PropertyObject
         //! Creates an anonymous ruleset in RAM
         Ruleset();
 
-        Ruleset(string filename);
+        //! load a db (boost::filesystem::path)
+        Ruleset(boost::filesystem::path filename)
+          { loadDb(filename); };
+
+        //! load a db (std::string)
+        Ruleset(string filename)
+          { loadDb(boost::filesystem::path(filename)); };
+
+        //! load a db (std::wstring)
         Ruleset(wstring filename);
 
         virtual ~Ruleset();
@@ -48,8 +56,6 @@ class Ruleset : public PropertyObject
 
         //! gets a collection of OutputFormat objects
         vector<OutputFormat> getOutputFormats(string sOrderBy = "");
-
-        void removeOutputFormat(sqlite_int64);
 
         string getName() const;
         string getFilename() const;
@@ -83,6 +89,9 @@ class Ruleset : public PropertyObject
         //  methodes
         //! Creates initial tables
         void initDb();
+
+        //! opens Db
+        void loadDb(boost::filesystem::path dbFile);
 
 };
 

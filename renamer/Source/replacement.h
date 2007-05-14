@@ -13,10 +13,10 @@ class Replacement {
 
         //! creates a new Replacement object.
         /** All Values are empty */
-        Replacement(sqlite3* db) : mRow(db, "replacements") {}  ;
+        Replacement(sqlite3* db) : mDb(db), mRow(db, "replacements") {}  ;
 
         //! creates a new Replacement object with existing data
-        Replacement(sqlite3* db, sqlite_int64 row) : mRow(db, "replacements", row) {}  ;
+        Replacement(sqlite3* db, sqlite_int64 row) : mDb(db), mRow(db, "replacements", row) {}  ;
 
         //---------------------------------------------------------------------
         //  methods
@@ -50,7 +50,7 @@ class Replacement {
 
         //! get replacements.rowid
         sqlite_int64 getRowId() const
-          { return cSqlInFormated<sqlite_int64>(mRow.get("rowid")); };
+          { return mRow.getRowId(); };
 
         //! get replacements.GroupId
         sqlite_int64 getGroupId() const
@@ -59,6 +59,9 @@ class Replacement {
         //! set replacements.GroupId
         void setGroupId(sqlite_int64 v)
           { mRow.set("GroupId", cSqlOutFormated(v)); };
+
+        //! reomves this object and all its children
+        void remove();
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
