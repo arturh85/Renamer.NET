@@ -798,7 +798,7 @@ namespace RenamerNET {
 				_PairStringInt^ rulesetProperties = (_PairStringInt^) node->Parent->Parent->Tag;
 				ruleset = rulesetList[(int) rulesetProperties->value];				
 
-				InputRule inputRule(properties->value, ruleset->getDatabase());
+				InputRule inputRule(ruleset->getDatabase(), properties->value);
 				guiPropertyPanel->RowCount = 1;
 				insertEditPropertyToPanel(0, "Regular Expression", toClrString(inputRule.getRegex()), nullptr);
 			} else if (properties->key == L"gem") {
@@ -923,7 +923,7 @@ private: System::Void tsmiCreateOutputFormat_Click(System::Object^  sender, Syst
 		 }
 private: System::Void tsmiCreateGem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 sqlite_int64  rowid = ((_PairStringInt^)(guiObjectTree->SelectedNode->Tag))->value;
-			 InputRule senderInputRule(rowid, ruleset->getDatabase());
+			 InputRule senderInputRule(ruleset->getDatabase(), rowid);
 			 Gem newGem = senderInputRule.addGem("new Gem");
 
 			 loadObjectTree();

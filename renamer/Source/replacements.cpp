@@ -10,7 +10,7 @@ Replacements::Replacements(sqlite3* db, string name, sqlite_int64 ownerId) :
     exAssertDesc(ownerId > 0, "ownerId should be greater null");
 };
 
-void Replacements::addReplacement(string sRegex, string replacement) {
+Replacement Replacements::addReplacement(string sRegex, string replacement) {
 
     Replacement newReplacement(mDb);
     newReplacement.setRegex(sRegex);
@@ -44,7 +44,7 @@ void Replacements::addReplacement(string sRegex, string replacement) {
 //            << newReplacement.getRowId() << ", "
 //            << mGroupId << ")";
 //    exec(strSql, mDb);
-    return;
+    return newReplacement;
 }
 
 void Replacements::createTables(sqlite3* db) {

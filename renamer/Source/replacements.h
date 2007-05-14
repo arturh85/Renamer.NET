@@ -18,7 +18,7 @@ class Replacements {
         string replace(string) const;
 
         //! attach a new replacement to this object
-        void addReplacement(string regex, string replacement);
+        Replacement addReplacement(string regex, string replacement);
 
         //!get all the replacements attached to this object
         vector<Replacement> getReplacements() const;

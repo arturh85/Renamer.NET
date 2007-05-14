@@ -241,16 +241,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\ApplicationForm.h"
-				FileType="3"
-				>
-				<File
-					RelativePath=".\ApplicationForm.resX"
-					SubType="Designer"
-					>
-				</File>
-			</File>
-			<File
 				RelativePath=".\WizardForm.h"
 				FileType="3"
 				>
@@ -383,6 +373,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ListBoxItem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Renamer .NET.cpp"
 				>
 			</File>
@@ -415,10 +409,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\WizardForm.cpp"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global
