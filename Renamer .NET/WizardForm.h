@@ -103,12 +103,12 @@ namespace RenamerNET {
 	private: System::Windows::Forms::Panel^  panelStepRename;
 
     // Buttons for switching between the steps
-	private: System::Windows::Forms::Button^  buttonPreviousStep;
-	private: System::Windows::Forms::Button^  buttonNextStep;
+
+
 
 	// Controls for the Panel 'Ruleset'
 	private: System::Windows::Forms::Button^  buttonRulesetOpenDialog;
-	private: System::Windows::Forms::ComboBox^  cboRulesets;
+
 	private: System::Windows::Forms::SaveFileDialog^  saveRulesetFileDialog;
 	private: System::Windows::Forms::OpenFileDialog^  openRulesetFileDialog;
 
@@ -158,7 +158,7 @@ private: System::Windows::Forms::Panel^  panelFilelist;
 
 
 
-private: System::Windows::Forms::Panel^  panelNavigation;
+
 private: System::Windows::Forms::Button^  buttonRulesetSaveDialog;
 private: System::Windows::Forms::DataGridView^  gridBeforeReplacements;
 
@@ -204,7 +204,8 @@ private: System::Windows::Forms::Panel^  panel5;
 private: System::Windows::Forms::ToolStrip^  tsFileList;
 private: System::Windows::Forms::ToolStripButton^  tsAddFiles;
 private: System::Windows::Forms::ToolStripButton^  tsRemoveFileFromList;
-private: System::Windows::Forms::ToolStripButton^  toolStripButton7;
+private: System::Windows::Forms::ToolStripButton^  tsApplyChanges;
+
 private: System::Windows::Forms::ListView^  fileList;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  GroupID;
@@ -212,6 +213,23 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  Search;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  Replace;
 private: System::Windows::Forms::OpenFileDialog^  fileListopenFileDiag;
 private: System::Windows::Forms::ColumnHeader^  chFile;
+private: System::Windows::Forms::Panel^  panelNavigation;
+private: System::Windows::Forms::Button^  buttonPreviousStep;
+private: System::Windows::Forms::Button^  buttonNextStep;
+private: System::Windows::Forms::DataGridView^  gridAfterReplacements;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn1;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn2;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn3;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn4;
+private: System::Windows::Forms::Panel^  panel6;
+private: System::Windows::Forms::ToolStrip^  toolStrip2;
+private: System::Windows::Forms::ToolStripButton^  tsLoadRulesetDialog;
+private: System::Windows::Forms::ToolStripButton^  tsSaveRulesetDialog;
+private: System::Windows::Forms::ComboBox^  cboRulesets;
+
+
+
+
 
 
 
@@ -283,7 +301,6 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->panelStepRuleset = (gcnew System::Windows::Forms::Panel());
 			this->buttonRulesetSaveDialog = (gcnew System::Windows::Forms::Button());
 			this->buttonRulesetOpenDialog = (gcnew System::Windows::Forms::Button());
-			this->cboRulesets = (gcnew System::Windows::Forms::ComboBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->panelStepGems = (gcnew System::Windows::Forms::Panel());
 			this->label6 = (gcnew System::Windows::Forms::Label());
@@ -294,15 +311,25 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->tsFileList = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsAddFiles = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsRemoveFileFromList = (gcnew System::Windows::Forms::ToolStripButton());
-			this->toolStripButton7 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsApplyChanges = (gcnew System::Windows::Forms::ToolStripButton());
 			this->fileList = (gcnew System::Windows::Forms::ListView());
-			this->panelNavigation = (gcnew System::Windows::Forms::Panel());
-			this->buttonPreviousStep = (gcnew System::Windows::Forms::Button());
-			this->buttonNextStep = (gcnew System::Windows::Forms::Button());
+			this->chFile = (gcnew System::Windows::Forms::ColumnHeader());
 			this->saveRulesetFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->imageList1 = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->chFile = (gcnew System::Windows::Forms::ColumnHeader());
+			this->panelNavigation = (gcnew System::Windows::Forms::Panel());
+			this->buttonPreviousStep = (gcnew System::Windows::Forms::Button());
+			this->buttonNextStep = (gcnew System::Windows::Forms::Button());
+			this->gridAfterReplacements = (gcnew System::Windows::Forms::DataGridView());
+			this->dataGridViewTextBoxColumn1 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->dataGridViewTextBoxColumn2 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->dataGridViewTextBoxColumn3 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->dataGridViewTextBoxColumn4 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->panel6 = (gcnew System::Windows::Forms::Panel());
+			this->cboRulesets = (gcnew System::Windows::Forms::ComboBox());
+			this->toolStrip2 = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsLoadRulesetDialog = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsSaveRulesetDialog = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsStepButtons->SuspendLayout();
 			this->splitContainer->Panel1->SuspendLayout();
 			this->splitContainer->Panel2->SuspendLayout();
@@ -328,6 +355,9 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->panel5->SuspendLayout();
 			this->tsFileList->SuspendLayout();
 			this->panelNavigation->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->BeginInit();
+			this->panel6->SuspendLayout();
+			this->toolStrip2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tsStepButtons
@@ -339,7 +369,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 				this->tsStepRename});
 			this->tsStepButtons->Location = System::Drawing::Point(0, 0);
 			this->tsStepButtons->Name = L"tsStepButtons";
-			this->tsStepButtons->Size = System::Drawing::Size(123, 477);
+			this->tsStepButtons->Size = System::Drawing::Size(139, 477);
 			this->tsStepButtons->TabIndex = 4;
 			this->tsStepButtons->Text = L"toolStrip1";
 			// 
@@ -347,73 +377,75 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// 
 			this->tsStepRuleset->Checked = true;
 			this->tsStepRuleset->CheckState = System::Windows::Forms::CheckState::Checked;
-			this->tsStepRuleset->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepRuleset->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepRuleset.Image")));
+			this->tsStepRuleset->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepRuleset->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepRuleset->Name = L"tsStepRuleset";
-			this->tsStepRuleset->Size = System::Drawing::Size(120, 20);
+			this->tsStepRuleset->Size = System::Drawing::Size(136, 20);
 			this->tsStepRuleset->Text = L"Ruleset";
+			this->tsStepRuleset->TextAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepRuleset->Click += gcnew System::EventHandler(this, &WizardForm::tsStepRuleset_Click);
 			// 
 			// tsStepBeforeReplacements
 			// 
-			this->tsStepBeforeReplacements->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepBeforeReplacements->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepBeforeReplacements.Image")));
 			this->tsStepBeforeReplacements->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepBeforeReplacements->Name = L"tsStepBeforeReplacements";
-			this->tsStepBeforeReplacements->Size = System::Drawing::Size(120, 20);
+			this->tsStepBeforeReplacements->Size = System::Drawing::Size(136, 20);
 			this->tsStepBeforeReplacements->Text = L"Before Replacements";
 			this->tsStepBeforeReplacements->Click += gcnew System::EventHandler(this, &WizardForm::tsStepBeforeReplacements_Click);
 			// 
 			// tsStepOutputFormat
 			// 
-			this->tsStepOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepOutputFormat->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepOutputFormat.Image")));
+			this->tsStepOutputFormat->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepOutputFormat->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepOutputFormat->Name = L"tsStepOutputFormat";
 			this->tsStepOutputFormat->Overflow = System::Windows::Forms::ToolStripItemOverflow::Never;
-			this->tsStepOutputFormat->Size = System::Drawing::Size(120, 20);
+			this->tsStepOutputFormat->Size = System::Drawing::Size(136, 20);
 			this->tsStepOutputFormat->Text = L"Output Formats";
+			this->tsStepOutputFormat->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			this->tsStepOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsStepOutputFormat_Click);
 			// 
 			// tsStepInputRule
 			// 
-			this->tsStepInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepInputRule.Image")));
+			this->tsStepInputRule->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepInputRule->Name = L"tsStepInputRule";
-			this->tsStepInputRule->Size = System::Drawing::Size(120, 20);
+			this->tsStepInputRule->Size = System::Drawing::Size(136, 20);
 			this->tsStepInputRule->Text = L"Input Rules";
+			this->tsStepInputRule->TextAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsStepInputRule_Click);
 			// 
 			// tsStepGems
 			// 
-			this->tsStepGems->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepGems->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepGems.Image")));
+			this->tsStepGems->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepGems->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepGems->Name = L"tsStepGems";
-			this->tsStepGems->Size = System::Drawing::Size(120, 20);
+			this->tsStepGems->Size = System::Drawing::Size(136, 20);
 			this->tsStepGems->Text = L"Gems";
 			this->tsStepGems->Click += gcnew System::EventHandler(this, &WizardForm::tsStepGems_Click);
 			// 
 			// tsStepAfterReplacements
 			// 
-			this->tsStepAfterReplacements->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepAfterReplacements->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepAfterReplacements.Image")));
 			this->tsStepAfterReplacements->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepAfterReplacements->Name = L"tsStepAfterReplacements";
-			this->tsStepAfterReplacements->Size = System::Drawing::Size(120, 20);
+			this->tsStepAfterReplacements->Size = System::Drawing::Size(136, 20);
 			this->tsStepAfterReplacements->Text = L"After Replacements";
 			this->tsStepAfterReplacements->Click += gcnew System::EventHandler(this, &WizardForm::tsStepAfterReplacements_Click);
 			// 
 			// tsStepRename
 			// 
-			this->tsStepRename->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->tsStepRename->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsStepRename.Image")));
+			this->tsStepRename->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->tsStepRename->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsStepRename->Name = L"tsStepRename";
-			this->tsStepRename->Size = System::Drawing::Size(120, 20);
+			this->tsStepRename->Size = System::Drawing::Size(136, 20);
 			this->tsStepRename->Text = L"Rename";
+			this->tsStepRename->TextAlign = System::Drawing::ContentAlignment::BottomLeft;
 			// 
 			// openRulesetFileDialog
 			// 
@@ -428,7 +460,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// 
 			this->splitContainer->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->splitContainer->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->splitContainer->Location = System::Drawing::Point(123, 0);
+			this->splitContainer->Location = System::Drawing::Point(139, 0);
 			this->splitContainer->Name = L"splitContainer";
 			this->splitContainer->Orientation = System::Windows::Forms::Orientation::Horizontal;
 			// 
@@ -439,34 +471,33 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// splitContainer.Panel2
 			// 
 			this->splitContainer->Panel2->Controls->Add(this->panelFilelist);
-			this->splitContainer->Panel2->Controls->Add(this->panelNavigation);
-			this->splitContainer->Size = System::Drawing::Size(459, 477);
+			this->splitContainer->Size = System::Drawing::Size(443, 477);
 			this->splitContainer->SplitterDistance = 273;
 			this->splitContainer->TabIndex = 9;
 			// 
 			// panelStepContent
 			// 
+			this->panelStepContent->Controls->Add(this->panelStepRuleset);
+			this->panelStepContent->Controls->Add(this->panelNavigation);
 			this->panelStepContent->Controls->Add(this->panelStepBeforeReplacements);
 			this->panelStepContent->Controls->Add(this->panelStepInputRule);
 			this->panelStepContent->Controls->Add(this->panelStepOutputFormat);
 			this->panelStepContent->Controls->Add(this->panelStepRename);
-			this->panelStepContent->Controls->Add(this->panelStepRuleset);
 			this->panelStepContent->Controls->Add(this->panelStepGems);
-			this->panelStepContent->Controls->Add(this->panelStepAfterReplacements);
 			this->panelStepContent->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->panelStepContent->Location = System::Drawing::Point(0, 0);
 			this->panelStepContent->Name = L"panelStepContent";
-			this->panelStepContent->Size = System::Drawing::Size(457, 271);
+			this->panelStepContent->Size = System::Drawing::Size(441, 271);
 			this->panelStepContent->TabIndex = 7;
 			// 
 			// panelStepBeforeReplacements
 			// 
 			this->panelStepBeforeReplacements->Controls->Add(this->gridBeforeReplacements);
+			this->panelStepBeforeReplacements->Controls->Add(this->panelStepAfterReplacements);
 			this->panelStepBeforeReplacements->Controls->Add(this->label4);
-			this->panelStepBeforeReplacements->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->panelStepBeforeReplacements->Location = System::Drawing::Point(0, 0);
+			this->panelStepBeforeReplacements->Location = System::Drawing::Point(23, 76);
 			this->panelStepBeforeReplacements->Name = L"panelStepBeforeReplacements";
-			this->panelStepBeforeReplacements->Size = System::Drawing::Size(457, 271);
+			this->panelStepBeforeReplacements->Size = System::Drawing::Size(159, 152);
 			this->panelStepBeforeReplacements->TabIndex = 6;
 			// 
 			// gridBeforeReplacements
@@ -479,9 +510,9 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->gridBeforeReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridBeforeReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->ID, 
 				this->GroupID, this->Search, this->Replace});
-			this->gridBeforeReplacements->Location = System::Drawing::Point(18, 43);
+			this->gridBeforeReplacements->Location = System::Drawing::Point(9, 27);
 			this->gridBeforeReplacements->Name = L"gridBeforeReplacements";
-			this->gridBeforeReplacements->Size = System::Drawing::Size(427, 217);
+			this->gridBeforeReplacements->Size = System::Drawing::Size(120, 88);
 			this->gridBeforeReplacements->TabIndex = 1;
 			// 
 			// ID
@@ -511,7 +542,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(15, 13);
+			this->label4->Location = System::Drawing::Point(9, 7);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(112, 13);
 			this->label4->TabIndex = 0;
@@ -522,7 +553,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->panelStepInputRule->Controls->Add(this->panel4);
 			this->panelStepInputRule->Controls->Add(this->panel3);
 			this->panelStepInputRule->Controls->Add(this->label3);
-			this->panelStepInputRule->Location = System::Drawing::Point(273, 76);
+			this->panelStepInputRule->Location = System::Drawing::Point(212, 160);
 			this->panelStepInputRule->Name = L"panelStepInputRule";
 			this->panelStepInputRule->Size = System::Drawing::Size(110, 52);
 			this->panelStepInputRule->TabIndex = 5;
@@ -650,7 +681,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->panelStepOutputFormat->Controls->Add(this->label2);
 			this->panelStepOutputFormat->Location = System::Drawing::Point(14, 11);
 			this->panelStepOutputFormat->Name = L"panelStepOutputFormat";
-			this->panelStepOutputFormat->Size = System::Drawing::Size(192, 29);
+			this->panelStepOutputFormat->Size = System::Drawing::Size(225, 68);
 			this->panelStepOutputFormat->TabIndex = 4;
 			// 
 			// panel2
@@ -661,7 +692,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->panel2->Controls->Add(this->txtOutputFormat);
 			this->panel2->Location = System::Drawing::Point(6, 215);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(183, 34);
+			this->panel2->Size = System::Drawing::Size(216, 34);
 			this->panel2->TabIndex = 6;
 			// 
 			// toolStrip1
@@ -669,7 +700,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->toolStrip1->Dock = System::Windows::Forms::DockStyle::Right;
 			this->toolStrip1->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
 			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveOutputFormat});
-			this->toolStrip1->Location = System::Drawing::Point(159, 0);
+			this->toolStrip1->Location = System::Drawing::Point(192, 0);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(24, 34);
 			this->toolStrip1->TabIndex = 6;
@@ -692,7 +723,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->txtOutputFormat->Location = System::Drawing::Point(3, 3);
 			this->txtOutputFormat->Name = L"txtOutputFormat";
-			this->txtOutputFormat->Size = System::Drawing::Size(153, 20);
+			this->txtOutputFormat->Size = System::Drawing::Size(186, 20);
 			this->txtOutputFormat->TabIndex = 5;
 			this->txtOutputFormat->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtOutputFormat_TextChanged);
 			this->txtOutputFormat->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtOutputFormat_KeyDown);
@@ -705,7 +736,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->panel1->Controls->Add(this->lstOutputFormat);
 			this->panel1->Location = System::Drawing::Point(6, 28);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(183, 187);
+			this->panel1->Size = System::Drawing::Size(216, 187);
 			this->panel1->TabIndex = 5;
 			// 
 			// tsOutputFormat
@@ -715,7 +746,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->tsOutputFormat->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddOutputFormat, 
 				this->tsDeleteOutputFormat, this->tsDuplicateOutputFormat});
 			this->tsOutputFormat->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::VerticalStackWithOverflow;
-			this->tsOutputFormat->Location = System::Drawing::Point(159, 0);
+			this->tsOutputFormat->Location = System::Drawing::Point(192, 0);
 			this->tsOutputFormat->Name = L"tsOutputFormat";
 			this->tsOutputFormat->Size = System::Drawing::Size(24, 187);
 			this->tsOutputFormat->TabIndex = 4;
@@ -758,14 +789,14 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->lstOutputFormat->Location = System::Drawing::Point(3, 0);
 			this->lstOutputFormat->Name = L"lstOutputFormat";
-			this->lstOutputFormat->Size = System::Drawing::Size(153, 173);
+			this->lstOutputFormat->Size = System::Drawing::Size(186, 173);
 			this->lstOutputFormat->TabIndex = 2;
 			this->lstOutputFormat->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstOutputFormat_SelectedIndexChanged);
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(18, 12);
+			this->label2->Location = System::Drawing::Point(6, 4);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(113, 13);
 			this->label2->TabIndex = 0;
@@ -790,51 +821,42 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// 
 			// panelStepRuleset
 			// 
+			this->panelStepRuleset->Controls->Add(this->panel6);
 			this->panelStepRuleset->Controls->Add(this->buttonRulesetSaveDialog);
 			this->panelStepRuleset->Controls->Add(this->buttonRulesetOpenDialog);
-			this->panelStepRuleset->Controls->Add(this->cboRulesets);
 			this->panelStepRuleset->Controls->Add(this->label1);
-			this->panelStepRuleset->Location = System::Drawing::Point(323, 15);
+			this->panelStepRuleset->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->panelStepRuleset->Location = System::Drawing::Point(0, 0);
 			this->panelStepRuleset->Name = L"panelStepRuleset";
-			this->panelStepRuleset->Size = System::Drawing::Size(192, 37);
+			this->panelStepRuleset->Size = System::Drawing::Size(441, 240);
 			this->panelStepRuleset->TabIndex = 3;
 			// 
 			// buttonRulesetSaveDialog
 			// 
 			this->buttonRulesetSaveDialog->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->buttonRulesetSaveDialog->Location = System::Drawing::Point(24, 58);
+			this->buttonRulesetSaveDialog->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonRulesetSaveDialog.Image")));
+			this->buttonRulesetSaveDialog->Location = System::Drawing::Point(238, 182);
 			this->buttonRulesetSaveDialog->Name = L"buttonRulesetSaveDialog";
-			this->buttonRulesetSaveDialog->Size = System::Drawing::Size(75, 23);
+			this->buttonRulesetSaveDialog->Size = System::Drawing::Size(48, 23);
 			this->buttonRulesetSaveDialog->TabIndex = 6;
-			this->buttonRulesetSaveDialog->Text = L"Save";
 			this->buttonRulesetSaveDialog->UseVisualStyleBackColor = true;
 			this->buttonRulesetSaveDialog->Click += gcnew System::EventHandler(this, &WizardForm::buttonRulesetSaveDialog_Click);
 			// 
 			// buttonRulesetOpenDialog
 			// 
 			this->buttonRulesetOpenDialog->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->buttonRulesetOpenDialog->Location = System::Drawing::Point(105, 58);
+			this->buttonRulesetOpenDialog->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonRulesetOpenDialog.Image")));
+			this->buttonRulesetOpenDialog->Location = System::Drawing::Point(295, 182);
 			this->buttonRulesetOpenDialog->Name = L"buttonRulesetOpenDialog";
-			this->buttonRulesetOpenDialog->Size = System::Drawing::Size(75, 23);
+			this->buttonRulesetOpenDialog->Size = System::Drawing::Size(48, 23);
 			this->buttonRulesetOpenDialog->TabIndex = 5;
-			this->buttonRulesetOpenDialog->Text = L"Open";
 			this->buttonRulesetOpenDialog->UseVisualStyleBackColor = true;
 			this->buttonRulesetOpenDialog->Click += gcnew System::EventHandler(this, &WizardForm::buttonRulesetOpenDialog_Click);
-			// 
-			// cboRulesets
-			// 
-			this->cboRulesets->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->cboRulesets->FormattingEnabled = true;
-			this->cboRulesets->Location = System::Drawing::Point(18, 58);
-			this->cboRulesets->Name = L"cboRulesets";
-			this->cboRulesets->Size = System::Drawing::Size(0, 21);
-			this->cboRulesets->TabIndex = 4;
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(15, 12);
+			this->label1->Location = System::Drawing::Point(11, 11);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(80, 13);
 			this->label1->TabIndex = 3;
@@ -859,16 +881,17 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// 
 			// panelStepAfterReplacements
 			// 
+			this->panelStepAfterReplacements->Controls->Add(this->gridAfterReplacements);
 			this->panelStepAfterReplacements->Controls->Add(this->label5);
-			this->panelStepAfterReplacements->Location = System::Drawing::Point(172, 171);
+			this->panelStepAfterReplacements->Location = System::Drawing::Point(45, 32);
 			this->panelStepAfterReplacements->Name = L"panelStepAfterReplacements";
-			this->panelStepAfterReplacements->Size = System::Drawing::Size(150, 47);
+			this->panelStepAfterReplacements->Size = System::Drawing::Size(205, 160);
 			this->panelStepAfterReplacements->TabIndex = 7;
 			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(16, 16);
+			this->label5->Location = System::Drawing::Point(11, 10);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(100, 13);
 			this->label5->TabIndex = 0;
@@ -878,18 +901,21 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			// 
 			this->panelFilelist->Controls->Add(this->panel5);
 			this->panelFilelist->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->panelFilelist->Location = System::Drawing::Point(0, 31);
+			this->panelFilelist->Location = System::Drawing::Point(0, 0);
 			this->panelFilelist->Name = L"panelFilelist";
-			this->panelFilelist->Size = System::Drawing::Size(457, 167);
+			this->panelFilelist->Size = System::Drawing::Size(441, 198);
 			this->panelFilelist->TabIndex = 10;
 			// 
 			// panel5
 			// 
+			this->panel5->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+				| System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->panel5->Controls->Add(this->tsFileList);
 			this->panel5->Controls->Add(this->fileList);
 			this->panel5->Location = System::Drawing::Point(6, 6);
 			this->panel5->Name = L"panel5";
-			this->panel5->Size = System::Drawing::Size(448, 158);
+			this->panel5->Size = System::Drawing::Size(432, 189);
 			this->panel5->TabIndex = 2;
 			// 
 			// tsFileList
@@ -897,10 +923,10 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->tsFileList->Dock = System::Windows::Forms::DockStyle::Right;
 			this->tsFileList->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
 			this->tsFileList->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddFiles, this->tsRemoveFileFromList, 
-				this->toolStripButton7});
-			this->tsFileList->Location = System::Drawing::Point(416, 0);
+				this->tsApplyChanges});
+			this->tsFileList->Location = System::Drawing::Point(408, 0);
 			this->tsFileList->Name = L"tsFileList";
-			this->tsFileList->Size = System::Drawing::Size(32, 158);
+			this->tsFileList->Size = System::Drawing::Size(24, 189);
 			this->tsFileList->TabIndex = 2;
 			this->tsFileList->Text = L"toolStrip2";
 			// 
@@ -910,7 +936,7 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->tsAddFiles->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsAddFiles.Image")));
 			this->tsAddFiles->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsAddFiles->Name = L"tsAddFiles";
-			this->tsAddFiles->Size = System::Drawing::Size(29, 20);
+			this->tsAddFiles->Size = System::Drawing::Size(21, 20);
 			this->tsAddFiles->Text = L"toolStripButton5";
 			this->tsAddFiles->Click += gcnew System::EventHandler(this, &WizardForm::tsAddFiles_Click);
 			// 
@@ -920,18 +946,18 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->tsRemoveFileFromList->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsRemoveFileFromList.Image")));
 			this->tsRemoveFileFromList->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsRemoveFileFromList->Name = L"tsRemoveFileFromList";
-			this->tsRemoveFileFromList->Size = System::Drawing::Size(29, 20);
+			this->tsRemoveFileFromList->Size = System::Drawing::Size(21, 20);
 			this->tsRemoveFileFromList->Text = L"toolStripButton6";
 			this->tsRemoveFileFromList->Click += gcnew System::EventHandler(this, &WizardForm::tsRemoveFileFromList_Click);
 			// 
-			// toolStripButton7
+			// tsApplyChanges
 			// 
-			this->toolStripButton7->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->toolStripButton7->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton7.Image")));
-			this->toolStripButton7->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->toolStripButton7->Name = L"toolStripButton7";
-			this->toolStripButton7->Size = System::Drawing::Size(29, 20);
-			this->toolStripButton7->Text = L"toolStripButton7";
+			this->tsApplyChanges->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsApplyChanges->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsApplyChanges.Image")));
+			this->tsApplyChanges->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsApplyChanges->Name = L"tsApplyChanges";
+			this->tsApplyChanges->Size = System::Drawing::Size(21, 20);
+			this->tsApplyChanges->Text = L"toolStripButton7";
 			// 
 			// fileList
 			// 
@@ -945,42 +971,15 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->fileList->MultiSelect = false;
 			this->fileList->Name = L"fileList";
 			this->fileList->ShowGroups = false;
-			this->fileList->Size = System::Drawing::Size(418, 152);
+			this->fileList->Size = System::Drawing::Size(402, 183);
 			this->fileList->TabIndex = 1;
 			this->fileList->UseCompatibleStateImageBehavior = false;
 			this->fileList->View = System::Windows::Forms::View::Details;
 			// 
-			// panelNavigation
+			// chFile
 			// 
-			this->panelNavigation->Controls->Add(this->buttonPreviousStep);
-			this->panelNavigation->Controls->Add(this->buttonNextStep);
-			this->panelNavigation->Dock = System::Windows::Forms::DockStyle::Top;
-			this->panelNavigation->Location = System::Drawing::Point(0, 0);
-			this->panelNavigation->Name = L"panelNavigation";
-			this->panelNavigation->Size = System::Drawing::Size(457, 31);
-			this->panelNavigation->TabIndex = 9;
-			// 
-			// buttonPreviousStep
-			// 
-			this->buttonPreviousStep->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->buttonPreviousStep->Location = System::Drawing::Point(289, 7);
-			this->buttonPreviousStep->Name = L"buttonPreviousStep";
-			this->buttonPreviousStep->Size = System::Drawing::Size(75, 23);
-			this->buttonPreviousStep->TabIndex = 1;
-			this->buttonPreviousStep->Text = L"previous";
-			this->buttonPreviousStep->UseVisualStyleBackColor = true;
-			this->buttonPreviousStep->Click += gcnew System::EventHandler(this, &WizardForm::buttonPreviousStep_Click);
-			// 
-			// buttonNextStep
-			// 
-			this->buttonNextStep->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->buttonNextStep->Location = System::Drawing::Point(370, 7);
-			this->buttonNextStep->Name = L"buttonNextStep";
-			this->buttonNextStep->Size = System::Drawing::Size(75, 23);
-			this->buttonNextStep->TabIndex = 0;
-			this->buttonNextStep->Text = L"next";
-			this->buttonNextStep->UseVisualStyleBackColor = true;
-			this->buttonNextStep->Click += gcnew System::EventHandler(this, &WizardForm::buttonNextStep_Click);
+			this->chFile->Text = L"File";
+			this->chFile->Width = 200;
 			// 
 			// saveRulesetFileDialog
 			// 
@@ -1002,10 +1001,124 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->fileListopenFileDiag->RestoreDirectory = true;
 			this->fileListopenFileDiag->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &WizardForm::fileListopenFileDiag_FileOk);
 			// 
-			// chFile
+			// panelNavigation
 			// 
-			this->chFile->Text = L"File";
-			this->chFile->Width = 200;
+			this->panelNavigation->Controls->Add(this->buttonPreviousStep);
+			this->panelNavigation->Controls->Add(this->buttonNextStep);
+			this->panelNavigation->Dock = System::Windows::Forms::DockStyle::Bottom;
+			this->panelNavigation->Location = System::Drawing::Point(0, 240);
+			this->panelNavigation->Name = L"panelNavigation";
+			this->panelNavigation->Size = System::Drawing::Size(441, 31);
+			this->panelNavigation->TabIndex = 11;
+			// 
+			// buttonPreviousStep
+			// 
+			this->buttonPreviousStep->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->buttonPreviousStep->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonPreviousStep.Image")));
+			this->buttonPreviousStep->Location = System::Drawing::Point(306, 5);
+			this->buttonPreviousStep->Name = L"buttonPreviousStep";
+			this->buttonPreviousStep->Size = System::Drawing::Size(48, 23);
+			this->buttonPreviousStep->TabIndex = 1;
+			this->buttonPreviousStep->UseVisualStyleBackColor = true;
+			this->buttonPreviousStep->Click += gcnew System::EventHandler(this, &WizardForm::buttonPreviousStep_Click);
+			// 
+			// buttonNextStep
+			// 
+			this->buttonNextStep->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->buttonNextStep->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonNextStep.Image")));
+			this->buttonNextStep->Location = System::Drawing::Point(363, 5);
+			this->buttonNextStep->Name = L"buttonNextStep";
+			this->buttonNextStep->Size = System::Drawing::Size(48, 23);
+			this->buttonNextStep->TabIndex = 0;
+			this->buttonNextStep->UseVisualStyleBackColor = true;
+			// 
+			// gridAfterReplacements
+			// 
+			this->gridAfterReplacements->AllowDrop = true;
+			this->gridAfterReplacements->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+				| System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->gridAfterReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
+			this->gridAfterReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->gridAfterReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->dataGridViewTextBoxColumn1, 
+				this->dataGridViewTextBoxColumn2, this->dataGridViewTextBoxColumn3, this->dataGridViewTextBoxColumn4});
+			this->gridAfterReplacements->Location = System::Drawing::Point(9, 27);
+			this->gridAfterReplacements->Name = L"gridAfterReplacements";
+			this->gridAfterReplacements->Size = System::Drawing::Size(166, 96);
+			this->gridAfterReplacements->TabIndex = 2;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			this->dataGridViewTextBoxColumn1->HeaderText = L"ID";
+			this->dataGridViewTextBoxColumn1->Name = L"dataGridViewTextBoxColumn1";
+			this->dataGridViewTextBoxColumn1->Visible = false;
+			// 
+			// dataGridViewTextBoxColumn2
+			// 
+			this->dataGridViewTextBoxColumn2->HeaderText = L"GroupID";
+			this->dataGridViewTextBoxColumn2->Name = L"dataGridViewTextBoxColumn2";
+			this->dataGridViewTextBoxColumn2->Visible = false;
+			// 
+			// dataGridViewTextBoxColumn3
+			// 
+			this->dataGridViewTextBoxColumn3->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::Fill;
+			this->dataGridViewTextBoxColumn3->HeaderText = L"Search";
+			this->dataGridViewTextBoxColumn3->Name = L"dataGridViewTextBoxColumn3";
+			// 
+			// dataGridViewTextBoxColumn4
+			// 
+			this->dataGridViewTextBoxColumn4->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::Fill;
+			this->dataGridViewTextBoxColumn4->HeaderText = L"Replace";
+			this->dataGridViewTextBoxColumn4->Name = L"dataGridViewTextBoxColumn4";
+			// 
+			// panel6
+			// 
+			this->panel6->Controls->Add(this->toolStrip2);
+			this->panel6->Controls->Add(this->cboRulesets);
+			this->panel6->Location = System::Drawing::Point(6, 31);
+			this->panel6->Name = L"panel6";
+			this->panel6->Size = System::Drawing::Size(405, 108);
+			this->panel6->TabIndex = 7;
+			// 
+			// cboRulesets
+			// 
+			this->cboRulesets->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->cboRulesets->FormattingEnabled = true;
+			this->cboRulesets->Location = System::Drawing::Point(3, 3);
+			this->cboRulesets->Name = L"cboRulesets";
+			this->cboRulesets->Size = System::Drawing::Size(264, 21);
+			this->cboRulesets->TabIndex = 5;
+			// 
+			// toolStrip2
+			// 
+			this->toolStrip2->Dock = System::Windows::Forms::DockStyle::None;
+			this->toolStrip2->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->toolStrip2->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsLoadRulesetDialog, 
+				this->tsSaveRulesetDialog});
+			this->toolStrip2->Location = System::Drawing::Point(270, 1);
+			this->toolStrip2->Name = L"toolStrip2";
+			this->toolStrip2->Size = System::Drawing::Size(49, 25);
+			this->toolStrip2->TabIndex = 6;
+			this->toolStrip2->Text = L"toolStrip2";
+			// 
+			// tsLoadRulesetDialog
+			// 
+			this->tsLoadRulesetDialog->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsLoadRulesetDialog->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsLoadRulesetDialog.Image")));
+			this->tsLoadRulesetDialog->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsLoadRulesetDialog->Name = L"tsLoadRulesetDialog";
+			this->tsLoadRulesetDialog->Size = System::Drawing::Size(23, 22);
+			this->tsLoadRulesetDialog->Text = L"toolStripButton1";
+			// 
+			// tsSaveRulesetDialog
+			// 
+			this->tsSaveRulesetDialog->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsSaveRulesetDialog->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsSaveRulesetDialog.Image")));
+			this->tsSaveRulesetDialog->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsSaveRulesetDialog->Name = L"tsSaveRulesetDialog";
+			this->tsSaveRulesetDialog->Size = System::Drawing::Size(23, 22);
+			this->tsSaveRulesetDialog->Text = L"toolStripButton2";
 			// 
 			// WizardForm
 			// 
@@ -1060,6 +1173,11 @@ private: System::Windows::Forms::ColumnHeader^  chFile;
 			this->tsFileList->ResumeLayout(false);
 			this->tsFileList->PerformLayout();
 			this->panelNavigation->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->EndInit();
+			this->panel6->ResumeLayout(false);
+			this->panel6->PerformLayout();
+			this->toolStrip2->ResumeLayout(false);
+			this->toolStrip2->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1608,8 +1726,8 @@ private: System::Void tsAddFiles_Click(System::Object^  sender, System::EventArg
 			fileListopenFileDiag->ShowDialog();
 		 }
 private: System::Void tsRemoveFileFromList_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if(fileList->Items[0]->FocusedItem != nullptr)
-				fileList->Items->Remove(fileList->Items.FocusedItem);
+			 if(fileList->FocusedItem != nullptr)
+				fileList->Items->Remove(fileList->FocusedItem);
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
