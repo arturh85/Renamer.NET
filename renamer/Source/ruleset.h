@@ -28,12 +28,10 @@ class Ruleset : public PropertyObject
         Ruleset();
 
         //! load a db (boost::filesystem::path)
-        Ruleset(boost::filesystem::path filename)
-          { loadDb(filename); };
+        Ruleset(boost::filesystem::path filename);
 
         //! load a db (std::string)
-        Ruleset(string filename)
-          { loadDb(boost::filesystem::path(filename)); };
+        Ruleset(string filename);
 
         //! load a db (std::wstring)
         Ruleset(wstring filename);

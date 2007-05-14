@@ -10,7 +10,6 @@ using boost::regex;
 using boost::smatch;
 
 void Ruleset::loadDb(fs::path dbFile) {
-	mFilename = dbFile.native_file_string();
 	mName = dbFile.leaf();
 
 //	static const regex allowedNames("^\\w[\\w ]*\\w$");
@@ -30,6 +29,7 @@ void Ruleset::loadDb(fs::path dbFile) {
 }
 
 Ruleset::Ruleset(wstring filename) {
+    mFilename = toStdString(filename);
     loadDb(boost::filesystem::path(toStdString(filename)));
 };
 
@@ -46,6 +46,18 @@ Ruleset::Ruleset() {
     mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
     mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
+
+Ruleset::Ruleset(boost::filesystem::path filename)
+{
+	mFilename = filename.native_file_string();
+  loadDb(filename);
+};
+
+Ruleset::Ruleset(string filename)
+{
+  mFilename = filename;
+  loadDb(boost::filesystem::path(filename));
+};
 
 Ruleset::~Ruleset() {
     sqlite3_close(mDb);
