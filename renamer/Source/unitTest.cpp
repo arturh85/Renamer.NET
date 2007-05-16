@@ -34,7 +34,10 @@ init_unit_test_suite( int, char* [] ) {
   test->add( BOOST_TEST_CASE( &InputRule::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &OutputFormat::unitTest ), 0);
   test->add( BOOST_TEST_CASE( &Ruleset::unitTest ), 0);
-//  test->add( BOOST_TEST_CASE( &free_test_function ), 0);
+
+  test_suite* test2= BOOST_TEST_SUITE( "2nd suite" );
+  test2->add( BOOST_TEST_CASE( &free_test_function ), 0);
+  test->add(test2);
 
   return test;
 }

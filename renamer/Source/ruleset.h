@@ -93,4 +93,26 @@ class Ruleset : public PropertyObject
 
 };
 
+class exBadName : public runtime_error {
+	public:
+		exBadName() : runtime_error("bad name") {};
+		virtual ~exBadName()  throw() {};
+	protected:
+
+	private:
+
+};
+
+class exDbError : public runtime_error {
+	public:
+		exDbError() : runtime_error("could not open db") {};
+		virtual ~exDbError()  throw() {};
+	protected:
+
+	private:
+
+};
+
+
+
 #endif // RULESET_H

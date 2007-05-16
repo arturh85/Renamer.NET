@@ -10,15 +10,30 @@ using boost::regex;
 using boost::smatch;
 
 void Ruleset::loadDb(fs::path dbFile) {
-	mName = dbFile.leaf();
 
+	//static const regex getNameRegex(".*\\\\([^\\\\]+)\\.\\w+$");
+	//static const regex getNameRegex("([^\\\\]+)\\.[\\w]+$");
+//	static const regex getNameRegex(".*\\\\?(\\a+)\\.(\\a+)$");
+	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
+	boost::smatch nameMatch;
+	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
+//	  cout << "bad:  " << mFilename << endl;
+    throw exBadName();
+	}
+//
+//	else
+//	  cout << "good: " << mFilename << endl;
+
+
+	mName = nameMatch[1];
+//	mName = dbFile.leaf();
 //	static const regex allowedNames("^\\w[\\w ]*\\w$");
 //	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
 
     bool fIsNew = ( !fs::exists(dbFile) );
     if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
         sqlite3_close(mDb);
-        throw std::runtime_error("could not open database file");
+        throw exDbError();
     }
 
     if (fIsNew)
@@ -158,12 +173,9 @@ PropertyObject* Ruleset::toPropertyObjectPtr() const {
 #include <boost/test/test_tools.hpp>
 
 void testName(string name) {
-    {
-        Ruleset x(name);
-    }
-
-    BOOST_CHECK(fs::exists(name + ".db3"));
-    fs::remove(name + ".db3");
+  BOOST_CHECK_NO_THROW(Ruleset(name));
+  if(fs::exists(name))
+    fs::remove(name);
 }
 
 void Ruleset::unitTest() {
@@ -260,9 +272,19 @@ void Ruleset::unitTest() {
 //    BOOST_CHECK( myRules.getInputRules().size() == 0);
 //
 //
-//    BOOST_CHECKPOINT("check allowed Names");
-//    testName("Stargate Atlantis");
-//    testName("24");
+    BOOST_CHECKPOINT("check allowed Names");
+    BOOST_CHECK_THROW(Ruleset(string("Stargate Atlantis")), exBadName);
+    BOOST_CHECK_THROW(Ruleset(string("24")), exBadName);
+    BOOST_CHECK_THROW(Ruleset(string("z:\\The Simpsons")), exBadName);
+    BOOST_CHECK_THROW(Ruleset(string("x:\\strangeDir\\The Simpsons.db3")),exDbError);
+    BOOST_CHECK_THROW(Ruleset(string("c:\\myDir\\xyz\\24.RULESET")),exDbError);
+    BOOST_CHECK_THROW(Ruleset(string("x:\\The Simpsons.ruleset")),exDbError);
+
+    testName(".\\Stargate Atlantis.ruleSet");
+    testName(".\\Stargate Atlantis.db3");
+    testName("c:\\24.db3");
+
+
 //    BOOST_CHECK_THROW(testName("Some one "), exFileLineDesc);
 //    BOOST_CHECK_THROW(testName("Some other?"), exFileLineDesc);
 //    BOOST_CHECK_THROW(testName(" Some other"), exFileLineDesc);

@@ -41,6 +41,7 @@ class InputRule {
 
         //! get the regex as a string from the database
         string getRegex() const;
+        bool setRegex(string);
 
         //! Creates 'regexes' and 'history' table
         static void createTables(sqlite3* db);
@@ -48,7 +49,6 @@ class InputRule {
         //! reomves this object and all its children
         void remove();
 
-        bool setRegex(string);
         sqlite_int64 getId() const { return mRow.getRowId(); };
         Replacements& getReplacements() const { return *mRplPtr; };
 
