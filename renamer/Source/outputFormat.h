@@ -39,6 +39,10 @@ class OutputFormat {
         string getFormat() const
             { return mRow.get("format"); };
 
+
+		//! returns true if the OutputFormat is valid and saves the resulting gems
+		bool parse(vector<string>& gems);
+
         /** the output format is the resulting filename
             containing $gems$
         */

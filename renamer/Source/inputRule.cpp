@@ -44,6 +44,28 @@ string InputRule::getRegex() const {
     return sRetVal;
 }
 
+sqlite_int64 InputRule::getOutputFormatId() {
+	string sRetVal;
+	stringstream strSql;
+	strSql  << "SELECT outputFormatId FROM regexes WHERE rowid = "
+		<< mRow.getRowId();
+	exec(strSql.str(), mDb, onReadFirstField, &sRetVal );
+
+	if (!sRetVal.size()) {
+		throw runtime_error("query returned no results");
+	}
+
+	unsigned iRetVal = 0;
+
+	//! \todo: do it better ...
+
+	sscanf(sRetVal.c_str(), "%d", &iRetVal);
+
+	return iRetVal;
+}
+
+
+
 void InputRule::createTables(sqlite3* db) {
     string sSql;
 
@@ -101,7 +123,8 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
         vector<Gem> myGems = getGems();
 
         //what[0] is the whole matched thing
-        exAssertDesc(what.size() > myGems.size(), "matched not all gems");
+		// removed by arturh
+//        exAssertDesc(what.size() > myGems.size(), "matched not all gems");
         for (int nGemIndex=0;nGemIndex < static_cast<int>(myGems.size()); nGemIndex++ ) {
             GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex].getRowId());
             //newValue.value = getReplacements().replace(what[nGemIndex+1]); // 1based

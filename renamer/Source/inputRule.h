@@ -46,10 +46,9 @@ class InputRule {
         //! Creates 'regexes' and 'history' table
         static void createTables(sqlite3* db);
 
-        //! reomves this object and all its children
+        //! removes this object and all its children
         void remove();
 
-        sqlite_int64 getId() const { return mRow.getRowId(); };
         Replacements& getReplacements() const { return *mRplPtr; };
 
         //! get all gems available for this InputRule.
@@ -63,6 +62,9 @@ class InputRule {
 
         void setOutputFormatId(sqlite_int64 v)
             {mRow.set("outputFormatId", cSqlOutFormated(v)); };
+
+		sqlite_int64 getOutputFormatId();
+
 
         //! primary key field of the row this object is stored in
         sqlite_int64 getRowId() const

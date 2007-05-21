@@ -74,6 +74,28 @@ bool OutputFormat::applyTo(string fileName, string& outputFileName) {
     return false;
 }
 
+bool OutputFormat::parse(vector<string>& gemNames) {
+	string format = getFormat();
+	int start = -1;
+
+	for(unsigned int i=0; i<format.length(); i++) {
+		if(format[i] == '$') {
+			if(start == -1) {
+				start = i;
+			}
+
+			else {
+				gemNames.push_back(format.substr(start + 1, i - start - 1));
+				start = -1;
+			}
+		}
+	}
+
+	if(start != -1)
+		return false;
+	return true;
+}
+
 void OutputFormat::remove() {
     vector<InputRule> rules = getInputRules();
     for (vector<InputRule>::iterator it = rules.begin();
@@ -87,7 +109,6 @@ void OutputFormat::remove() {
            << cSqlOutFormated(getRowId());
     exec(strSql, mDb);
     return;
-
 }
 
 #ifdef RENAMER_UNIT_TEST
