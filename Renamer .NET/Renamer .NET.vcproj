@@ -47,7 +47,7 @@
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				ForceConformanceInForLoopScope="false"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -63,7 +63,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt-gd.lib boost_filesystem-vc80-mt-gd.lib SQLite.lib"
+				AdditionalDependencies="boost_regex-vc80-mt-gd-1_33_1.lib boost_filesystem-vc80-mt-gd-1_33_1.lib SQLite.lib"
 				OutputFile="..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
@@ -105,7 +105,7 @@
 			ConfigurationType="1"
 			CharacterSet="1"
 			ManagedExtensions="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -127,7 +127,7 @@
 				AdditionalIncludeDirectories="&quot;..\renamer\Source&quot;;&quot;..\SQLite\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -143,13 +143,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt.lib boost_filesystem-vc80-mt.lib SQLite.lib"
+				AdditionalDependencies="boost_regex-vc80-mt-1_33_1.lib boost_filesystem-vc80-mt-1_33_1.lib SQLite.lib"
 				ShowProgress="0"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version="0.0.1"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				EntryPointSymbol="main"
 				TargetMachine="1"

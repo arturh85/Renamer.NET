@@ -210,6 +210,7 @@ private: System::Windows::Forms::ToolStripButton^  toolStripButton2;
 private: System::Windows::Forms::RichTextBox^  txtGemInputRule;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  GemColumnPosition;
 private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
+private: System::Windows::Forms::Button^  buttonRenameFiles;
 
 
 	// .net container
@@ -230,15 +231,15 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			System::Windows::Forms::Label^  label3;
 			System::Windows::Forms::Label^  label2;
 			System::Windows::Forms::Label^  label6;
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle5 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle6 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle7 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle8 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle9 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle10 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle11 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle12 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle13 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle14 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle15 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle16 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle17 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle18 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->tsStepButtons = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsStepRuleset = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsStepBeforeReplacements = (gcnew System::Windows::Forms::ToolStripButton());
@@ -250,6 +251,17 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->openRulesetFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->panelStepContent = (gcnew System::Windows::Forms::Panel());
+			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
+			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->panel4 = (gcnew System::Windows::Forms::Panel());
+			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
+			this->tsInputRuleButtons = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsRemoveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
 			this->panelStepGems = (gcnew System::Windows::Forms::Panel());
 			this->txtGemInputRule = (gcnew System::Windows::Forms::RichTextBox());
 			this->gridGems = (gcnew System::Windows::Forms::DataGridView());
@@ -266,17 +278,6 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->tsDeleteOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsDuplicateOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
 			this->lstOutputFormat = (gcnew System::Windows::Forms::ListBox());
-			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
-			this->panel3 = (gcnew System::Windows::Forms::Panel());
-			this->panel4 = (gcnew System::Windows::Forms::Panel());
-			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
-			this->tsInputRuleButtons = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->tsRemoveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
 			this->panelStepRuleset = (gcnew System::Windows::Forms::Panel());
 			this->panel6 = (gcnew System::Windows::Forms::Panel());
 			this->tsRuleset = (gcnew System::Windows::Forms::ToolStrip());
@@ -311,6 +312,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->chFile = (gcnew System::Windows::Forms::ColumnHeader());
 			this->saveRulesetFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->buttonRenameFiles = (gcnew System::Windows::Forms::Button());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label5 = (gcnew System::Windows::Forms::Label());
 			label7 = (gcnew System::Windows::Forms::Label());
@@ -323,6 +325,11 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->splitContainer->Panel2->SuspendLayout();
 			this->splitContainer->SuspendLayout();
 			this->panelStepContent->SuspendLayout();
+			this->panelStepInputRule->SuspendLayout();
+			this->panel3->SuspendLayout();
+			this->panel4->SuspendLayout();
+			this->toolStrip3->SuspendLayout();
+			this->tsInputRuleButtons->SuspendLayout();
 			this->panelStepGems->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->BeginInit();
 			this->panelStepOutputFormat->SuspendLayout();
@@ -330,11 +337,6 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->toolStrip1->SuspendLayout();
 			this->panel1->SuspendLayout();
 			this->tsOutputFormat->SuspendLayout();
-			this->panelStepInputRule->SuspendLayout();
-			this->panel3->SuspendLayout();
-			this->panel4->SuspendLayout();
-			this->toolStrip3->SuspendLayout();
-			this->tsInputRuleButtons->SuspendLayout();
 			this->panelStepRuleset->SuspendLayout();
 			this->panel6->SuspendLayout();
 			this->tsRuleset->SuspendLayout();
@@ -375,9 +377,9 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			// 
 			label7->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"label7.Image")));
 			label7->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			label7->Location = System::Drawing::Point(6, 7);
+			label7->Location = System::Drawing::Point(6, 4);
 			label7->Name = L"label7";
-			label7->Size = System::Drawing::Size(69, 13);
+			label7->Size = System::Drawing::Size(69, 24);
 			label7->TabIndex = 0;
 			label7->Text = L"Rename";
 			label7->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
@@ -435,7 +437,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				this->tsStepRename});
 			this->tsStepButtons->Location = System::Drawing::Point(0, 0);
 			this->tsStepButtons->Name = L"tsStepButtons";
-			this->tsStepButtons->Size = System::Drawing::Size(139, 410);
+			this->tsStepButtons->Size = System::Drawing::Size(139, 456);
 			this->tsStepButtons->TabIndex = 4;
 			this->tsStepButtons->Text = L"toolStrip1";
 			// 
@@ -537,35 +539,155 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			// splitContainer.Panel2
 			// 
 			this->splitContainer->Panel2->Controls->Add(this->panelFilelist);
-			this->splitContainer->Size = System::Drawing::Size(667, 410);
-			this->splitContainer->SplitterDistance = 306;
+			this->splitContainer->Size = System::Drawing::Size(646, 456);
+			this->splitContainer->SplitterDistance = 290;
 			this->splitContainer->TabIndex = 9;
 			// 
 			// panelStepContent
 			// 
+			this->panelStepContent->Controls->Add(this->panelStepRename);
+			this->panelStepContent->Controls->Add(this->panelStepInputRule);
 			this->panelStepContent->Controls->Add(this->panelStepGems);
 			this->panelStepContent->Controls->Add(this->panelStepOutputFormat);
-			this->panelStepContent->Controls->Add(this->panelStepInputRule);
 			this->panelStepContent->Controls->Add(this->panelStepRuleset);
 			this->panelStepContent->Controls->Add(this->panelStepAfterReplacements);
-			this->panelStepContent->Controls->Add(this->panelStepRename);
 			this->panelStepContent->Controls->Add(this->panelNavigation);
 			this->panelStepContent->Controls->Add(this->panelStepBeforeReplacements);
 			this->panelStepContent->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->panelStepContent->Location = System::Drawing::Point(0, 0);
 			this->panelStepContent->Name = L"panelStepContent";
-			this->panelStepContent->Size = System::Drawing::Size(665, 304);
+			this->panelStepContent->Size = System::Drawing::Size(644, 288);
 			this->panelStepContent->TabIndex = 7;
+			// 
+			// panelStepInputRule
+			// 
+			this->panelStepInputRule->Controls->Add(this->panel3);
+			this->panelStepInputRule->Controls->Add(label3);
+			this->panelStepInputRule->Location = System::Drawing::Point(164, 123);
+			this->panelStepInputRule->Name = L"panelStepInputRule";
+			this->panelStepInputRule->Size = System::Drawing::Size(143, 126);
+			this->panelStepInputRule->TabIndex = 5;
+			// 
+			// panel3
+			// 
+			this->panel3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+				| System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->panel3->Controls->Add(this->panel4);
+			this->panel3->Controls->Add(this->tsInputRuleButtons);
+			this->panel3->Controls->Add(this->lstInputRules);
+			this->panel3->Location = System::Drawing::Point(6, 23);
+			this->panel3->Name = L"panel3";
+			this->panel3->Size = System::Drawing::Size(134, 68);
+			this->panel3->TabIndex = 3;
+			// 
+			// panel4
+			// 
+			this->panel4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->panel4->Controls->Add(this->toolStrip3);
+			this->panel4->Controls->Add(this->txtInputRule);
+			this->panel4->Location = System::Drawing::Point(3, 27);
+			this->panel4->Name = L"panel4";
+			this->panel4->Size = System::Drawing::Size(134, 28);
+			this->panel4->TabIndex = 4;
+			// 
+			// toolStrip3
+			// 
+			this->toolStrip3->Dock = System::Windows::Forms::DockStyle::Right;
+			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
+			this->toolStrip3->Location = System::Drawing::Point(110, 0);
+			this->toolStrip3->Name = L"toolStrip3";
+			this->toolStrip3->Size = System::Drawing::Size(24, 28);
+			this->toolStrip3->TabIndex = 4;
+			this->toolStrip3->Text = L"toolStrip3";
+			// 
+			// tsSaveInputRule
+			// 
+			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsSaveInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsSaveInputRule.Image")));
+			this->tsSaveInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsSaveInputRule->Name = L"tsSaveInputRule";
+			this->tsSaveInputRule->Size = System::Drawing::Size(21, 20);
+			this->tsSaveInputRule->Text = L"toolStripButton1";
+			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
+			// 
+			// txtInputRule
+			// 
+			this->txtInputRule->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->txtInputRule->Location = System::Drawing::Point(3, 3);
+			this->txtInputRule->Multiline = false;
+			this->txtInputRule->Name = L"txtInputRule";
+			this->txtInputRule->Size = System::Drawing::Size(101, 20);
+			this->txtInputRule->TabIndex = 3;
+			this->txtInputRule->Text = L"";
+			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
+			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
+			// 
+			// tsInputRuleButtons
+			// 
+			this->tsInputRuleButtons->Dock = System::Windows::Forms::DockStyle::Right;
+			this->tsInputRuleButtons->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->tsInputRuleButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddInputRule, 
+				this->tsRemoveInputRule, this->tsDuplicateInputRule});
+			this->tsInputRuleButtons->Location = System::Drawing::Point(110, 0);
+			this->tsInputRuleButtons->Name = L"tsInputRuleButtons";
+			this->tsInputRuleButtons->Size = System::Drawing::Size(24, 68);
+			this->tsInputRuleButtons->TabIndex = 3;
+			this->tsInputRuleButtons->Text = L"toolStrip2";
+			// 
+			// tsAddInputRule
+			// 
+			this->tsAddInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsAddInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsAddInputRule.Image")));
+			this->tsAddInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsAddInputRule->Name = L"tsAddInputRule";
+			this->tsAddInputRule->Size = System::Drawing::Size(21, 20);
+			this->tsAddInputRule->Text = L"toolStripButton1";
+			this->tsAddInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsAddInputRule_Click);
+			// 
+			// tsRemoveInputRule
+			// 
+			this->tsRemoveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsRemoveInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsRemoveInputRule.Image")));
+			this->tsRemoveInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsRemoveInputRule->Name = L"tsRemoveInputRule";
+			this->tsRemoveInputRule->Size = System::Drawing::Size(21, 20);
+			this->tsRemoveInputRule->Text = L"toolStripButton2";
+			this->tsRemoveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsRemoveInputRule_Click);
+			// 
+			// tsDuplicateInputRule
+			// 
+			this->tsDuplicateInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->tsDuplicateInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsDuplicateInputRule.Image")));
+			this->tsDuplicateInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->tsDuplicateInputRule->Name = L"tsDuplicateInputRule";
+			this->tsDuplicateInputRule->Size = System::Drawing::Size(23, 20);
+			this->tsDuplicateInputRule->Text = L"toolStripButton3";
+			this->tsDuplicateInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateInputRule_Click);
+			// 
+			// lstInputRules
+			// 
+			this->lstInputRules->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+				| System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->lstInputRules->FormattingEnabled = true;
+			this->lstInputRules->Location = System::Drawing::Point(3, 4);
+			this->lstInputRules->Name = L"lstInputRules";
+			this->lstInputRules->Size = System::Drawing::Size(104, 4);
+			this->lstInputRules->TabIndex = 2;
+			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
 			// 
 			// panelStepGems
 			// 
 			this->panelStepGems->Controls->Add(this->txtGemInputRule);
 			this->panelStepGems->Controls->Add(this->gridGems);
 			this->panelStepGems->Controls->Add(label6);
-			this->panelStepGems->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->panelStepGems->Location = System::Drawing::Point(0, 0);
+			this->panelStepGems->Location = System::Drawing::Point(356, 11);
 			this->panelStepGems->Name = L"panelStepGems";
-			this->panelStepGems->Size = System::Drawing::Size(665, 271);
+			this->panelStepGems->Size = System::Drawing::Size(143, 53);
 			this->panelStepGems->TabIndex = 8;
 			// 
 			// txtGemInputRule
@@ -573,11 +695,11 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->txtGemInputRule->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->txtGemInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->txtGemInputRule->Location = System::Drawing::Point(9, 239);
+			this->txtGemInputRule->Location = System::Drawing::Point(9, 21);
 			this->txtGemInputRule->Multiline = false;
 			this->txtGemInputRule->Name = L"txtGemInputRule";
 			this->txtGemInputRule->ReadOnly = true;
-			this->txtGemInputRule->Size = System::Drawing::Size(626, 22);
+			this->txtGemInputRule->Size = System::Drawing::Size(104, 22);
 			this->txtGemInputRule->TabIndex = 2;
 			this->txtGemInputRule->Text = L"";
 			// 
@@ -590,40 +712,40 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->gridGems->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle10->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle10->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle10->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle10->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle10->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle10->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
 			this->gridGems->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridGems->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->GemColumnPosition, 
 				this->GemColumnGem});
-			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle11->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle11->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridGems->DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle11->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle11->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle11->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle11->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridGems->DefaultCellStyle = dataGridViewCellStyle11;
 			this->gridGems->Location = System::Drawing::Point(9, 23);
 			this->gridGems->MultiSelect = false;
 			this->gridGems->Name = L"gridGems";
-			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle3->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle12->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle12->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle12->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			this->gridGems->Size = System::Drawing::Size(626, 210);
+			dataGridViewCellStyle12->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle12->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle12->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle12->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+			this->gridGems->Size = System::Drawing::Size(104, 0);
 			this->gridGems->TabIndex = 1;
 			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
 			// 
@@ -646,9 +768,9 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->panelStepOutputFormat->Controls->Add(this->panel2);
 			this->panelStepOutputFormat->Controls->Add(this->panel1);
 			this->panelStepOutputFormat->Controls->Add(label2);
-			this->panelStepOutputFormat->Location = System::Drawing::Point(14, 115);
+			this->panelStepOutputFormat->Location = System::Drawing::Point(14, 186);
 			this->panelStepOutputFormat->Name = L"panelStepOutputFormat";
-			this->panelStepOutputFormat->Size = System::Drawing::Size(337, 61);
+			this->panelStepOutputFormat->Size = System::Drawing::Size(144, 67);
 			this->panelStepOutputFormat->TabIndex = 4;
 			// 
 			// panel2
@@ -657,9 +779,9 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->panel2->Controls->Add(this->toolStrip1);
 			this->panel2->Controls->Add(this->txtOutputFormat);
-			this->panel2->Location = System::Drawing::Point(7, 18);
+			this->panel2->Location = System::Drawing::Point(7, 24);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(328, 26);
+			this->panel2->Size = System::Drawing::Size(135, 26);
 			this->panel2->TabIndex = 6;
 			// 
 			// toolStrip1
@@ -667,7 +789,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->toolStrip1->Dock = System::Windows::Forms::DockStyle::Right;
 			this->toolStrip1->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
 			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveOutputFormat});
-			this->toolStrip1->Location = System::Drawing::Point(304, 0);
+			this->toolStrip1->Location = System::Drawing::Point(111, 0);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(24, 26);
 			this->toolStrip1->TabIndex = 6;
@@ -689,7 +811,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->txtOutputFormat->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
 			this->txtOutputFormat->Location = System::Drawing::Point(2, 3);
 			this->txtOutputFormat->Name = L"txtOutputFormat";
-			this->txtOutputFormat->Size = System::Drawing::Size(298, 20);
+			this->txtOutputFormat->Size = System::Drawing::Size(105, 20);
 			this->txtOutputFormat->TabIndex = 5;
 			this->txtOutputFormat->Text = L"";
 			this->txtOutputFormat->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtOutputFormat_KeyDown);
@@ -704,7 +826,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->panel1->Controls->Add(this->lstOutputFormat);
 			this->panel1->Location = System::Drawing::Point(6, 24);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(328, 0);
+			this->panel1->Size = System::Drawing::Size(135, 6);
 			this->panel1->TabIndex = 5;
 			// 
 			// tsOutputFormat
@@ -714,9 +836,9 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->tsOutputFormat->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddOutputFormat, 
 				this->tsDeleteOutputFormat, this->tsDuplicateOutputFormat});
 			this->tsOutputFormat->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::VerticalStackWithOverflow;
-			this->tsOutputFormat->Location = System::Drawing::Point(304, 0);
+			this->tsOutputFormat->Location = System::Drawing::Point(111, 0);
 			this->tsOutputFormat->Name = L"tsOutputFormat";
-			this->tsOutputFormat->Size = System::Drawing::Size(24, 0);
+			this->tsOutputFormat->Size = System::Drawing::Size(24, 6);
 			this->tsOutputFormat->TabIndex = 4;
 			this->tsOutputFormat->Text = L"toolStrip3";
 			// 
@@ -758,130 +880,9 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->lstOutputFormat->Location = System::Drawing::Point(3, 3);
 			this->lstOutputFormat->Name = L"lstOutputFormat";
-			this->lstOutputFormat->Size = System::Drawing::Size(298, 4);
+			this->lstOutputFormat->Size = System::Drawing::Size(105, 4);
 			this->lstOutputFormat->TabIndex = 2;
 			this->lstOutputFormat->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstOutputFormat_SelectedIndexChanged);
-			// 
-			// panelStepInputRule
-			// 
-			this->panelStepInputRule->Controls->Add(this->panel3);
-			this->panelStepInputRule->Controls->Add(label3);
-			this->panelStepInputRule->Location = System::Drawing::Point(14, 78);
-			this->panelStepInputRule->Name = L"panelStepInputRule";
-			this->panelStepInputRule->Size = System::Drawing::Size(144, 27);
-			this->panelStepInputRule->TabIndex = 5;
-			// 
-			// panel3
-			// 
-			this->panel3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
-				| System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->panel3->Controls->Add(this->panel4);
-			this->panel3->Controls->Add(this->tsInputRuleButtons);
-			this->panel3->Controls->Add(this->lstInputRules);
-			this->panel3->Location = System::Drawing::Point(6, 23);
-			this->panel3->Name = L"panel3";
-			this->panel3->Size = System::Drawing::Size(135, 0);
-			this->panel3->TabIndex = 3;
-			// 
-			// panel4
-			// 
-			this->panel4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->panel4->Controls->Add(this->toolStrip3);
-			this->panel4->Controls->Add(this->txtInputRule);
-			this->panel4->Location = System::Drawing::Point(3, 32);
-			this->panel4->Name = L"panel4";
-			this->panel4->Size = System::Drawing::Size(135, 28);
-			this->panel4->TabIndex = 4;
-			// 
-			// toolStrip3
-			// 
-			this->toolStrip3->Dock = System::Windows::Forms::DockStyle::Right;
-			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
-			this->toolStrip3->Location = System::Drawing::Point(111, 0);
-			this->toolStrip3->Name = L"toolStrip3";
-			this->toolStrip3->Size = System::Drawing::Size(24, 28);
-			this->toolStrip3->TabIndex = 4;
-			this->toolStrip3->Text = L"toolStrip3";
-			// 
-			// tsSaveInputRule
-			// 
-			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->tsSaveInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsSaveInputRule.Image")));
-			this->tsSaveInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->tsSaveInputRule->Name = L"tsSaveInputRule";
-			this->tsSaveInputRule->Size = System::Drawing::Size(21, 20);
-			this->tsSaveInputRule->Text = L"toolStripButton1";
-			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
-			// 
-			// txtInputRule
-			// 
-			this->txtInputRule->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->txtInputRule->Location = System::Drawing::Point(3, 0);
-			this->txtInputRule->Multiline = false;
-			this->txtInputRule->Name = L"txtInputRule";
-			this->txtInputRule->Size = System::Drawing::Size(102, 20);
-			this->txtInputRule->TabIndex = 3;
-			this->txtInputRule->Text = L"";
-			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
-			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
-			// 
-			// tsInputRuleButtons
-			// 
-			this->tsInputRuleButtons->Dock = System::Windows::Forms::DockStyle::Right;
-			this->tsInputRuleButtons->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->tsInputRuleButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddInputRule, 
-				this->tsRemoveInputRule, this->tsDuplicateInputRule});
-			this->tsInputRuleButtons->Location = System::Drawing::Point(111, 0);
-			this->tsInputRuleButtons->Name = L"tsInputRuleButtons";
-			this->tsInputRuleButtons->Size = System::Drawing::Size(24, 0);
-			this->tsInputRuleButtons->TabIndex = 3;
-			this->tsInputRuleButtons->Text = L"toolStrip2";
-			// 
-			// tsAddInputRule
-			// 
-			this->tsAddInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->tsAddInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsAddInputRule.Image")));
-			this->tsAddInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->tsAddInputRule->Name = L"tsAddInputRule";
-			this->tsAddInputRule->Size = System::Drawing::Size(23, 20);
-			this->tsAddInputRule->Text = L"toolStripButton1";
-			this->tsAddInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsAddInputRule_Click);
-			// 
-			// tsRemoveInputRule
-			// 
-			this->tsRemoveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->tsRemoveInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsRemoveInputRule.Image")));
-			this->tsRemoveInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->tsRemoveInputRule->Name = L"tsRemoveInputRule";
-			this->tsRemoveInputRule->Size = System::Drawing::Size(23, 20);
-			this->tsRemoveInputRule->Text = L"toolStripButton2";
-			this->tsRemoveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsRemoveInputRule_Click);
-			// 
-			// tsDuplicateInputRule
-			// 
-			this->tsDuplicateInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			this->tsDuplicateInputRule->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"tsDuplicateInputRule.Image")));
-			this->tsDuplicateInputRule->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->tsDuplicateInputRule->Name = L"tsDuplicateInputRule";
-			this->tsDuplicateInputRule->Size = System::Drawing::Size(23, 20);
-			this->tsDuplicateInputRule->Text = L"toolStripButton3";
-			this->tsDuplicateInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateInputRule_Click);
-			// 
-			// lstInputRules
-			// 
-			this->lstInputRules->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
-				| System::Windows::Forms::AnchorStyles::Left) 
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->lstInputRules->FormattingEnabled = true;
-			this->lstInputRules->Location = System::Drawing::Point(3, 4);
-			this->lstInputRules->Name = L"lstInputRules";
-			this->lstInputRules->Size = System::Drawing::Size(105, 4);
-			this->lstInputRules->TabIndex = 2;
-			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
 			// 
 			// panelStepRuleset
 			// 
@@ -972,38 +973,38 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->gridAfterReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle4->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle4->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle13->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle13->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle4->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle4->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridAfterReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle13->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle13->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle13->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle13->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridAfterReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
 			this->gridAfterReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridAfterReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->dataGridViewTextBoxColumn1, 
 				this->dataGridViewTextBoxColumn2, this->dataGridViewTextBoxColumn3, this->dataGridViewTextBoxColumn4});
-			dataGridViewCellStyle5->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle5->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle14->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle14->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle5->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle5->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle5->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle5->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridAfterReplacements->DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle14->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle14->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle14->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle14->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridAfterReplacements->DefaultCellStyle = dataGridViewCellStyle14;
 			this->gridAfterReplacements->Location = System::Drawing::Point(9, 27);
 			this->gridAfterReplacements->Name = L"gridAfterReplacements";
-			dataGridViewCellStyle6->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle6->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle15->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle15->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle6->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle6->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle6->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle6->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridAfterReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle15->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle15->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle15->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle15->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridAfterReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
 			this->gridAfterReplacements->Size = System::Drawing::Size(104, 0);
 			this->gridAfterReplacements->TabIndex = 2;
 			// 
@@ -1033,10 +1034,12 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			// 
 			// panelStepRename
 			// 
+			this->panelStepRename->Controls->Add(this->buttonRenameFiles);
 			this->panelStepRename->Controls->Add(label7);
-			this->panelStepRename->Location = System::Drawing::Point(164, 78);
+			this->panelStepRename->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->panelStepRename->Location = System::Drawing::Point(0, 0);
 			this->panelStepRename->Name = L"panelStepRename";
-			this->panelStepRename->Size = System::Drawing::Size(143, 27);
+			this->panelStepRename->Size = System::Drawing::Size(644, 255);
 			this->panelStepRename->TabIndex = 9;
 			// 
 			// panelNavigation
@@ -1044,16 +1047,16 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->panelNavigation->Controls->Add(this->buttonPreviousStep);
 			this->panelNavigation->Controls->Add(this->buttonNextStep);
 			this->panelNavigation->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->panelNavigation->Location = System::Drawing::Point(0, 271);
+			this->panelNavigation->Location = System::Drawing::Point(0, 255);
 			this->panelNavigation->Name = L"panelNavigation";
-			this->panelNavigation->Size = System::Drawing::Size(665, 33);
+			this->panelNavigation->Size = System::Drawing::Size(644, 33);
 			this->panelNavigation->TabIndex = 11;
 			// 
 			// buttonPreviousStep
 			// 
 			this->buttonPreviousStep->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->buttonPreviousStep->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonPreviousStep.Image")));
-			this->buttonPreviousStep->Location = System::Drawing::Point(530, 5);
+			this->buttonPreviousStep->Location = System::Drawing::Point(509, 5);
 			this->buttonPreviousStep->Name = L"buttonPreviousStep";
 			this->buttonPreviousStep->Size = System::Drawing::Size(48, 23);
 			this->buttonPreviousStep->TabIndex = 1;
@@ -1064,7 +1067,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			// 
 			this->buttonNextStep->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->buttonNextStep->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonNextStep.Image")));
-			this->buttonNextStep->Location = System::Drawing::Point(587, 5);
+			this->buttonNextStep->Location = System::Drawing::Point(566, 5);
 			this->buttonNextStep->Name = L"buttonNextStep";
 			this->buttonNextStep->Size = System::Drawing::Size(48, 23);
 			this->buttonNextStep->TabIndex = 0;
@@ -1087,38 +1090,38 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->gridBeforeReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle7->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle7->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle16->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle16->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle16->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle7->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle7->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle7->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle7->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridBeforeReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle16->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle16->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle16->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle16->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridBeforeReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
 			this->gridBeforeReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridBeforeReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->ID, 
 				this->GroupID, this->Search, this->Replace});
-			dataGridViewCellStyle8->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle8->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle17->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle17->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle17->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle8->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle8->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle8->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle8->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridBeforeReplacements->DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle17->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle17->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle17->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle17->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridBeforeReplacements->DefaultCellStyle = dataGridViewCellStyle17;
 			this->gridBeforeReplacements->Location = System::Drawing::Point(9, 27);
 			this->gridBeforeReplacements->Name = L"gridBeforeReplacements";
-			dataGridViewCellStyle9->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle9->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle18->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle18->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle18->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle9->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle9->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle9->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle9->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridBeforeReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle18->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle18->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle18->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle18->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridBeforeReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
 			this->gridBeforeReplacements->Size = System::Drawing::Size(105, 0);
 			this->gridBeforeReplacements->TabIndex = 1;
 			// 
@@ -1152,7 +1155,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->panelFilelist->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->panelFilelist->Location = System::Drawing::Point(0, 0);
 			this->panelFilelist->Name = L"panelFilelist";
-			this->panelFilelist->Size = System::Drawing::Size(665, 98);
+			this->panelFilelist->Size = System::Drawing::Size(644, 160);
 			this->panelFilelist->TabIndex = 10;
 			// 
 			// panel5
@@ -1164,7 +1167,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->panel5->Controls->Add(this->fileList);
 			this->panel5->Location = System::Drawing::Point(6, 6);
 			this->panel5->Name = L"panel5";
-			this->panel5->Size = System::Drawing::Size(656, 89);
+			this->panel5->Size = System::Drawing::Size(635, 151);
 			this->panel5->TabIndex = 2;
 			// 
 			// tsFileList
@@ -1173,9 +1176,9 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->tsFileList->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
 			this->tsFileList->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->tsAddFiles, this->tsRemoveFileFromList, 
 				this->tsApplyChanges, this->toolStripButton1});
-			this->tsFileList->Location = System::Drawing::Point(632, 0);
+			this->tsFileList->Location = System::Drawing::Point(611, 0);
 			this->tsFileList->Name = L"tsFileList";
-			this->tsFileList->Size = System::Drawing::Size(24, 89);
+			this->tsFileList->Size = System::Drawing::Size(24, 151);
 			this->tsFileList->TabIndex = 2;
 			this->tsFileList->Text = L"toolStrip2";
 			// 
@@ -1186,7 +1189,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->tsAddFiles->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsAddFiles->Name = L"tsAddFiles";
 			this->tsAddFiles->Size = System::Drawing::Size(21, 20);
-			this->tsAddFiles->Text = L"toolStripButton5";
+			this->tsAddFiles->Text = L"Add Files";
+			this->tsAddFiles->ToolTipText = L"Add Files";
 			this->tsAddFiles->Click += gcnew System::EventHandler(this, &WizardForm::tsAddFiles_Click);
 			// 
 			// tsRemoveFileFromList
@@ -1196,7 +1200,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->tsRemoveFileFromList->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsRemoveFileFromList->Name = L"tsRemoveFileFromList";
 			this->tsRemoveFileFromList->Size = System::Drawing::Size(21, 20);
-			this->tsRemoveFileFromList->Text = L"toolStripButton6";
+			this->tsRemoveFileFromList->Text = L"Remove Files";
 			this->tsRemoveFileFromList->Click += gcnew System::EventHandler(this, &WizardForm::tsRemoveFileFromList_Click);
 			// 
 			// tsApplyChanges
@@ -1206,7 +1210,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->tsApplyChanges->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->tsApplyChanges->Name = L"tsApplyChanges";
 			this->tsApplyChanges->Size = System::Drawing::Size(21, 20);
-			this->tsApplyChanges->Text = L"toolStripButton7";
+			this->tsApplyChanges->Text = L"Apply Changes";
 			this->tsApplyChanges->Click += gcnew System::EventHandler(this, &WizardForm::tsApplyChanges_Click);
 			// 
 			// toolStripButton1
@@ -1215,8 +1219,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton1.Image")));
 			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton1->Name = L"toolStripButton1";
-			this->toolStripButton1->Size = System::Drawing::Size(23, 20);
-			this->toolStripButton1->Text = L"toolStripButton1";
+			this->toolStripButton1->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton1->Text = L"DEBUG";
 			this->toolStripButton1->Click += gcnew System::EventHandler(this, &WizardForm::toolStripButton1_Click);
 			// 
 			// fileList
@@ -1231,7 +1235,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->fileList->Location = System::Drawing::Point(3, 3);
 			this->fileList->Name = L"fileList";
 			this->fileList->ShowGroups = false;
-			this->fileList->Size = System::Drawing::Size(626, 83);
+			this->fileList->Size = System::Drawing::Size(605, 145);
 			this->fileList->TabIndex = 1;
 			this->fileList->UseCompatibleStateImageBehavior = false;
 			this->fileList->View = System::Windows::Forms::View::Details;
@@ -1257,11 +1261,21 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->fileListopenFileDiag->RestoreDirectory = true;
 			this->fileListopenFileDiag->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &WizardForm::fileListopenFileDiag_FileOk);
 			// 
+			// buttonRenameFiles
+			// 
+			this->buttonRenameFiles->Location = System::Drawing::Point(9, 43);
+			this->buttonRenameFiles->Name = L"buttonRenameFiles";
+			this->buttonRenameFiles->Size = System::Drawing::Size(155, 23);
+			this->buttonRenameFiles->TabIndex = 1;
+			this->buttonRenameFiles->Text = L"Rename matching files";
+			this->buttonRenameFiles->UseVisualStyleBackColor = true;
+			this->buttonRenameFiles->Click += gcnew System::EventHandler(this, &WizardForm::buttonRenameFiles_Click);
+			// 
 			// WizardForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(806, 410);
+			this->ClientSize = System::Drawing::Size(785, 456);
 			this->Controls->Add(this->splitContainer);
 			this->Controls->Add(this->tsStepButtons);
 			this->Name = L"WizardForm";
@@ -1273,6 +1287,15 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->splitContainer->Panel2->ResumeLayout(false);
 			this->splitContainer->ResumeLayout(false);
 			this->panelStepContent->ResumeLayout(false);
+			this->panelStepInputRule->ResumeLayout(false);
+			this->panel3->ResumeLayout(false);
+			this->panel3->PerformLayout();
+			this->panel4->ResumeLayout(false);
+			this->panel4->PerformLayout();
+			this->toolStrip3->ResumeLayout(false);
+			this->toolStrip3->PerformLayout();
+			this->tsInputRuleButtons->ResumeLayout(false);
+			this->tsInputRuleButtons->PerformLayout();
 			this->panelStepGems->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->EndInit();
 			this->panelStepOutputFormat->ResumeLayout(false);
@@ -1284,15 +1307,6 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->panel1->PerformLayout();
 			this->tsOutputFormat->ResumeLayout(false);
 			this->tsOutputFormat->PerformLayout();
-			this->panelStepInputRule->ResumeLayout(false);
-			this->panel3->ResumeLayout(false);
-			this->panel3->PerformLayout();
-			this->panel4->ResumeLayout(false);
-			this->panel4->PerformLayout();
-			this->toolStrip3->ResumeLayout(false);
-			this->toolStrip3->PerformLayout();
-			this->tsInputRuleButtons->ResumeLayout(false);
-			this->tsInputRuleButtons->PerformLayout();
 			this->panelStepRuleset->ResumeLayout(false);
 			this->panel6->ResumeLayout(false);
 			this->panel6->PerformLayout();
@@ -1340,7 +1354,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 		void onEnterStepOutputFormats() {
 			applyChanges(Step::OUTPUTFORMAT_SELECT);
 			refreshOutputFormatList();			 
-			lstOutputFormat->SelectedIndex = 0;
+			if(lstOutputFormat->Items->Count > 0)
+				lstOutputFormat->SelectedIndex = 0;
 			tsSaveOutputFormat->Visible = false;
 		}
 
@@ -1355,7 +1370,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				updateInputRuleGems(mInputRuleID);
 			applyChanges(Step::INPUTRULES_SELECT);
 			refreshInputRuleList();
-			lstInputRules->SelectedIndex = 0;
+			if(lstInputRules->Items->Count > 0)
+				lstInputRules->SelectedIndex = 0;
 			tsSaveInputRule->Visible = false;
 		}
 
@@ -1400,54 +1416,103 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 
 #pragma endregion
 #pragma region Business Code
-		void applyChanges(Step step) {
-			if(step == Step::RULESET_SELECT) {
-				 reloadFileList();
-			} else if (step == Step::BEFORE_REPLACEMENTS) {
-				 saveBeforeReplacements();
-				 reloadFileList();
-				 Replacements replacements = mRuleset->getBeforeReplacements();
-				 for(int i=0; i<fileList->Items->Count; i++) {
-					 ListViewItem^ item = fileList->Items[i];
-					 item->Text = toClrString(replacements.replace(toStdString(item->Text)));
-				 }
-			} else if (step == Step::INPUTRULES_SELECT) {
-				 reloadFileList();
-				 Replacements replacements = mRuleset->getBeforeReplacements();
-				 for(int i=0; i<fileList->Items->Count; i++) {
-					 ListViewItem^ item = fileList->Items[i];
-					 item->Text = toClrString(replacements.replace(toStdString(item->Text)));
-				 }
+		void applyBeforeReplacements() {
+			Replacements replacements = mRuleset->getBeforeReplacements();
+			for(int i=0; i<fileList->Items->Count; i++) {
+				ListViewItem^ item = fileList->Items[i];
+				item->Text = toClrString(replacements.replace(toStdString(item->Text)));
+			}
+		}
 
-				 if(mInputRuleID != 0) {
-					 InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
-					 vector<GemValue> not_used;
-					 for(int i=0; i<fileList->Items->Count; i++) {
-						 ListViewItem^ item = fileList->Items[i];
-						 if(inputRule.applyTo(toStdString(item->Text), not_used)) 
-							 item->BackColor = Color::Green;
-						 else
-							 item->BackColor = Color::Red;
-	//					 item->Text = toClrString(replacements.replace(toStdString(item->Text)));
-					 }
-				 }
-			} else if (step == Step::GEMS_SELECT) {
-				reloadFileList();
-				Replacements replacements = mRuleset->getBeforeReplacements();
+		void applyAfterReplacements() {
+			Replacements replacements = mRuleset->getAfterReplacements();
+			for(int i=0; i<fileList->Items->Count; i++) {
+				ListViewItem^ item = fileList->Items[i];
+				item->Text = toClrString(replacements.replace(toStdString(item->Text)));
+			}
+		}
+
+		void applyInputRules() {
+			if(mInputRuleID != 0) {
+				InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+				vector<GemValue> not_used;
 				for(int i=0; i<fileList->Items->Count; i++) {
 					ListViewItem^ item = fileList->Items[i];
-					item->Text = toClrString(replacements.replace(toStdString(item->Text)));
+					if(inputRule.applyTo(toStdString(item->Text), not_used)) 
+						item->BackColor = Color::Green;
+					else
+						item->BackColor = Color::Red;
+					//					 item->Text = toClrString(replacements.replace(toStdString(item->Text)));
 				}
-				
-				fileList->Columns->Add("Result");
+			}
+		}
 
-				for(int i=0; i<fileList->Items->Count; i++) {
-					string resultingFilename;
-					if(mRuleset->applyTo(toStdString(fileList->Items[i]->Text), resultingFilename)) {
-						fileList->Items[i]->SubItems->Add(toClrString(resultingFilename));
+		void applyGems() {
+			fileList->Columns->Add("Result");
+
+			for(int i=0; i<fileList->Items->Count; i++) {
+				string resultingFilename;
+				if(mRuleset->applyTo(toStdString(fileList->Items[i]->Text), resultingFilename)) {
+					fileList->Items[i]->SubItems->Add(toClrString(resultingFilename));
+				}
+			}
+
+			InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+			vector<Gem> gems = inputRule.getGems();
+			vector<GemValue> gemValues;
+
+			for(int i=0; i<fileList->Items->Count; i++) {
+				gemValues.clear();
+				if(inputRule.applyTo(toStdString(fileList->Items[i]->Text), gemValues)) {
+					if(fileList->Columns->Count == 2) {
+						for(unsigned j=0; j<gems.size(); j++)
+							fileList->Columns->Add(toClrString(gems[j].getName()));
+					}
+					for(unsigned j=0; j<gemValues.size(); j++) {
+						fileList->Items[i]->SubItems->Add(toClrString(gemValues[j].value));
 					}
 				}
 			}
+
+			fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
+			fileList->Columns[1]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
+		}
+
+		void applyChanges(Step step) {
+			fileList->BeginUpdate();
+			LockWindowUpdate((HWND) (int) fileList->Handle);
+			if(step == Step::RULESET_SELECT) {
+				reloadFileList();
+			} else if (step == Step::BEFORE_REPLACEMENTS) {
+				saveBeforeReplacements();
+				reloadFileList();
+				applyBeforeReplacements();
+			} else if (step == Step::OUTPUTFORMAT_SELECT) {
+				reloadFileList();
+				applyBeforeReplacements();
+			} else if (step == Step::INPUTRULES_SELECT) {
+				reloadFileList();
+				applyBeforeReplacements();
+				applyInputRules();
+			} else if (step == Step::GEMS_SELECT) {
+				saveGems();
+				reloadFileList();
+				applyBeforeReplacements();
+				applyGems();
+			} else if (step == Step::AFTER_REPLACEMENTS) {
+				saveAfterReplacements();
+				reloadFileList();
+				applyBeforeReplacements();
+				applyGems();
+				applyAfterReplacements();
+			} else if (step == Step::RENAME) {
+				reloadFileList();
+				applyBeforeReplacements();
+				applyGems();
+				applyAfterReplacements();
+			}
+			LockWindowUpdate((HWND) 0);
+			fileList->EndUpdate();
 		}
 
 		void updateInputRuleGems(sqlite_int64 inputRuleRowId) {
@@ -1464,21 +1529,19 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 					bool found = false;
 	
 					// array of already existing Gems and their Names
-					for(unsigned j = 0; j<gems.size(); j++) {
+					unsigned j;
+					for(j = 0; j<gems.size(); j++) {
 						// found is true if the GemName is already in use
 						if(gems[j].getName() == gemNames[i])  {
 							found = true;
+							// case: UPDATE
+							gems[j].setName(gemNames[i]);
 							break;
 						}						
 					}
 
-					// case: UPDATE
-					if(found == true) {
-						gems[j].setName(gemNames[i]);
-					}
-
 					// case: INSERT
-					else {
+					if(found == false) {
 						inputRule.addGem(gemNames[i]);
 					}
 				}
@@ -1610,19 +1673,14 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 		void addFile( String^ pathToFile )
 		{
 			String^ fileName = System::IO::Path::GetFileNameWithoutExtension(pathToFile);
-			if(mFiles.Contains(fileName))
+			if(mFiles.Contains(pathToFile))
 				return ;
 			mFiles.Add(pathToFile);
-
-			// add to fileList Control
-			ListViewItem^ item = gcnew ListViewItem(fileName);
-			item->Tag = mFiles.Count - 1;
-			fileList->Items->Add(item);
 		}
 
 		void reloadFileList() {
 			if(fileList->Columns->Count > 1) {
-				for(int i=1; i<fileList->Columns->Count; i++) {
+				for(int i=fileList->Columns->Count - 1; i>=1; i--) {
 					fileList->Columns->RemoveAt(i);
 				}
 			}
@@ -1635,6 +1693,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				item->Tag = i;
 				fileList->Items->Add(item);
 			}
+
+			fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
 		}
 
 		void setMaxStep(Step newMaxStep) {
@@ -1659,6 +1719,13 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 					if(mRuleset && mOutputFormatID > 0) {
 						mMaxStep = Step::GEMS_SELECT;
 					}
+				}
+				if(mStep == Step::GEMS_SELECT && newStep == Step::AFTER_REPLACEMENTS) {
+					// todo: validate gem
+					mMaxStep = Step::AFTER_REPLACEMENTS;
+				}
+				if(mStep == Step::AFTER_REPLACEMENTS && newStep == Step::RENAME) {
+					mMaxStep = Step::RENAME;
 				}
 			}
 
@@ -1826,6 +1893,75 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			}
 		}
 
+		void saveAfterReplacements() {
+			if(mRuleset == NULL) return ;
+			Replacements replacements = mRuleset->getAfterReplacements();
+
+			int rowCount = gridAfterReplacements->Rows->Count;
+			vector<sqlite_int64> replacementsWhichWereNotDeleted ;
+			for(int i=0; i<gridAfterReplacements->Rows->Count; i++) {
+				if(gridAfterReplacements->Rows[i]->Cells[0]->Value == nullptr) {
+					String^ search = (String^)gridAfterReplacements->Rows[i]->Cells[2]->Value;
+					String^ replace = (String^)gridAfterReplacements->Rows[i]->Cells[3]->Value;
+					if(search != nullptr) {
+						if(replace == nullptr)
+							replace = L"";
+						Replacement replacement = replacements.addReplacement(toStdString(search), toStdString(replace));
+						replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
+						gridAfterReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
+						gridAfterReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
+					}
+				}
+
+				else {
+					int rowid = (int)((Int32^)gridAfterReplacements->Rows[i]->Cells[0]->Value);
+					String^ search = (String^)gridAfterReplacements->Rows[i]->Cells[2]->Value;
+					String^ replace = (String^)gridAfterReplacements->Rows[i]->Cells[3]->Value;
+					if(search != nullptr) {
+						if(replace == nullptr)
+							replace = L"";
+
+						replacementsWhichWereNotDeleted.push_back(rowid);
+						Replacement replacement(mRuleset->getDatabase(), rowid);
+						replacement.setRegex(toStdString(search));
+						replacement.setReplacement(toStdString(replace));
+					}
+				}
+			}
+
+			vector<Replacement> replacementVector = replacements.getReplacements();
+			for(unsigned int i=0; i<replacementVector.size(); i++) {
+				bool found = false;
+				for(unsigned int j=0; j<replacementsWhichWereNotDeleted.size(); j++) {
+					if(replacementVector[i].getRowId() == replacementsWhichWereNotDeleted[j]) {
+						found = true;
+					}
+				}
+
+				if(found == false) {
+					Replacement replacement(mRuleset->getDatabase(), replacementVector[i].getRowId());
+					replacement.remove();
+				}
+			}
+		}
+
+		void loadAfterReplacements() {
+			if(mRuleset == NULL) return ;
+			gridAfterReplacements->Rows->Clear();
+			Replacements replacements = mRuleset->getAfterReplacements();
+			vector<Replacement> replacementVector = replacements.getReplacements();
+
+			for(unsigned int i=0; i<replacementVector.size(); i++) {
+				cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
+				values[0] = gcnew Int32 ((Int32)replacementVector[i].getRowId());
+				values[1] = gcnew Int32 ((Int32)replacementVector[i].getGroupId());
+				values[2] = toClrString(replacementVector[i].getRegex().str());
+				values[3] = toClrString(replacementVector[i].getReplacement());
+
+				gridAfterReplacements->Rows->Add(values);
+			}
+		}
+
 		void loadGems() {
 			gridGems->Rows->Clear();
 			GemColumnGem->Items->Clear();
@@ -1927,8 +2063,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 					 mStep = Step::RULESET_SELECT;
 					 setMaxStep(Step::RULESET_SELECT);
 
-					 toolStripButton1_Click(nullptr, nullptr);
-					 toolStripButton2_Click(nullptr, nullptr);
+//					 toolStripButton1_Click(nullptr, nullptr);
+//					 toolStripButton2_Click(nullptr, nullptr);
 				 }
 	private: System::Void buttonNextStep_Click(System::Object^  sender, System::EventArgs^  e) {
 				 setStep(Step(int(mStep) + 1));
@@ -1983,13 +2119,22 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 				 for(int i=0; i<fileListopenFileDiag->FileNames->Length; i++) {
 					 addFile(fileListopenFileDiag->FileNames[i]);
 				 }
+
+				 applyChanges(mStep);
 			 }
 	private: System::Void tsAddFiles_Click(System::Object^  sender, System::EventArgs^  e) {
 				 fileListopenFileDiag->ShowDialog();
 			 }
 	private: System::Void tsRemoveFileFromList_Click(System::Object^  sender, System::EventArgs^  e) {
-				 if(fileList->FocusedItem != nullptr)
-					 fileList->Items->Remove(fileList->FocusedItem);
+				 for(int i=fileList->SelectedIndices->Count - 1; i>=0; i--) {
+					 int itemIndex = fileList->SelectedIndices[i];
+					 int fileIndex = (int) (Int32^) fileList->Items[itemIndex]->Tag;
+					 String^ fileName = mFiles[fileIndex];
+					 String^ fileName2 = fileList->Items[fileList->SelectedIndices[i]]->Text;
+					 mFiles.RemoveAt(fileIndex);
+				 }
+				 
+				 applyChanges(mStep);
 			 }
 	private: System::Void tsApplyChanges_Click(System::Object^  sender, System::EventArgs^  e) {
 				applyChanges(mStep);
@@ -2215,16 +2360,47 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 				}
 			}
 #pragma endregion
+	#pragma region Step: Rename
+private: System::Void buttonRenameFiles_Click(System::Object^  sender, System::EventArgs^  e) {
+			 for(int i=fileList->Items->Count -1; i>=0 ; i--) {
+				 ListViewItem^ item = fileList->Items[i];
+				 String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
 
+
+				 String^ originalDirectory = IO::Path::GetDirectoryName(originalFilenameWithPath);
+				 String^ originalExtension = IO::Path::GetExtension(originalFilenameWithPath);
+
+				 String^ filenameWithBeforeReplacementsAndWithoutDirectoryAndWithoutExtension = item->Text;
+
+				 string resultingFilename;
+
+				 if(mRuleset->applyTo(toStdString(filenameWithBeforeReplacementsAndWithoutDirectoryAndWithoutExtension), resultingFilename)) {
+					 String^ finalFilenameWithPath = originalDirectory + L"\\" + toClrString(resultingFilename) + originalExtension;
+					 File::Move(originalFilenameWithPath, finalFilenameWithPath);
+					 mFiles.RemoveAt((int) (Int32^)item->Tag);
+				 }
+
+				 applyChanges(mStep);
+			 }
+		 }
+
+#pragma endregion
 	#pragma region DebugButtons
 	private: System::Void toolStripButton1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 cli::array<String^>^ files = System::IO::Directory::GetFiles("D:\\Daten\\Develop\\Renamer\\testFiles", "*.avi");
+			 cli::array<String^>^ files = System::IO::Directory::GetFiles("D:\\Daten\\Develop\\Renamer\\testFiles", "the.unit*.*");
 			 for(int i=0; i<files->Length; i++){
 				 addFile(files[i]);
 			 }
+
+			 files = System::IO::Directory::GetFiles("D:\\Daten\\Develop\\Renamer\\testFiles", "The.Unit*.*");
+			 for(int i=0; i<files->Length; i++){
+				 addFile(files[i]);
+			 }
+
+			 reloadFileList();
 		 }
 	private: System::Void toolStripButton2_Click(System::Object^  sender, System::EventArgs^  e) {
-			 String^ rulesetFilename = L"D:\\home\\windows\\Eigene Dateien\\The Simpsons.ruleset";
+			 String^ rulesetFilename = L"D:\\home\\windows\\Eigene Dateien\\The Unit.ruleset";
 			 loadRuleset(rulesetFilename);
 			 cboRulesets->Text = toClrString(mRuleset->getName());
 		 }

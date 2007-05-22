@@ -11,24 +11,13 @@ using boost::smatch;
 
 void Ruleset::loadDb(fs::path dbFile) {
 
-	//static const regex getNameRegex(".*\\\\([^\\\\]+)\\.\\w+$");
-	//static const regex getNameRegex("([^\\\\]+)\\.[\\w]+$");
-//	static const regex getNameRegex(".*\\\\?(\\a+)\\.(\\a+)$");
 	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
 	boost::smatch nameMatch;
 	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
-//	  cout << "bad:  " << mFilename << endl;
     throw exBadName();
 	}
-//
-//	else
-//	  cout << "good: " << mFilename << endl;
-
 
 	mName = nameMatch[1];
-//	mName = dbFile.leaf();
-//	static const regex allowedNames("^\\w[\\w ]*\\w$");
-//	exAssertDesc(regex_match(mName, allowedNames), "invalid name");
 
     bool fIsNew = ( !fs::exists(dbFile) );
     if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
