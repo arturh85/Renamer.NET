@@ -63,7 +63,7 @@ class InputRule {
         void setOutputFormatId(sqlite_int64 v)
             {mRow.set("outputFormatId", cSqlOutFormated(v)); };
 
-		sqlite_int64 getOutputFormatId();
+        sqlite_int64 getOutputFormatId();
 
 
         //! primary key field of the row this object is stored in

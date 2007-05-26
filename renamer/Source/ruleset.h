@@ -4,7 +4,6 @@
 #include "globals.h"
 #include <sqlite3.h>
 #include "outputFormat.h"
-#include "PropertyObject.h"
 
 //! Verwaltet Reguläre Ausdrücke
 /**
@@ -18,7 +17,7 @@ in ein gemeinsames Format konvertiert werden können.
 const int MAGIC_OWNER_ID = 4711;
 
 //! the root of all objects (so far :)
-class Ruleset : public PropertyObject
+class Ruleset
 {
     public:
         //---------------------------------------------------------------------
@@ -49,6 +48,16 @@ class Ruleset : public PropertyObject
         */
         bool applyTo(string fileName, string& outputFileName);
 
+        //! Rename a 'phsyical' file
+        /**
+          This updates the history table.
+          If false is returned no InputRule is matched.
+          If any other error (like bad/duplicate filename) occours
+          an exception is thrown.
+        */
+        bool rename(string fileName);
+
+
         //! this creates a new OutputFormat object
         OutputFormat addOutputFormat();
 
@@ -71,10 +80,6 @@ class Ruleset : public PropertyObject
         //! UnitTest this object
         static void unitTest();
         #endif
-
-        //---------------------------------------------------------------------
-        //  methodes (inherited from PropertyObject)
-        PropertyObject* toPropertyObjectPtr() const;
 
     private:
         //  attributes

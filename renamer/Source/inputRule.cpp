@@ -287,8 +287,8 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("InputRule constructor(regex)");
-    InputRule ruleDelta(db, ruleAlpha.getId());
-    BOOST_CHECK(ruleAlpha.getId() == ruleDelta.getId());
+    InputRule ruleDelta(db, ruleAlpha.getRowId());
+    BOOST_CHECK(ruleAlpha.getRowId() == ruleDelta.getRowId());
     BOOST_CHECK(ruleAlpha.getRegex() == ruleDelta.getRegex());
 
 

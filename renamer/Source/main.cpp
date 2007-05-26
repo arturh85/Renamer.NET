@@ -35,8 +35,6 @@ enum consoleStates{
     QUIT
 };
 
-consoleStates manageOutputFormats(stack<PropertyObject*>);
-
 //  Implementations
 
 class colorString {
@@ -269,7 +267,6 @@ int main(int argc, char** argv) {
         consoleStates currentState = MANAGE_OUTPUTFORMATS;
         stack<PropertyObject*> propertyStack;
 
-        propertyStack.push(ruleSet.toPropertyObjectPtr());
 
         while (currentState != QUIT) {
             system("cls");
