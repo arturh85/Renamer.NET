@@ -151,22 +151,24 @@ OutputFormat Ruleset::addOutputFormat() {
 }
 
 bool Ruleset::rename(string fileName) {
-  //path test("/");
+//  path test("/");
+//  cout << fileName << endl;
 
-  const regex getExtension("(.*)(\\.\\w+)$");
+  const regex getExtension("(.*\\\\)?([^/\\\\:?*\"<>|]+)(\\.\\w+)$");
   smatch what;
-  string sExtension;
-  if (regex_match(fileName, what, getExtension)) {
-    fileName = what[1];
-    sExtension = what[2];
+  if (!regex_match(fileName, what, getExtension)) {
   }
+
+  string path = what[1];
+  fileName = what[2];
+  string sExtension = what[3];
 
   string newFilename;
   if (!applyTo(fileName, newFilename, true)) {
   	return false;
   }
 
-  boost::filesystem::rename(fileName+sExtension, newFilename+sExtension);
+  boost::filesystem::rename(path+fileName+sExtension, path+newFilename+sExtension);
   return true;
 }
 
@@ -285,6 +287,26 @@ void Ruleset::unitTest() {
     BOOST_CHECK(myRules.rename("The.Simpsons.S18E12.PDTV.XviD-LOL.avi"));
     BOOST_CHECK(exists("The Simpsons - 18x12.avi"));
     remove("The Simpsons - 18x12.avi");
+
+
+    string tmpDir(getenv("TMP"));
+    system(string("echo > ") + tmpDir + "\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi");
+    BOOST_CHECK(myRules.rename(tmpDir + "\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi"));
+    BOOST_CHECK(exists(tmpDir + "\\The Simpsons - 18x12.avi"));
+    remove(tmpDir + "\\The Simpsons - 18x12.avi");
+
+    BOOST_REQUIRE(!exists("tmp"));
+    create_directory("tmp");
+
+    system("echo > tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi");
+    BOOST_CHECK(myRules.rename("tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi"));
+    BOOST_CHECK(exists("tmp\\The Simpsons - 18x12.avi"));
+    remove("tmp\\The Simpsons - 18x12.avi");
+
+    remove_all("tmp");
+    BOOST_CHECK(!exists("tmp"));
+
+
 
 }
 
