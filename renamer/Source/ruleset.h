@@ -46,7 +46,7 @@ class Ruleset
         /** Benennt die Datei aber nicht selber um, sondern
             gibt den neuen Dateinamen zurück
         */
-        bool applyTo(string fileName, string& outputFileName);
+        bool applyTo(string fileName, string& outputFileName, bool updateHistory = false);
 
         //! Rename a 'phsyical' file
         /**

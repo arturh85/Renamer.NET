@@ -115,7 +115,7 @@ bool InputRule::setRegex(string sRegex) {
 /**
     This method updates the history table.
 */
-bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
+bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateHistory) {
     fileName = mRplPtr->replace(fileName);
     regex exp(getRegex());
     smatch what;
@@ -132,12 +132,14 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches) {
             matches.push_back(newValue);
         }
 
-        stringstream strSql;
-        strSql  << "INSERT OR IGNORE INTO history (fileName, regex) "
-                << "VALUES ("
-                << cSqlStrOut(fileName) << ", "
-                << mRow.getRowId() << ")";
-        exec(strSql.str(), mDb);
+        if (updateHistory) {
+          stringstream strSql;
+          strSql  << "INSERT OR IGNORE INTO history (fileName, regex) "
+                  << "VALUES ("
+                  << cSqlStrOut(fileName) << ", "
+                  << mRow.getRowId() << ")";
+          exec(strSql.str(), mDb);
+        }
         return true;
     }
 
@@ -238,33 +240,33 @@ void InputRule::unitTest() {
     vector<GemValue> gems;
     BOOST_CHECKPOINT("applyTo()");
     BOOST_CHECK(ruleAlpha.getGems().size() == 1);
-    BOOST_CHECK_NO_THROW(ruleAlpha.applyTo("Test.avi", gems));
-    BOOST_CHECK_NO_THROW(!ruleAlpha.applyTo("Test.mpg", gems));
-    BOOST_CHECK_NO_THROW(!ruleAlpha.applyTo("Test.jpg", gems));
+    BOOST_CHECK_NO_THROW(ruleAlpha.applyTo("Test.avi", gems, true));
+    BOOST_CHECK_NO_THROW(!ruleAlpha.applyTo("Test.mpg", gems, true));
+    BOOST_CHECK_NO_THROW(!ruleAlpha.applyTo("Test.jpg", gems, true));
 
     BOOST_CHECKPOINT("applyTo() 048f97dc");
-    BOOST_CHECK(!ruleBeta.applyTo("Test.avi", gems));
-    BOOST_CHECK(ruleBeta.applyTo("Test.mpg", gems));
-    BOOST_CHECK(!ruleBeta.applyTo("Test.jpg", gems));
+    BOOST_CHECK(!ruleBeta.applyTo("Test.avi", gems, true));
+    BOOST_CHECK(ruleBeta.applyTo("Test.mpg", gems, true));
+    BOOST_CHECK(!ruleBeta.applyTo("Test.jpg", gems, true));
 
     BOOST_CHECKPOINT("applyTo() 092aed5a");
-    BOOST_CHECK(!ruleGamma.applyTo("Test.avi", gems));
-    BOOST_CHECK(!ruleGamma.applyTo("Test.mpg", gems));
-    BOOST_CHECK(ruleGamma.applyTo("Test.jpg", gems));
+    BOOST_CHECK(!ruleGamma.applyTo("Test.avi", gems, true));
+    BOOST_CHECK(!ruleGamma.applyTo("Test.mpg", gems, true));
+    BOOST_CHECK(ruleGamma.applyTo("Test.jpg", gems, true));
 
     BOOST_CHECKPOINT("applyTo() 6d984e20");
 
-    BOOST_CHECK(ruleAlpha.applyTo("Name mit Blank.avi", gems));
-    BOOST_CHECK(!ruleAlpha.applyTo("Name mit Blank.mpg", gems));
-    BOOST_CHECK(!ruleAlpha.applyTo("Name mit Blank.jpg", gems));
+    BOOST_CHECK(ruleAlpha.applyTo("Name mit Blank.avi", gems, true));
+    BOOST_CHECK(!ruleAlpha.applyTo("Name mit Blank.mpg", gems, true));
+    BOOST_CHECK(!ruleAlpha.applyTo("Name mit Blank.jpg", gems, true));
 
-    BOOST_CHECK(!ruleBeta.applyTo("Name mit Blank.avi", gems));
-    BOOST_CHECK(ruleBeta.applyTo("Name mit Blank.mpg", gems));
-    BOOST_CHECK(!ruleBeta.applyTo("Name mit Blank.jpg", gems));
+    BOOST_CHECK(!ruleBeta.applyTo("Name mit Blank.avi", gems, true));
+    BOOST_CHECK(ruleBeta.applyTo("Name mit Blank.mpg", gems, true));
+    BOOST_CHECK(!ruleBeta.applyTo("Name mit Blank.jpg", gems, true));
 
-    BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.avi", gems));
-    BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.mpg", gems));
-    BOOST_CHECK(ruleGamma.applyTo("Name mit Blank.jpg", gems));
+    BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.avi", gems, true));
+    BOOST_CHECK(!ruleGamma.applyTo("Name mit Blank.mpg", gems, true));
+    BOOST_CHECK(ruleGamma.applyTo("Name mit Blank.jpg", gems, true));
 
 
     BOOST_CHECKPOINT("setRegex()");
@@ -299,8 +301,8 @@ void InputRule::unitTest() {
     ruleEpsilon.getReplacements().addReplacement("\\."," ");
     ruleEpsilon.getReplacements().addReplacement("avi$","");
 
-    BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems));
-    BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems));
+    BOOST_CHECK(ruleEpsilon.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems, true));
+    BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems, true));
 
     BOOST_CHECKPOINT("gems");
     ruleEpsilon.addGem("test");
@@ -317,15 +319,15 @@ void InputRule::unitTest() {
     BOOST_CHECK(ruleZeta.getGems().size() == 2);
 
     gems.clear();
-    BOOST_CHECK(!ruleZeta.applyTo("Numb3rs.S03E13.Mein Titel.HDTV.XviD-NoTV", gems));
-    BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E13.HDTV.XviD-NoTV", gems));
+    BOOST_CHECK(!ruleZeta.applyTo("Numb3rs.S03E13.Mein Titel.HDTV.XviD-NoTV", gems, true));
+    BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E13.HDTV.XviD-NoTV", gems, true));
     BOOST_CHECK(gems[0].getName() == "season");
     BOOST_CHECK(gems[0].value == "03");
     BOOST_CHECK(gems[1].getName() == "episode");
     BOOST_CHECK(gems[1].value == "13");
 
     gems.clear();
-    BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E16.HDTV.XviD-LOL", gems));
+    BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E16.HDTV.XviD-LOL", gems, true));
     BOOST_CHECK(gems[0].getName() == "season");
     BOOST_CHECK(gems[0].value == "03");
     BOOST_CHECK(gems[1].getName() == "episode");

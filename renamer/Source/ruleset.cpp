@@ -132,13 +132,13 @@ vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
     return retVal;
 }
 
-bool Ruleset::applyTo(string fileName, string& outputFileName) {
+bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistory) {
     vector<OutputFormat> rules = getOutputFormats();
 
     for (vector<OutputFormat>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
-        if (it->applyTo(fileName, outputFileName)) {
+        if (it->applyTo(fileName, outputFileName, updateHistory)) {
             return true;
         }
     }
@@ -162,7 +162,7 @@ bool Ruleset::rename(string fileName) {
   }
 
   string newFilename;
-  if (!applyTo(fileName, newFilename)) {
+  if (!applyTo(fileName, newFilename, true)) {
   	return false;
   }
 

@@ -53,7 +53,7 @@ class OutputFormat {
         /** Benennt die Datei aber nicht selber um, sondern
             gibt den neuen Dateinamen zurück
         */
-       bool applyTo(string fileName, string& outputFileName);
+       bool applyTo(string fileName, string& outputFileName, bool updateHistory = false);
 
         //! primary key field of the row this object is stored in
         sqlite_int64 getRowId() const

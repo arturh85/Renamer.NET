@@ -55,7 +55,7 @@ class InputRule {
         vector<Gem> getGems() const;
 
         //! extract GemValue objects out of a filename
-        bool applyTo(string fileName, vector<GemValue>& matches);
+        bool applyTo(string fileName, vector<GemValue>& matches, bool updateHistory = false);
 
         //! creates a new Gem and attaches it to this InputRule
         Gem addGem(string name);

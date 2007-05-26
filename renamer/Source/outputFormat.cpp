@@ -51,14 +51,14 @@ vector<InputRule> OutputFormat::getInputRules() {
     return retVal;
 }
 
-bool OutputFormat::applyTo(string fileName, string& outputFileName) {
+bool OutputFormat::applyTo(string fileName, string& outputFileName, bool updateHistory) {
     vector<InputRule> rules = getInputRules();
     for (vector<InputRule>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
         outputFileName = getFormat();
         vector<GemValue> gems;
-        if (it->applyTo(fileName, gems)) {
+        if (it->applyTo(fileName, gems, updateHistory)) {
             for (vector<GemValue>::iterator itGem = gems.begin();
                  itGem != gems.end(); itGem++) {
 
