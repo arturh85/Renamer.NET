@@ -3,7 +3,7 @@
 #include "stlUtility.h"
 #include <stdlib.h>
 
-string toStdString(wstring source) {
+string toStlString(wstring source) {
 	char* cstring = new char[source.size() +2];
 	//unused        size_t convertedChars = 0;
 	wcstombs(cstring, source.c_str(), source.size()+1);

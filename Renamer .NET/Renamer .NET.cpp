@@ -2,7 +2,6 @@
 
 #include "Windows.h"
 #include "stdafx.h"
-#include "ApplicationForm.h"
 #include "WizardForm.h"
 #include "globals.h"
 

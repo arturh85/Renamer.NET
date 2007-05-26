@@ -3,7 +3,7 @@
 #include "globals.h"
 #include "vcclr.h"
 
-std::string toStdString(System::String^ source);
+std::string toStlString(System::String^ source);
 std::wstring toStdWString(System::String^ source);
 
 System::String^ toClrString( std::string source );

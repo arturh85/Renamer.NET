@@ -33,8 +33,8 @@ void Ruleset::loadDb(fs::path dbFile) {
 }
 
 Ruleset::Ruleset(wstring filename) {
-    mFilename = toStdString(filename);
-    loadDb(boost::filesystem::path(toStdString(filename)));
+    mFilename = toStlString(filename);
+    loadDb(boost::filesystem::path(toStlString(filename)));
 };
 
 Ruleset::Ruleset() {

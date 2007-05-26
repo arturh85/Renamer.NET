@@ -56,6 +56,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				Culture="0"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -241,9 +242,29 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\UserInterfaceCustomStrings.h"
+				FileType="3"
+				>
+				<File
+					RelativePath=".\UserInterfaceCustomStrings.de-DE.resx"
+					SubType="Designer"
+					>
+				</File>
+				<File
+					RelativePath=".\UserInterfaceCustomStrings.resx"
+					SubType="Designer"
+					>
+				</File>
+			</File>
+			<File
 				RelativePath=".\WizardForm.h"
 				FileType="3"
 				>
+				<File
+					RelativePath=".\WizardForm.de-DE.resx"
+					SubType="Designer"
+					>
+				</File>
 				<File
 					RelativePath=".\WizardForm.resx"
 					SubType="Designer"

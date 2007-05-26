@@ -22,7 +22,7 @@ static bool To_CharStar( String^ source, char*& target )
 	return wcstombs( target, wch, len ) != -1;
 }
 
-string toStdString(String^ source) {
+string toStlString(String^ source) {
 	 string target;
 	 To_string(source, target);
 	 return target;
