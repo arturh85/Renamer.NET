@@ -63,7 +63,6 @@
 			<Add library="stdc++" />
 			<Add directory="..\..\..\SQLite\bin" />
 		</Linker>
-		<Unit filename="..\..\Source\PropertyObject.h" />
 		<Unit filename="..\..\Source\TableRow.cpp" />
 		<Unit filename="..\..\Source\TableRow.h" />
 		<Unit filename="..\..\Source\error.cpp" />

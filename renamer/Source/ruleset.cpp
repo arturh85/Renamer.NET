@@ -133,12 +133,30 @@ vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
 }
 
 bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistory) {
+    const regex getFilename("(.*\\\\)?([^/\\\\:?*\"<>|]+)$");
+    smatch what;
+    if (!regex_match(fileName, what, getFilename)) {
+        throw runtime_error("bad filename2");
+    }
+
+    string path = what[1];
+    string baseName = what[2];
+    string sExtension;
+
+    const regex getExtension("([^/\\\\:?*\"<>|]+)(\\.\\w+)$");
+    if (regex_match(baseName, what, getExtension)) {
+        baseName = what[1];
+        sExtension = what[2];
+
+    }
+
     vector<OutputFormat> rules = getOutputFormats();
 
     for (vector<OutputFormat>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
-        if (it->applyTo(fileName, outputFileName, updateHistory)) {
+        if (it->applyTo(baseName, outputFileName, updateHistory)) {
+            outputFileName = path + outputFileName + sExtension;
             return true;
         }
     }
@@ -154,23 +172,33 @@ bool Ruleset::rename(string fileName) {
 //  path test("/");
 //  cout << fileName << endl;
 
-  const regex getExtension("(.*\\\\)?([^/\\\\:?*\"<>|]+)(\\.\\w+)$");
-  smatch what;
-  if (!regex_match(fileName, what, getExtension)) {
-  }
-
-  string path = what[1];
-  fileName = what[2];
-  string sExtension = what[3];
-
   string newFilename;
   if (!applyTo(fileName, newFilename, true)) {
   	return false;
   }
 
-  boost::filesystem::rename(path+fileName+sExtension, path+newFilename+sExtension);
+  //create directories out of the outputformat
+  vector<string> dirParts;
+  using namespace boost::algorithm;
+  split( dirParts, newFilename, is_any_of("\\") );
+  if (dirParts.size() > 1) {
+    string sSubDir = "";
+    vector<string>::iterator itLast = --dirParts.end();
+    for (vector<string>::iterator it = dirParts.begin(); it!=itLast ; it++) {
+      sSubDir += *it+"\\";
+//      cout << sSubDir << endl;
+      if (!fs::exists(sSubDir)) {
+        fs::create_directory(sSubDir);
+      }
+    }
+  }
+
+//  cout << ">>" << path+newFilename+sExtension << endl;
+  fs::rename(fileName, newFilename);
   return true;
 }
+
+
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
@@ -295,16 +323,35 @@ void Ruleset::unitTest() {
     BOOST_CHECK(exists(tmpDir + "\\The Simpsons - 18x12.avi"));
     remove(tmpDir + "\\The Simpsons - 18x12.avi");
 
-    BOOST_REQUIRE(!exists("tmp"));
-    create_directory("tmp");
 
-    system("echo > tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi");
-    BOOST_CHECK(myRules.rename("tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi"));
-    BOOST_CHECK(exists("tmp\\The Simpsons - 18x12.avi"));
-    remove("tmp\\The Simpsons - 18x12.avi");
+    BOOST_CHECKPOINT("subDirs");
+    OutputFormat unitFormat = myRules.addOutputFormat();
+    unitFormat.setFormat("The Unit\\$season$\\$episode$");
 
-    remove_all("tmp");
-    BOOST_CHECK(!exists("tmp"));
+//
+//The.Unit.S02E17.HDTV.XviD-XOR.avi
+//The.Unit.S02E18.HDTV.XviD-NoTV.avi
+//The.Unit.S02E20.HDTV.XviD-LOL.avi
+//The.Unit.S02E21.HDTV.XviD-XOR.avi
+
+    InputRule ruleUnit = unitFormat.addInputRule("The\\.Unit\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|XOR|LOL)");
+    ruleUnit.addGem("season");
+    ruleUnit.addGem("episode");
+
+    system("echo > The.Unit.S02E16.HDTV.XviD-NoTV.avi");
+    BOOST_CHECK(myRules.rename("The.Unit.S02E16.HDTV.XviD-NoTV.avi"));
+    BOOST_CHECK(exists("The Unit\\02\\16.avi"));
+    remove("The Unit\\02\\16.avi");
+
+//    BOOST_REQUIRE(!exists("tmp"));
+//
+//    system("echo > tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi");
+//    BOOST_CHECK(myRules.rename("tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi"));
+//    BOOST_CHECK(exists("tmp\\The Simpsons - 18x12.avi"));
+//    remove("tmp\\The Simpsons - 18x12.avi");
+//
+//    remove_all("tmp");
+//    BOOST_CHECK(!exists("tmp"));
 
 
 
