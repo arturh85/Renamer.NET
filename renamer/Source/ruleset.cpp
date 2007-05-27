@@ -30,6 +30,21 @@ void Ruleset::loadDb(fs::path dbFile) {
 
 	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
 	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
+
+    //get outputFormats
+    vector<string> rowids;
+
+    stringstream strSql;
+    strSql  << "SELECT rowid FROM outputFormats";
+    exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
+    for (vector<string>::iterator it = rowids.begin();
+         it != rowids.end(); it++) {
+
+        sqlite_int64 rowid = cSqlInFormated<sqlite_int64>(*it);
+        OutputFormat* newFormatPtr = new OutputFormat(mDb, rowid);
+        mChildren[newFormatPtr->getRowId()] = newFormatPtr;
+    }
+
 }
 
 Ruleset::Ruleset(wstring filename) {
@@ -62,6 +77,12 @@ Ruleset::Ruleset(string filename) {
 };
 
 Ruleset::~Ruleset() {
+    for (map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin();
+         it!=mChildren.end() ; it++) {
+
+        delete it->second;
+    }
+
     sqlite3_close(mDb);
 }
 
@@ -110,22 +131,12 @@ sqlite3* Ruleset::getDatabase() {
 	return mDb;
 }
 
-vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
-    vector<OutputFormat> retVal;
-    vector<string> rowids;
+vector<OutputFormat*> Ruleset::getOutputFormats() {
+    vector<OutputFormat*> retVal;
+    for (map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin();
+         it!=mChildren.end(); it++) {
 
-    stringstream strSql;
-    strSql  << "SELECT rowid FROM outputFormats";
-    if (sOrderBy.length())
-        strSql << " ORDER BY " << sOrderBy;
-
-    exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
-    for (vector<string>::iterator it = rowids.begin();
-         it != rowids.end(); it++) {
-
-        sqlite_int64 rowid = cSqlInFormated<sqlite_int64>(*it);
-        OutputFormat newFormat(mDb, rowid);
-        retVal.push_back(newFormat);
+        retVal.push_back(it->second);
     }
     return retVal;
 }
@@ -154,11 +165,11 @@ bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistor
     //apply replacements
     baseName2 = mBeforeReplacementsPtr->replace(baseName2);
 
-    vector<OutputFormat> rules = getOutputFormats();
-    for (vector<OutputFormat>::iterator it = rules.begin();
+    vector<OutputFormat*> rules = getOutputFormats();
+    for (vector<OutputFormat*>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
-        if (it->applyTo(baseName2, outputFileName, updateHistory)) {
+        if ((*it)->applyTo(baseName2, outputFileName, updateHistory)) {
             outputFileName = path + outputFileName + sExtension;
             return true;
         }
@@ -166,9 +177,10 @@ bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistor
     return false;
 }
 
-OutputFormat Ruleset::addOutputFormat() {
-    OutputFormat retVal(mDb);
-    return retVal;
+OutputFormat& Ruleset::addOutputFormat() {
+    OutputFormat* formatPtr = new OutputFormat (mDb);
+    mChildren[formatPtr->getRowId()];
+    return *formatPtr;
 }
 
 bool Ruleset::rename(string fileName) {
@@ -226,15 +238,6 @@ void Ruleset::unitTest() {
     BOOST_CHECK(tmpVector[0] == "staffel");
     BOOST_CHECK(tmpVector[1] == "folge");
 
-//    tmpVector.clear();
-//    tmpVector = stripVarNames("$fieserTest $$_$");
-//    BOOST_REQUIRE(tmpVector.size() == 1);
-//    BOOST_CHECK(tmpVector[0] == "_");
-//
-//    // test Ruleset class
-//    if (fs::exists(fs::initial_path()/"unitTest.db3"))
-//        fs::remove(fs::initial_path()/"unitTest.db3");
-//
     // test Ruleset class
     using namespace boost::filesystem;
     path dbFileName = initial_path()/"unitTest.db3";
@@ -244,10 +247,10 @@ void Ruleset::unitTest() {
 
 //    Ruleset myRules(dbFileName);
     Ruleset myRules;
-    OutputFormat simpleFormat = myRules.addOutputFormat();
+    OutputFormat& simpleFormat = myRules.addOutputFormat();
     simpleFormat.setFormat("$series$ - $season$x$episode$");
 
-    InputRule ruleStargate = simpleFormat.addInputRule("^(Stargate\\.Atlantis|The\\.Simpsons)\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*");
+    InputRule& ruleStargate = simpleFormat.addInputRule("^(Stargate\\.Atlantis|The\\.Simpsons)\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*");
     ruleStargate.addGem("season");
     ruleStargate.addGem("episode");
 
@@ -280,7 +283,7 @@ void Ruleset::unitTest() {
     BOOST_CHECK(sNewFileName == "The Simpsons - 18x16");
 
 
-    OutputFormat formatAtlantis = myRules.addOutputFormat();
+    OutputFormat& formatAtlantis = myRules.addOutputFormat();
     formatAtlantis.setFormat("Atlantis $staffel$x$folge$");
 
     BOOST_CHECKPOINT("myRules.applyTo");
@@ -334,7 +337,7 @@ void Ruleset::unitTest() {
 
 
     BOOST_CHECKPOINT("subDirs");
-    OutputFormat unitFormat = myRules.addOutputFormat();
+    OutputFormat& unitFormat = myRules.addOutputFormat();
     unitFormat.setFormat("The Unit\\$season$\\$episode$");
 
 //
@@ -343,7 +346,7 @@ void Ruleset::unitTest() {
 //The.Unit.S02E20.HDTV.XviD-LOL.avi
 //The.Unit.S02E21.HDTV.XviD-XOR.avi
 
-    InputRule ruleUnit = unitFormat.addInputRule("The\\.Unit\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|XOR|LOL)");
+    InputRule& ruleUnit = unitFormat.addInputRule("The\\.Unit\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|XOR|LOL)");
     ruleUnit.addGem("season");
     ruleUnit.addGem("episode");
 

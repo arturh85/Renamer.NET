@@ -24,12 +24,14 @@ class TableRow {
         //! read a column
         void set(string field, string value);
 
-        string operator[](const string what) const {
-            return get(what);
-        }
+        string operator[](const string what) const
+            { return get(what); }
 
         //! get the rowId
         sqlite_int64 getRowId() const;
+
+        //! get the connection...
+        sqlite3* getDb() const { return mDb; };
 
         //---------------------------------------------------------------------
         //  methodes

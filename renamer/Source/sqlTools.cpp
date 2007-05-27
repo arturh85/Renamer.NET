@@ -21,7 +21,7 @@ void exec(string sSql, sqlite3* db, sqlite3_callback cb, void* param) {
 //int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azColName) {
 
 
-int onReadFirstField(void *param, int argc, char **argv, char** azColName) {
+int onReadFirstField(void *param, int argc, char **argv, char**) {
     assert(param != NULL);
     assert(argc > 0);
     assert(argv != NULL);

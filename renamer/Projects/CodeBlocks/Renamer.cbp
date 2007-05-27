@@ -42,14 +42,17 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-W" />
+					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DRENAMER_UNIT_TEST" />
 				</Compiler>
 				<Linker>
-					<Add library="libboost_unit_test_framework-mgw34-sd-1_34" />
-					<Add library="libboost_Program_options-mgw34-sd-1_34" />
-					<Add library="libboost_regex-mgw34-sd-1_34" />
-					<Add library="libboost_filesystem-mgw34-sd-1_34" />
+					<Add option="-pg -lgmon" />
+					<Add library="libboost_unit_test_framework-mgw34-s-1_34" />
+					<Add library="libboost_Program_options-mgw34-s-1_34" />
+					<Add library="libboost_regex-mgw34-s-1_34" />
+					<Add library="libboost_filesystem-mgw34-s-1_34" />
+					<Add library="SQLite" />
 				</Linker>
 			</Target>
 		</Build>
@@ -59,7 +62,6 @@
 			<Add directory="..\..\..\SQLite\Source" />
 		</Compiler>
 		<Linker>
-			<Add library="SQLite" />
 			<Add library="stdc++" />
 			<Add directory="..\..\..\SQLite\bin" />
 		</Linker>

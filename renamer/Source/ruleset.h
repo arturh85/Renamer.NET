@@ -39,8 +39,6 @@ class Ruleset
 
         //---------------------------------------------------------------------
         //  methodes
-        //void setOutputFormat(string exp);
-        //string getOutputFormat() const;
 
         //! Wird für jede Datei aufgerufen die umbenannt werden soll
         /** Benennt die Datei aber nicht selber um, sondern
@@ -58,12 +56,11 @@ class Ruleset
         */
         bool rename(string fileName);
 
-
         //! this creates a new OutputFormat object
-        OutputFormat addOutputFormat();
+        OutputFormat& addOutputFormat();
 
         //! gets a collection of OutputFormat objects
-        vector<OutputFormat> getOutputFormats(string sOrderBy = "");
+        vector<OutputFormat*> getOutputFormats();
 
         string getName() const;
         string getFilename() const;
@@ -89,6 +86,7 @@ class Ruleset
         sqlite3* mDb;
         Replacements* mBeforeReplacementsPtr;
         Replacements* mAfterReplacementsPtr;
+        map<sqlite_int64, OutputFormat*> mChildren;
 
         //  methodes
         //! Creates initial tables
@@ -118,7 +116,5 @@ class exDbError : public runtime_error {
 	private:
 
 };
-
-
 
 #endif // RULESET_H

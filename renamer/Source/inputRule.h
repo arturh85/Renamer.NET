@@ -27,11 +27,12 @@ class InputRule {
         //---------------------------------------------------------------------
         //  constructors
 
+
         //! Loads from Database
         InputRule(sqlite3*, sqlite_int64 rowid);
 
         //! Create a new regex in the database
-        InputRule(sqlite3*, boost::regex);
+        InputRule(sqlite3*, boost::regex, sqlite_int64 ownerId);
 
         //  destructor
         virtual ~InputRule();
@@ -52,16 +53,13 @@ class InputRule {
         Replacements& getReplacements() const { return *mRplPtr; };
 
         //! get all gems available for this InputRule.
-        vector<Gem> getGems() const;
+        vector<Gem*> getGems() const;
 
         //! extract GemValue objects out of a filename
         bool applyTo(string fileName, vector<GemValue>& matches, bool updateHistory = false);
 
         //! creates a new Gem and attaches it to this InputRule
-        Gem addGem(string name);
-
-        void setOutputFormatId(sqlite_int64 v)
-            {mRow.set("outputFormatId", cSqlOutFormated(v)); };
+        Gem& addGem(string name);
 
         sqlite_int64 getOutputFormatId();
 
@@ -75,9 +73,13 @@ class InputRule {
         static void unitTest();
         #endif
 
-
-
     private:
+        //---------------------------------------------------------------------
+        //  constructors
+
+        //! disabled for your convinience
+        InputRule(const InputRule&) : mRow(NULL, "regexes") { throw runtime_error("not implemented"); };
+
         //---------------------------------------------------------------------
         //  attributes
         //sqlite_int64 mRowid;
@@ -88,13 +90,9 @@ class InputRule {
         //---------------------------------------------------------------------
         //  methods
 
-        //! copies member attributes
-        /** duplicates pointer targets, so they can be safely deleted
-        */
-        void copy(const InputRule& source);
+        //! children
+        map<sqlite_int64, Gem*> mChildren;
 
-        //! deletes all pointers
-        void free();
 
 };
 

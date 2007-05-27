@@ -15,13 +15,43 @@ void OutputFormat::createTables(sqlite3* db) {
     exec(sSql, db);
 }
 
+OutputFormat::OutputFormat(sqlite3* db, sqlite_int64 row) :
+    mRow(db, "outputFormats", row) {
+
+    vector<string> rowids;
+    stringstream strSql;
+    strSql << "SELECT rowid FROM regexes "
+              "WHERE outputFormatId = " << cSqlOutFormated(mRow.getRowId()) ;
+
+    exec(strSql, mRow.getDb(), onAppendFirstColumnToVector, &rowids);
+    for (vector<string>::iterator it = rowids.begin();
+         it != rowids.end(); it++) {
+
+        stringstream strRowid(*it);
+        sqlite_int64 rowid;
+        strRowid >> rowid;
+        InputRule* newRulePtr = new InputRule(mRow.getDb(),  rowid);
+        mChildren[newRulePtr->getRowId()] = newRulePtr;
+    }
+
+}
+
+OutputFormat::~OutputFormat() {
+    for (map<sqlite_int64, InputRule*>::iterator it = mChildren.begin();
+         it!=mChildren.end() ; it++) {
+
+        delete it->second;
+    }
+}
+
 //! writes the regex to the database
-InputRule OutputFormat::addInputRule(string sRegex) {
+InputRule& OutputFormat::addInputRule(string sRegex) {
     try {
         regex newRegex(sRegex); //to check if this is a valid regex
-        InputRule retVal(mDb, newRegex);
-        retVal.setOutputFormatId(mRow.getRowId());
-        return retVal;
+        InputRule* newRulePtr = new InputRule(mRow.getDb(), newRegex, mRow.getRowId());
+        mChildren[newRulePtr->getRowId()] = newRulePtr;
+        return *newRulePtr;
+
     } catch (exception& ex) {
         std::stringstream strErr;
         strErr  << "failed add regex, reason:"
@@ -31,34 +61,25 @@ InputRule OutputFormat::addInputRule(string sRegex) {
 
 }
 
-vector<InputRule> OutputFormat::getInputRules() {
-    vector<InputRule> retVal;
-    vector<string> rowids;
-    stringstream strSql;
-    strSql << "SELECT rowid FROM regexes "
-              "WHERE outputFormatId = " << cSqlOutFormated(mRow.getRowId()) ;
+vector<InputRule*> OutputFormat::getInputRules() {
+    vector<InputRule*> retVal;
 
-    exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
-    for (vector<string>::iterator it = rowids.begin();
-         it != rowids.end(); it++) {
+    for (map<sqlite_int64, InputRule*>::iterator it = mChildren.begin();
+         it!=mChildren.end(); it++) {
 
-        stringstream strRowid(*it);
-        sqlite_int64 rowid;
-        strRowid >> rowid;
-        InputRule newRule(mDb,  rowid);
-        retVal.push_back(newRule);
+        retVal.push_back(it->second);
     }
     return retVal;
 }
 
 bool OutputFormat::applyTo(string fileName, string& outputFileName, bool updateHistory) {
-    vector<InputRule> rules = getInputRules();
-    for (vector<InputRule>::iterator it = rules.begin();
+    vector<InputRule*> rules = getInputRules();
+    for (vector<InputRule*>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
         outputFileName = getFormat();
         vector<GemValue> gems;
-        if (it->applyTo(fileName, gems, updateHistory)) {
+        if ((*it)->applyTo(fileName, gems, updateHistory)) {
             for (vector<GemValue>::iterator itGem = gems.begin();
                  itGem != gems.end(); itGem++) {
 
@@ -97,17 +118,17 @@ bool OutputFormat::parse(vector<string>& gemNames) {
 }
 
 void OutputFormat::remove() {
-    vector<InputRule> rules = getInputRules();
-    for (vector<InputRule>::iterator it = rules.begin();
+    vector<InputRule*> rules = getInputRules();
+    for (vector<InputRule*>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
-      it->remove();
+      (*it)->remove();
     }
 
     stringstream strSql;
     strSql << "DELETE FROM outputFormats WHERE rowid = "
            << cSqlOutFormated(getRowId());
-    exec(strSql, mDb);
+    exec(strSql, mRow.getDb());
     return;
 }
 
@@ -151,9 +172,9 @@ void OutputFormat::unitTest() {
 //    BOOST_CHECK_THROW(formatAlpha.addInputRule("^Stargate\\.Atlantis\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*\\.(\\w+)"), runtime_error);
 
     BOOST_CHECKPOINT("checkformatAlpha.getInputRules()");
-    BOOST_CHECK( formatAlpha.getInputRules().size() == 3);
-    BOOST_CHECK( formatAlpha.getInputRules()[0].getRegex() == "dummy");
-    BOOST_CHECK( formatAlpha.getInputRules()[1].getRegex() == "HalloWelt!");
+    BOOST_REQUIRE( formatAlpha.getInputRules().size() == 3);
+    BOOST_CHECK( formatAlpha.getInputRules()[0]->getRegex() == "dummy");
+    BOOST_CHECK( formatAlpha.getInputRules()[1]->getRegex() == "HalloWelt!");
 
 
     BOOST_CHECKPOINT("Create formatBeta");
@@ -161,7 +182,7 @@ void OutputFormat::unitTest() {
     BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "2");
 
     formatBeta.setFormat("Dr. House - $season$x$episode$");
-    InputRule ruleBeta = formatBeta.addInputRule("House\\.S(\\d+)E(\\d+).*");
+    InputRule& ruleBeta = formatBeta.addInputRule("House\\.S(\\d+)E(\\d+).*");
     ruleBeta.addGem("season");
     ruleBeta.addGem("episode");
 
@@ -177,14 +198,14 @@ void OutputFormat::unitTest() {
     OutputFormat formatGamma(db);
     BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "3");
     formatGamma.setFormat("$name$");
-    InputRule ruleGamma = formatGamma.addInputRule("(.*)");
+    InputRule& ruleGamma = formatGamma.addInputRule("(.*)");
     BOOST_REQUIRE(formatGamma.getInputRules().size() > 0);
     BOOST_CHECK(formatGamma.getInputRules().size() == 1);
-    BOOST_CHECK(formatGamma.getInputRules()[0].getRegex() == "(.*)");
+    BOOST_CHECK(formatGamma.getInputRules()[0]->getRegex() == "(.*)");
 
     ruleGamma.addGem("name").replacers.addReplacement("\\."," ");
-    BOOST_REQUIRE(formatGamma.getInputRules()[0].getGems().size() == 1);
-    BOOST_CHECK(formatGamma.getInputRules()[0].getGems()[0].replacers.getReplacements().size() == 1);
+    BOOST_REQUIRE(formatGamma.getInputRules()[0]->getGems().size() == 1);
+    BOOST_CHECK(formatGamma.getInputRules()[0]->getGems()[0]->replacers.getReplacements().size() == 1);
     //BOOST_CHECK(ruleGamma.addGem("name").replacers.getReplacements().size() == 1);
     BOOST_CHECK(formatGamma.applyTo("House.S03E13.HDTV.XviD-LOL", sNewFilename));
     BOOST_CHECK(sNewFilename == "House S03E13 HDTV XviD-LOL");

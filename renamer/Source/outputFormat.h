@@ -12,14 +12,13 @@ class OutputFormat {
 
         //! creates a new Replacement object.
         /** All Values are empty */
-        OutputFormat(sqlite3* db) : mDb(db), mRow(db, "outputFormats")
+        OutputFormat(sqlite3* db) : mRow(db, "outputFormats")
             {setFormat(""); };
 
         //! creates a new Replacement object with existing data
-        OutputFormat(sqlite3* db, sqlite_int64 row) :
-            mDb(db), mRow(db, "outputFormats", row) {}  ;
+        OutputFormat(sqlite3* db, sqlite_int64 row);
 
-        virtual ~OutputFormat() {};
+        virtual ~OutputFormat();
 
         //---------------------------------------------------------------------
         //  methodes
@@ -28,10 +27,10 @@ class OutputFormat {
         static void createTables(sqlite3* db);
 
         //! gets a collection of InputRule-Objects
-        vector<InputRule> getInputRules();
+        vector<InputRule*> getInputRules();
 
         //! add new InputRule/regex
-        InputRule addInputRule(string regexp);
+        InputRule& addInputRule(string regexp);
 
         /** the output format is the resulting filename
             containing $gems$
@@ -68,10 +67,15 @@ class OutputFormat {
         #endif
 
     private:
+
+        //! disabled for your convinience
+        OutputFormat::OutputFormat(OutputFormat&) : mRow(NULL, "regexes")
+            { throw runtime_error("not implemented"); };
+
         //---------------------------------------------------------------------
         //  attributes
-        sqlite3* mDb;
         TableRow mRow;
+        map<sqlite_int64, InputRule*> mChildren;
 
 };
 

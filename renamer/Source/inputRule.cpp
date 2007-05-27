@@ -12,9 +12,26 @@ InputRule::InputRule(sqlite3* db, sqlite_int64 rowid) :
 {
     mDb = db;
     mRplPtr = new Replacements(db, "inputRule", rowid );
+
+    //load gems
+    vector<string> queryResults;
+    stringstream strSql;
+    strSql  << "SELECT rowid FROM gems WHERE "
+            << "ruleId =" << mRow.getRowId()
+            << " ORDER BY position";
+    exec(strSql, mDb, onAppendFirstColumnToVector, &queryResults);
+    for (vector<string>::iterator it = queryResults.begin();
+         it != queryResults.end(); it++) {
+
+        sqlite_int64 childRowId = cSqlInFormated<sqlite_int64>(*it);
+        Gem* newGemPtr = new Gem(mDb, mRow.getRowId(), childRowId );
+        exAssert(mChildren.count(childRowId) == 0);
+        mChildren[childRowId] = newGemPtr;
+    }
+
 }
 
-InputRule::InputRule(sqlite3* db, boost::regex exp)  :
+InputRule::InputRule(sqlite3* db, boost::regex exp, sqlite_int64 ownerId)  :
     mRow(db, "regexes")
 {
     mDb = db;
@@ -23,11 +40,18 @@ InputRule::InputRule(sqlite3* db, boost::regex exp)  :
     strRegex << strRegex;
 
     mRow.set("regex", cSqlOutFormated(exp));
+    mRow.set("outputFormatId", cSqlOutFormated(ownerId));
     mRplPtr = new Replacements(db, "inputRule", mRow.getRowId());
 }
 
 InputRule::~InputRule() {
     //delete mRplPtr;
+
+    for (map<sqlite_int64, Gem*>::iterator it = mChildren.begin();
+         it!=mChildren.end() ; it++) {
+
+        delete it->second;
+    }
 }
 
 string InputRule::getRegex() const {
@@ -63,8 +87,6 @@ sqlite_int64 InputRule::getOutputFormatId() {
 
 	return iRetVal;
 }
-
-
 
 void InputRule::createTables(sqlite3* db) {
     string sSql;
@@ -120,13 +142,13 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateH
     regex exp(getRegex());
     smatch what;
     if (regex_match(fileName, what, exp)) {
-        vector<Gem> myGems = getGems();
+        vector<Gem*> myGems = getGems();
 
         //what[0] is the whole matched thing
 		// removed by arturh
 //        exAssertDesc(what.size() > myGems.size(), "matched not all gems");
         for (int nGemIndex=0;nGemIndex < static_cast<int>(myGems.size()); nGemIndex++ ) {
-            GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex].getRowId());
+            GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex]->getRowId());
             //newValue.value = getReplacements().replace(what[nGemIndex+1]); // 1based
             newValue.value = what[nGemIndex+1]; // 1based
             matches.push_back(newValue);
@@ -146,36 +168,19 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateH
     return false;
 }
 
-Gem InputRule::addGem(string name) {
-    Gem newGem(mDb, mRow.getRowId());
-    newGem.setName(name);
-    return newGem;
-}
-
-vector<Gem> InputRule::getGems() const {
-    vector<Gem> retVal;
-    vector<string> queryResults;
-    stringstream strSql;
-    strSql  << "SELECT rowid FROM gems WHERE "
-            << "ruleId =" << mRow.getRowId()
-            << " ORDER BY position";
-    exec(strSql, mDb, onAppendFirstColumnToVector, &queryResults);
-    for (vector<string>::iterator it = queryResults.begin();
-         it != queryResults.end(); it++) {
-
-        Gem newGem(mDb, mRow.getRowId(), cSqlInFormated<sqlite_int64>(*it) );
-        retVal.push_back(newGem);
-    }
-
-    return retVal;
+Gem& InputRule::addGem(string name) {
+    Gem* newGemPtr = new Gem(mDb, mRow.getRowId());
+    newGemPtr->setName(name);
+    mChildren[newGemPtr->getRowId()] = newGemPtr;
+    return *newGemPtr;
 }
 
 void InputRule::remove() {
-    vector<Gem> gems = getGems();
-    for (vector<Gem>::iterator it = gems.begin();
+    vector<Gem*> gems = getGems();
+    for (vector<Gem*>::iterator it = gems.begin();
          it != gems.end(); it++) {
 
-       it->remove();
+       (*it)->remove();
     }
 
     stringstream strSql;
@@ -185,6 +190,17 @@ void InputRule::remove() {
     exec(strSql, mDb);
     return;
 
+}
+
+vector<Gem*> InputRule::getGems() const {
+    vector<Gem*> retVal;
+
+    for (map<sqlite_int64, Gem*>::const_iterator it = mChildren.begin();
+         it!=mChildren.end(); it++) {
+
+        retVal.push_back(it->second);
+    }
+    return retVal;
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -215,16 +231,16 @@ void InputRule::unitTest() {
     Gem::createTables(db);
 
     BOOST_CHECKPOINT("InputRule constructor(regex)");
-    InputRule ruleAlpha(db, regex("(.*)\\.avi"));
-    InputRule ruleBeta(db, regex("(.*)\\.mpg"));
-    InputRule ruleGamma(db, regex("(.*)\\.jpg"));
+    InputRule ruleAlpha(db, regex("(.*)\\.avi"), -1);
+    InputRule ruleBeta(db, regex("(.*)\\.mpg"), -1);
+    InputRule ruleGamma(db, regex("(.*)\\.jpg"), -1);
     ruleAlpha.addGem("fileName");
     ruleBeta.addGem("fileName");
     ruleGamma.addGem("fileName");
 
     BOOST_CHECKPOINT("get gem");
-    BOOST_CHECK(ruleAlpha.getGems().size() == 1);
-    BOOST_CHECK(ruleAlpha.getGems()[0].getName() == "fileName");
+    BOOST_REQUIRE(ruleAlpha.getGems().size() == 1);
+    BOOST_CHECK(ruleAlpha.getGems()[0]->getName() == "fileName");
 
     BOOST_CHECKPOINT("getRegex(), first time");
     BOOST_CHECK( ruleAlpha.getRegex() == "(.*)\\.avi" );
@@ -295,7 +311,7 @@ void InputRule::unitTest() {
 
 
     BOOST_CHECKPOINT("replacements");
-    InputRule ruleEpsilon(db, regex("Family Guy S06E13"));
+    InputRule ruleEpsilon(db, regex("Family Guy S06E13"), -1);
     ruleEpsilon.getReplacements().addReplacement("PDTV|XviD|-LOL","");
     ruleEpsilon.getReplacements().addReplacement(" *$","");
     ruleEpsilon.getReplacements().addReplacement("\\."," ");
@@ -308,12 +324,12 @@ void InputRule::unitTest() {
     ruleEpsilon.addGem("test");
     ruleEpsilon.addGem("foobar");
     BOOST_CHECK(ruleEpsilon.getGems().size() == 2);
-    BOOST_CHECK(ruleEpsilon.getGems()[0].getPosition() == 1);
-    BOOST_CHECK(ruleEpsilon.getGems()[1].getPosition() == 2);
+    BOOST_CHECK(ruleEpsilon.getGems()[0]->getPosition() == 1);
+    BOOST_CHECK(ruleEpsilon.getGems()[1]->getPosition() == 2);
 
 
     BOOST_CHECKPOINT("ruleZeta");
-    InputRule ruleZeta(db, regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"));
+    InputRule ruleZeta(db, regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"), -1);
     ruleZeta.addGem("season");
     ruleZeta.addGem("episode");
     BOOST_CHECK(ruleZeta.getGems().size() == 2);
