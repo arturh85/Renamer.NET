@@ -8,8 +8,8 @@ echo > The.Unit.S02E16.HDTV.XviD-NoTV.avi
 echo > The.Unit.S02E17.HDTV.XviD-XOR.avi
 echo > The.Unit.S02E18.HDTV.XviD-NoTV.avi
 echo > The.Unit.S02E20.HDTV.XviD-LOL.avi
-echo > The.Unit.S02E21.HDTV.XviD-XOR.avi.part
-echo > The.Unit.S02E22.Freefall.HDTV.XviD-FQM.avi.part
+echo > The.Unit.S02E21.HDTV.XviD-XOR.avi
+echo > The.Unit.S02E22.Freefall.HDTV.XviD-FQM.avi
 echo > daily.05.21.2007.dsr-dimension.[VTV].avi
 echo > Desperate.Housewives.S03E23.HDTV.XviD-Caph.avi
 echo > Doctor.Who.Confidential.S03E07.WS.PDTV.XviD-BiA.avi
