@@ -203,4 +203,10 @@ This form should never be shown.</value>
   <data name="Strings.NewOutputFormat" xml:space="preserve">
     <value>New Output Format</value>
   </data>
+  <data name="Strings.NoInputRuleSelected" xml:space="preserve">
+    <value>No Input Rule selected</value>
+  </data>
+  <data name="Strings.NoOutputFormatSelected" xml:space="preserve">
+    <value>No Output Format selected</value>
+  </data>
 </root>

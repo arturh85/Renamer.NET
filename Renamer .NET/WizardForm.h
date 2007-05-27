@@ -85,6 +85,7 @@ namespace RenamerNET {
 	private: List<String^> mKnownRulesets;
 	private: Step mStep;
 	private: Step mMaxStep;
+	private: bool mShowOnlyMatchingFiles;
 	private: List<Panel^>^ mStepPanelList;
 	private: List<ToolStripButton^>^ mStepButtonList;
 	private: System::ComponentModel::ComponentResourceManager^  mCustomStrings;
@@ -263,6 +264,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplace
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  GemColumnPosition;
 private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
+private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 
 
 
@@ -294,15 +296,15 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			System::Windows::Forms::Label^  label10;
 			System::Windows::Forms::Label^  label7;
 			System::Windows::Forms::Panel^  panelFileListInner;
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle10 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle11 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle12 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle13 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle14 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle15 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle16 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle17 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle18 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle5 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle6 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle7 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle8 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle9 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->tsFileList = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsAddFiles = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsRemoveFileFromList = (gcnew System::Windows::Forms::ToolStripButton());
@@ -314,6 +316,7 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->panelStepContent = (gcnew System::Windows::Forms::Panel());
 			this->panelStepRuleset = (gcnew System::Windows::Forms::Panel());
+			this->checkBoxShowOnlyMatchingFiles = (gcnew System::Windows::Forms::CheckBox());
 			this->panelCboRulesets = (gcnew System::Windows::Forms::Panel());
 			this->tsRuleset = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsLoadRulesetDialog = (gcnew System::Windows::Forms::ToolStripButton());
@@ -584,11 +587,19 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			// 
 			// panelStepRuleset
 			// 
+			this->panelStepRuleset->Controls->Add(this->checkBoxShowOnlyMatchingFiles);
 			this->panelStepRuleset->Controls->Add(label8);
 			this->panelStepRuleset->Controls->Add(this->panelCboRulesets);
 			this->panelStepRuleset->Controls->Add(label1);
 			resources->ApplyResources(this->panelStepRuleset, L"panelStepRuleset");
 			this->panelStepRuleset->Name = L"panelStepRuleset";
+			// 
+			// checkBoxShowOnlyMatchingFiles
+			// 
+			resources->ApplyResources(this->checkBoxShowOnlyMatchingFiles, L"checkBoxShowOnlyMatchingFiles");
+			this->checkBoxShowOnlyMatchingFiles->Name = L"checkBoxShowOnlyMatchingFiles";
+			this->checkBoxShowOnlyMatchingFiles->UseVisualStyleBackColor = true;
+			this->checkBoxShowOnlyMatchingFiles->CheckedChanged += gcnew System::EventHandler(this, &WizardForm::checkBoxShowOnlyMatchingFiles_CheckedChanged);
 			// 
 			// panelCboRulesets
 			// 
@@ -663,38 +674,38 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			this->gridGems->AllowUserToResizeRows = false;
 			resources->ApplyResources(this->gridGems, L"gridGems");
 			this->gridGems->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle10->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle10->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle10->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle10->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle10->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle10->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this->gridGems->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridGems->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->GemColumnPosition, 
 				this->GemColumnGem});
-			dataGridViewCellStyle11->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle11->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle11->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle11->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle11->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle11->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridGems->DefaultCellStyle = dataGridViewCellStyle11;
+			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridGems->DefaultCellStyle = dataGridViewCellStyle2;
 			this->gridGems->MultiSelect = false;
 			this->gridGems->Name = L"gridGems";
-			dataGridViewCellStyle12->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle12->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle12->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle3->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle12->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle12->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle12->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle12->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
 			// 
 			// GemColumnPosition
@@ -725,37 +736,37 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			this->gridBeforeReplacements->AllowDrop = true;
 			resources->ApplyResources(this->gridBeforeReplacements, L"gridBeforeReplacements");
 			this->gridBeforeReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle13->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle13->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle4->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle4->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle13->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle13->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle13->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle13->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridBeforeReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+			dataGridViewCellStyle4->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle4->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridBeforeReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
 			this->gridBeforeReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridBeforeReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->ColumnBeforeReplacementsID, 
 				this->ColumnBeforeReplacementsGroupID, this->ColumnBeforeReplacementsSearch, this->ColumnBeforeReplacementsReplace});
-			dataGridViewCellStyle14->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle14->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle5->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle5->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle14->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle14->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle14->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle14->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridBeforeReplacements->DefaultCellStyle = dataGridViewCellStyle14;
+			dataGridViewCellStyle5->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle5->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle5->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle5->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridBeforeReplacements->DefaultCellStyle = dataGridViewCellStyle5;
 			this->gridBeforeReplacements->Name = L"gridBeforeReplacements";
-			dataGridViewCellStyle15->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle15->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle6->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle6->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle15->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle15->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle15->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle15->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridBeforeReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+			dataGridViewCellStyle6->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle6->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle6->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle6->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridBeforeReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this->gridBeforeReplacements->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &WizardForm::gridBeforeReplacements_CellValueChanged);
 			// 
 			// ColumnBeforeReplacementsID
@@ -793,37 +804,37 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			this->gridAfterReplacements->AllowDrop = true;
 			resources->ApplyResources(this->gridAfterReplacements, L"gridAfterReplacements");
 			this->gridAfterReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle16->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle16->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle16->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle7->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle7->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle16->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle16->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle16->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle16->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridAfterReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+			dataGridViewCellStyle7->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle7->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle7->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle7->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridAfterReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
 			this->gridAfterReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridAfterReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->ColumnAfterReplacementsID, 
 				this->ColumnAfterReplacementsGroupID, this->ColumnAfterReplacementsSearch, this->ColumnAfterReplacementsReplace});
-			dataGridViewCellStyle17->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle17->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle17->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle8->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle8->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle17->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle17->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle17->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle17->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridAfterReplacements->DefaultCellStyle = dataGridViewCellStyle17;
+			dataGridViewCellStyle8->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle8->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle8->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle8->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridAfterReplacements->DefaultCellStyle = dataGridViewCellStyle8;
 			this->gridAfterReplacements->Name = L"gridAfterReplacements";
-			dataGridViewCellStyle18->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle18->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle18->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle9->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle9->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle18->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle18->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle18->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle18->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridAfterReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
+			dataGridViewCellStyle9->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle9->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle9->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle9->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridAfterReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
 			// 
 			// ColumnAfterReplacementsID
 			// 
@@ -1241,7 +1252,6 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 					}
 				}
 			}
-
 		}
 
 		void saveRulesetListToRegistry() {
@@ -1275,7 +1285,7 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 		void addColumnToFileListForResult() {
 			fileList->Columns->Add(mCustomStrings->GetString(L"Columns.RenamingResult"));
 
-			for(int i=0; i<fileList->Items->Count; i++) {
+			for(int i=fileList->Items->Count - 1; i>=0; i--) {
 				ListViewItem^ item = fileList->Items[i];
 				String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
 				String^ fileName = System::IO::Path::GetFileNameWithoutExtension(originalFilenameWithPath);
@@ -1287,8 +1297,11 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 					ListViewItem::ListViewSubItem^ subitem = gcnew ListViewItem::ListViewSubItem();
 					subitem->Text = Path::GetFileNameWithoutExtension(toClrString(outputFilename));
 					item->SubItems->Add(subitem);
+				} else if(mShowOnlyMatchingFiles) {
+					fileList->Items->Remove(item);
 				}
 			}
+
 			fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
 			fileList->Columns[1]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
 		}
@@ -1357,12 +1370,12 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 
 		void disableTxtOutputFormat() {
 			txtOutputFormat->Enabled = false;
-			txtOutputFormat->Text = "no OutputFormat selected";
+			txtOutputFormat->Text = mCustomStrings->GetString(L"Strings.NoOutputFormatSelected");
 		}
 
 		void disableTxtInputRule() {
 			txtInputRule->Enabled = false;
-			txtInputRule->Text = "no InputRule selected";
+			txtInputRule->Text = mCustomStrings->GetString(L"Strings.NoInputRuleSelected");
 		}
 
 		void applyGems() {
@@ -1375,8 +1388,7 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 				}
 			}
 
-			InputRule inputRule = mRuleset->
-			InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+			InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 			vector<Gem*> gems = inputRule.getGems();
 			vector<GemValue> gemValues;
 
@@ -1385,7 +1397,7 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 				if(inputRule.applyTo(toStlString(fileList->Items[i]->Text), gemValues)) {
 					if(fileList->Columns->Count == 2) {
 						for(unsigned j=0; j<gems.size(); j++)
-							fileList->Columns->Add(toClrString(gems[j].getName()));
+							fileList->Columns->Add(toClrString(gems[j]->getName()));
 					}
 					for(unsigned j=0; j<gemValues.size(); j++) {
 						fileList->Items[i]->SubItems->Add(toClrString(gemValues[j].value));
@@ -1398,13 +1410,13 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 		}
 
 		void updateInputRuleGems(sqlite_int64 inputRuleRowId) {
-			InputRule inputRule(mRuleset->getDatabase(), inputRuleRowId);
-			OutputFormat outputFormat(mRuleset->getDatabase(), inputRule.getOutputFormatId());
+			InputRule& inputRule = mRuleset->getInputRule(inputRuleRowId);
+			OutputFormat& outputFormat = mRuleset->getOutputFormat(inputRule.getOutputFormatId());
 
 			vector<string> gemNames;
 			
 			if(outputFormat.parse(gemNames)) {
-				vector<Gem> gems = inputRule.getGems();
+				vector<Gem*> gems = inputRule.getGems();
 				
 				// array of elements parsed out of OutputFormat
 				for(unsigned i = 0; i<gemNames.size(); i++) {
@@ -1414,10 +1426,10 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 					unsigned j;
 					for(j = 0; j<gems.size(); j++) {
 						// found is true if the GemName is already in use
-						if(gems[j].getName() == gemNames[i])  {
+						if(gems[j]->getName() == gemNames[i])  {
 							found = true;
 							// case: UPDATE
-							gems[j].setName(gemNames[i]);
+							gems[j]->setName(gemNames[i]);
 							break;
 						}						
 					}
@@ -1432,14 +1444,14 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 					bool found = false;
 
 					for(unsigned j=0; j<gemNames.size(); j++) {
-						if(gems[i].getName() == gemNames[j])  { 
+						if(gems[i]->getName() == gemNames[j])  { 
 							found = true;
 						}
 					}
 
 					// case: DELETE
 					if(found == false) {
-						gems[i].remove();
+						gems[i]->remove();
 					}
 				}
 			}
@@ -1499,6 +1511,8 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 				item->Text = Path::GetFileNameWithoutExtension(rulesetFilename);
 				item->Tag = rulesetFilename;
 				cboRulesets->Items->Add(item);
+
+				saveRulesetListToRegistry();
 			}
 
 			for(int i=0; i<cboRulesets->Items->Count; i++) {
@@ -1730,10 +1744,12 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 #pragma region Form Event Handlers
 	private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
-
+				 mShowOnlyMatchingFiles = false;
 #ifndef _DEBUG
 				 tsDebugAddFiles->Visible = false;
 				 tsDebugLoadRuleset->Visible = false;				 	
+
+				 cboRulesets->Width += 35;
 #endif
 
 				 mStepPanelList = gcnew System::Collections::Generic::List<Panel^>();
@@ -1867,6 +1883,10 @@ private: System::Void tsApplyChanges_Click(System::Object^  sender, System::Even
 #pragma endregion
 #pragma region Step Specific Code
 	#pragma region Step: Ruleset
+private: System::Void checkBoxShowOnlyMatchingFiles_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 mShowOnlyMatchingFiles = !mShowOnlyMatchingFiles;
+			 applyChanges(mStep);
+		 }
 	void onEnterStepRuleset() {
 		cboRulesets->Items->Clear();
 		for(int i=0; i<mKnownRulesets.Count; i++) {
@@ -2002,13 +2022,13 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 	#pragma region Step: OutputFormat
 			 void refreshOutputFormatList() {
 				 if(mRuleset) {
-					 vector<OutputFormat> outputFormatVector = mRuleset->getOutputFormats();
+					 vector<OutputFormat*> outputFormatVector = mRuleset->getOutputFormats();
 
 					 lstOutputFormat->Items->Clear();				
 					 for(unsigned int i=0; i<outputFormatVector.size(); i++) {
 						 ListBoxItem^ lbi = gcnew ListBoxItem();
-						 lbi->Text = toClrString(outputFormatVector[i].getFormat());
-						 lbi->Tag = gcnew _PairStringInt(lbi->Text, outputFormatVector[i].getRowId());
+						 lbi->Text = toClrString(outputFormatVector[i]->getFormat());
+						 lbi->Tag = gcnew _PairStringInt(lbi->Text, outputFormatVector[i]->getRowId());
 						 lstOutputFormat->Items->Add(lbi);
 					 }
 				 }
@@ -2027,7 +2047,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 
 			 }
 	private: System::Void tsAddOutputFormat_Click(System::Object^  sender, System::EventArgs^  e) {			 
-			 OutputFormat outputFormat = mRuleset->addOutputFormat();
+			 OutputFormat& outputFormat = mRuleset->addOutputFormat();
 			 outputFormat.setFormat(toStlString(mCustomStrings->GetString(L"Strings.NewOutputFormat")));
 			 refreshOutputFormatList();
 			 if(lstOutputFormat->Items->Count == 1) {
@@ -2049,7 +2069,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 	private: System::Void tsDuplicateOutputFormat_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstOutputFormat->SelectedIndex == -1)
 				 return ;
-			 OutputFormat outputFormat = mRuleset->addOutputFormat();
+			 OutputFormat& outputFormat = mRuleset->addOutputFormat();
 			 outputFormat.setFormat(toStlString(lstOutputFormat->SelectedItem->ToString()));
 			 refreshOutputFormatList();
 		 }
@@ -2145,7 +2165,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 
 	private: System::Void tsAddInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
-			 InputRule inputRule = outputFormat.addInputRule(toStlString(mCustomStrings->GetString(L"Strings.NewInputRule")));
+			 InputRule& inputRule = outputFormat.addInputRule(toStlString(mCustomStrings->GetString(L"Strings.NewInputRule")));
 			 refreshInputRuleList();
 
 			 if(lstInputRules->Items->Count == 1) {
@@ -2168,14 +2188,14 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstInputRules->SelectedIndex == -1)
 				 return ;
 			 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
-			 InputRule inputRule = outputFormat.addInputRule(toStlString(lstInputRules->SelectedItem->ToString()));
+			 InputRule& inputRule = outputFormat.addInputRule(toStlString(lstInputRules->SelectedItem->ToString()));
 			 refreshInputRuleList();
 		 }
 	private: System::Void tsSaveInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1) 
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
-			 InputRule inputRule(mRuleset->getDatabase(), rowid);
+			 InputRule& inputRule = mRuleset->getInputRule(rowid);
 
 			 inputRule.setRegex(toStlString(txtInputRule->Text));
 
@@ -2212,14 +2232,14 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 
 			 void refreshInputRuleList() {
 				 if(mRuleset && mOutputFormatID > 0) {
-					 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
-					 vector<InputRule> inputRuleVector = outputFormat.getInputRules();
+					 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
+					 vector<InputRule*> inputRuleVector = outputFormat.getInputRules();
 
 					 lstInputRules->Items->Clear();				
 					 for(unsigned int i=0; i<inputRuleVector.size(); i++) {
 						 ListBoxItem^ lbi = gcnew ListBoxItem();
-						 lbi->Text = toClrString(inputRuleVector[i].getRegex());
-						 lbi->Tag = gcnew _PairStringInt(lbi->Text, inputRuleVector[i].getRowId());
+						 lbi->Text = toClrString(inputRuleVector[i]->getRegex());
+						 lbi->Tag = gcnew _PairStringInt(lbi->Text, inputRuleVector[i]->getRowId());
 						 lstInputRules->Items->Add(lbi);
 					 }
 				 }
@@ -2234,21 +2254,21 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 				 GemColumnGem->Items->Add("");
 
 				 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
-				 InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+				 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 				 boost::regex regularExpression(inputRule.getRegex());
 				 unsigned int subExpressionCount = regularExpression.mark_count();
-				 vector<Gem> gems = inputRule.getGems();
+				 vector<Gem*> gems = inputRule.getGems();
 
 				 for(unsigned i=0; i<gems.size(); i++) {
-					 GemColumnGem->Items->Add(toClrString(gems[i].getName()));
+					 GemColumnGem->Items->Add(toClrString(gems[i]->getName()));
 				 }
 
 				 for(unsigned i=0; i < subExpressionCount; i++) {
 					 cli::array<Object^>^ values = gcnew cli::array<Object^>(2);
 					 values[0] = gcnew Int32(i+1);
 					 for(unsigned j=0; j<gems.size(); j++) {
-						 if(gems[j].getPosition() == i+1) {
-							 values[1] = gcnew String(toClrString(gems[j].getName()));
+						 if(gems[j]->getPosition() == i+1) {
+							 values[1] = gcnew String(toClrString(gems[j]->getName()));
 							 gridGems->Rows->Add(values);
 						 }
 					 }
@@ -2257,8 +2277,8 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 }
 
 			 void saveGems() {
-				 InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
-				 vector<Gem> gems = inputRule.getGems();
+				 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
+				 vector<Gem*> gems = inputRule.getGems();
 
 				 for(int i=0; i<gridGems->Rows->Count; i++) {
 					 DataGridViewRow^ row = gridGems->Rows[i];
@@ -2266,8 +2286,8 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 					 String^ gemName = (String^) row->Cells[1]->Value;
 
 					 for(unsigned i=0; i<gems.size(); i++) {
-						 if(gems[i].getName() == toStlString(gemName)) {
-							 gems[i].setPosition((int) position);
+						 if(gems[i]->getName() == toStlString(gemName)) {
+							 gems[i]->setPosition((int) position);
 						 }
 					 }
 				 }
@@ -2276,7 +2296,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 				 applyChanges(Step::GEMS_SELECT);
 				 loadGems();
 				 if(mInputRuleID != 0) {
-					 InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+					 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 					 txtGemInputRule->Text = toClrString(inputRule.getRegex());
 				 }
 
@@ -2298,7 +2318,7 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 
 				Int32^ position = (Int32^) row->Cells[0]->Value;
 
-				InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+				InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 				boost::regex regularExpression(inputRule.getRegex());
 
 
@@ -2467,7 +2487,7 @@ private: System::Void tsDebugAddFiles_Click(System::Object^  sender, System::Eve
 			 addFile(files[i]);
 		 }
 
-		 reloadFileList();
+		 applyChanges(mStep);
 	 }
 private: System::Void tsDebugLoadRuleset_Click(System::Object^  sender, System::EventArgs^  e) {
 		 String^ rulesetFilename = L"D:\\home\\windows\\Eigene Dateien\\The Simpsons.ruleset";

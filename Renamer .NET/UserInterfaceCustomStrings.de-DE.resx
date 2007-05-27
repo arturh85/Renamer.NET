@@ -158,4 +158,10 @@ Dieses Formular sollte nicht angezeigt werden.</value>
   <data name="Strings.NewOutputFormat" xml:space="preserve">
     <value>Neues Ausgabe Format</value>
   </data>
+  <data name="Strings.NoInputRuleSelected" xml:space="preserve">
+    <value>Keine Eingabe Regel ausgewählt</value>
+  </data>
+  <data name="Strings.NoOutputFormatSelected" xml:space="preserve">
+    <value>Kein Ausgabe Format ausgewählt</value>
+  </data>
 </root>
