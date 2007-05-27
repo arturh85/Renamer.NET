@@ -569,12 +569,12 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			// 
 			// panelStepContent
 			// 
+			this->panelStepContent->Controls->Add(this->panelStepRuleset);
 			this->panelStepContent->Controls->Add(this->panelStepGems);
 			this->panelStepContent->Controls->Add(this->panelStepBeforeReplacements);
 			this->panelStepContent->Controls->Add(this->panelStepAfterReplacements);
 			this->panelStepContent->Controls->Add(this->panelStepInputRule);
 			this->panelStepContent->Controls->Add(this->panelStepOutputFormat);
-			this->panelStepContent->Controls->Add(this->panelStepRuleset);
 			this->panelStepContent->Controls->Add(this->panelStepRename);
 			this->panelStepContent->Controls->Add(this->panelNavigation);
 			resources->ApplyResources(this->panelStepContent, L"panelStepContent");
@@ -1019,6 +1019,7 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			// cboRulesets
 			// 
 			resources->ApplyResources(this->cboRulesets, L"cboRulesets");
+			this->cboRulesets->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cboRulesets->FormattingEnabled = true;
 			this->cboRulesets->Name = L"cboRulesets";
 			this->cboRulesets->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::cboRulesets_SelectedIndexChanged);
@@ -1230,12 +1231,9 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			for(int i=0; i<fileList->Items->Count; i++) {
 				ListViewItem^ item = fileList->Items[i];
 				String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
-				String^ fileName = System::IO::Path::GetFileNameWithoutExtension(originalFilenameWithPath);
-				Replacements replacments = mRuleset->getBeforeReplacements();
-				string text = replacments.replace(toStlString(fileName));
 
 				string outputFilename;
-				if(mRuleset->applyTo(text, outputFilename)) {
+				if(mRuleset->applyTo(toStlString(originalFilenameWithPath), outputFilename)) {
 					found = true;
 				}
 			}
@@ -1249,15 +1247,13 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 				ListViewItem^ item = fileList->Items[i];
 				String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
 				String^ fileName = System::IO::Path::GetFileNameWithoutExtension(originalFilenameWithPath);
-				Replacements rep = mRuleset->getBeforeReplacements();
-				string text = rep.replace(toStlString(fileName));
 
 
 				string outputFilename;
 
-				if(mRuleset->applyTo(text, outputFilename)) {
+				if(mRuleset->applyTo(toStlString(originalFilenameWithPath), outputFilename)) {
 					ListViewItem::ListViewSubItem^ subitem = gcnew ListViewItem::ListViewSubItem();
-					subitem->Text = toClrString(outputFilename);
+					subitem->Text = Path::GetFileNameWithoutExtension(toClrString(outputFilename));
 					item->SubItems->Add(subitem);
 				}
 			}
@@ -1462,6 +1458,25 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 			if(mRuleset)
 				delete mRuleset;
 			mRuleset = ruleset;
+
+			String^ rulesetFilename = toClrString(ruleset->getFilename());
+			if(!mKnownRulesets.Contains(rulesetFilename)) {
+				mKnownRulesets.Add(rulesetFilename);
+				ListBoxItem^ item = gcnew ListBoxItem();
+				item->Text = Path::GetFileNameWithoutExtension(rulesetFilename);
+				item->Tag = rulesetFilename;
+				cboRulesets->Items->Add(item);
+			}
+
+			for(int i=0; i<cboRulesets->Items->Count; i++) {
+				ListBoxItem^ item = (ListBoxItem^) cboRulesets->Items[i];
+				String^ filenameWithPath = (String^) item->Tag;
+
+				if(rulesetFilename->Equals(filenameWithPath)) {
+					cboRulesets->SelectedIndex = i;
+					break;
+				}
+			}
 
 			refreshOutputFormatList();
 			setOutputFormat(0);
@@ -1718,11 +1733,12 @@ private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 				 //! select first step
 				 mStep = Step::RULESET_SELECT;
 				 setMaxStep(Step::RULESET_SELECT);
+				 onEnterStepRuleset();
 			 }
 private: System::Void WizardForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
 			 String^ rulesetStringList = L"";
 
-			 for(unsigned int i=0; i<mKnownRulesets.Count; i++) {
+			 for(int i=0; i<mKnownRulesets.Count; i++) {
 				 rulesetStringList += mKnownRulesets[i];
 				 // don't add a | on the end of the list, only in between filenames
 				 if(i < (mKnownRulesets.Count - 1)) 
@@ -1762,6 +1778,8 @@ private: System::Void buttonRulesetOpenDialog_Click(System::Object^  sender, Sys
 private: System::Void buttonRulesetSaveDialog_Click(System::Object^  sender, System::EventArgs^  e) {
 			 saveRulesetFileDialog->ShowDialog();
 		 }
+#pragma endregion
+#pragma region fileList
 private: System::Void fileList_DragDrop(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
 			 if ( e->Data->GetDataPresent( "FileNameW" )) {
 				 //! files were droped on this control
@@ -1778,19 +1796,21 @@ private: System::Void fileList_DragEnter(System::Object^  sender, System::Window
 			 }
 			 e->Effect = DragDropEffects::None;
 		 }
-#pragma endregion
-#pragma region fileList
+
+
 private: System::Void tsRenameFiles_Click(System::Object^  sender, System::EventArgs^  e) {
 			 for(int i=0; i<fileList->Items->Count; i++) {
 				 ListViewItem^ item = fileList->Items[i];
 				 String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
-				 String^ fileName = System::IO::Path::GetFileNameWithoutExtension(originalFilenameWithPath);
-				 Replacements replacments = mRuleset->getBeforeReplacements();
-				 string text = replacments.replace(toStlString(fileName));
-
-				 string text2 = toStlString(fileName);
 				 string outputFilename;
-				 mRuleset->rename(text2);
+
+				 try {
+					 mRuleset->rename(toStlString(originalFilenameWithPath ));
+				 }	
+
+				 catch( runtime_error& e) {
+
+				 }
 			 }
 
 			 applyChanges(mStep);
@@ -1830,6 +1850,9 @@ private: System::Void tsApplyChanges_Click(System::Object^  sender, System::Even
 			item->Text = rulesetFilenameToName(mKnownRulesets[i]);
 			item->Tag = mKnownRulesets[i];
 			cboRulesets->Items->Add(item);
+
+			if(mRuleset && mRuleset->getName() == toStlString(item->Text))
+				cboRulesets->SelectedIndex = i;
 		}
 		 
 		applyChanges(Step::RULESET_SELECT);
@@ -1849,31 +1872,11 @@ private: System::Void tsApplyChanges_Click(System::Object^  sender, System::Even
 		 }
 	private: System::Void openRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			 String^ rulesetFilename = openRulesetFileDialog->FileName;
-			 if(!mKnownRulesets.Contains(rulesetFilename)) {
-				 mKnownRulesets.Add(rulesetFilename);
-				 ListBoxItem^ item = gcnew ListBoxItem();
-				 item->Text = Path::GetFileNameWithoutExtension(rulesetFilename);
-				 item->Tag = rulesetFilename;
-				 cboRulesets->Items->Add(item);
-			 }
 			 loadRuleset(rulesetFilename);
-			 cboRulesets->Text = toClrString(mRuleset->getName());
 		 }
 	private: System::Void saveRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			 String^ rulesetFilename = saveRulesetFileDialog->FileName;
-			 if(mRuleset != NULL) {
-				 String^ oldRulesetFilename = toClrString(mRuleset->getFilename());
-				 if(System::IO::File::Exists(rulesetFilename)) {
-					 System::IO::File::Delete(rulesetFilename);
-				 }
-				 System::IO::File::Copy(oldRulesetFilename, rulesetFilename);
-				 loadRuleset(rulesetFilename);
-			 }
-
-			 else {
-				 createRuleset(rulesetFilename);
-			 }
-			 cboRulesets->Text = toClrString(mRuleset->getName());
+			 createRuleset(rulesetFilename);
 		 }
 	private: System::Void tsLoadRulesetDialog_Click(System::Object^  sender, System::EventArgs^  e) {
 			 openRulesetFileDialog->ShowDialog();

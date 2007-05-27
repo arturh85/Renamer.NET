@@ -131,8 +131,8 @@ vector<OutputFormat> Ruleset::getOutputFormats(string sOrderBy) {
 }
 
 bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistory) {
-    const regex getFilename("(.*\\\\)?([^/\\\\:?*\"<>|]+)$");
-    smatch what;
+    const regex getFilename("^(.*\\\\)?([^/\\\\:?*\"<>|]+)$");
+    smatch what, what2;
     if (!regex_match(fileName, what, getFilename)) {
         throw runtime_error("bad filename2");
     }
@@ -141,22 +141,24 @@ bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistor
     string baseName = what[2];
     string sExtension;
 
+	string baseName2 = what[2];
     //if the filename has an extension extract it, and re-add it later
+
     const regex getExtension("([^/\\\\:?*\"<>|]+)(\\.\\w+)$");
-    if (regex_match(baseName, what, getExtension)) {
-        baseName = what[1];
-        sExtension = what[2];
+    if (regex_match(baseName, what2, getExtension)) {
+		exAssert(what2.size() == 3);
+        baseName2 = what2[1];
+        sExtension = what2[2];
     }
 
-    //appyl replacements
-    baseName = mBeforeReplacementsPtr->replace(baseName);
-
+    //apply replacements
+    baseName2 = mBeforeReplacementsPtr->replace(baseName2);
 
     vector<OutputFormat> rules = getOutputFormats();
     for (vector<OutputFormat>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
-        if (it->applyTo(baseName, outputFileName, updateHistory)) {
+        if (it->applyTo(baseName2, outputFileName, updateHistory)) {
             outputFileName = path + outputFileName + sExtension;
             return true;
         }

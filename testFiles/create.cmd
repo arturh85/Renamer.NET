@@ -32,12 +32,12 @@ echo > South.Park.S11E03.DSR.XviD-NoTV.avi
 echo > South.Park.S11E04.DSR.XviD-NoTV.avi
 echo > the.colbert.report.2007.03.27.dsr.xvid-2sd.[VTV].avi
 echo > the.daily.show.2007.03.27.dsr.xvid-2sd.[VTV].avi
-echo > Dr. House - S01E01 Schmerzensgrenzen.avi
-echo > Dr. House - S01E02 Falsche Geschichte.avi
-echo > Dr. House - S01E03 Das Ende danach.avi
-echo > Dr. House - S01E04 Nichts hilft.avi
-echo > Dr. House - S01E05 Nur die Braut Christi.avi
-echo > Dr. House - S01E06 Shizophren.avi
+echo > "Dr. House - S01E01 Schmerzensgrenzen.avi"
+echo > "Dr. House - S01E02 Falsche Geschichte.avi"
+echo > "Dr. House - S01E03 Das Ende danach.avi"
+echo > "Dr. House - S01E04 Nichts hilft.avi"
+echo > "Dr. House - S01E05 Nur die Braut Christi.avi"
+echo > "Dr. House - S01E06 Shizophren.avi"
 echo > 14Dr.House.S02E14.Sex.wird.unterschaetzt.German.Dubbed.DVDRIP.WS.XviD-TvR.avi
 echo > 15Dr.House.S02E15.Boeses.Spiel.German.Dubbed.WS.DVDRiP.XviD-ITG.avi
 echo > 16Dr.House.S02E16.Sicher.genug.German.Dubbed.DVDRIP.WS.XviD-TvR.avi
@@ -45,16 +45,16 @@ echo > 17Dr.House.S02E17.In.Not.German.Dubbed.DVDRIP.WS.XviD-TvR.avi
 echo > 18Dr.House.S02E18.Wirtswechsel.German.Dubbed.DVDRIP.WS.XviD-TvR.avi
 echo > tvr-drhouse-s02e12.dvdrip.avi
 echo > tvr-house-s02e13-dvdrip.avi
-echo > Battlestar Galactica [1x01] Thirty Three.avi
-echo > Battlestar Galactica [1x02] Water.avi
-echo > Battlestar Galactica [1x03] Bastille Day.avi
-echo > Battlestar Galactica [1x04] Act Of Contrition.avi
-echo > Battlestar Galactica [1x05] You Can't Go Home Again.avi
-echo > Battlestar Galactica [1x06] Litmus.avi
-echo > Battlestar Galactica [1x07] Six Degrees Of Separation.avi
-echo > Battlestar Galactica [1x08] Flesh And Bone.avi
-echo > Battlestar Galactica [1x09] Secrets And Lies.avi
-echo > Battlestar Galactica [1x10] The Hand Of God.avi
-echo > Battlestar Galactica [1x11] Colonial Day.avi
-echo > Battlestar Galactica [1x12] Kobol's Last Gleaming Part 1.avi
-echo > Battlestar Galactica [1x13] Kobol's Last Gleaming Part 2.avi
+echo > "Battlestar Galactica [1x01] Thirty Three.avi"
+echo > "Battlestar Galactica [1x02] Water.avi"
+echo > "Battlestar Galactica [1x03] Bastille Day.avi"
+echo > "Battlestar Galactica [1x04] Act Of Contrition.avi"
+echo > "Battlestar Galactica [1x05] You Can't Go Home Again.avi"
+echo > "Battlestar Galactica [1x06] Litmus.avi"
+echo > "Battlestar Galactica [1x07] Six Degrees Of Separation.avi"
+echo > "Battlestar Galactica [1x08] Flesh And Bone.avi"
+echo > "Battlestar Galactica [1x09] Secrets And Lies.avi"
+echo > "Battlestar Galactica [1x10] The Hand Of God.avi"
+echo > "Battlestar Galactica [1x11] Colonial Day.avi"
+echo > "Battlestar Galactica [1x12] Kobol's Last Gleaming Part 1.avi"
+echo > "Battlestar Galactica [1x13] Kobol's Last Gleaming Part 2.avi"
