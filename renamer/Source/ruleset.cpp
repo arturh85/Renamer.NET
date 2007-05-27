@@ -341,7 +341,7 @@ void Ruleset::unitTest() {
     system("echo > The.Unit.S02E16.HDTV.XviD-NoTV.avi");
     BOOST_CHECK(myRules.rename("The.Unit.S02E16.HDTV.XviD-NoTV.avi"));
     BOOST_CHECK(exists("The Unit\\02\\16.avi"));
-    remove("The Unit\\02\\16.avi");
+    remove_all("The Unit\\02\\16.avi");
 
 //    BOOST_REQUIRE(!exists("tmp"));
 //

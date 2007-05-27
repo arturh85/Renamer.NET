@@ -46,10 +46,10 @@
 					<Add option="-DRENAMER_UNIT_TEST" />
 				</Compiler>
 				<Linker>
-					<Add library='&quot;libboost_unit_test_framework-mgw-sd&quot;' />
-					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
-					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
-					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
+					<Add library="libboost_unit_test_framework-mgw34-sd-1_34" />
+					<Add library="libboost_Program_options-mgw34-sd-1_34" />
+					<Add library="libboost_regex-mgw34-sd-1_34" />
+					<Add library="libboost_filesystem-mgw34-sd-1_34" />
 				</Linker>
 			</Target>
 		</Build>
