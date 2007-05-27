@@ -48,11 +48,11 @@ class Ruleset
         */
         bool applyTo(string fileName, string& outputFileName, bool updateHistory = false);
 
-        //! Rename a 'phsyical' file
+        //! Rename a 'physical' file
         /**
           This updates the history table.
           If false is returned no InputRule is matched.
-          If any other error (like bad/duplicate filename) occours
+          If any other error (like bad/duplicate filename) occurs
           an exception is thrown.
         */
         bool rename(string fileName);

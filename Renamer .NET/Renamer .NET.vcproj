@@ -73,6 +73,7 @@
 				SubSystem="2"
 				EntryPointSymbol="main"
 				TargetMachine="1"
+				Profile="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -125,6 +126,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="&quot;..\renamer\Source&quot;;&quot;..\SQLite\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
@@ -154,6 +156,7 @@
 				SubSystem="2"
 				EntryPointSymbol="main"
 				TargetMachine="1"
+				Profile="false"
 			/>
 			<Tool
 				Name="VCALinkTool"
