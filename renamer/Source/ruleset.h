@@ -45,6 +45,7 @@ class Ruleset
         //! Wird für jede Datei aufgerufen die umbenannt werden soll
         /** Benennt die Datei aber nicht selber um, sondern
             gibt den neuen Dateinamen zurück
+            This uses the before/after replacements.
         */
         bool applyTo(string fileName, string& outputFileName, bool updateHistory = false);
 

@@ -51,14 +51,12 @@ Ruleset::Ruleset() {
     mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 }
 
-Ruleset::Ruleset(boost::filesystem::path filename)
-{
+Ruleset::Ruleset(boost::filesystem::path filename) {
 	mFilename = filename.native_file_string();
   loadDb(filename);
 };
 
-Ruleset::Ruleset(string filename)
-{
+Ruleset::Ruleset(string filename) {
   mFilename = filename;
   loadDb(boost::filesystem::path(filename));
 };
@@ -143,15 +141,18 @@ bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistor
     string baseName = what[2];
     string sExtension;
 
+    //if the filename has an extension extract it, and re-add it later
     const regex getExtension("([^/\\\\:?*\"<>|]+)(\\.\\w+)$");
     if (regex_match(baseName, what, getExtension)) {
         baseName = what[1];
         sExtension = what[2];
-
     }
 
-    vector<OutputFormat> rules = getOutputFormats();
+    //appyl replacements
+    baseName = mBeforeReplacementsPtr->replace(baseName);
 
+
+    vector<OutputFormat> rules = getOutputFormats();
     for (vector<OutputFormat>::iterator it = rules.begin();
          it != rules.end(); it++) {
 
@@ -172,30 +173,33 @@ bool Ruleset::rename(string fileName) {
 //  path test("/");
 //  cout << fileName << endl;
 
-  string newFilename;
-  if (!applyTo(fileName, newFilename, true)) {
-  	return false;
-  }
+    if (!fs::exists(fileName)) {
+    	throw runtime_error("file does not exist");
+    }
 
-  //create directories out of the outputformat
-  vector<string> dirParts;
-  using namespace boost::algorithm;
-  split( dirParts, newFilename, is_any_of("\\") );
-  if (dirParts.size() > 1) {
+    string newFilename;
+    if (!applyTo(fileName, newFilename, true)) {
+        return false;
+    }
+
+    //create directories out of the outputformat
+    vector<string> dirParts;
+    using namespace boost::algorithm;
+    split( dirParts, newFilename, is_any_of("\\") );
+    if (dirParts.size() > 1) {
     string sSubDir = "";
     vector<string>::iterator itLast = --dirParts.end();
     for (vector<string>::iterator it = dirParts.begin(); it!=itLast ; it++) {
-      sSubDir += *it+"\\";
-//      cout << sSubDir << endl;
-      if (!fs::exists(sSubDir)) {
-        fs::create_directory(sSubDir);
-      }
+          sSubDir += *it+"\\";
+          if (!fs::exists(sSubDir)) {
+            fs::create_directory(sSubDir);
+          }
+        }
     }
-  }
 
-//  cout << ">>" << path+newFilename+sExtension << endl;
-  fs::rename(fileName, newFilename);
-  return true;
+    //  cout << ">>" << path+newFilename+sExtension << endl;
+    fs::rename(fileName, newFilename);
+    return true;
 }
 
 
@@ -210,6 +214,8 @@ void testName(string name) {
 }
 
 void Ruleset::unitTest() {
+
+    BOOST_CHECKPOINT("begin");
 
     // test global functions
     vector<string> tmpVector;
@@ -291,6 +297,7 @@ void Ruleset::unitTest() {
     BOOST_CHECKPOINT("myRules.applyTo (failures)");
     BOOST_CHECK(!myRules.applyTo("Notice the ! left", sDummy ));
     BOOST_CHECK(!myRules.applyTo("blah", sDummy ));
+    BOOST_CHECK_NO_THROW(!myRules.applyTo("D:\\Daten\\Develop\\Renamer\\testFiles\\14Dr.House.S02E14.Sex.wird.unterschaetzt.German.Dubbed.DVDRIP.WS.XviD-TvR.avi", sDummy ));
 
     BOOST_CHECKPOINT("check allowed Names");
     BOOST_CHECK_THROW(Ruleset(string("Stargate Atlantis")), exBadName);
@@ -329,7 +336,7 @@ void Ruleset::unitTest() {
     unitFormat.setFormat("The Unit\\$season$\\$episode$");
 
 //
-//The.Unit.S02E17.HDTV.XviD-XOR.avi
+//
 //The.Unit.S02E18.HDTV.XviD-NoTV.avi
 //The.Unit.S02E20.HDTV.XviD-LOL.avi
 //The.Unit.S02E21.HDTV.XviD-XOR.avi
@@ -354,6 +361,13 @@ void Ruleset::unitTest() {
 //    BOOST_CHECK(!exists("tmp"));
 
 
+    BOOST_CHECKPOINT("BeforeReplacements");
+    myRules.getBeforeReplacements().addReplacement("\\.JUNK","");
+
+    system("echo > The.Unit.S02E17.HDTV.JUNK.XviD-XOR.avi");
+    BOOST_CHECK(myRules.rename("The.Unit.S02E17.HDTV.JUNK.XviD-XOR.avi"));
+    BOOST_CHECK(exists("The Unit\\02\\17.avi"));
+    remove_all("The Unit\\02\\17.avi");
 
 }
 
