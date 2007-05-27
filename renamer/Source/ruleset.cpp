@@ -162,6 +162,7 @@ bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistor
         sExtension = what2[2];
     }
 
+
     //apply replacements
     baseName2 = mBeforeReplacementsPtr->replace(baseName2);
 
@@ -216,7 +217,31 @@ bool Ruleset::rename(string fileName) {
     return true;
 }
 
+InputRule& Ruleset::getInputRule(sqlite_int64 rowid) {
+    for (map<sqlite_int64, OutputFormat*>::iterator it=mChildren.begin();
+         it!=mChildren.end(); it++) {
 
+    	InputRule* rulePtr = it->second->getInputRule(rowid);
+    	if (rulePtr) {
+    		return *rulePtr;
+    	}
+    }
+    throw exNoSuchId();
+}
+
+
+Gem& Ruleset::getGem(sqlite_int64 rowid) {
+    for (map<sqlite_int64, OutputFormat*>::iterator it=mChildren.begin();
+         it!=mChildren.end(); it++) {
+
+
+    	Gem* gemPtr  = it->second->getGem(rowid);
+    	if (gemPtr) {
+    		return *gemPtr;
+    	}
+    }
+    throw exNoSuchId();
+}
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>

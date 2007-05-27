@@ -4,6 +4,7 @@
 #include "globals.h"
 #include <sqlite3.h>
 #include "outputFormat.h"
+#include "error.h"
 
 //! Verwaltet Reguläre Ausdrücke
 /**
@@ -73,6 +74,18 @@ class Ruleset
 
         ///these are applied at the very end of everyting
         Replacements& getAfterReplacements() const { return *mAfterReplacementsPtr; };
+
+
+        //! gui convinience
+        OutputFormat& getOutputFormat(sqlite_int64 rowid)
+            { if (mChildren.count(rowid)==0) throw exNoSuchId();
+              return *(mChildren[rowid]); };
+
+        //! gui convinience
+        InputRule& getInputRule(sqlite_int64 rowid);
+
+        //! gui convinience
+        Gem& getGem(sqlite_int64 rowid);
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

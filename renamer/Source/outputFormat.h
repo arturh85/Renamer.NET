@@ -3,6 +3,7 @@
 
 #include "globals.h"
 #include "inputRule.h"
+#include "error.h"
 
 //! an output format is the fileName as the it should be with placeholder for the gems
 class OutputFormat {
@@ -60,6 +61,14 @@ class OutputFormat {
 
         //! reomves this object and all its children
         void remove();
+
+        //! B/L
+        InputRule* getInputRule(sqlite_int64 rowid)
+            { return (mChildren.count(rowid)==0)?NULL:mChildren[rowid]; };
+
+        //! B/L
+        Gem* getGem(sqlite_int64 rowid);
+
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

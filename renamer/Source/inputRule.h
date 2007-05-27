@@ -68,6 +68,11 @@ class InputRule {
         sqlite_int64 getRowId() const
             { return mRow.getRowId(); };
 
+        //! B/L
+        Gem* getGem(sqlite_int64 rowid)
+            { return (mChildren.count(rowid)==0) ? NULL:mChildren[rowid]; };
+
+
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();

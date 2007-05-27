@@ -16,6 +16,17 @@ class exFileLineDesc : public exception {
 };
 
 
+class exNoSuchId : public runtime_error {
+	public:
+		exNoSuchId() : runtime_error("no such id") {};
+		virtual ~exNoSuchId() throw()  {};
+	protected:
+
+	private:
+
+};
+
+
 #define exAssert(expr) \
         if (!(expr)) exAssertFail (__FILE__, __LINE__, "" )
 

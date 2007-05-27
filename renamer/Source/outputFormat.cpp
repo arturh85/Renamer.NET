@@ -132,6 +132,18 @@ void OutputFormat::remove() {
     return;
 }
 
+Gem* OutputFormat::getGem(sqlite_int64 rowid) {
+    for (map<sqlite_int64, InputRule*>::iterator it=mChildren.begin();
+         it!=mChildren.end(); it++) {
+
+    	Gem* gemPtr = it->second->getGem(rowid);
+    	if (gemPtr ) {
+    		return gemPtr ;
+    	}
+    }
+    return NULL;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
