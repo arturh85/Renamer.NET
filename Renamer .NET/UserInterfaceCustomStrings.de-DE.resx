@@ -125,6 +125,9 @@ Dieses Formular sollte nicht angezeigt werden.</value>
   <data name="$this.Text" xml:space="preserve">
     <value>Benutzerdefinierte Strings für die Benutzeroberfläche</value>
   </data>
+  <data name="Columns.RenamingResult" xml:space="preserve">
+    <value>Ergebnis</value>
+  </data>
   <data name="Error.GemConfInvalid" xml:space="preserve">
     <value>Edelstein Konfiguration ungültig!</value>
   </data>
@@ -148,5 +151,11 @@ Dieses Formular sollte nicht angezeigt werden.</value>
   </data>
   <data name="Error.NoRulesetSelected" xml:space="preserve">
     <value>Keine Regeldatei ausgewählt</value>
+  </data>
+  <data name="Strings.NewInputRule" xml:space="preserve">
+    <value>Neue Eingabe Regel</value>
+  </data>
+  <data name="Strings.NewOutputFormat" xml:space="preserve">
+    <value>Neues Ausgabe Format</value>
   </data>
 </root>

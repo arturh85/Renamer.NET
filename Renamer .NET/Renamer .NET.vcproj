@@ -64,7 +64,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt-gd-1_33_1.lib boost_filesystem-vc80-mt-gd-1_33_1.lib SQLite.lib"
+				AdditionalDependencies="boost_regex-vc80-mt-gd-1_34.lib boost_filesystem-vc80-mt-gd-1_34.lib SQLite.lib"
 				OutputFile="..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
@@ -144,7 +144,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt-1_33_1.lib boost_filesystem-vc80-mt-1_33_1.lib SQLite.lib"
+				AdditionalDependencies="boost_regex-vc80-mt-1_34.lib boost_filesystem-vc80-mt-1_34.lib SQLite.lib"
 				ShowProgress="0"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version="0.0.1"

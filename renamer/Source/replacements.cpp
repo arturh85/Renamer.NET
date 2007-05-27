@@ -2,6 +2,7 @@
 #include "replacements.h"
 #include "error.h"
 #include "sqlTools.h"
+#include <boost/algorithm/string.hpp>
 
 Replacements::Replacements(sqlite3* db, string name, sqlite_int64 ownerId) :
     mDb(db), mName(name), mOwnerId(ownerId)
@@ -102,6 +103,8 @@ string Replacements::replace(string sString) const {
 
         if (!fLoop) break;
     }
+
+	boost::trim(sRetVal);
 
     return sRetVal;
 }

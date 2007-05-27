@@ -197,4 +197,10 @@ This form should never be shown.</value>
   <data name="Error.NoRulesetSelected" xml:space="preserve">
     <value>no ruleset select</value>
   </data>
+  <data name="Strings.NewInputRule" xml:space="preserve">
+    <value>New Input Rule</value>
+  </data>
+  <data name="Strings.NewOutputFormat" xml:space="preserve">
+    <value>New Output Format</value>
+  </data>
 </root>
