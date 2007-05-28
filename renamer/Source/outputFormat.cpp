@@ -156,6 +156,17 @@ void OutputFormat::setFormat(string format) {
     }
 }
 
+void OutputFormat::save() {
+    mRow.save();
+    for (map<sqlite_int64, InputRule*>::iterator it = mChildren.begin();
+         it!=mChildren.end(); it++) {
+
+    	it->second->save();
+    }
+
+    return;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 

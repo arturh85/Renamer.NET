@@ -219,6 +219,17 @@ void InputRule::updateGems(string outputFormat) {
     return;
 }
 
+void InputRule::save() {
+    mRow.save();
+    for (map<sqlite_int64, Gem*>::iterator it = mChildren.begin();
+         it!=mChildren.end(); it++) {
+
+    	it->second->save();
+    }
+
+    return;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 

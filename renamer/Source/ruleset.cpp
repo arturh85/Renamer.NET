@@ -5,11 +5,11 @@
 #include "stlUtility.h"
 #include "error.h"
 
-namespace fs = boost::filesystem;
+using namespace boost::filesystem;
 using boost::regex;
 using boost::smatch;
 
-void Ruleset::loadDb(fs::path dbFile) {
+void Ruleset::loadDb(path dbFile) {
 
 	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
 	boost::smatch nameMatch;
@@ -19,7 +19,7 @@ void Ruleset::loadDb(fs::path dbFile) {
 
 	mName = nameMatch[1];
 
-    bool fIsNew = ( !fs::exists(dbFile) );
+    bool fIsNew = ( !exists(dbFile) );
     if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
         sqlite3_close(mDb);
         throw exDbError();
@@ -184,7 +184,7 @@ bool Ruleset::rename(string fileName) {
 //  path test("/");
 //  cout << fileName << endl;
 
-    if (!fs::exists(fileName)) {
+    if (!exists(fileName)) {
     	throw runtime_error("file does not exist");
     }
 
@@ -202,14 +202,14 @@ bool Ruleset::rename(string fileName) {
     vector<string>::iterator itLast = --dirParts.end();
     for (vector<string>::iterator it = dirParts.begin(); it!=itLast ; it++) {
           sSubDir += *it+"\\";
-          if (!fs::exists(sSubDir)) {
-            fs::create_directory(sSubDir);
+          if (!exists(sSubDir)) {
+            create_directory(sSubDir);
           }
         }
     }
 
     //  cout << ">>" << path+newFilename+sExtension << endl;
-    fs::rename(fileName, newFilename);
+    boost::filesystem::rename(fileName, newFilename);
     return true;
 }
 
@@ -238,16 +238,46 @@ Gem& Ruleset::getGem(sqlite_int64 rowid) {
     throw exNoSuchId();
 }
 
+void Ruleset::save() {
+    for (map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin();
+         it!=mChildren.end(); it++) {
+
+    	it->second->save();
+    }
+    return;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
 void testName(string name) {
   BOOST_CHECK_NO_THROW(Ruleset(name));
-  if(fs::exists(name))
-    fs::remove(name);
+  if(exists(name))
+    remove(name);
 }
 
+void testNewRuleset(path dbFileName);
+void testSavedRuleset(path dbFileName);
+
 void Ruleset::unitTest() {
+    //The.Unit.S02E20.HDTV.XviD-LOL.avi
+    //The.Unit.S02E21.HDTV.XviD-XOR.avi
+
+    path dbFileName = initial_path()/"unitTest.db3";
+    testNewRuleset(dbFileName);
+    testSavedRuleset(dbFileName);
+    remove_all("The Unit");
+}
+
+void testSavedRuleset(path dbFileName) {
+    Ruleset myRules(dbFileName);
+
+    system("echo > The.Unit.S02E18.HDTV.XviD-NoTV.avi");
+    BOOST_CHECK(myRules.rename("The.Unit.S02E18.HDTV.XviD-NoTV.avi"));
+    BOOST_CHECK(exists("The Unit\\02\\18.avi"));  //whole directory will be removed at the end
+}
+
+void testNewRuleset(path dbFileName) {
 
     BOOST_CHECKPOINT("begin");
 
@@ -258,9 +288,6 @@ void Ruleset::unitTest() {
     BOOST_CHECK(tmpVector[0] == "staffel");
     BOOST_CHECK(tmpVector[1] == "folge");
 
-    // test Ruleset class
-    using namespace boost::filesystem;
-    path dbFileName = initial_path()/"unitTest.db3";
 
     if (exists(dbFileName))
         boost::filesystem::remove(dbFileName);
@@ -272,7 +299,7 @@ void Ruleset::unitTest() {
     BOOST_REQUIRE_EQUAL(myRules.getOutputFormats()[0] , &simpleFormat);
     simpleFormat.setFormat("$series$ - $season$x$episode$");
 
-    InputRule& ruleStargate = simpleFormat.addInputRule("^(Stargate Atlantis|The Simpsons) S(\\d+)E(\\d+)([ -]\\w{0,7})*");
+    simpleFormat.addInputRule("^(Stargate Atlantis|The Simpsons) S(\\d+)E(\\d+)([ -]\\w{0,7})*");
     myRules.getBeforeReplacements().addReplacement("\\.", " ");
 
     //these should work
@@ -355,29 +382,22 @@ void Ruleset::unitTest() {
     OutputFormat& unitFormat = myRules.addOutputFormat();
     unitFormat.setFormat("The Unit\\$season$\\$episode$");
 
-//
-//
-//The.Unit.S02E18.HDTV.XviD-NoTV.avi
-//The.Unit.S02E20.HDTV.XviD-LOL.avi
-//The.Unit.S02E21.HDTV.XviD-XOR.avi
-
     InputRule& ruleUnit = unitFormat.addInputRule("The Unit S(\\d+)E(\\d+) HDTV XviD-(NoTV|XOR|LOL)");
 //    InputRule& ruleUnit = unitFormat.addInputRule("The\\.Unit\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|XOR|LOL)");
     ruleUnit.updateGems("$season$x$episode$");
 
     system("echo > The.Unit.S02E16.HDTV.XviD-NoTV.avi");
     BOOST_CHECK(myRules.rename("The.Unit.S02E16.HDTV.XviD-NoTV.avi"));
-    BOOST_CHECK(exists("The Unit\\02\\16.avi"));
-    remove_all("The Unit\\02\\16.avi");
+    BOOST_CHECK(exists("The Unit\\02\\16.avi")); //whole directory will be removed at the end
 
     BOOST_CHECKPOINT("BeforeReplacements");
     myRules.getBeforeReplacements().addReplacement(" JUNK","");
 
     system("echo > The.Unit.S02E17.HDTV.JUNK.XviD-XOR.avi");
     BOOST_CHECK(myRules.rename("The.Unit.S02E17.HDTV.JUNK.XviD-XOR.avi"));
-    BOOST_CHECK(exists("The Unit\\02\\17.avi"));
-    remove_all("The Unit\\02\\17.avi");
+    BOOST_CHECK(exists("The Unit\\02\\17.avi")); //whole directory will be removed at the end
 
+    myRules.save();
 }
 
 #endif

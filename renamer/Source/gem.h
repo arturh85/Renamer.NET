@@ -54,6 +54,9 @@ class Gem {
         //! reomves this object and all its children
         void remove();
 
+        //! save this object and all its children
+        void save();
+
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();

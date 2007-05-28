@@ -40,7 +40,7 @@ class OutputFormat {
             { return mRow.get("format"); };
 
 
-		//! returns true if the OutputFormat is valid and saves the resulting gems
+		//! strips $gems$ out
 		static vector<string> parse(string format);
 
         /** the output format is the resulting filename
@@ -68,6 +68,8 @@ class OutputFormat {
         //! B/L
         Gem* getGem(sqlite_int64 rowid);
 
+        //! save this object and all its children
+        void save();
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

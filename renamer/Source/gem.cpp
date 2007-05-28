@@ -63,6 +63,12 @@ void Gem::remove() {
 
 }
 
+void Gem::save() {
+    mRow.save();
+
+    return;
+}
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 

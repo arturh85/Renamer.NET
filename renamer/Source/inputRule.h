@@ -76,6 +76,9 @@ class InputRule {
         Gem* getGem(sqlite_int64 rowid)
             { return (mChildren.count(rowid)==0) ? NULL:mChildren[rowid]; };
 
+        //! save this object and all its children
+        void save();
+
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();
