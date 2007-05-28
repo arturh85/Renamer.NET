@@ -50,6 +50,7 @@ InputRule& OutputFormat::addInputRule(string sRegex) {
         regex newRegex(sRegex); //to check if this is a valid regex
         InputRule* newRulePtr = new InputRule(mRow.getDb(), newRegex, mRow.getRowId());
         mChildren[newRulePtr->getRowId()] = newRulePtr;
+        newRulePtr->updateGems(getFormat());
         return *newRulePtr;
 
     } catch (exception& ex) {
@@ -84,9 +85,10 @@ bool OutputFormat::applyTo(string fileName, string& outputFileName, bool updateH
                  itGem != gems.end(); itGem++) {
 
                 stringstream strVar;
-                strVar << "$" << itGem->getName() << "$";
-                string sValue = itGem->replacers.replace(itGem->value);
-                algo::replace_all(outputFileName, strVar.str(), sValue);
+                strVar << "$" << itGem->name << "$";
+//                string sValue = itGem->replacers.replace(itGem->value);
+//                algo::replace_all(outputFileName, strVar.str(), sValue);
+                algo::replace_all(outputFileName, strVar.str(), itGem->value);
             }
             return true;
         }
@@ -95,8 +97,9 @@ bool OutputFormat::applyTo(string fileName, string& outputFileName, bool updateH
     return false;
 }
 
-bool OutputFormat::parse(vector<string>& gemNames) {
-	string format = getFormat();
+vector<string> OutputFormat::parse(string format) {
+//	string format = getFormat();
+    vector<string> retVal;
 	int start = -1;
 
 	for(unsigned int i=0; i<format.length(); i++) {
@@ -106,15 +109,16 @@ bool OutputFormat::parse(vector<string>& gemNames) {
 			}
 
 			else {
-				gemNames.push_back(format.substr(start + 1, i - start - 1));
+				retVal.push_back(format.substr(start + 1, i - start - 1));
 				start = -1;
 			}
 		}
 	}
 
-	if(start != -1)
-		return false;
-	return true;
+    return retVal;
+//	if(start != -1)
+//		return false;
+//	return true;
 }
 
 void OutputFormat::remove() {
@@ -142,6 +146,14 @@ Gem* OutputFormat::getGem(sqlite_int64 rowid) {
     	}
     }
     return NULL;
+}
+
+void OutputFormat::setFormat(string format) {
+    mRow.set("format",format);
+    vector<InputRule*> rules = getInputRules();
+    for (vector<InputRule*>::iterator it = rules.begin(); it!=rules.end() ; it++) {
+    	(*it)->updateGems(format);
+    }
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -194,9 +206,11 @@ void OutputFormat::unitTest() {
     BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "2");
 
     formatBeta.setFormat("Dr. House - $season$x$episode$");
-    InputRule& ruleBeta = formatBeta.addInputRule("House\\.S(\\d+)E(\\d+).*");
-    ruleBeta.addGem("season");
-    ruleBeta.addGem("episode");
+//    InputRule& ruleBeta = formatBeta.addInputRule("House\\.S(\\d+)E(\\d+).*");
+//    ruleBeta.updateGems("$season$x$episode$");
+    formatBeta.addInputRule("House\\.S(\\d+)E(\\d+).*");
+    BOOST_REQUIRE(formatBeta.getInputRules().size() >= 1);
+    BOOST_CHECK(formatBeta.getInputRules()[0]->getGems().size() == 2);
 
     string sNewFilename;
     BOOST_CHECK(formatBeta.applyTo("House.S03E13.HDTV.XviD-LOL", sNewFilename));
@@ -210,18 +224,20 @@ void OutputFormat::unitTest() {
     OutputFormat formatGamma(db);
     BOOST_CHECK(query("SELECT COUNT(*) FROM outputFormats", db) == "3");
     formatGamma.setFormat("$name$");
-    InputRule& ruleGamma = formatGamma.addInputRule("(.*)");
+//    InputRule& ruleGamma = formatGamma.addInputRule("(.*)");
+    formatGamma.addInputRule("(.*)");
     BOOST_REQUIRE(formatGamma.getInputRules().size() > 0);
     BOOST_CHECK(formatGamma.getInputRules().size() == 1);
     BOOST_CHECK(formatGamma.getInputRules()[0]->getRegex() == "(.*)");
 
-    ruleGamma.addGem("name").replacers.addReplacement("\\."," ");
-    BOOST_REQUIRE(formatGamma.getInputRules()[0]->getGems().size() == 1);
-    BOOST_CHECK(formatGamma.getInputRules()[0]->getGems()[0]->replacers.getReplacements().size() == 1);
-    //BOOST_CHECK(ruleGamma.addGem("name").replacers.getReplacements().size() == 1);
-    BOOST_CHECK(formatGamma.applyTo("House.S03E13.HDTV.XviD-LOL", sNewFilename));
-    BOOST_CHECK(sNewFilename == "House S03E13 HDTV XviD-LOL");
-//    cout << "sNewFilename " << sNewFilename << endl;
+//    ruleGamma.addGem("name").replacers.addReplacement("\\."," ");
+//    ruleGamma.updateGems("$name$");
+//    BOOST_REQUIRE(formatGamma.getInputRules()[0]->getGems().size() == 1);
+//    BOOST_CHECK(formatGamma.getInputRules()[0]->getGems()[0]->replacers.getReplacements().size() == 1);
+//    //BOOST_CHECK(ruleGamma.addGem("name").replacers.getReplacements().size() == 1);
+//    BOOST_CHECK(formatGamma.applyTo("House.S03E13.HDTV.XviD-LOL", sNewFilename));
+//    BOOST_CHECK(sNewFilename == "House S03E13 HDTV XviD-LOL");
+////    cout << "sNewFilename " << sNewFilename << endl;
 
     BOOST_CHECKPOINT("Create formatZeta");
     BOOST_CHECK_THROW(OutputFormat formatZeta(db, -1), runtime_error);

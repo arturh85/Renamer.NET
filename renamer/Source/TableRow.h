@@ -6,6 +6,8 @@
 //! generic access to sqlite tables
 class TableRow {
     public:
+        static const sqlite_int64 NO_TABLE = -1;
+
         //---------------------------------------------------------------------
         //  constructors
 
@@ -22,7 +24,10 @@ class TableRow {
         string get(string field) const;
 
         //! read a column
-        void set(string field, string value);
+        void set(string field, string value)
+            { mfDirty = true;
+              mValues[field] = value;
+              if(mRowid == NO_TABLE) save(); };
 
         string operator[](const string what) const
             { return get(what); }
@@ -32,6 +37,9 @@ class TableRow {
 
         //! get the connection...
         sqlite3* getDb() const { return mDb; };
+
+        //! store cached data into db
+        void save();
 
         //---------------------------------------------------------------------
         //  methodes
@@ -48,6 +56,8 @@ class TableRow {
         sqlite3* mDb;
         string mTable;
         sqlite_int64 mRowid;
+        map<string, string> mValues;
+        bool mfDirty;
 };
 
 

@@ -127,10 +127,6 @@ vector<string> stripVarNames(string sString) {
     return retVal;
 }
 
-sqlite3* Ruleset::getDatabase() {
-	return mDb;
-}
-
 vector<OutputFormat*> Ruleset::getOutputFormats() {
     vector<OutputFormat*> retVal;
     for (map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin();
@@ -180,7 +176,7 @@ bool Ruleset::applyTo(string fileName, string& outputFileName, bool updateHistor
 
 OutputFormat& Ruleset::addOutputFormat() {
     OutputFormat* formatPtr = new OutputFormat (mDb);
-    mChildren[formatPtr->getRowId()];
+    mChildren[formatPtr->getRowId()] = formatPtr;
     return *formatPtr;
 }
 
@@ -229,7 +225,6 @@ InputRule& Ruleset::getInputRule(sqlite_int64 rowid) {
     throw exNoSuchId();
 }
 
-
 Gem& Ruleset::getGem(sqlite_int64 rowid) {
     for (map<sqlite_int64, OutputFormat*>::iterator it=mChildren.begin();
          it!=mChildren.end(); it++) {
@@ -270,29 +265,24 @@ void Ruleset::unitTest() {
     if (exists(dbFileName))
         boost::filesystem::remove(dbFileName);
 
-//    Ruleset myRules(dbFileName);
-    Ruleset myRules;
+    Ruleset myRules(dbFileName);
+//    Ruleset myRules;
     OutputFormat& simpleFormat = myRules.addOutputFormat();
+    BOOST_REQUIRE(myRules.getOutputFormats().size() == 1);
+    BOOST_REQUIRE_EQUAL(myRules.getOutputFormats()[0] , &simpleFormat);
     simpleFormat.setFormat("$series$ - $season$x$episode$");
 
-    InputRule& ruleStargate = simpleFormat.addInputRule("^(Stargate\\.Atlantis|The\\.Simpsons)\\.S(\\d+)E(\\d+)([\\.-]\\w{0,7})*");
-    ruleStargate.addGem("season");
-    ruleStargate.addGem("episode");
-
-    //  added 2007-03-18-01.15
-    Gem gemSeries = ruleStargate.addGem("series");
-    gemSeries.replacers.addReplacement("\\.", " ") ; //Stargate Atlantis
-    gemSeries.setPosition(1);
-    // --
+    InputRule& ruleStargate = simpleFormat.addInputRule("^(Stargate Atlantis|The Simpsons) S(\\d+)E(\\d+)([ -]\\w{0,7})*");
+    myRules.getBeforeReplacements().addReplacement("\\.", " ");
 
     //these should work
     string sNewFileName;
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E17.HR.HDTV.AC3.2.0.XviD-NBS", sNewFileName ));
-    BOOST_CHECK(sNewFileName == "Stargate Atlantis - 03x17");
+    BOOST_CHECK_EQUAL(sNewFileName, "Stargate Atlantis - 03x17");
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E18.READ.NFO.DSR.XviD-NXSPR0N", sNewFileName ));
-    BOOST_CHECK(sNewFileName == "Stargate Atlantis - 03x18");
+    BOOST_CHECK_EQUAL(sNewFileName, "Stargate Atlantis - 03x18");
     BOOST_CHECK(myRules.applyTo("Stargate.Atlantis.S03E19.HDTV.XviD-MiNT", sNewFileName ));
-    BOOST_CHECK(sNewFileName == "Stargate Atlantis - 03x19");
+    BOOST_CHECK_EQUAL(sNewFileName, "Stargate Atlantis - 03x19");
 
 
     BOOST_CHECKPOINT("ruleSimpsons");
@@ -371,28 +361,17 @@ void Ruleset::unitTest() {
 //The.Unit.S02E20.HDTV.XviD-LOL.avi
 //The.Unit.S02E21.HDTV.XviD-XOR.avi
 
-    InputRule& ruleUnit = unitFormat.addInputRule("The\\.Unit\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|XOR|LOL)");
-    ruleUnit.addGem("season");
-    ruleUnit.addGem("episode");
+    InputRule& ruleUnit = unitFormat.addInputRule("The Unit S(\\d+)E(\\d+) HDTV XviD-(NoTV|XOR|LOL)");
+//    InputRule& ruleUnit = unitFormat.addInputRule("The\\.Unit\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|XOR|LOL)");
+    ruleUnit.updateGems("$season$x$episode$");
 
     system("echo > The.Unit.S02E16.HDTV.XviD-NoTV.avi");
     BOOST_CHECK(myRules.rename("The.Unit.S02E16.HDTV.XviD-NoTV.avi"));
     BOOST_CHECK(exists("The Unit\\02\\16.avi"));
     remove_all("The Unit\\02\\16.avi");
 
-//    BOOST_REQUIRE(!exists("tmp"));
-//
-//    system("echo > tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi");
-//    BOOST_CHECK(myRules.rename("tmp\\The.Simpsons.S18E12.PDTV.XviD-LOL.avi"));
-//    BOOST_CHECK(exists("tmp\\The Simpsons - 18x12.avi"));
-//    remove("tmp\\The Simpsons - 18x12.avi");
-//
-//    remove_all("tmp");
-//    BOOST_CHECK(!exists("tmp"));
-
-
     BOOST_CHECKPOINT("BeforeReplacements");
-    myRules.getBeforeReplacements().addReplacement("\\.JUNK","");
+    myRules.getBeforeReplacements().addReplacement(" JUNK","");
 
     system("echo > The.Unit.S02E17.HDTV.JUNK.XviD-XOR.avi");
     BOOST_CHECK(myRules.rename("The.Unit.S02E17.HDTV.JUNK.XviD-XOR.avi"));

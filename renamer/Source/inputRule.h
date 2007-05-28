@@ -7,18 +7,16 @@
 
 
 //! yummy precious information.
-class GemValue : public Gem {
-    public:
-        //---------------------------------------------------------------------
-        //  constructors
+struct GemValue {
+    //---------------------------------------------------------------------
+    //  constructors
+    GemValue() : position(0) {};
 
-        //! creates a new GemValue object.
-        GemValue(sqlite3* db, sqlite_int64 ruleId, sqlite_int64 row) :
-            Gem(db, ruleId, row) {};
-
-        //---------------------------------------------------------------------
-        //  attributes
-        string value;
+    //---------------------------------------------------------------------
+    //  attributes
+    string name;
+    string value;
+    int position;
 };
 
 //! one rule (regex) to match a filename.
@@ -50,19 +48,25 @@ class InputRule {
         //! removes this object and all its children
         void remove();
 
+        //! unused
         Replacements& getReplacements() const { return *mRplPtr; };
 
-        //! get all gems available for this InputRule.
-        vector<Gem*> getGems() const;
-
         //! extract GemValue objects out of a filename
+        /**
+            This method updates the history table.
+        */
         bool applyTo(string fileName, vector<GemValue>& matches, bool updateHistory = false);
 
-        //! creates a new Gem and attaches it to this InputRule
-        Gem& addGem(string name);
+        //! add/remove gems according to the format
+        void updateGems(string outputFormat);
+
+        //! get all gems available for this InputRule.
+        /**
+            The result is ordered by gem position.
+        */
+        vector<Gem*> getGems() const;
 
         sqlite_int64 getOutputFormatId();
-
 
         //! primary key field of the row this object is stored in
         sqlite_int64 getRowId() const
@@ -71,7 +75,6 @@ class InputRule {
         //! B/L
         Gem* getGem(sqlite_int64 rowid)
             { return (mChildren.count(rowid)==0) ? NULL:mChildren[rowid]; };
-
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
@@ -87,16 +90,16 @@ class InputRule {
 
         //---------------------------------------------------------------------
         //  attributes
-        //sqlite_int64 mRowid;
         TableRow mRow;
         sqlite3* mDb;
         Replacements* mRplPtr;
 
+        //! children
+        map<sqlite_int64, Gem*> mChildren;
+
         //---------------------------------------------------------------------
         //  methods
 
-        //! children
-        map<sqlite_int64, Gem*> mChildren;
 
 
 };

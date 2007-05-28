@@ -12,6 +12,9 @@ int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azCol
 //! sqlite callback that adds each column as a vector to the param
 int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColName);
 
+//! sqlite callback that adds each column as a vector to the param
+int onAppendAllColumnsToMap(void *param, int argc, char **argv, char **azColName);
+
 //! Prepares a string for use in a SqlStatement
 /** This function add singles quotes to the front/back und escapes
     quotes in the middle with even more quotes.

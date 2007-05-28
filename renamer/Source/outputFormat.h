@@ -41,13 +41,12 @@ class OutputFormat {
 
 
 		//! returns true if the OutputFormat is valid and saves the resulting gems
-		bool parse(vector<string>& gems);
+		static vector<string> parse(string format);
 
         /** the output format is the resulting filename
             containing $gems$
         */
-        void setFormat(string v)
-            {mRow.set("format",v);} ;
+        void setFormat(string v);
 
         //! Wird für jede Datei aufgerufen die umbenannt werden soll
         /** Benennt die Datei aber nicht selber um, sondern

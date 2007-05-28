@@ -66,9 +66,6 @@ class Ruleset
         string getName() const;
         string getFilename() const;
 
-        ///\todo this is bad :(
-        sqlite3* getDatabase();
-
         ///these are applied before anything else is done with the filename
         Replacements& getBeforeReplacements() const { return *mBeforeReplacementsPtr; };
 
@@ -86,6 +83,9 @@ class Ruleset
 
         //! gui convinience
         Gem& getGem(sqlite_int64 rowid);
+
+        //! save this object and all its children
+        void save();
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

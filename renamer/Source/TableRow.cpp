@@ -4,7 +4,6 @@
 #include "error.h"
 #include "globals.h"
 
-static const sqlite_int64 NO_TABLE = -1;
 
 TableRow::TableRow(sqlite3* db, string table) {
     //we cant do anything useful here because
@@ -16,6 +15,7 @@ TableRow::TableRow(sqlite3* db, string table) {
     mRowid = NO_TABLE;
     mDb = db;
     mTable = table;
+    mfDirty = false;
 }
 
 TableRow::TableRow(sqlite3* db, string table, string field, string value) {
@@ -23,64 +23,109 @@ TableRow::TableRow(sqlite3* db, string table, string field, string value) {
     mDb = db;
     mTable = table;
     set(field, value);
+    mfDirty = false;
 }
 
 TableRow::TableRow(sqlite3* db, string table, sqlite_int64 rowid) {
+
+    mRowid = rowid;
+    mDb = db;
+    mTable = table;
+    mfDirty = false;
+
     stringstream strSql;
-    strSql  << "SELECT COUNT(*) FROM " << table
-            << " WHERE rowid = " << rowid;
-    string sRetVal;
-    exec(strSql, db, onReadFirstField, &sRetVal);
-    //exAssertDesc(sRetVal == "1", "no such row");
-    if(sRetVal != "1") {
+    strSql  << "SELECT * "
+            << " FROM " << mTable
+            << " WHERE rowid =" << mRowid;
+    exec(strSql, mDb, onAppendAllColumnsToMap, &mValues);
+    if (mValues.size() == 0) {
       stringstream strErrMsg;
       strErrMsg << "no row "
                 << rowid << " in table '"
                 << table << "'";
       throw runtime_error( strErrMsg.str() );
     }
-
-    mRowid = rowid;
-    mDb = db;
-    mTable = table;
 }
 
-void TableRow::set(string field, string value) {
+string TableRow::get(string field) const {
+//    string sReturn;
+
+//    if (mRowid == NO_TABLE) {
+//        return "";
+//    }
+//
+    map<string, string>::const_iterator it = mValues.find(field);
+    if (it==mValues.end()) {
+      stringstream strErrMsg;
+      strErrMsg << "no such column '" << field
+                << mRowid << "' in table '"
+                << mTable << "'";
+      throw runtime_error( strErrMsg.str() );
+    } else {
+        return it->second;
+    }
+}
+
+sqlite_int64 TableRow::getRowId() const {
+    exAssertDesc(mRowid != NO_TABLE, "nothing written yet");
+
+//    if (mRowid == NO_TABLE) {
+//        save();
+//    }
+    return mRowid;
+};
+
+void TableRow::save() {
+    exAssertDesc(mValues.size()!=0, "no values");
+
+    if (!mfDirty) {
+    	return;
+    }
+    mfDirty=false;
+
     stringstream strSql;
 
     if (mRowid == NO_TABLE) {
         strSql  << "INSERT INTO " << mTable
-                << " (" << field
-                <<" ) VALUES ( " << cSqlStrOut(value) << ")";
+                << " ("; //<< field
+        stringstream strValues;
+
+        for (map<string, string>::iterator it = mValues.begin();
+             it!=mValues.end(); it++) {
+
+        	if (it!=mValues.begin()) {
+        		strSql << ", ";
+        		strValues << ", ";
+        	}
+        	strSql << it->first;
+        	strValues << cSqlStrOut(it->second);
+        }
+
+        strSql  << " ) VALUES ( "
+                << strValues.str() << ")";
+
+//        cout << strSql.str() << endl;
         exec(strSql, mDb);
         mRowid = sqlite3_last_insert_rowid(mDb);
         exAssert(mRowid != -1);
 
     } else {
-        strSql  << "UPDATE " << mTable
-                << " SET " << field << " = " << cSqlStrOut(value)
-                << " WHERE rowid = " << mRowid;
+        strSql  << "UPDATE " << mTable << " SET ";
+        for (map<string, string>::iterator it = mValues.begin();
+             it!=mValues.end(); it++) {
+
+        	if (it!=mValues.begin()) {
+        		strSql << ", ";
+        	}
+        	strSql  << it->first << " = "
+                    << cSqlStrOut(it->second);
+        }
+
+        strSql << " WHERE rowid = " << mRowid;
         exec(strSql, mDb);
     }
+
 }
-
-string TableRow::get(string field) const {
-    string sReturn;
-
-    if (mRowid != NO_TABLE) {
-        stringstream strSql;
-        strSql  << "SELECT " << field
-                << " FROM " << mTable
-                << " WHERE rowid =" << mRowid;
-        exec(strSql, mDb, onReadFirstField, &sReturn);
-    }
-    return sReturn;
-}
-
-sqlite_int64 TableRow::getRowId() const {
-    exAssertDesc(mRowid != NO_TABLE, "nothing written yet");
-    return mRowid;
-};
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>

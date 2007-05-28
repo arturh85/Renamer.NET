@@ -11,12 +11,13 @@ Replacements::Replacements(sqlite3* db, string name, sqlite_int64 ownerId) :
     exAssertDesc(ownerId > 0, "ownerId should be greater null");
 };
 
-Replacement Replacements::addReplacement(string sRegex, string replacement) {
+Replacement& Replacements::addReplacement(string sRegex, string replacement) {
 
-    Replacement newReplacement(mDb);
-    newReplacement.setRegex(sRegex);
-    newReplacement.setReplacement(replacement);
-    //newReplacement.setname(mname);
+    Replacement* newReplacementPtr = new Replacement(mDb);
+    newReplacementPtr->setRegex(sRegex);
+    newReplacementPtr->setReplacement(replacement);
+
+    //newReplacementPtr->setname(mname);
 
     stringstream strSql;
     strSql  << "SELECT rowid FROM replacementGroups "
@@ -26,7 +27,7 @@ Replacement Replacements::addReplacement(string sRegex, string replacement) {
     exec(strSql, mDb, onReadFirstField, &sRowId);
     if (sRowId.length() > 0) {
         //sqlite_int64 rowId = cSqlInFormated<sqlite_int64>(sRowId);
-        newReplacement.setGroupId(cSqlInFormated<sqlite_int64>(sRowId));
+        newReplacementPtr->setGroupId(cSqlInFormated<sqlite_int64>(sRowId));
     } else {
         strSql.str(""); //clear
         strSql  << "INSERT INTO replacementGroups "
@@ -35,17 +36,11 @@ Replacement Replacements::addReplacement(string sRegex, string replacement) {
                 << mOwnerId << ")";
         exec(strSql, mDb);
 
-        newReplacement.setGroupId(sqlite3_last_insert_rowid(mDb));
+        newReplacementPtr->setGroupId(sqlite3_last_insert_rowid(mDb));
     }
 
-
-//    stringstream strSql;
-//    strSql  << "INSERT INTO replacementGroups "
-//            << "(replacementId, GroupId) VALUES ( "
-//            << newReplacement.getRowId() << ", "
-//            << mGroupId << ")";
-//    exec(strSql, mDb);
-    return newReplacement;
+    newReplacementPtr->save();
+    return *newReplacementPtr;
 }
 
 void Replacements::createTables(sqlite3* db) {
@@ -71,11 +66,13 @@ vector<Replacement> Replacements::getReplacements() const {
                "WHERE name = " << cSqlStrOut(mName) <<
                " AND ownerId = " << mOwnerId;
 
+//    cout << strSql.str() << endl;
     exec(strSql, mDb, onAppendFirstColumnToVector, &rowidStrings);
 
     for (vector<string>::iterator it = rowidStrings.begin();
          it != rowidStrings.end(); it++) {
 
+//        cout << "rowid " << cSqlInFormated<sqlite_int64>(*it) << endl;
         Replacement newReplacement(mDb, cSqlInFormated<sqlite_int64>(*it));
         retVal.push_back(newReplacement);
     }
@@ -133,15 +130,17 @@ void Replacements::remove() {
 #include <boost/test/test_tools.hpp>
 
 void Replacements::unitTest() {
+    BOOST_CHECKPOINT("begin");
+
     sqlite3* db;
 
-//    using namespace boost::filesystem;
-//    path dbFileName = initial_path()/"unitTest_Replacements.db3";
-//    if (exists(dbFileName))
-//        boost::filesystem::remove(dbFileName);
-//
-//    if(sqlite3_open(dbFileName.native_file_string().c_str(), &db)) {
-    if(sqlite3_open(":memory:", &db)) {
+    using namespace boost::filesystem;
+    path dbFileName = initial_path()/"unitTest_Replacements.db3";
+    if (exists(dbFileName))
+        boost::filesystem::remove(dbFileName);
+
+    if(sqlite3_open(dbFileName.native_file_string().c_str(), &db)) {
+//    if(sqlite3_open(":memory:", &db)) {
         sqlite3_close(db);
         throw std::runtime_error("could not open database file");
     }

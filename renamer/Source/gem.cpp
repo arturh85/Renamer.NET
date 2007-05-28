@@ -41,12 +41,12 @@ void Gem::createTables(sqlite3* db) {
 void Gem::setPosition(int v) {
     exAssertDesc(v>0, "minimal gem.position is 1");
 
-    stringstream strSql;
-    strSql  << "UPDATE gems SET "
-            << "position = position + 1 "
-            << "WHERE ruleId = " << getRuleId()
-            << " AND position >= " << v;
-    exec(strSql, mDb);
+//    stringstream strSql;
+//    strSql  << "UPDATE gems SET "
+//            << "position = position + 1 "
+//            << "WHERE ruleId = " << getRuleId()
+//            << " AND position >= " << v;
+//    exec(strSql, mDb);
 
     mRow.set("position", cSqlOutFormated(v));
 }
@@ -67,6 +67,8 @@ void Gem::remove() {
 #include <boost/test/test_tools.hpp>
 
 void Gem::unitTest() {
+    BOOST_CHECKPOINT("begin");
+
     using boost::regex;
 
     sqlite3* db;
@@ -90,6 +92,7 @@ void Gem::unitTest() {
     Gem gemAlpha(db, 112233);
     gemAlpha.setName("Test");
     BOOST_CHECK(gemAlpha.getName() =="Test");
+    gemAlpha.setPosition(1);
     BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 1);
     BOOST_CHECK_EQUAL(gemAlpha.getRuleId(), 112233);
 
@@ -97,6 +100,7 @@ void Gem::unitTest() {
     Gem gemBeta(db, 112233);
     gemBeta.setName("Umlaute: ײִÜצהü");
     BOOST_CHECK(gemBeta.getName() =="Umlaute: ײִÜצהü");
+    gemBeta.setPosition(2);
     BOOST_CHECK_EQUAL(gemBeta.getPosition(), 2);
     BOOST_CHECK_EQUAL(gemBeta.getRuleId(), 112233);
 
@@ -104,23 +108,25 @@ void Gem::unitTest() {
     Gem gemGamma(db, 112233);
     gemGamma.setName("Umlaute: ײִÜצהü");
     BOOST_CHECK(gemGamma.getName() =="Umlaute: ײִÜצהü");
+    gemGamma.setPosition(3);
     BOOST_CHECK_EQUAL(gemGamma.getPosition(), 3);
     BOOST_CHECK_EQUAL(gemGamma.getRuleId(), 112233);
     BOOST_CHECK_THROW(gemGamma.setPosition(-1), exFileLineDesc);
     BOOST_CHECK_THROW(gemGamma.setPosition(0), exFileLineDesc);
-    gemGamma.setPosition(2);
-    BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 1);
-    BOOST_CHECK_EQUAL(gemBeta.getPosition(), 3);
-    BOOST_CHECK_EQUAL(gemGamma.getPosition(), 2);
+//    gemGamma.setPosition(2);
+//    BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 1);
+//    BOOST_CHECK_EQUAL(gemBeta.getPosition(), 3);
+//    BOOST_CHECK_EQUAL(gemGamma.getPosition(), 2);
 
     BOOST_CHECKPOINT("gemDelta");
     Gem gemDelta(db, 112233);
+    gemDelta.setPosition(4);
     BOOST_CHECK_EQUAL(gemDelta.getPosition(), 4);
-    gemDelta.setPosition(1);
-    BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 2);
-    BOOST_CHECK_EQUAL(gemBeta.getPosition(), 4);
-    BOOST_CHECK_EQUAL(gemGamma.getPosition(), 3);
-    BOOST_CHECK_EQUAL(gemDelta.getPosition(), 1);
+//    gemDelta.setPosition(1);
+//    BOOST_CHECK_EQUAL(gemAlpha.getPosition(), 2);
+//    BOOST_CHECK_EQUAL(gemBeta.getPosition(), 4);
+//    BOOST_CHECK_EQUAL(gemGamma.getPosition(), 3);
+//    BOOST_CHECK_EQUAL(gemDelta.getPosition(), 1);
 
     BOOST_CHECKPOINT("replacers");
     gemAlpha.replacers.addReplacement(".*","test");

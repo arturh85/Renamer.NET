@@ -18,7 +18,7 @@ class Replacements {
         string replace(string) const;
 
         //! attach a new replacement to this object
-        Replacement addReplacement(string regex, string replacement);
+        Replacement& addReplacement(string regex, string replacement);
 
         //!get all the replacements attached to this object
         vector<Replacement> getReplacements() const;
@@ -47,14 +47,7 @@ class Replacements {
         */
         string mName;
         sqlite_int64 mOwnerId;
-
-//        /** this point is null if no replacements
-//            available
-//        */
-//        TableRow* mGroupPtr;
-
-
-//        Replacements* mParent;
+        map<sqlite_int64, Replacement> mChildren;
 };
 
 #endif //REPLACEMENTS_H

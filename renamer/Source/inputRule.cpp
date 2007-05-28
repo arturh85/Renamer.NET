@@ -2,6 +2,7 @@
 #include "inputRule.h"
 #include "sqlTools.h"
 #include "error.h"
+#include "outputFormat.h"
 
 using boost::regex;
 using boost::smatch;
@@ -133,10 +134,6 @@ bool InputRule::setRegex(string sRegex) {
     return true;
 }
 
-//! try to match a fileName against a single regex
-/**
-    This method updates the history table.
-*/
 bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateHistory) {
     fileName = mRplPtr->replace(fileName);
     regex exp(getRegex());
@@ -147,10 +144,17 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateH
         //what[0] is the whole matched thing
 		// removed by arturh
 //        exAssertDesc(what.size() > myGems.size(), "matched not all gems");
-        for (int nGemIndex=0;nGemIndex < static_cast<int>(myGems.size()); nGemIndex++ ) {
-            GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex]->getRowId());
+
+        for (unsigned int nGemIndex=0;
+             nGemIndex < myGems.size() && nGemIndex < what.size();
+             nGemIndex++ ) {
+
+            GemValue newValue;
+            //GemValue newValue(mDb, mRow.getRowId(),  myGems[nGemIndex]->getRowId());
             //newValue.value = getReplacements().replace(what[nGemIndex+1]); // 1based
             newValue.value = what[nGemIndex+1]; // 1based
+            newValue.position = myGems[nGemIndex]->getPosition();
+            newValue.name = myGems[nGemIndex]->getName();
             matches.push_back(newValue);
         }
 
@@ -166,13 +170,6 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateH
     }
 
     return false;
-}
-
-Gem& InputRule::addGem(string name) {
-    Gem* newGemPtr = new Gem(mDb, mRow.getRowId());
-    newGemPtr->setName(name);
-    mChildren[newGemPtr->getRowId()] = newGemPtr;
-    return *newGemPtr;
 }
 
 void InputRule::remove() {
@@ -201,6 +198,25 @@ vector<Gem*> InputRule::getGems() const {
         retVal.push_back(it->second);
     }
     return retVal;
+}
+
+void InputRule::updateGems(string outputFormat) {
+    vector<Gem*> gems = getGems();
+    vector<string> sGems =  OutputFormat::parse(outputFormat);
+    for (unsigned int n=0; n<sGems.size(); n++) {
+
+        Gem* newGemPtr = NULL;
+    	if (n >= mChildren.size() ) {
+            newGemPtr = new Gem(mDb, mRow.getRowId());
+            mChildren[newGemPtr->getRowId()] = newGemPtr;
+//            gems.push_back(newGemPtr);
+    	} else {
+    	    newGemPtr = gems[n];
+    	}
+        newGemPtr->setName(sGems[n]);
+        newGemPtr->setPosition(n+1); //1-based
+    }
+    return;
 }
 
 #ifdef RENAMER_UNIT_TEST
@@ -234,9 +250,12 @@ void InputRule::unitTest() {
     InputRule ruleAlpha(db, regex("(.*)\\.avi"), -1);
     InputRule ruleBeta(db, regex("(.*)\\.mpg"), -1);
     InputRule ruleGamma(db, regex("(.*)\\.jpg"), -1);
-    ruleAlpha.addGem("fileName");
-    ruleBeta.addGem("fileName");
-    ruleGamma.addGem("fileName");
+    ruleAlpha.updateGems("$fileName$");
+    ruleBeta.updateGems("$fileName$");
+    ruleGamma.updateGems("$fileName$");
+    BOOST_CHECK(ruleAlpha.getGems().size() == 1);
+    BOOST_CHECK(ruleBeta.getGems().size() == 1);
+    BOOST_CHECK(ruleGamma.getGems().size() == 1);
 
     BOOST_CHECKPOINT("get gem");
     BOOST_REQUIRE(ruleAlpha.getGems().size() == 1);
@@ -321,8 +340,7 @@ void InputRule::unitTest() {
     BOOST_CHECK(!ruleAlpha.applyTo("Family.Guy.S06E13.PDTV.XviD-LOL.avi", gems, true));
 
     BOOST_CHECKPOINT("gems");
-    ruleEpsilon.addGem("test");
-    ruleEpsilon.addGem("foobar");
+    ruleEpsilon.updateGems("lalala $test$ dsklkdsalk$foobar$kjjlk");
     BOOST_CHECK(ruleEpsilon.getGems().size() == 2);
     BOOST_CHECK(ruleEpsilon.getGems()[0]->getPosition() == 1);
     BOOST_CHECK(ruleEpsilon.getGems()[1]->getPosition() == 2);
@@ -330,23 +348,27 @@ void InputRule::unitTest() {
 
     BOOST_CHECKPOINT("ruleZeta");
     InputRule ruleZeta(db, regex("Numb3rs\\.S(\\d+)E(\\d+)\\.HDTV\\.XviD-(NoTV|LOL)"), -1);
-    ruleZeta.addGem("season");
-    ruleZeta.addGem("episode");
+    ruleZeta.updateGems("Numb3rs - $season$x$episode$");
     BOOST_CHECK(ruleZeta.getGems().size() == 2);
+    BOOST_CHECK(ruleZeta.getGems()[0]->getPosition() == 1);
+    BOOST_CHECK(ruleZeta.getGems()[1]->getPosition() == 2);
+    BOOST_CHECK(ruleZeta.getGems()[0]->getName() == "season");
+    BOOST_CHECK(ruleZeta.getGems()[1]->getName() == "episode");
 
     gems.clear();
     BOOST_CHECK(!ruleZeta.applyTo("Numb3rs.S03E13.Mein Titel.HDTV.XviD-NoTV", gems, true));
     BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E13.HDTV.XviD-NoTV", gems, true));
-    BOOST_CHECK(gems[0].getName() == "season");
+    BOOST_REQUIRE(gems.size() == 2);
+    BOOST_CHECK(gems[0].name == "season");
     BOOST_CHECK(gems[0].value == "03");
-    BOOST_CHECK(gems[1].getName() == "episode");
+    BOOST_CHECK(gems[1].name == "episode");
     BOOST_CHECK(gems[1].value == "13");
 
     gems.clear();
     BOOST_CHECK(ruleZeta.applyTo("Numb3rs.S03E16.HDTV.XviD-LOL", gems, true));
-    BOOST_CHECK(gems[0].getName() == "season");
+    BOOST_CHECK(gems[0].name == "season");
     BOOST_CHECK(gems[0].value == "03");
-    BOOST_CHECK(gems[1].getName() == "episode");
+    BOOST_CHECK(gems[1].name == "episode");
     BOOST_CHECK(gems[1].value == "16");
 
     BOOST_CHECKPOINT("clean up");

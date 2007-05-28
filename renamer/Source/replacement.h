@@ -63,6 +63,9 @@ class Replacement {
         //! reomves this object and all its children
         void remove();
 
+        //! save this to db
+        void save() { mRow.save(); };
+
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();
