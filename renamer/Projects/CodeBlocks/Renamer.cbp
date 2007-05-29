@@ -12,14 +12,16 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s Test .\TestFiles\*.avi" />
+				<Option parameters="-s Test.ruleset ..\..\TestFiles\The.Unit.*.avi" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library='&quot;libboost_Program_options-mgw-sd&quot;' />
-					<Add library='&quot;libboost_filesystem-mgw-sd&quot;' />
-					<Add library='&quot;libboost_regex-mgw-sd&quot;' />
+					<Add library="libboost_unit_test_framework-mgw34-s-1_34" />
+					<Add library="libboost_Program_options-mgw34-s-1_34" />
+					<Add library="libboost_regex-mgw34-s-1_34" />
+					<Add library="libboost_filesystem-mgw34-s-1_34" />
+					<Add library="SQLite" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -42,12 +44,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-W" />
-					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DRENAMER_UNIT_TEST" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
 					<Add library="libboost_unit_test_framework-mgw34-s-1_34" />
 					<Add library="libboost_Program_options-mgw34-s-1_34" />
 					<Add library="libboost_regex-mgw34-s-1_34" />
@@ -59,6 +59,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-DBOOST_FILESYSTEM_NO_DEPRECATED" />
 			<Add directory="..\..\..\SQLite\Source" />
 		</Compiler>
 		<Linker>

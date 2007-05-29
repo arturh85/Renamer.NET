@@ -78,7 +78,7 @@ class OutputFormat {
 
     private:
 
-        //! disabled for your convinience
+        //! disabled for your convenience
         OutputFormat::OutputFormat(OutputFormat&) : mRow(NULL, "regexes")
             { throw runtime_error("not implemented"); };
 

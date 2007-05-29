@@ -11,16 +11,16 @@ using boost::smatch;
 
 void Ruleset::loadDb(path dbFile) {
 
-	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
-	boost::smatch nameMatch;
-	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
-    throw exBadName();
-	}
-
-	mName = nameMatch[1];
+//	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
+//	boost::smatch nameMatch;
+//	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
+//        throw exBadName();
+//	}
+//
+//	mName = nameMatch[1];
 
     bool fIsNew = ( !exists(dbFile) );
-    if(sqlite3_open(dbFile.native_file_string().c_str(), &mDb)) {
+    if(sqlite3_open(dbFile.file_string().c_str(), &mDb)) {
         sqlite3_close(mDb);
         throw exDbError();
     }
@@ -53,7 +53,7 @@ Ruleset::Ruleset(wstring filename) {
 };
 
 Ruleset::Ruleset() {
-    mName = "memory";
+//    mName = "memory";
     if(sqlite3_open(":memory:", &mDb)) {
         sqlite3_close(mDb);
         throw std::runtime_error("could not open database file in memory");
@@ -67,7 +67,7 @@ Ruleset::Ruleset() {
 }
 
 Ruleset::Ruleset(boost::filesystem::path filename) {
-	mFilename = filename.native_file_string();
+	mFilename = filename.file_string();
   loadDb(filename);
 };
 
@@ -96,36 +96,36 @@ void Ruleset::initDb() {
     OutputFormat::createTables(mDb);
 }
 
-string Ruleset::getName() const {
-	return mName;
-}
+//string Ruleset::getName() const {
+//	return mName;
+//}
 
 string Ruleset::getFilename() const {
 	return mFilename;
 }
 
-vector<string> stripVarNames(string sString) {
-    static const regex varRegex("\\$(\\w+)\\$");
-    smatch what;
-    vector<string> retVal;
-
-    std::string::const_iterator start, end;
-    start = sString.begin();
-    end = sString.end();
-    boost::match_flag_type flags = boost::match_default;
-    while(regex_search(start, end, what, varRegex, flags))  {
-
-        retVal.push_back(what[1]);
-
-        // update search position:
-        start = what[0].second;
-        // update flags:
-        flags |= boost::match_prev_avail;
-        flags |= boost::match_not_bob;
-    }
-
-    return retVal;
-}
+//vector<string> stripVarNames(string sString) {
+//    static const regex varRegex("\\$(\\w+)\\$");
+//    smatch what;
+//    vector<string> retVal;
+//
+//    std::string::const_iterator start, end;
+//    start = sString.begin();
+//    end = sString.end();
+//    boost::match_flag_type flags = boost::match_default;
+//    while(regex_search(start, end, what, varRegex, flags))  {
+//
+//        retVal.push_back(what[1]);
+//
+//        // update search position:
+//        start = what[0].second;
+//        // update flags:
+//        flags |= boost::match_prev_avail;
+//        flags |= boost::match_not_bob;
+//    }
+//
+//    return retVal;
+//}
 
 vector<OutputFormat*> Ruleset::getOutputFormats() {
     vector<OutputFormat*> retVal;
@@ -247,6 +247,21 @@ void Ruleset::save() {
     return;
 }
 
+Replacement Ruleset::getReplacement(sqlite_int64 rowid) {
+    vector<Replacement>
+        replacements = mBeforeReplacementsPtr->getReplacements();
+
+    for (vector<Replacement>::iterator it = replacements.begin();
+         it!=replacements.end(); it++) {
+
+    	if (it->getRowId() == rowid) {
+            return *it;
+    	}
+    }
+    throw exNoSuchId();
+}
+
+
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
 
@@ -263,7 +278,7 @@ void Ruleset::unitTest() {
     //The.Unit.S02E20.HDTV.XviD-LOL.avi
     //The.Unit.S02E21.HDTV.XviD-XOR.avi
 
-    path dbFileName = initial_path()/"unitTest.db3";
+    path dbFileName = initial_path<path>()/"unitTest.db3";
     testNewRuleset(dbFileName);
     testSavedRuleset(dbFileName);
     remove_all("The Unit");
@@ -281,12 +296,12 @@ void testNewRuleset(path dbFileName) {
 
     BOOST_CHECKPOINT("begin");
 
-    // test global functions
-    vector<string> tmpVector;
-    tmpVector = stripVarNames("Atlantis $staffel$x$folge$");
-    BOOST_REQUIRE(tmpVector.size() == 2);
-    BOOST_CHECK(tmpVector[0] == "staffel");
-    BOOST_CHECK(tmpVector[1] == "folge");
+//    // test global functions
+//    vector<string> tmpVector;
+//    tmpVector = stripVarNames("Atlantis $staffel$x$folge$");
+//    BOOST_REQUIRE(tmpVector.size() == 2);
+//    BOOST_CHECK(tmpVector[0] == "staffel");
+//    BOOST_CHECK(tmpVector[1] == "folge");
 
 
     if (exists(dbFileName))
@@ -347,9 +362,9 @@ void testNewRuleset(path dbFileName) {
     BOOST_CHECK_NO_THROW(!myRules.applyTo("D:\\Daten\\Develop\\Renamer\\testFiles\\14Dr.House.S02E14.Sex.wird.unterschaetzt.German.Dubbed.DVDRIP.WS.XviD-TvR.avi", sDummy ));
 
     BOOST_CHECKPOINT("check allowed Names");
-    BOOST_CHECK_THROW(Ruleset(string("Stargate Atlantis")), exBadName);
-    BOOST_CHECK_THROW(Ruleset(string("24")), exBadName);
-    BOOST_CHECK_THROW(Ruleset(string("z:\\The Simpsons")), exBadName);
+//    BOOST_CHECK_THROW(Ruleset(string("Stargate Atlantis")), exBadName);
+//    BOOST_CHECK_THROW(Ruleset(string("24")), exBadName);
+//    BOOST_CHECK_THROW(Ruleset(string("z:\\The Simpsons")), exBadName);
     BOOST_CHECK_THROW(Ruleset(string("x:\\strangeDir\\The Simpsons.db3")),exDbError);
     BOOST_CHECK_THROW(Ruleset(string("c:\\myDir\\xyz\\24.RULESET")),exDbError);
     BOOST_CHECK_THROW(Ruleset(string("x:\\The Simpsons.ruleset")),exDbError);

@@ -88,7 +88,7 @@ class InputRule {
         //---------------------------------------------------------------------
         //  constructors
 
-        //! disabled for your convinience
+        //! disabled for your
         InputRule(const InputRule&) : mRow(NULL, "regexes") { throw runtime_error("not implemented"); };
 
         //---------------------------------------------------------------------

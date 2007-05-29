@@ -21,6 +21,7 @@ using boost::regex;
 using boost::smatch;
 using namespace boost::filesystem;
 
+
 using namespace std;
 
 #include <windows.h>
@@ -36,7 +37,6 @@ enum consoleStates{
 };
 
 //  Implementations
-
 class colorString {
 	public:
         enum farben {
@@ -81,6 +81,21 @@ class colorString {
 	private:
         string mValue;
         farben mColor;
+};
+
+class consoleState {
+	public:
+		virtual ~consoleState() {};
+
+		/**
+            If NULL is returend this state will be deleted.
+		*/
+		virtual consoleState* command(string cmd, string param) = 0;
+
+		/**
+            If FALSE is returend this state will be deleted.
+		*/
+		virtual bool enterState() { return true; };
 };
 
 string getUserInput(string sQuestion, string sRegex) {
@@ -201,14 +216,12 @@ regex buildRegex(vector<string> samples) {
     return regex();
 }
 
+int train(Ruleset& rules, vector<path> files);
+
 int main(int argc, char** argv) {
     try {
-        //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
-        boost::filesystem::path::default_name_check(boost::filesystem::native);
-
         //Zufallsgenerator initialisieren
         srand(time(NULL));
-
 
         // Declare the supported options.
         po::options_description desc("Allowed options");
@@ -246,52 +259,58 @@ int main(int argc, char** argv) {
 
         //enumarate files
         vector<string> filesFullpath = vm["inputFile"].as<vector<string> >();
-        vector<string> fileNames;
+        vector<path> fileNames;
         for (vector<string>::iterator it = filesFullpath.begin();
              it!=filesFullpath.end();it++ ) {
 
                path file(*it);
                //cout << basename(file.leaf()) << endl;
-               fileNames.push_back(basename(file.leaf()));
+//               fileNames.push_back(basename(file.leaf()));
+                if (!is_directory(*it)) {
+                    fileNames.push_back(*it);
+                }
          }
 
+        if (vm.count("ruleSet")) {
+        	return train(ruleSet, fileNames);
+        }
 
 //        regex newRegex = buildRegex(fileNames);
 //        cout << "newRegex " << newRegex << endl;
 //        return 0;
 
-        stringstream strResult;
-        OutputFormat* actFormatPtr = NULL;
-        InputRule* actRulePtr = NULL;
+//        stringstream strResult;
+//        OutputFormat* actFormatPtr = NULL;
+//        InputRule* actRulePtr = NULL;
 
-        consoleStates currentState = MANAGE_OUTPUTFORMATS;
-        stack<PropertyObject*> propertyStack;
-
-
-        while (currentState != QUIT) {
-            system("cls");
-            string sChoice;
-
-            cout    << "current position: "
-                    << ruleSet.getName() << "/";
-            if (actFormatPtr) {
-                cout << colorString(colorString::dunkelgruen, actFormatPtr->getFormat()) << "/";
-            }
-
-            if (actRulePtr) {
-                cout << colorString(colorString::gruen, actRulePtr->getRegex()) << "/";
-            }
-            cout << endl << endl;
-
-
-            switch (currentState) {
-                case MANAGE_OUTPUTFORMATS: {
-                    currentState = manageOutputFormats(propertyStack);
-                    break;
-                }
-            }; //switch state
-
-        }
+//        consoleStates currentState = MANAGE_OUTPUTFORMATS;
+//        stack<PropertyObject*> propertyStack;
+//
+//
+//        while (currentState != QUIT) {
+//            system("cls");
+//            string sChoice;
+//
+//            cout    << "current position: "
+//                    << ruleSet.getName() << "/";
+//            if (actFormatPtr) {
+//                cout << colorString(colorString::dunkelgruen, actFormatPtr->getFormat()) << "/";
+//            }
+//
+//            if (actRulePtr) {
+//                cout << colorString(colorString::gruen, actRulePtr->getRegex()) << "/";
+//            }
+//            cout << endl << endl;
+//
+//
+//            switch (currentState) {
+//                case MANAGE_OUTPUTFORMATS: {
+//                    currentState = manageOutputFormats(propertyStack);
+//                    break;
+//                }
+//            }; //switch state
+//
+//        }
 
 
     } catch (exception& ex) {
@@ -305,12 +324,158 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-consoleStates manageOutputFormats(stack<PropertyObject*>) {
-    cout << "Hi!\n";
+class stateBeginTraining : public consoleState {
+	public:
+		stateBeginTraining(Ruleset& r, vector<path> f) :
+            mRules(r), mFiles(f) {};
+
+		virtual ~stateBeginTraining() {};
+		virtual consoleState* command(string cmd, string param);
+        virtual bool enterState();
+
+    private:
+        Ruleset& mRules;
+        vector<path> mFiles;
+        vector<path> mUnmatchedFiles;
+};
+
+consoleState* stateBeginTraining::command(string cmd, string param) {
+    if (cmd == "?") {
+    	cout << "Avaible commands:\n"
+                "p preview unmatched file after replacements took place\n"
+                "+ add replacement\n"
+                "? this message\n"
+                "q quit imidietly\n";
+    	return this;
+
+    } else if (cmd == "p") {
+        // show filenames after first replacements
+    	for (vector<path>::iterator it = mFiles.begin(); it!=mFiles.end(); it++) {
+    	    cout    << mRules.getBeforeReplacements()
+    	                     .replace(basename(*it))
+                    << endl;
+    	}
+    	return this;
+
+    } else if (cmd == "+") {
+
+        regex newRegex;
+        try {
+        	newRegex = param;
+        } catch (exception &ex) {
+            cout << "this does not seem to be regular expression.\n";
+            return this;
+        }
 
 
+        bool fMatchedAtLeastOne = false;
+    	for (vector<path>::iterator it = mFiles.begin(); it!=mFiles.end(); it++) {
+    	    string sTmp = mRules.getBeforeReplacements()
+                                .replace(basename(*it));
 
-    return QUIT;
-    return MANAGE_OUTPUTFORMATS;
+            if (regex_search(sTmp, newRegex) ) {
+                fMatchedAtLeastOne = true;
+            }
+    	}
+
+    	if (!fMatchedAtLeastOne) {
+    		cout << "expression did not match anything. discarding.\n";
+    		return this;
+    	}
+
+        string sReplacement;
+        cout << "replace with: ";
+        cin >> sReplacement;
+
+        mRules.getBeforeReplacements().addReplacement(param, sReplacement);
+        cout    << "replace '" << param << "' with "
+                << sReplacement << "
+                ;
+        return this;
+
+    } else {
+    	cout << "Unkown command\n";
+    	return this;
+    }
+    return NULL;
 }
 
+bool stateBeginTraining::enterState() {
+    //remove matched filenames
+    vector<path> mUnmatchedFiles;
+    for (vector<path>::iterator it = mFiles.begin(); it!=mFiles.end(); it++) {
+        string sDummy;
+        if (!exists(*it)) {
+        	cout << "File '" << it->file_string() << "' does not exist\n";
+
+        }else if (!mRules.applyTo(it->file_string(), sDummy)) {
+            mUnmatchedFiles.push_back(*it);
+        }
+    }
+
+    if (mUnmatchedFiles.size() > 0) {
+    	cout    << "there are " << mUnmatchedFiles.size()
+                << " unmatched files left\n";
+    } else {
+    	cout    << "all " << mFiles.size()
+                << " files matched. quiting training session.\n";
+    }
+
+    return (mUnmatchedFiles.size() > 0);
+}
+
+int train(Ruleset& rules, vector<path> files) {
+
+    stack<consoleState*> stateStack;
+    stateStack.push( new stateBeginTraining(rules, files));
+    consoleState* lastState = NULL;
+    while (stateStack.size() > 0) {
+
+    	consoleState* currentState = stateStack.top();
+        if  ((lastState!=currentState) && (!currentState->enterState())) {
+            stateStack.pop();
+            delete currentState;
+            break;
+        }
+        lastState=currentState;
+
+    	string sInput = getUserInput("", ".+");
+
+    	const regex splitCmdWithParam("^ *([^ ]) *(.*)$");
+    	const regex splitCmdWithoutParam("^ *([^ ]) *$");
+    	smatch what;
+        string sCmd;
+        string sParam;
+        if (regex_match(sInput, what, splitCmdWithParam)) {
+            exAssert(what.size() == 3);
+            sCmd = what[1];
+            sParam = what[2];
+
+        } else if (regex_match(sInput, what, splitCmdWithoutParam)) {
+            exAssert(what.size() == 2);
+            sCmd = what[1];
+
+        } else {
+        	throw runtime_error("could not parse user input");
+        }
+
+    	if (what[1] == "q") {
+    		while (stateStack.size() > 0) {
+    			delete stateStack.top();
+    			stateStack.pop();
+    		}
+    		break;
+    	}
+
+    	consoleState* nextState = currentState->command(what[1], what[2]);
+    	if (nextState == NULL) {
+    		delete currentState;
+    		stateStack.pop();
+
+    	} else if (currentState != nextState) {
+            stateStack.push(nextState);
+    	}
+    }
+
+    return 0;
+};

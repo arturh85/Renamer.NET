@@ -63,7 +63,7 @@ class Ruleset
         //! gets a collection of OutputFormat objects
         vector<OutputFormat*> getOutputFormats();
 
-        string getName() const;
+//        string getName() const;
         string getFilename() const;
 
         ///these are applied before anything else is done with the filename
@@ -72,17 +72,19 @@ class Ruleset
         ///these are applied at the very end of everyting
         Replacements& getAfterReplacements() const { return *mAfterReplacementsPtr; };
 
-
-        //! gui convinience
+        //! gui convenience
         OutputFormat& getOutputFormat(sqlite_int64 rowid)
             { if (mChildren.count(rowid)==0) throw exNoSuchId();
               return *(mChildren[rowid]); };
 
-        //! gui convinience
+        //! gui convenience
         InputRule& getInputRule(sqlite_int64 rowid);
 
-        //! gui convinience
+        //! gui convenience
         Gem& getGem(sqlite_int64 rowid);
+
+        //! gui convenience
+        Replacement getReplacement(sqlite_int64 rowid);
 
         //! save this object and all its children
         void save();
@@ -94,7 +96,7 @@ class Ruleset
 
     private:
         //  attributes
-        string mName;
+//        string mName;
         string mFilename;
         sqlite3* mDb;
         Replacements* mBeforeReplacementsPtr;
@@ -108,17 +110,21 @@ class Ruleset
         //! opens Db
         void loadDb(boost::filesystem::path dbFile);
 
-};
-
-class exBadName : public runtime_error {
-	public:
-		exBadName() : runtime_error("bad name") {};
-		virtual ~exBadName()  throw() {};
-	protected:
-
-	private:
+        //! disabled for your convenience
+        Ruleset ::Ruleset (Ruleset &)
+            { throw runtime_error("not implemented"); };
 
 };
+
+//class exBadName : public runtime_error {
+//	public:
+//		exBadName() : runtime_error("bad name") {};
+//		virtual ~exBadName()  throw() {};
+//	protected:
+//
+//	private:
+//
+//};
 
 class exDbError : public runtime_error {
 	public:

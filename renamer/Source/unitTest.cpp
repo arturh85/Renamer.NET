@@ -17,10 +17,6 @@ void testBoostFileSystem();
 test_suite*
 init_unit_test_suite( int, char* [] ) {
 
-  //PathObjekte validieren. Damit sie dass auch "sinnvoll" tun:
-  using namespace boost::filesystem;
-  path::default_name_check(native);
-
   //Zufallsgenerator initialisieren
   srand(time(NULL));
 

@@ -79,11 +79,11 @@ void Gem::unitTest() {
 
     sqlite3* db;
 //    using namespace boost::filesystem;
-//    path dbFileName = initial_path()/"unitTest_Gem.db3";
+//    path dbFileName = initial_path<path>()/"unitTest_Gem.db3";
 //    if (exists(dbFileName))
 //        boost::filesystem::remove(dbFileName);
 //
-//    if(sqlite3_open(dbFileName.native_file_string().c_str(), &db)) {
+//    if(sqlite3_open(dbFileName.file_string().c_str(), &db)) {
     if(sqlite3_open(":memory:", &db)) {
         sqlite3_close(db);
         throw std::runtime_error("could not open database file");

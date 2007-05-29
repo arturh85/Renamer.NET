@@ -11,14 +11,17 @@
 #pragma warning(disable : 4099)
 #endif
 
+//#error TESTING2
+
 //  sqlite
 #include <sqlite3.h>
 
 // Boost
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem.hpp>
+//#include <boost/filesystem/operations.hpp>
+//#include <boost/filesystem/path.hpp>
 //#include <boost/filesystem/convenience.hpp>
 //#include <boost/filesystem/exception.hpp>
 
