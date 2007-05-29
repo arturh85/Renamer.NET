@@ -40,8 +40,8 @@ class Replacements {
 
         sqlite3* mDb;
 
-        /** this is stored as an attribute, because we dont
-            wont add an entry to the replacementGroups table
+        /** this is stored as an attribute, because we don't
+            want add an entry to the replacementGroups table
             even if there are no replacements. to do this a row
             is only inserted in the addReplacement method.
         */

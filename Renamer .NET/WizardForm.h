@@ -65,196 +65,131 @@ namespace RenamerNET {
 		}
 #pragma endregion
 #pragma region Variables
-	protected: enum class Step {
-				   RULESET_SELECT = 0,
-				   BEFORE_REPLACEMENTS = 1,
-				   OUTPUTFORMAT_SELECT = 2,
-				   INPUTRULES_SELECT = 3,
-				   GEMS_SELECT = 4,
-/*				   AFTER_REPLACEMENTS = 5,
-				   RENAME = 6,*/
-				   MAX = 5
-			   };
+protected: enum class Step {
+	RULESET_SELECT = 0,
+	BEFORE_REPLACEMENTS = 1,
+	OUTPUTFORMAT_SELECT = 2,
+	INPUTRULES_SELECT = 3,
+	GEMS_SELECT = 4,
+/*	
+	AFTER_REPLACEMENTS = 5,
+	RENAME = 6,*/
+	MAX = 5
+};
 
-			 // Business Logic Member Variables
-	private: Ruleset* mRuleset;
-	private: sqlite_int64 mOutputFormatID;
-	private: sqlite_int64 mInputRuleID;
-	private: sqlite_int64 mGemID;
-	private: List<String^> mFiles;
-	private: List<String^> mKnownRulesets;
-	private: Step mStep;
-	private: Step mMaxStep;
-	private: bool mShowOnlyMatchingFiles;
-	private: List<Panel^>^ mStepPanelList;
-	private: List<ToolStripButton^>^ mStepButtonList;
-	private: System::ComponentModel::ComponentResourceManager^  mCustomStrings;
+		 // Business Logic Member Variables
+private: Ruleset* mRuleset;
+private: sqlite_int64 mOutputFormatID;
+private: sqlite_int64 mInputRuleID;
+private: sqlite_int64 mGemID;
+private: List<String^> mFiles;
+private: List<String^> mKnownRulesets;
+private: Step mStep;
+private: Step mMaxStep;
+private: bool mShowOnlyMatchingFiles;
+private: List<Panel^>^ mStepPanelList;
+private: List<ToolStripButton^>^ mStepButtonList;
+private: System::ComponentModel::ComponentResourceManager^  mCustomStrings;
 
-			 // Tool Strip with Buttons for each Step
-	private: System::Windows::Forms::ToolStrip^  tsStepButtons;
-	private: System::Windows::Forms::ToolStripButton^  tsStepRuleset;
-	private: System::Windows::Forms::ToolStripButton^  tsStepBeforeReplacements;
-	private: System::Windows::Forms::ToolStripButton^  tsStepOutputFormat;
-	private: System::Windows::Forms::ToolStripButton^  tsStepInputRule;
-	private: System::Windows::Forms::ToolStripButton^  tsStepGems;
-	private: System::Windows::Forms::ToolStripButton^  tsStepAfterReplacements;
-	private: System::Windows::Forms::ToolStripButton^  tsStepRename;
+		 // Tool Strip with Buttons for each Step
+private: System::Windows::Forms::ToolStrip^  tsStepButtons;
+private: System::Windows::Forms::ToolStripButton^  tsStepRuleset;
+private: System::Windows::Forms::ToolStripButton^  tsStepBeforeReplacements;
+private: System::Windows::Forms::ToolStripButton^  tsStepOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsStepInputRule;
+private: System::Windows::Forms::ToolStripButton^  tsStepGems;
+private: System::Windows::Forms::ToolStripButton^  tsStepAfterReplacements;
+private: System::Windows::Forms::ToolStripButton^  tsStepRename;
 
-			 // Parent Panel for Step Panels
-	private: System::Windows::Forms::Panel^  panelStepContent;
+		 // Parent Panel for Step Panels
+private: System::Windows::Forms::Panel^  panelStepContent;
 
-			 // Panels
-	private: System::Windows::Forms::Panel^  panelStepRuleset;
-	private: System::Windows::Forms::Panel^  panelStepBeforeReplacements;
-	private: System::Windows::Forms::Panel^  panelStepOutputFormat;
-	private: System::Windows::Forms::Panel^  panelStepInputRule;
-	private: System::Windows::Forms::Panel^  panelStepGems;
-	private: System::Windows::Forms::Panel^  panelStepAfterReplacements;
-	private: System::Windows::Forms::Panel^  panelStepRename;
+		 // Panels
+private: System::Windows::Forms::Panel^  panelStepRuleset;
+private: System::Windows::Forms::Panel^  panelStepBeforeReplacements;
+private: System::Windows::Forms::Panel^  panelStepOutputFormat;
+private: System::Windows::Forms::Panel^  panelStepInputRule;
+private: System::Windows::Forms::Panel^  panelStepGems;
+private: System::Windows::Forms::Panel^  panelStepAfterReplacements;
+private: System::Windows::Forms::Panel^  panelStepRename;
+private: System::Windows::Forms::Panel^  panelFilelist;
+private: System::Windows::Forms::Panel^  panelNavigation;
+private: System::Windows::Forms::Panel^  panelCboRulesets;
+private: System::Windows::Forms::Panel^  panelLstOutputFormats;
+private: System::Windows::Forms::Panel^  panelTxtOutputFormat;
+private: System::Windows::Forms::Panel^  panelLstInputRules;
+private: System::Windows::Forms::Panel^  panelTxtInputRule;
+private: System::Windows::Forms::SplitContainer^  splitContainer;
 
-	private: System::Windows::Forms::Panel^  panelFilelist;
-	private: System::Windows::Forms::Panel^  panelNavigation;
-	private: System::Windows::Forms::Panel^  panelCboRulesets;
+		 // Buttons for switching between the steps
+private: System::Windows::Forms::Button^  buttonPreviousStep;
+private: System::Windows::Forms::Button^  buttonNextStep;
 
+		 // Panel 'Ruleset'
+private: System::Windows::Forms::SaveFileDialog^  saveRulesetFileDialog;
+private: System::Windows::Forms::OpenFileDialog^  openRulesetFileDialog;
 
-	private: System::Windows::Forms::Panel^  panelLstOutputFormats;
-	private: System::Windows::Forms::Panel^  panelTxtOutputFormat;
+		 // Panel 'BeforeReplacements'
+private: System::Windows::Forms::DataGridView^  gridBeforeReplacements;
 
+		 // Panel 'OutputFormats'
+private: System::Windows::Forms::ListBox^  lstOutputFormat;
+private: System::Windows::Forms::RichTextBox^  txtOutputFormat;
 
-	private: System::Windows::Forms::Panel^  panelLstInputRules;
+private: System::Windows::Forms::ToolStrip^  tsOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsAddOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsDeleteOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsDuplicateOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsSaveOutputFormat;
 
-	private: System::Windows::Forms::Panel^  panelTxtInputRule;
+		 // Panel 'InputRules'
+private: System::Windows::Forms::RichTextBox^  txtInputRule;
+private: System::Windows::Forms::ListBox^  lstInputRules;
 
+private: System::Windows::Forms::ToolStrip^  tsInputRuleButtons;
+private: System::Windows::Forms::ToolStripButton^  tsAddInputRule;
+private: System::Windows::Forms::ToolStripButton^  tsRemoveInputRule;
+private: System::Windows::Forms::ToolStripButton^  tsDuplicateInputRule;
 
-
-
-
-	private: System::Windows::Forms::SplitContainer^  splitContainer;
-
-			 // Buttons for switching between the steps
-	private: System::Windows::Forms::Button^  buttonPreviousStep;
-	private: System::Windows::Forms::Button^  buttonNextStep;
-
-			 // Panel 'Ruleset'
-	private: System::Windows::Forms::SaveFileDialog^  saveRulesetFileDialog;
-	private: System::Windows::Forms::OpenFileDialog^  openRulesetFileDialog;
-
-
-			 // Panel 'BeforeReplacements'
-	private: System::Windows::Forms::DataGridView^  gridBeforeReplacements;
-
-			 // Panel 'OutputFormats'
-	private: System::Windows::Forms::ListBox^  lstOutputFormat;
-	private: System::Windows::Forms::RichTextBox^  txtOutputFormat;
-
-	private: System::Windows::Forms::ToolStrip^  tsOutputFormat;
-	private: System::Windows::Forms::ToolStripButton^  tsAddOutputFormat;
-	private: System::Windows::Forms::ToolStripButton^  tsDeleteOutputFormat;
-	private: System::Windows::Forms::ToolStripButton^  tsDuplicateOutputFormat;
-	private: System::Windows::Forms::ToolStripButton^  tsSaveOutputFormat;
-
-			 // Panel 'InputRules'
-	private: System::Windows::Forms::RichTextBox^  txtInputRule;
-	private: System::Windows::Forms::ListBox^  lstInputRules;
-
-	private: System::Windows::Forms::ToolStrip^  tsInputRuleButtons;
-	private: System::Windows::Forms::ToolStripButton^  tsAddInputRule;
-	private: System::Windows::Forms::ToolStripButton^  tsRemoveInputRule;
-	private: System::Windows::Forms::ToolStripButton^  tsDuplicateInputRule;
-
-			 // Panel 'fileList'
-	private: System::Windows::Forms::ToolStrip^  tsFileList;
-	private: System::Windows::Forms::ToolStripButton^  tsAddFiles;
-	private: System::Windows::Forms::ToolStripButton^  tsRemoveFileFromList;
-	private: System::Windows::Forms::ToolStripButton^  tsApplyChanges;
+		 // Panel 'fileList'
+private: System::Windows::Forms::ToolStrip^  tsFileList;
+private: System::Windows::Forms::ToolStripButton^  tsAddFiles;
+private: System::Windows::Forms::ToolStripButton^  tsRemoveFileFromList;
+private: System::Windows::Forms::ToolStripButton^  tsApplyChanges;
 private: System::Windows::Forms::ToolStrip^  tsTxtOutputFormat;
 
 			 // Controls for the Panel 'Gems'
 			 // Controls for the Panel 'AfterReplacements'
 			 // Controls for the Panel 'Rename'
-
-
-
-
-
-
-
-
-
 	// Container for the Panel of the current Step (Panel Child will have Dock = Fill)
-
-		
     // List of all files relevant to current ruleset
-
-
 	// tool strip for file list operations
-
-
-
-
-
-
-
-
     // to do: categorize the remaining Controls or make them non-member variables
 
-
-
-
-
-
-
-
-
-
-
-
 private: System::Windows::Forms::ListView^  fileList;
-
-
-
-
 private: System::Windows::Forms::OpenFileDialog^  fileListopenFileDiag;
 private: System::Windows::Forms::ColumnHeader^  chFile;
 private: System::Windows::Forms::DataGridView^  gridAfterReplacements;
-
-
-
-
 private: System::Windows::Forms::ToolStrip^  tsRuleset;
-
 private: System::Windows::Forms::ToolStripButton^  tsLoadRulesetDialog;
 private: System::Windows::Forms::ToolStripButton^  tsSaveRulesetDialog;
 private: System::Windows::Forms::ComboBox^  cboRulesets;
 private: System::Windows::Forms::ToolStripButton^  tsDebugAddFiles;
-
 private: System::Windows::Forms::ToolStrip^  toolStrip3;
 private: System::Windows::Forms::ToolStripButton^  tsSaveInputRule;
 private: System::Windows::Forms::DataGridView^  gridGems;
 private: System::Windows::Forms::ToolStripButton^  tsDebugLoadRuleset;
-
-
-
 private: System::Windows::Forms::RichTextBox^  txtGemInputRule;
-
-
 private: System::Windows::Forms::Button^  buttonRenameFiles;
 private: System::Windows::Forms::Label^  messageLabel;
 private: System::Windows::Forms::TextBox^  txtOutputFormatBorder;
-
 private: System::Windows::Forms::TextBox^  txtInputRuleBorder;
 private: System::Windows::Forms::Label^  label12;
 private: System::Windows::Forms::Label^  label13;
-
-
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsGroupID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsSearch;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsReplace;
-
-
-
-
 private: System::Windows::Forms::Button^  buttonLanguageDE;
 private: System::Windows::Forms::Button^  buttonLanguageEN;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsID;
@@ -265,12 +200,6 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  GemColumnPosition;
 private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
-
-
-
-
-
-
 
 	// .net container
 	private: System::ComponentModel::IContainer^  components;
@@ -1239,583 +1168,618 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 		}
 #pragma endregion
 #pragma region Business Code
-		void loadRulesetListFromRegistry() {
-			// load list of known rulesets from registry
-			String^ lastRulesets = Microsoft::VisualBasic::Interaction::GetSetting("Renamer", "Settings", "KnownRulesets", "--empty--");
-
-			if(lastRulesets != "--empty--" && lastRulesets != "") {
-				array<String^>^ rulesetNames = lastRulesets->Split('|');
-				for(int i=0; i<rulesetNames->Length; i++) {
-					String^ rulesetName = rulesetNames[i];
-					if(IO::File::Exists(rulesetName)) {
-						mKnownRulesets.Add(rulesetName);
-					}
-				}
-			}
+void applyChanges(Step step) {
+	if(step == Step::RULESET_SELECT) {
+		reloadFileList();
+		if(aFileCouldBeRenamed()) {
+			addColumnToFileListForResult();
 		}
-
-		void saveRulesetListToRegistry() {
-			String^ rulesetStringList = L"";
-
-			for(int i=0; i<mKnownRulesets.Count; i++) {
-				rulesetStringList += mKnownRulesets[i];
-				// don't add a | on the end of the list, only in between filenames
-				if(i < (mKnownRulesets.Count - 1)) 
-					rulesetStringList += L"|";
-			}
-
-			Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "KnownRulesets", rulesetStringList);
-		}
-
-
-		bool aFileCouldBeRenamed() {
-			bool found = false;
-			for(int i=0; i<fileList->Items->Count; i++) {
-				ListViewItem^ item = fileList->Items[i];
-				String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
-
-				string outputFilename;
-				if(mRuleset->applyTo(toStlString(originalFilenameWithPath), outputFilename)) {
-					found = true;
-				}
-			}
-			return found;
-		}
-
-		void addColumnToFileListForResult() {
-			fileList->Columns->Add(mCustomStrings->GetString(L"Columns.RenamingResult"));
-
-			for(int i=fileList->Items->Count - 1; i>=0; i--) {
-				ListViewItem^ item = fileList->Items[i];
-				String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
-				String^ fileName = System::IO::Path::GetFileNameWithoutExtension(originalFilenameWithPath);
-
-
-				string outputFilename;
-
-				if(mRuleset->applyTo(toStlString(originalFilenameWithPath), outputFilename)) {
-					ListViewItem::ListViewSubItem^ subitem = gcnew ListViewItem::ListViewSubItem();
-					subitem->Text = Path::GetFileNameWithoutExtension(toClrString(outputFilename));
-					item->SubItems->Add(subitem);
-				} else if(mShowOnlyMatchingFiles) {
-					fileList->Items->Remove(item);
-				}
-			}
-
-			fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
-			fileList->Columns[1]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
-		}
-
-		void applyChanges(Step step) {
-			fileList->BeginUpdate();
-			LockWindowUpdate((HWND) (int) fileList->Handle);
-			if(step == Step::RULESET_SELECT) {
-				reloadFileList();
-				if(aFileCouldBeRenamed()) {
-					addColumnToFileListForResult();
-				}
-			} else if (step == Step::BEFORE_REPLACEMENTS) {
-				saveBeforeReplacements();
-				reloadFileList();
-				applyBeforeReplacements();
-			} else if (step == Step::OUTPUTFORMAT_SELECT) {
-				reloadFileList();
-				applyBeforeReplacements();
-			} else if (step == Step::INPUTRULES_SELECT) {
-				reloadFileList();
-				applyBeforeReplacements();
-				applyInputRules();
-			} else if (step == Step::GEMS_SELECT) {
-				saveGems();
-				reloadFileList();
-				applyBeforeReplacements();
-				applyGems();
-/*			} else if (step == Step::AFTER_REPLACEMENTS) {
-				saveAfterReplacements();
-				reloadFileList();
-				applyBeforeReplacements();
-				applyGems();
-				applyAfterReplacements();
-			} else if (step == Step::RENAME) {
-				reloadFileList();
-				applyBeforeReplacements();
-				applyGems();
-				applyAfterReplacements();*/
-			}
-			LockWindowUpdate((HWND) 0);
-			fileList->EndUpdate();
-		}
+	} else if (step == Step::BEFORE_REPLACEMENTS) {
+		saveBeforeReplacements();
+		reloadFileList();
+		applyBeforeReplacements();
+	} else if (step == Step::OUTPUTFORMAT_SELECT) {
+		reloadFileList();
+		applyBeforeReplacements();
+	} else if (step == Step::INPUTRULES_SELECT) {
+		reloadFileList();
+		applyBeforeReplacements();
+		applyInputRules();
+	} else if (step == Step::GEMS_SELECT) {
+		saveGems();
+		reloadFileList();
+		applyBeforeReplacements();
+		applyGems();
+/*			
+	} else if (step == Step::AFTER_REPLACEMENTS) {
+		saveAfterReplacements();
+		reloadFileList();
+		applyBeforeReplacements();
+		applyGems();
+		applyAfterReplacements();
+	} else if (step == Step::RENAME) {
+		reloadFileList();
+		applyBeforeReplacements();
+		applyGems();
+		applyAfterReplacements();*/
+	}
+}
 	
-		void reloadFileList() {
-			if(fileList->Columns->Count > 1) {
-				for(int i=fileList->Columns->Count - 1; i>=1; i--) {
-					fileList->Columns->RemoveAt(i);
-				}
-			}
+void reloadFileList() {
+	fileList->BeginUpdate();
+	LockWindowUpdate((HWND) (int) fileList->Handle);
 
-			fileList->Items->Clear();
-
-			for(int i=0; i<mFiles.Count; i++) {
-				String^ fileName = System::IO::Path::GetFileNameWithoutExtension(mFiles[i]);
-				ListViewItem^ item = gcnew ListViewItem(fileName);
-				item->Tag = i;
-				fileList->Items->Add(item);
-			}
-
-			if(fileList->Items->Count > 0)
-				fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
-			else
-				fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::HeaderSize);
+	if(fileList->Columns->Count > 1) {
+		for(int i=fileList->Columns->Count - 1; i>=1; i--) {
+			fileList->Columns->RemoveAt(i);
 		}
+	}
 
-		void disableTxtOutputFormat() {
-			txtOutputFormat->Enabled = false;
-			txtOutputFormat->Text = mCustomStrings->GetString(L"Strings.NoOutputFormatSelected");
+	fileList->Items->Clear();
+
+	for(int i=0; i<mFiles.Count; i++) {
+		String^ fileName = System::IO::Path::GetFileNameWithoutExtension(mFiles[i]);
+		ListViewItem^ item = gcnew ListViewItem(fileName);
+		item->Tag = i;
+		fileList->Items->Add(item);
+	}
+
+	if(fileList->Items->Count > 0)
+		fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
+	else
+		fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::HeaderSize);
+	fileList->EndUpdate();
+	LockWindowUpdate((HWND) 0);
+}
+
+void disableTxtOutputFormat() {
+	txtOutputFormat->Enabled = false;
+	txtOutputFormat->Text = mCustomStrings->GetString(L"Strings.NoOutputFormatSelected");
+}
+
+void disableTxtInputRule() {
+	txtInputRule->Enabled = false;
+	txtInputRule->Text = mCustomStrings->GetString(L"Strings.NoInputRuleSelected");
+}
+
+bool aFileCouldBeRenamed() {
+	if(mRuleset == NULL)
+		return false;
+
+	bool found = false;
+	for(int i=0; i<fileList->Items->Count; i++) {
+		ListViewItem^ item = fileList->Items[i];
+		String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
+
+		string outputFilename;
+		if(mRuleset->applyTo(toStlString(originalFilenameWithPath), outputFilename)) {
+			found = true;
 		}
+	}
+	return found;
+}
 
-		void disableTxtInputRule() {
-			txtInputRule->Enabled = false;
-			txtInputRule->Text = mCustomStrings->GetString(L"Strings.NoInputRuleSelected");
+void addColumnToFileListForResult() {
+	if(mRuleset == NULL)
+		return ;
+
+	fileList->BeginUpdate();
+	LockWindowUpdate((HWND) (int) fileList->Handle);
+
+	fileList->Columns->Add(mCustomStrings->GetString(L"Columns.RenamingResult"));
+
+	for(int i=fileList->Items->Count - 1; i>=0; i--) {
+		ListViewItem^ item = fileList->Items[i];
+		String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
+		String^ fileName = System::IO::Path::GetFileNameWithoutExtension(originalFilenameWithPath);
+
+
+		string outputFilename;
+
+		if(mRuleset->applyTo(toStlString(originalFilenameWithPath), outputFilename)) {
+			ListViewItem::ListViewSubItem^ subitem = gcnew ListViewItem::ListViewSubItem();
+			subitem->Text = Path::GetFileNameWithoutExtension(toClrString(outputFilename));
+			item->SubItems->Add(subitem);
+		} else if(mShowOnlyMatchingFiles) {
+			fileList->Items->Remove(item);
 		}
+	}
 
-		void applyGems() {
-			fileList->Columns->Add("Result");
+	fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
+	fileList->Columns[1]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
 
-			for(int i=0; i<fileList->Items->Count; i++) {
-				string resultingFilename;
-				if(mRuleset->applyTo(toStlString(fileList->Items[i]->Text), resultingFilename)) {
-					fileList->Items[i]->SubItems->Add(toClrString(resultingFilename));
-				}
+	fileList->EndUpdate();
+	LockWindowUpdate((HWND) 0);
+}
+
+void applyGems() {
+	fileList->BeginUpdate();
+	LockWindowUpdate((HWND) (int) fileList->Handle);
+
+	fileList->Columns->Add("Result");
+
+	for(int i=0; i<fileList->Items->Count; i++) {
+		string resultingFilename;
+		if(mRuleset->applyTo(toStlString(fileList->Items[i]->Text), resultingFilename)) {
+			fileList->Items[i]->SubItems->Add(toClrString(resultingFilename));
+		}
+	}
+
+	InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
+	vector<Gem*> gems = inputRule.getGems();
+	vector<GemValue> gemValues;
+
+	for(int i=0; i<fileList->Items->Count; i++) {
+		gemValues.clear();
+		if(inputRule.applyTo(toStlString(fileList->Items[i]->Text), gemValues)) {
+			if(fileList->Columns->Count == 2) {
+				for(unsigned j=0; j<gems.size(); j++)
+					fileList->Columns->Add(toClrString(gems[j]->getName()));
 			}
-
-			InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
-			vector<Gem*> gems = inputRule.getGems();
-			vector<GemValue> gemValues;
-
-			for(int i=0; i<fileList->Items->Count; i++) {
-				gemValues.clear();
-				if(inputRule.applyTo(toStlString(fileList->Items[i]->Text), gemValues)) {
-					if(fileList->Columns->Count == 2) {
-						for(unsigned j=0; j<gems.size(); j++)
-							fileList->Columns->Add(toClrString(gems[j]->getName()));
-					}
-					for(unsigned j=0; j<gemValues.size(); j++) {
-						fileList->Items[i]->SubItems->Add(toClrString(gemValues[j].value));
-					}
-				}
+			for(unsigned j=0; j<gemValues.size(); j++) {
+				fileList->Items[i]->SubItems->Add(toClrString(gemValues[j].value));
 			}
-
-			fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
-			fileList->Columns[1]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
 		}
+	}
 
-		void updateInputRuleGems(sqlite_int64 inputRuleRowId) {
-			InputRule& inputRule = mRuleset->getInputRule(inputRuleRowId);
-			OutputFormat& outputFormat = mRuleset->getOutputFormat(inputRule.getOutputFormatId());
+	fileList->Columns[0]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
+	fileList->Columns[1]->AutoResize(ColumnHeaderAutoResizeStyle::ColumnContent);
 
-			vector<string> gemNames;
-			
-			if(outputFormat.parse(gemNames)) {
-				vector<Gem*> gems = inputRule.getGems();
-				
-				// array of elements parsed out of OutputFormat
-				for(unsigned i = 0; i<gemNames.size(); i++) {
-					bool found = false;
+	fileList->EndUpdate();
+	LockWindowUpdate((HWND) 0);
+}
+
+void loadRulesetListFromRegistry() {
+	// load list of known rulesets from registry
+	String^ lastRulesets = Microsoft::VisualBasic::Interaction::GetSetting("Renamer", "Settings", "KnownRulesets", "--empty--");
+
+	if(lastRulesets != "--empty--" && lastRulesets != "") {
+		array<String^>^ rulesetNames = lastRulesets->Split('|');
+		for(int i=0; i<rulesetNames->Length; i++) {
+			String^ rulesetName = rulesetNames[i];
+			if(IO::File::Exists(rulesetName)) {
+				mKnownRulesets.Add(rulesetName);
+			}
+		}
+	}
+}
+
+void saveRulesetListToRegistry() {
+	String^ rulesetStringList = L"";
+
+	for(int i=0; i<mKnownRulesets.Count; i++) {
+		rulesetStringList += mKnownRulesets[i];
+		// don't add a | on the end of the list, only in between filenames
+		if(i < (mKnownRulesets.Count - 1)) 
+			rulesetStringList += L"|";
+	}
+
+	Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "KnownRulesets", rulesetStringList);
+}
+
+void updateInputRuleGems(sqlite_int64 inputRuleRowId) {
+	InputRule& inputRule = mRuleset->getInputRule(inputRuleRowId);
+	OutputFormat& outputFormat = mRuleset->getOutputFormat(inputRule.getOutputFormatId());
+
+	vector<string> gemNames;
 	
-					// array of already existing Gems and their Names
-					unsigned j;
-					for(j = 0; j<gems.size(); j++) {
-						// found is true if the GemName is already in use
-						if(gems[j]->getName() == gemNames[i])  {
-							found = true;
-							// case: UPDATE
-							gems[j]->setName(gemNames[i]);
-							break;
-						}						
-					}
-
-					// case: INSERT
-					if(found == false) {
-						inputRule.addGem(gemNames[i]);
-					}
-				}
-
-				for(unsigned i=0; i<gems.size(); i++) {
-					bool found = false;
-
-					for(unsigned j=0; j<gemNames.size(); j++) {
-						if(gems[i]->getName() == gemNames[j])  { 
-							found = true;
-						}
-					}
-
-					// case: DELETE
-					if(found == false) {
-						gems[i]->remove();
-					}
-				}
-			}
-		}
-
-		void createRuleset(String^ rulesetFileName) {
-			String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(rulesetFileName);
-			exAssert(rulesetName != "");
-
-			try{
-				Ruleset* rs = new Ruleset(toStdWString(rulesetFileName));
-				setRuleset(rs);
-			}
-
-			catch(exception& e) {
-				String^ message = L"Exception: ";
-				message += toClrString(e.what());
-				MessageBox::Show(message, L"Exception!" );
-				return;
-			}
-		}
-
-		bool loadRuleset(String^ filename) 
-		{
-			if(!System::IO::File::Exists(filename)) {
-				return false;
-			}
-
-			exAssert(filename != "");
-			String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(filename);
-			exAssert(rulesetName != "");
+	gemNames = OutputFormat::parse(outputFormat.getFormat());
+	vector<Gem*> gems = inputRule.getGems();
 	
-			try {
-				Ruleset* rs = new Ruleset(toStdWString(filename));
-				setRuleset(rs);
-			}
+	// array of elements parsed out of OutputFormat
+	for(unsigned i = 0; i<gemNames.size(); i++) {
+		bool found = false;
 
-			catch(exception& e) {
-				String^ message = L"Exception: ";
-				message += toClrString(e.what());
-				MessageBox::Show(message, L"Exception!!!!" );
-				return false;
-			}
-
-			return true;
+		// array of already existing Gems and their Names
+		unsigned j;
+		for(j = 0; j<gems.size(); j++) {
+			// found is true if the GemName is already in use
+			if(gems[j]->getName() == gemNames[i])  {
+				found = true;
+				// case: UPDATE
+				gems[j]->setName(gemNames[i]);
+				break;
+			}						
 		}
 
-		void setRuleset(Ruleset* ruleset) {
-			if(mRuleset)
-				delete mRuleset;
-			mRuleset = ruleset;
-
-			String^ rulesetFilename = toClrString(ruleset->getFilename());
-			if(!mKnownRulesets.Contains(rulesetFilename)) {
-				mKnownRulesets.Add(rulesetFilename);
-				ListBoxItem^ item = gcnew ListBoxItem();
-				item->Text = Path::GetFileNameWithoutExtension(rulesetFilename);
-				item->Tag = rulesetFilename;
-				cboRulesets->Items->Add(item);
-
-				saveRulesetListToRegistry();
-			}
-
-			for(int i=0; i<cboRulesets->Items->Count; i++) {
-				ListBoxItem^ item = (ListBoxItem^) cboRulesets->Items[i];
-				String^ filenameWithPath = (String^) item->Tag;
-
-				if(rulesetFilename->Equals(filenameWithPath)) {
-					cboRulesets->SelectedIndex = i;
-					break;
-				}
-			}
-
-			refreshOutputFormatList();
-			setOutputFormat(0);
-			setInputRule(0);
-			setGem(0);
+		// case: INSERT
+		if(found == false) {
+			//! \todo: warum gibt es addGem nicht???
+			inputRule.addGem(gemNames[i]);
 		}
+	}
 
-		void setOutputFormat(sqlite_int64 id) {
-			mOutputFormatID = id;
-			refreshInputRuleList();
-			refreshMaxStep();
-		}
+	for(unsigned i=0; i<gems.size(); i++) {
+		bool found = false;
 
-		void setInputRule(sqlite_int64 id) {
-			mInputRuleID = id;
-			refreshMaxStep();
-		}
-
-		void setGem(sqlite_int64 id) {
-			mGemID = id;
-			refreshMaxStep();
-		}
-
-		//! :-)
-		void refreshMaxStep() {
-			if(mRuleset != NULL) {
-				if(mStep == Step::RULESET_SELECT && mFiles.Count == 0) {
-					setMaxStep(Step::RULESET_SELECT);
-					return ;
-				}
-
-				if(mOutputFormatID > 0) {
-/*					OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
-					vector<string> not_used;
-					if(!outputFormat.parse(not_used)) {
-						setMaxStep(Step::OUTPUTFORMAT_SELECT);
-						return ;
-					}*/
-
-					if(mInputRuleID > 0) {
-						if(mGemID > 0) {
-							setMaxStep(Step::MAX);
-						}
-
-						else {
-							setMaxStep(Step::GEMS_SELECT);
-						}
-					}
-
-					else {
-						setMaxStep(Step::INPUTRULES_SELECT);
-					}
-				}
-				else {
-					setMaxStep(Step::OUTPUTFORMAT_SELECT);
-				}
-			}
-			else {
-				setMaxStep(Step::RULESET_SELECT);
+		for(unsigned j=0; j<gemNames.size(); j++) {
+			if(gems[i]->getName() == gemNames[j])  { 
+				found = true;
 			}
 		}
 
-		void deleteRuleset(String^ rulesetFilename) {
-			File::Delete(rulesetFilename);
+		// case: DELETE
+		if(found == false) {
+			gems[i]->remove();
+		}
+	}
+}
+
+//! Creates a new ruleset. If file @ rulesetFilename does exist, it will be deleted
+void createRuleset(String^ rulesetFilename) {
+	String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(rulesetFilename);
+	exAssert(rulesetName != "");
+
+	if(File::Exists(rulesetFilename)) {
+		File::Delete(rulesetFilename);
+	}
+
+	try{
+		Ruleset* rs = new Ruleset(toStdWString(rulesetFilename));
+		setRuleset(rs);
+	}
+
+	catch(exception& e) {
+		String^ message = L"Exception: ";
+		message += toClrString(e.what());
+		MessageBox::Show(message, L"Exception!" );
+		return;
+	}
+}
+
+//! Loads an existing ruleset. This function returns false if file does not exist, or could not be loaded, otherwise true
+bool loadRuleset(String^ filename) 
+{
+	if(!System::IO::File::Exists(filename)) {
+		return false;
+	}
+
+	exAssert(filename != "");
+	String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(filename);
+	exAssert(rulesetName != "");
+
+	try {
+		Ruleset* rs = new Ruleset(toStdWString(filename));
+		setRuleset(rs);
+	}
+
+	catch(exception& e) {
+		String^ message = L"Exception: ";
+		message += toClrString(e.what());
+		MessageBox::Show(message, L"Exception" );
+		return false;
+	}
+
+	return true;
+}
+
+void setRuleset(Ruleset* ruleset) {
+	if(mRuleset)
+		delete mRuleset;
+	mRuleset = ruleset;
+
+	if(mRuleset == NULL)
+		return ;
+
+	String^ rulesetFilename = toClrString(ruleset->getFilename());
+	if(!mKnownRulesets.Contains(rulesetFilename)) {
+		mKnownRulesets.Add(rulesetFilename);
+		ListBoxItem^ item = gcnew ListBoxItem();
+		item->Text = Path::GetFileNameWithoutExtension(rulesetFilename);
+		item->Tag = rulesetFilename;
+		cboRulesets->Items->Add(item);
+
+		saveRulesetListToRegistry();
+	}
+
+	for(int i=0; i<cboRulesets->Items->Count; i++) {
+		ListBoxItem^ item = (ListBoxItem^) cboRulesets->Items[i];
+		String^ filenameWithPath = (String^) item->Tag;
+
+		if(rulesetFilename->Equals(filenameWithPath)) {
+			cboRulesets->SelectedIndex = i;
+			break;
+		}
+	}
+
+	refreshOutputFormatList();
+	setOutputFormat(0);
+	setInputRule(0);
+	setGem(0);
+}
+
+void setOutputFormat(sqlite_int64 id) {
+	mOutputFormatID = id;
+	refreshInputRuleList();
+	refreshMaxStep();
+}
+
+void setInputRule(sqlite_int64 id) {
+	mInputRuleID = id;
+	refreshMaxStep();
+}
+
+void setGem(sqlite_int64 id) {
+	mGemID = id;
+	refreshMaxStep();
+}
+
+//! :-)
+void refreshMaxStep() {
+	if(mRuleset != NULL) {
+		if(mStep == Step::RULESET_SELECT && mFiles.Count == 0) {
+			setMaxStep(Step::RULESET_SELECT);
+			return ;
 		}
 
-		void addFile( String^ pathToFile )
-		{
-			String^ fileName = System::IO::Path::GetFileNameWithoutExtension(pathToFile);
-			if(mFiles.Contains(pathToFile))
+		if(mOutputFormatID > 0) {
+/*			OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
+			vector<string> not_used;
+			if(!outputFormat.parse(not_used)) {
+				setMaxStep(Step::OUTPUTFORMAT_SELECT);
 				return ;
-			mFiles.Add(pathToFile);
-		}
-
-
-		void setMaxStep(Step newMaxStep) {
-			mMaxStep = newMaxStep;
-			setStep(mStep);
-		}
-
-		void setStep(Step newStep) {
-			if(newStep > mMaxStep) {
-				if(mStep == Step::RULESET_SELECT && newStep == Step::BEFORE_REPLACEMENTS) {
-					if(mRuleset != NULL) {
-						if(fileList->Items->Count > 0) {
-							mMaxStep = Step::OUTPUTFORMAT_SELECT;
-							refreshOutputFormatList();
-						}
-
-						else {
-							messageLabel->Text = mCustomStrings->GetString(L"Error.NoFilesAdded");
-						}
-					}
-
-					else {
-						messageLabel->Text = mCustomStrings->GetString(L"Error.NoRulesetSelected");
-//						messageLabel->Text = L"No OutputFormat selected";
-					}
-				}
-				if(mStep == Step::INPUTRULES_SELECT && newStep == Step::GEMS_SELECT) {
-					if(mRuleset && mOutputFormatID > 0) {
-						mMaxStep = Step::GEMS_SELECT;
-					}
-
-					else {
-						messageLabel->Text = mCustomStrings->GetString(L"Error.NoInputRuleSelected");
-					}
-				}
-/*				if(mStep == Step::GEMS_SELECT && newStep == Step::AFTER_REPLACEMENTS) {
-					// todo: validate gem
-					mMaxStep = Step::AFTER_REPLACEMENTS;
-				}
-				if(mStep == Step::AFTER_REPLACEMENTS && newStep == Step::RENAME) {
-					mMaxStep = Step::RENAME;
-				}*/
-			}
-
-			if(int(newStep) < 0 || int(newStep) >= int(Step::MAX) || newStep > mMaxStep) {
-				return ;
-			}
-
-			messageLabel->Text = L"";
-
-			// onEnter: Ruleset
-			if(newStep == Step::RULESET_SELECT && mStep != Step::RULESET_SELECT) {
-				onEnterStepRuleset();
-			}
-
-			// onLeave: Ruleset
-			if(mStep == Step::RULESET_SELECT && newStep != Step::RULESET_SELECT) {
-				onLeaveStepRuleset();
-			}
-
-			// onEnter: beforeReplacements
-			if(newStep == Step::BEFORE_REPLACEMENTS && mStep != Step::BEFORE_REPLACEMENTS) {
-				onEnterStepBeforeReplacements();
-			}
-
-			// onLeave: beforeReplacements
-			if(mStep == Step::BEFORE_REPLACEMENTS && newStep != Step::BEFORE_REPLACEMENTS) {
-				onLeaveStepBeforeReplacements();
-			}
-
-			// onEnter: outputFormat
-			if(newStep == Step::OUTPUTFORMAT_SELECT && mStep != Step::OUTPUTFORMAT_SELECT) {
-				onEnterStepOutputFormats();
-			}
-
-			// onLeave: outputFormat
-			if(mStep == Step::OUTPUTFORMAT_SELECT && newStep != Step::OUTPUTFORMAT_SELECT) {
-				onLeaveStepOutputFormats();
-			}
-
-			// onEnter: inputRule
-			if(newStep == Step::INPUTRULES_SELECT && mStep != Step::INPUTRULES_SELECT) {
-				onEnterStepInputRules();
-			}
-
-			// onLeave: inputRule
-			if(mStep == Step::INPUTRULES_SELECT && newStep != Step::INPUTRULES_SELECT) {
-				onLeaveStepInputRules();
-			}
-
-			// onEnter: Gems
-			if(newStep == Step::GEMS_SELECT && mStep != Step::GEMS_SELECT) {
-				onEnterStepGems();
-			}
-
-			// onLeave: Gems
-			if(mStep == Step::GEMS_SELECT && newStep != Step::GEMS_SELECT) {
-				onLeaveStepGems();
-			}
-
-/*			// onEnter: afterReplacements
-			if(newStep == Step::AFTER_REPLACEMENTS && mStep != Step::AFTER_REPLACEMENTS) {
-				onEnterStepAfterReplacements();
-			}
-
-			// onLeave: afterReplacements
-			if(mStep == Step::AFTER_REPLACEMENTS && newStep != Step::AFTER_REPLACEMENTS) {
-				onLeaveStepAfterReplacements();
-			}
-
-			// onEnter: Rename
-			if(newStep == Step::RENAME && mStep != Step::RENAME) {
-				onEnterStepRename();
-			}
-
-			// onLeave: Rename
-			if(mStep == Step::RENAME && newStep != Step::RENAME) {
-				onLeaveStepRename();
 			}*/
 
-			mStep = newStep;
-
-			for(int i=0; i<int(Step::MAX); i++) {
-				mStepPanelList[i]->Visible = false;
-				mStepPanelList[i]->Dock = DockStyle::None;
-				mStepButtonList[i]->Checked = false;
-
-				if(i > int(mMaxStep)) {
-					mStepButtonList[i]->Enabled = false;
+			if(mInputRuleID > 0) {
+				if(mGemID > 0) {
+					setMaxStep(Step::MAX);
 				}
 
 				else {
-					mStepButtonList[i]->Enabled = true;
+					setMaxStep(Step::GEMS_SELECT);
 				}
 			}
 
-			mStepPanelList[int(mStep)]->Visible = true;
-			mStepPanelList[int(mStep)]->Dock = DockStyle::Fill;
-			mStepButtonList[int(mStep)]->Checked = true;
+			else {
+				setMaxStep(Step::INPUTRULES_SELECT);
+			}
 		}
-		String^ rulesetFilenameToName(String^ filename) {
-			return Path::GetFileNameWithoutExtension(filename);
+		else {
+			setMaxStep(Step::OUTPUTFORMAT_SELECT);
 		}
+	}
+	else {
+		setMaxStep(Step::RULESET_SELECT);
+	}
+}
+
+void deleteRuleset(String^ rulesetFilename) {
+	File::Delete(rulesetFilename);
+}
+
+void addFile( String^ pathToFile )
+{
+	String^ fileName = System::IO::Path::GetFileNameWithoutExtension(pathToFile);
+	if(mFiles.Contains(pathToFile))
+		return ;
+	mFiles.Add(pathToFile);
+}
+
+
+void setMaxStep(Step newMaxStep) {
+	mMaxStep = newMaxStep;
+	setStep(mStep);
+}
+
+void setStep(Step newStep) {
+	if(newStep > mMaxStep) {
+		if(mStep == Step::RULESET_SELECT && newStep == Step::BEFORE_REPLACEMENTS) {
+			if(mRuleset != NULL) {
+				if(fileList->Items->Count > 0) {
+					mMaxStep = Step::OUTPUTFORMAT_SELECT;
+					refreshOutputFormatList();
+				}
+
+				else {
+					messageLabel->Text = mCustomStrings->GetString(L"Error.NoFilesAdded");
+				}
+			}
+
+			else {
+				messageLabel->Text = mCustomStrings->GetString(L"Error.NoRulesetSelected");
+//						messageLabel->Text = L"No OutputFormat selected";
+			}
+		}
+		if(mStep == Step::INPUTRULES_SELECT && newStep == Step::GEMS_SELECT) {
+			if(mRuleset && mOutputFormatID > 0) {
+				mMaxStep = Step::GEMS_SELECT;
+			}
+
+			else {
+				messageLabel->Text = mCustomStrings->GetString(L"Error.NoInputRuleSelected");
+			}
+		}
+/*		if(mStep == Step::GEMS_SELECT && newStep == Step::AFTER_REPLACEMENTS) {
+			// todo: validate gem
+			mMaxStep = Step::AFTER_REPLACEMENTS;
+		}
+		if(mStep == Step::AFTER_REPLACEMENTS && newStep == Step::RENAME) {
+			mMaxStep = Step::RENAME;
+		}*/
+	}
+
+	if(int(newStep) < 0 || int(newStep) >= int(Step::MAX) || newStep > mMaxStep) {
+		return ;
+	}
+
+	messageLabel->Text = L"";
+
+	// onEnter: Ruleset
+	if(newStep == Step::RULESET_SELECT && mStep != Step::RULESET_SELECT) {
+		onEnterStepRuleset();
+	}
+
+	// onLeave: Ruleset
+	if(mStep == Step::RULESET_SELECT && newStep != Step::RULESET_SELECT) {
+		onLeaveStepRuleset();
+	}
+
+	// onEnter: beforeReplacements
+	if(newStep == Step::BEFORE_REPLACEMENTS && mStep != Step::BEFORE_REPLACEMENTS) {
+		onEnterStepBeforeReplacements();
+	}
+
+	// onLeave: beforeReplacements
+	if(mStep == Step::BEFORE_REPLACEMENTS && newStep != Step::BEFORE_REPLACEMENTS) {
+		onLeaveStepBeforeReplacements();
+	}
+
+	// onEnter: outputFormat
+	if(newStep == Step::OUTPUTFORMAT_SELECT && mStep != Step::OUTPUTFORMAT_SELECT) {
+		onEnterStepOutputFormats();
+	}
+
+	// onLeave: outputFormat
+	if(mStep == Step::OUTPUTFORMAT_SELECT && newStep != Step::OUTPUTFORMAT_SELECT) {
+		onLeaveStepOutputFormats();
+	}
+
+	// onEnter: inputRule
+	if(newStep == Step::INPUTRULES_SELECT && mStep != Step::INPUTRULES_SELECT) {
+		onEnterStepInputRules();
+	}
+
+	// onLeave: inputRule
+	if(mStep == Step::INPUTRULES_SELECT && newStep != Step::INPUTRULES_SELECT) {
+		onLeaveStepInputRules();
+	}
+
+	// onEnter: Gems
+	if(newStep == Step::GEMS_SELECT && mStep != Step::GEMS_SELECT) {
+		onEnterStepGems();
+	}
+
+	// onLeave: Gems
+	if(mStep == Step::GEMS_SELECT && newStep != Step::GEMS_SELECT) {
+		onLeaveStepGems();
+	}
+
+/*	// onEnter: afterReplacements
+	if(newStep == Step::AFTER_REPLACEMENTS && mStep != Step::AFTER_REPLACEMENTS) {
+		onEnterStepAfterReplacements();
+	}
+
+	// onLeave: afterReplacements
+	if(mStep == Step::AFTER_REPLACEMENTS && newStep != Step::AFTER_REPLACEMENTS) {
+		onLeaveStepAfterReplacements();
+	}
+
+	// onEnter: Rename
+	if(newStep == Step::RENAME && mStep != Step::RENAME) {
+		onEnterStepRename();
+	}
+
+	// onLeave: Rename
+	if(mStep == Step::RENAME && newStep != Step::RENAME) {
+		onLeaveStepRename();
+	}*/
+
+	mStep = newStep;
+
+	for(int i=0; i<int(Step::MAX); i++) {
+		mStepPanelList[i]->Visible = false;
+		mStepPanelList[i]->Dock = DockStyle::None;
+		mStepButtonList[i]->Checked = false;
+
+		if(i > int(mMaxStep)) {
+			mStepButtonList[i]->Enabled = false;
+		}
+
+		else {
+			mStepButtonList[i]->Enabled = true;
+		}
+	}
+
+	mStepPanelList[int(mStep)]->Visible = true;
+	mStepPanelList[int(mStep)]->Dock = DockStyle::Fill;
+	mStepButtonList[int(mStep)]->Checked = true;
+}
+
 #pragma endregion
 #pragma region Form Event Handlers
-	private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
-				 mShowOnlyMatchingFiles = false;
+private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
+	mShowOnlyMatchingFiles = false;
 #ifndef _DEBUG
-				 tsDebugAddFiles->Visible = false;
-				 tsDebugLoadRuleset->Visible = false;				 	
+	tsDebugAddFiles->Visible = false;
+	tsDebugLoadRuleset->Visible = false;				 	
 
-				 cboRulesets->Width += 35;
+	cboRulesets->Width += 25;
 #endif
 
-				 mStepPanelList = gcnew System::Collections::Generic::List<Panel^>();
-				 mStepPanelList->Add(panelStepRuleset);
-				 mStepPanelList->Add(panelStepBeforeReplacements);
-				 mStepPanelList->Add(panelStepOutputFormat);
-				 mStepPanelList->Add(panelStepInputRule);
-				 mStepPanelList->Add(panelStepGems);
-//				 mStepPanelList->Add(panelStepAfterReplacements);
-//				 mStepPanelList->Add(panelStepRename);
+	mStepPanelList = gcnew System::Collections::Generic::List<Panel^>();
+	mStepPanelList->Add(panelStepRuleset);
+	mStepPanelList->Add(panelStepBeforeReplacements);
+	mStepPanelList->Add(panelStepOutputFormat);
+	mStepPanelList->Add(panelStepInputRule);
+	mStepPanelList->Add(panelStepGems);
+	//				 mStepPanelList->Add(panelStepAfterReplacements);
+	//				 mStepPanelList->Add(panelStepRename);
 
-				 mStepButtonList = gcnew System::Collections::Generic::List<ToolStripButton^>();
-				 mStepButtonList->Add(tsStepRuleset);
-				 mStepButtonList->Add(tsStepBeforeReplacements);
-				 mStepButtonList->Add(tsStepOutputFormat);
-				 mStepButtonList->Add(tsStepInputRule);
-				 mStepButtonList->Add(tsStepGems);
-//				 mStepButtonList->Add(tsStepAfterReplacements);
-//				 mStepButtonList->Add(tsStepRename);
+	mStepButtonList = gcnew System::Collections::Generic::List<ToolStripButton^>();
+	mStepButtonList->Add(tsStepRuleset);
+	mStepButtonList->Add(tsStepBeforeReplacements);
+	mStepButtonList->Add(tsStepOutputFormat);
+	mStepButtonList->Add(tsStepInputRule);
+	mStepButtonList->Add(tsStepGems);
+	//				 mStepButtonList->Add(tsStepAfterReplacements);
+	//				 mStepButtonList->Add(tsStepRename);
 
 
-				 loadRulesetListFromRegistry();
+	loadRulesetListFromRegistry();
 
-				 //! select first step
-				 mStep = Step::RULESET_SELECT;
-				 setMaxStep(Step::RULESET_SELECT);
-				 onEnterStepRuleset();
-			 }
+	//! select first step
+	mStep = Step::RULESET_SELECT;
+	setMaxStep(Step::RULESET_SELECT);
+	onEnterStepRuleset();
+}
 
 private: System::Void WizardForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
-			saveRulesetListToRegistry();
+	saveRulesetListToRegistry();
 
-			if(mRuleset != NULL)
-				delete mRuleset;
-		 }
+	if(mRuleset != NULL)
+		delete mRuleset;
+}
 
 private: System::Void buttonNextStep_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step(int(mStep) + 1));
-		 }
+	setStep(Step(int(mStep) + 1));
+}
+
 private: System::Void buttonPreviousStep_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step(int(mStep) - 1));
-		 }
+	setStep(Step(int(mStep) - 1));
+}
+
 private: System::Void tsStepRuleset_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step::RULESET_SELECT);
-		 }
+	setStep(Step::RULESET_SELECT);
+}
+
 private: System::Void tsStepOutputFormat_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step::OUTPUTFORMAT_SELECT);
-		 }
+	setStep(Step::OUTPUTFORMAT_SELECT);
+}
+
 private: System::Void tsStepBeforeReplacements_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step::BEFORE_REPLACEMENTS);
-		 }
+	setStep(Step::BEFORE_REPLACEMENTS);
+}
+
 private: System::Void tsStepInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step::INPUTRULES_SELECT);
-		 }
+	setStep(Step::INPUTRULES_SELECT);
+}
+
 private: System::Void tsStepAfterReplacements_Click(System::Object^  sender, System::EventArgs^  e) {
 //			 setStep(Step::AFTER_REPLACEMENTS);
-		 }
+}
+
 private: System::Void tsStepGems_Click(System::Object^  sender, System::EventArgs^  e) {
-			 setStep(Step::GEMS_SELECT);
-		 }
+	setStep(Step::GEMS_SELECT);
+}
+
 private: System::Void buttonRulesetOpenDialog_Click(System::Object^  sender, System::EventArgs^  e) {
-			 openRulesetFileDialog->ShowDialog();
-		 }
+	openRulesetFileDialog->ShowDialog();
+}
+
 private: System::Void buttonRulesetSaveDialog_Click(System::Object^  sender, System::EventArgs^  e) {
-			 saveRulesetFileDialog->ShowDialog();
-		 }
+	saveRulesetFileDialog->ShowDialog();
+}
 #pragma endregion
 #pragma region fileList
 private: System::Void fileList_DragDrop(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
@@ -1839,17 +1803,19 @@ private: System::Void fileList_DragEnter(System::Object^  sender, System::Window
 
 
 private: System::Void tsRenameFiles_Click(System::Object^  sender, System::EventArgs^  e) {
-			 for(int i=0; i<fileList->Items->Count; i++) {
+			 for(int i=fileList->Items->Count - 1; i>=0; i--) {
 				 ListViewItem^ item = fileList->Items[i];
 				 String^ originalFilenameWithPath = mFiles[(int) (Int32^) item->Tag];
 				 string outputFilename;
 
 				 try {
-					 mRuleset->rename(toStlString(originalFilenameWithPath ));
+					 if(mRuleset->rename(toStlString(originalFilenameWithPath ))) {
+						mFiles.RemoveAt((int) (Int32^)item->Tag);
+					 }
 				 }	
 
 				 catch( runtime_error& e) {
-				
+					 messageLabel->Text = toClrString(e.what());
 				 }
 			 }
 
@@ -1883,144 +1849,175 @@ private: System::Void tsApplyChanges_Click(System::Object^  sender, System::Even
 #pragma endregion
 #pragma region Step Specific Code
 	#pragma region Step: Ruleset
+
 private: System::Void checkBoxShowOnlyMatchingFiles_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			 mShowOnlyMatchingFiles = !mShowOnlyMatchingFiles;
-			 applyChanges(mStep);
-		 }
-	void onEnterStepRuleset() {
-		cboRulesets->Items->Clear();
-		for(int i=0; i<mKnownRulesets.Count; i++) {
-			ListBoxItem^ item = gcnew ListBoxItem();
-			item->Text = rulesetFilenameToName(mKnownRulesets[i]);
-			item->Tag = mKnownRulesets[i];
-			cboRulesets->Items->Add(item);
+	mShowOnlyMatchingFiles = !mShowOnlyMatchingFiles;
+	applyChanges(mStep);
+}
 
-			if(mRuleset && mRuleset->getName() == toStlString(item->Text))
-				cboRulesets->SelectedIndex = i;
-		}
-		 
-		applyChanges(Step::RULESET_SELECT);
+void onEnterStepRuleset() {
+	cboRulesets->BeginUpdate();
+	LockWindowUpdate((HWND) (int) cboRulesets->Handle);
+
+	cboRulesets->Items->Clear();
+	for(int i=0; i<mKnownRulesets.Count; i++) {
+		ListBoxItem^ item = gcnew ListBoxItem();
+		item->Text = Path::GetFileNameWithoutExtension(mKnownRulesets[i]);
+		item->Tag = mKnownRulesets[i];
+		cboRulesets->Items->Add(item);
+
+		if(mRuleset && mRuleset->getName() == toStlString(item->Text))
+			cboRulesets->SelectedIndex = i;
 	}
+	
+	cboRulesets->EndUpdate();
+	LockWindowUpdate((HWND) 0);
 
-	void onLeaveStepRuleset() {
+	applyChanges(Step::RULESET_SELECT);
+}
 
-	}
+void onLeaveStepRuleset() {
 
-	private: System::Void cboRulesets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-				 ListBoxItem^ item = (ListBoxItem^) cboRulesets->Items[cboRulesets->SelectedIndex];
-				 String^ rulesetFilename = (String^) item->Tag;
-				 loadRuleset(rulesetFilename);
-				 cboRulesets->Text = toClrString(mRuleset->getName());
+}
 
-				 applyChanges(Step::RULESET_SELECT);
-		 }
-	private: System::Void openRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-			 String^ rulesetFilename = openRulesetFileDialog->FileName;
-			 loadRuleset(rulesetFilename);
-		 }
-	private: System::Void saveRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-			 String^ rulesetFilename = saveRulesetFileDialog->FileName;
-			 createRuleset(rulesetFilename);
-		 }
-	private: System::Void tsLoadRulesetDialog_Click(System::Object^  sender, System::EventArgs^  e) {
-			 openRulesetFileDialog->ShowDialog();
-		 }
-	private: System::Void tsSaveRulesetDialog_Click(System::Object^  sender, System::EventArgs^  e) {
-			 saveRulesetFileDialog->ShowDialog();
-		 }
+private: System::Void cboRulesets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	ListBoxItem^ item = (ListBoxItem^) cboRulesets->Items[cboRulesets->SelectedIndex];
+	String^ rulesetFilename = (String^) item->Tag;
+	loadRuleset(rulesetFilename);
+//	cboRulesets->Text = toClrString(mRuleset->getName());
+
+	applyChanges(Step::RULESET_SELECT);
+}
+
+private: System::Void openRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+	String^ rulesetFilename = openRulesetFileDialog->FileName;
+	loadRuleset(rulesetFilename);
+}
+
+private: System::Void saveRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+	String^ rulesetFilename = saveRulesetFileDialog->FileName;
+	createRuleset(rulesetFilename);
+}
+
+private: System::Void tsLoadRulesetDialog_Click(System::Object^  sender, System::EventArgs^  e) {
+	openRulesetFileDialog->ShowDialog();
+}
+
+private: System::Void tsSaveRulesetDialog_Click(System::Object^  sender, System::EventArgs^  e) {
+	saveRulesetFileDialog->ShowDialog();
+}
+
 	#pragma endregion
 	#pragma region Step: BeforeReplacements
-			 void onEnterStepBeforeReplacements() {
-				 loadBeforeReplacements();	
-				 applyChanges(Step::BEFORE_REPLACEMENTS);
-			 }
 
-			 void onLeaveStepBeforeReplacements() {
-				 saveBeforeReplacements();
-			 }
-			 void applyBeforeReplacements() {
-				 Replacements replacements = mRuleset->getBeforeReplacements();
-				 for(int i=0; i<fileList->Items->Count; i++) {
-					 ListViewItem^ item = fileList->Items[i];
-					 item->Text = toClrString(replacements.replace(toStlString(item->Text)));
-				 }
-			 }
-			 void saveBeforeReplacements() {
-				 if(mRuleset == NULL) return ;
-				 Replacements replacements = mRuleset->getBeforeReplacements();
+void onEnterStepBeforeReplacements() {
+	loadBeforeReplacements();	
+	applyChanges(Step::BEFORE_REPLACEMENTS);
+}
 
-				 int rowCount = gridBeforeReplacements->Rows->Count;
-				 vector<sqlite_int64> replacementsWhichWereNotDeleted ;
-				 for(int i=0; i<gridBeforeReplacements->Rows->Count; i++) {
-					 if(gridBeforeReplacements->Rows[i]->Cells[0]->Value == nullptr) {
-						 String^ search = (String^)gridBeforeReplacements->Rows[i]->Cells[2]->Value;
-						 String^ replace = (String^)gridBeforeReplacements->Rows[i]->Cells[3]->Value;
-						 if(search != nullptr) {
-							 if(replace == nullptr)
-								 replace = L"";
-							 Replacement replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
-							 replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
-							 gridBeforeReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
-							 gridBeforeReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
-						 }
-					 }
+void onLeaveStepBeforeReplacements() {
+	saveBeforeReplacements();
+}
 
-					 else {
-						 int rowid = (int)((Int32^)gridBeforeReplacements->Rows[i]->Cells[0]->Value);
-						 String^ search = (String^)gridBeforeReplacements->Rows[i]->Cells[2]->Value;
-						 String^ replace = (String^)gridBeforeReplacements->Rows[i]->Cells[3]->Value;
-						 if(search != nullptr) {
-							 if(replace == nullptr)
-								 replace = L"";
+void applyBeforeReplacements() {
+	fileList->BeginUpdate();
+	LockWindowUpdate((HWND) (int) fileList->Handle);
 
-							 replacementsWhichWereNotDeleted.push_back(rowid);
-							 Replacement replacement(mRuleset->getDatabase(), rowid);
-							 replacement.setRegex(toStlString(search));
-							 replacement.setReplacement(toStlString(replace));
-						 }
-					 }
-				 }
+	Replacements replacements = mRuleset->getBeforeReplacements();
+	for(int i=0; i<fileList->Items->Count; i++) {
+		ListViewItem^ item = fileList->Items[i];
+		item->Text = toClrString(replacements.replace(toStlString(item->Text)));
+	}
 
-				 vector<Replacement> replacementVector = replacements.getReplacements();
-				 for(unsigned int i=0; i<replacementVector.size(); i++) {
-					 bool found = false;
-					 for(unsigned int j=0; j<replacementsWhichWereNotDeleted.size(); j++) {
-						 if(replacementVector[i].getRowId() == replacementsWhichWereNotDeleted[j]) {
-							 found = true;
-						 }
-					 }
+	fileList->EndUpdate();
+	LockWindowUpdate((HWND) 0);
+}
 
-					 if(found == false) {
-						 Replacement replacement(mRuleset->getDatabase(), replacementVector[i].getRowId());
-						 replacement.remove();
-					 }
-				 }
-			 }
+void saveBeforeReplacements() {
+	if(mRuleset == NULL) return ;
+	Replacements replacements = mRuleset->getBeforeReplacements();
 
-			 void loadBeforeReplacements() {
-				 if(mRuleset == NULL) return ;
-				 gridBeforeReplacements->Rows->Clear();
-				 Replacements replacements = mRuleset->getBeforeReplacements();
-				 vector<Replacement> replacementVector = replacements.getReplacements();
+	int rowCount = gridBeforeReplacements->Rows->Count;
+	vector<sqlite_int64> replacementsWhichWereNotDeleted ;
+	for(int i=0; i<gridBeforeReplacements->Rows->Count; i++) {
+		if(gridBeforeReplacements->Rows[i]->Cells[0]->Value == nullptr) {
+			String^ search = (String^)gridBeforeReplacements->Rows[i]->Cells[2]->Value;
+			String^ replace = (String^)gridBeforeReplacements->Rows[i]->Cells[3]->Value;
+			if(search != nullptr) {
+				if(replace == nullptr)
+					replace = L"";
+				Replacement replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
+				replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
+				gridBeforeReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
+				gridBeforeReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
+			}
+		}
 
-				 for(unsigned int i=0; i<replacementVector.size(); i++) {
-					 cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
-					 values[0] = gcnew Int32 ((Int32)replacementVector[i].getRowId());
-					 values[1] = gcnew Int32 ((Int32)replacementVector[i].getGroupId());
-					 values[2] = toClrString(replacementVector[i].getRegex().str());
-					 values[3] = toClrString(replacementVector[i].getReplacement());
+		else {
+			int rowid = (int)((Int32^)gridBeforeReplacements->Rows[i]->Cells[0]->Value);
+			String^ search = (String^)gridBeforeReplacements->Rows[i]->Cells[2]->Value;
+			String^ replace = (String^)gridBeforeReplacements->Rows[i]->Cells[3]->Value;
+			if(search != nullptr) {
+				if(replace == nullptr)
+					replace = L"";
 
-					 gridBeforeReplacements->Rows->Add(values);
-				 }
-			 }
+				replacementsWhichWereNotDeleted.push_back(rowid);
+				//! \todo warum gibt es Ruleset::getReplacement(int rowid) nicht??
+				Replacement replacement(mRuleset->getDatabase(), rowid);
+				replacement.setRegex(toStlString(search));
+				replacement.setReplacement(toStlString(replace));
+			}
+		}
+	}
+
+	vector<Replacement> replacementVector = replacements.getReplacements();
+	for(unsigned int i=0; i<replacementVector.size(); i++) {
+		bool found = false;
+		for(unsigned int j=0; j<replacementsWhichWereNotDeleted.size(); j++) {
+			if(replacementVector[i].getRowId() == replacementsWhichWereNotDeleted[j]) {
+				found = true;
+			}
+		}
+
+		if(found == false) {
+			Replacement replacement(mRuleset->getDatabase(), replacementVector[i].getRowId());
+			replacement.remove();
+		}
+	}
+}
+
+void loadBeforeReplacements() {
+	LockWindowUpdate((HWND) (int) gridBeforeReplacements->Handle);
+
+	if(mRuleset == NULL) return ;
+	gridBeforeReplacements->Rows->Clear();
+	Replacements replacements = mRuleset->getBeforeReplacements();
+	vector<Replacement> replacementVector = replacements.getReplacements();
+
+	for(unsigned int i=0; i<replacementVector.size(); i++) {
+		cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
+		values[0] = gcnew Int32 ((Int32)replacementVector[i].getRowId());
+		values[1] = gcnew Int32 ((Int32)replacementVector[i].getGroupId());
+		values[2] = toClrString(replacementVector[i].getRegex().str());
+		values[3] = toClrString(replacementVector[i].getReplacement());
+
+		gridBeforeReplacements->Rows->Add(values);
+	}
+
+	LockWindowUpdate((HWND) 0);
+}
+
 private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 if(mStep == Step::BEFORE_REPLACEMENTS) 
-				 applyChanges(mStep);
-		 }
+	if(mStep == Step::BEFORE_REPLACEMENTS) 
+		applyChanges(mStep);
+}
 
 #pragma endregion
 	#pragma region Step: OutputFormat
 			 void refreshOutputFormatList() {
+				 lstOutputFormat->BeginUpdate();
+				 LockWindowUpdate((HWND) (int) lstOutputFormat->Handle);
+
 				 if(mRuleset) {
 					 vector<OutputFormat*> outputFormatVector = mRuleset->getOutputFormats();
 
@@ -2032,7 +2029,11 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 						 lstOutputFormat->Items->Add(lbi);
 					 }
 				 }
+
+				 lstOutputFormat->EndUpdate();
+				 LockWindowUpdate((HWND) 0);
 			 }
+
 			 void onEnterStepOutputFormats() {
 				 applyChanges(Step::OUTPUTFORMAT_SELECT);
 				 refreshOutputFormatList();			 
@@ -2058,7 +2059,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstOutputFormat->SelectedIndex == -1)
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstOutputFormat->SelectedItem)->Tag)->value;
-			 OutputFormat outputFormat(mRuleset->getDatabase(), rowid);
+			 OutputFormat& outputFormat = mRuleset->getOutputFormat(rowid);
 			 outputFormat.remove();
 			 refreshOutputFormatList();
 			 refreshMaxStep();
@@ -2107,7 +2108,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstOutputFormat->SelectedIndex == -1) 
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstOutputFormat->SelectedItem)->Tag)->value;
-			 OutputFormat outputFormat(mRuleset->getDatabase(), rowid);
+			 OutputFormat& outputFormat = mRuleset->getOutputFormat(rowid);
 
 			 outputFormat.setFormat(toStlString(txtOutputFormat->Text));
 
@@ -2148,8 +2149,11 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 }
 
 			 void applyInputRules() {
+				 fileList->BeginUpdate();
+				 LockWindowUpdate((HWND) (int) fileList->Handle);
+	
 				 if(mInputRuleID != 0) {
-					 InputRule inputRule(mRuleset->getDatabase(), mInputRuleID);
+					 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 					 vector<GemValue> not_used;
 					 for(int i=0; i<fileList->Items->Count; i++) {
 						 ListViewItem^ item = fileList->Items[i];
@@ -2160,11 +2164,14 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 						 //					 item->Text = toClrString(replacements.replace(toStlString(item->Text)));
 					 }
 				 }
+
+				 fileList->EndUpdate();
+				 LockWindowUpdate((HWND) 0);
 			 }
 
 
 	private: System::Void tsAddInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
-			 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
+			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 InputRule& inputRule = outputFormat.addInputRule(toStlString(mCustomStrings->GetString(L"Strings.NewInputRule")));
 			 refreshInputRuleList();
 
@@ -2176,7 +2183,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstInputRules->SelectedIndex == -1)
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
-			 InputRule inputRule(mRuleset->getDatabase(), rowid );
+			 InputRule& inputRule = mRuleset->getInputRule(rowid);
 			 inputRule.remove();
 			 refreshInputRuleList();
 			 refreshMaxStep();
@@ -2187,7 +2194,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 	private: System::Void tsDuplicateInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1)
 				 return ;
-			 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
+			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 InputRule& inputRule = outputFormat.addInputRule(toStlString(lstInputRules->SelectedItem->ToString()));
 			 refreshInputRuleList();
 		 }
@@ -2231,6 +2238,9 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 
 
 			 void refreshInputRuleList() {
+				 lstInputRules->BeginUpdate();
+				 LockWindowUpdate((HWND) (int) lstInputRules->Handle);
+
 				 if(mRuleset && mOutputFormatID > 0) {
 					 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 					 vector<InputRule*> inputRuleVector = outputFormat.getInputRules();
@@ -2243,17 +2253,22 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 						 lstInputRules->Items->Add(lbi);
 					 }
 				 }
+
+				 lstInputRules->EndUpdate();
+				 LockWindowUpdate((HWND) 0);
 			 }
 	#pragma endregion
 	#pragma region Step: Gems
 			 void loadGems() {
+				 LockWindowUpdate((HWND) (int) gridGems->Handle);
+
 				 gridGems->Rows->Clear();
 				 GemColumnGem->Items->Clear();
 
 				 // add empty item to the ComboBox column
 				 GemColumnGem->Items->Add("");
 
-				 OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
+				 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 				 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 				 boost::regex regularExpression(inputRule.getRegex());
 				 unsigned int subExpressionCount = regularExpression.mark_count();
@@ -2274,6 +2289,8 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 					 }
 
 				 }
+
+				 LockWindowUpdate((HWND) 0);
 			 }
 
 			 void saveGems() {
@@ -2292,6 +2309,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 					 }
 				 }
 			 }
+
 			 void onEnterStepGems() {
 				 applyChanges(Step::GEMS_SELECT);
 				 loadGems();
@@ -2371,11 +2389,17 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 
 		 }
 		 void applyAfterReplacements() {
+			 fileList->BeginUpdate();
+			 LockWindowUpdate((HWND) (int) fileList->Handle);
+
 			 Replacements replacements = mRuleset->getAfterReplacements();
 			 for(int i=0; i<fileList->Items->Count; i++) {
 				 ListViewItem^ item = fileList->Items[i];
 				 item->Text = toClrString(replacements.replace(toStlString(item->Text)));
 			 }
+
+			 fileList->EndUpdate();
+			 LockWindowUpdate((HWND) 0);
 		 }
 
 		 void saveAfterReplacements() {
@@ -2500,6 +2524,3 @@ private: System::Void tsDebugLoadRuleset_Click(System::Object^  sender, System::
 // --- don't delete after this line (and one line before this line) --- //
 }
 #pragma endregion
-
-
-
