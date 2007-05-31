@@ -54,7 +54,7 @@ class Replacement {
 
         //! get replacements.GroupId
         sqlite_int64 getGroupId() const
-          { return cSqlInFormated<sqlite_int64>(mRow.get("GroupId")); };
+          { return cSqlInFormated<sqlite_int64>(mRow.get("groupId")); };
 
         //! set replacements.GroupId
         void setGroupId(sqlite_int64 v)

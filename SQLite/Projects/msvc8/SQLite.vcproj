@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -59,6 +60,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\bin\$(ProjectName)-d.lib"
+				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"

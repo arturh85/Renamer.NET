@@ -261,6 +261,66 @@ Replacement Ruleset::getReplacement(sqlite_int64 rowid) {
     throw exNoSuchId();
 }
 
+void Ruleset::save(Ruleset* target) {
+	char* tables[] = { "gems", "history", "options", "outputFormats", "regexes", "replacementGroups", "replacements" };
+	const int tableCount = 7; // importent! set this MANUALLY each time you update the tables var
+
+	// Step1: Drop all tables of target
+
+	for(int i=0; i<tableCount; i++) {
+		stringstream strSql;
+		strSql  << "DROP TABLE " << tables[i];
+		sqlite3_exec(target->mDb, strSql.str().c_str(), NULL, NULL, NULL);
+	}
+
+	// \todo do it
+
+	// Step2: Create tables on target
+
+	target->initDb();
+
+//	target->initDb();
+
+	// Step3: iterate through all tables of this Ruleset and write them to target
+
+	for(int i=0; i<tableCount; i++) {
+		stringstream strSql;
+		strSql  << "SELECT * FROM " << tables[i];
+
+		vector<map<string,string> > resultset;
+		try {
+			exec(strSql.str(), mDb, onAppendAllColumnsToMapVector, &resultset );
+		}
+
+		catch(...) {
+
+		}
+
+		for(unsigned int j=0; j<resultset.size(); j++) {
+			map<string,string>& columns = resultset[j];
+			stringstream strColumns;		
+			stringstream strValues;		
+			for(map<string,string>::iterator it = columns.begin(); it != columns.end(); it++) {
+				strColumns << it->first;
+				strValues << "'" << it->second << "'";
+
+				map<string,string>::iterator nextit = it;
+				nextit ++;
+
+				if(nextit != columns.end()) {
+					strColumns << ",";
+					strValues << ",";
+				}
+			}
+
+			strSql.str("");
+			strSql << "INSERT INTO " << tables[i] << " (" << strColumns.str() << ") VALUES (" << strValues.str() << ")";
+
+			sqlite3_exec(target->mDb, strSql.str().c_str(), NULL, NULL, NULL);
+		}
+	}	
+}
+
 
 #ifdef RENAMER_UNIT_TEST
 #include <boost/test/test_tools.hpp>
@@ -359,7 +419,7 @@ void testNewRuleset(path dbFileName) {
     BOOST_CHECKPOINT("myRules.applyTo (failures)");
     BOOST_CHECK(!myRules.applyTo("Notice the ! left", sDummy ));
     BOOST_CHECK(!myRules.applyTo("blah", sDummy ));
-    BOOST_CHECK_NO_THROW(!myRules.applyTo("D:\\Daten\\Develop\\Renamer\\testFiles\\14Dr.House.S02E14.Sex.wird.unterschaetzt.German.Dubbed.DVDRIP.WS.XviD-TvR.avi", sDummy ));
+    BOOST_CHECK(!myRules.applyTo("D:\\Daten\\Develop\\Renamer\\testFiles\\14Dr.House.S02E14.Sex.wird.unterschaetzt.German.Dubbed.DVDRIP.WS.XviD-TvR.avi", sDummy ));
 
     BOOST_CHECKPOINT("check allowed Names");
 //    BOOST_CHECK_THROW(Ruleset(string("Stargate Atlantis")), exBadName);

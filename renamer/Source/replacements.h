@@ -12,7 +12,7 @@ class Replacements {
         Replacements(sqlite3* db, string name, sqlite_int64 ownerId);
 
         //---------------------------------------------------------------------
-        //  methodes
+        //  methods
 
         //!apply replacements of this object and parents
         string replace(string) const;
@@ -26,7 +26,7 @@ class Replacements {
         //! Creates replacementGroups table
         static void createTables(sqlite3* db);
 
-        //! reomves this object and all its children
+        //! removes this object and all its children
         void remove();
 
         #ifdef RENAMER_UNIT_TEST
@@ -35,7 +35,7 @@ class Replacements {
         #endif
 
     private:
-        //---------------------------------------------------------------------
+		//---------------------------------------------------------------------
         //  attributes
 
         sqlite3* mDb;

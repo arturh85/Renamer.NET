@@ -61,6 +61,24 @@ int onAppendAllColumnsToMap(void *param, int argc, char **argv, char **azColName
 	return SQLITE_OK;
 }
 
+int onAppendAllColumnsToMapVector(void /* vector<map<string,string>> */ *param, int argc, char **argv, char **azColName) {
+	vector<map<string, string> >* outputVector = (vector<map<string, string> >*) param;
+
+	map<string,string> output; 
+
+	for (int n = 0; n < argc ; n++ ) {
+		if (argv[n] == NULL) {
+			output[azColName[n]] = "";
+		} else {
+			output[azColName[n]] = argv[n];
+		}
+	}
+
+	outputVector->push_back(output);
+	return SQLITE_OK;
+}
+
+
 string cSqlStrOut(string sString) {
 //    string sRetVal =  sString;
 //    sRetVal = "'" + sRetVal + "'";

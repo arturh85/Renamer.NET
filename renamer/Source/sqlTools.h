@@ -4,16 +4,19 @@
 #include "globals.h"
 
 //! sqlite callback that reads the first column to a string
-int onReadFirstField(void *param, int argc, char **argv, char **azColName);
+int onReadFirstField(void /* string */ *param, int argc, char **argv, char **azColName);
 
 //! sqlite callback that reads the first column to a string vector reference
-int onAppendFirstColumnToVector(void *param, int argc, char **argv, char **azColName);
+int onAppendFirstColumnToVector(void /* vector<string> */ *param, int argc, char **argv, char **azColName);
 
 //! sqlite callback that adds each column as a vector to the param
-int onAppendAllColumnsToVector(void *param, int argc, char **argv, char **azColName);
+int onAppendAllColumnsToVector(void /* vector<string> */ *param, int argc, char **argv, char **azColName);
 
 //! sqlite callback that adds each column as a vector to the param
-int onAppendAllColumnsToMap(void *param, int argc, char **argv, char **azColName);
+int onAppendAllColumnsToMap(void /* map<string,string> */ *param, int argc, char **argv, char **azColName);
+
+//! sqlite callback that adds each column to a map<string,string> for each row
+int onAppendAllColumnsToMapVector(void /* vector<map<string,string>> */ *param, int argc, char **argv, char **azColName);
 
 //! Prepares a string for use in a SqlStatement
 /** This function add singles quotes to the front/back und escapes

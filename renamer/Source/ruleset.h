@@ -63,13 +63,15 @@ class Ruleset
         //! gets a collection of OutputFormat objects
         vector<OutputFormat*> getOutputFormats();
 
-//        string getName() const;
-        string getFilename() const;
+		string getFilename() const { return mFilename; }
 
-        ///these are applied before anything else is done with the filename
+		//! Use only to set the filename if this is a memory database
+		void setFilename(string filename);
+
+        /// these are applied before anything else is done with the filename
         Replacements& getBeforeReplacements() const { return *mBeforeReplacementsPtr; };
 
-        ///these are applied at the very end of everyting
+        /// these are applied at the very end of everything
         Replacements& getAfterReplacements() const { return *mAfterReplacementsPtr; };
 
         //! gui convenience
@@ -88,6 +90,10 @@ class Ruleset
 
         //! save this object and all its children
         void save();
+
+
+		//! queries all data from ruleset tables on this Sqlite3 db and inserts them to the Sqlite3 db of target
+		void save(Ruleset* target);
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object

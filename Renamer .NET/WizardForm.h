@@ -1357,54 +1357,6 @@ void saveRulesetListToRegistry() {
 	Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "KnownRulesets", rulesetStringList);
 }
 
-void updateInputRuleGems(sqlite_int64 inputRuleRowId) {
-	InputRule& inputRule = mRuleset->getInputRule(inputRuleRowId);
-	OutputFormat& outputFormat = mRuleset->getOutputFormat(inputRule.getOutputFormatId());
-
-	vector<string> gemNames;
-	
-	gemNames = OutputFormat::parse(outputFormat.getFormat());
-	vector<Gem*> gems = inputRule.getGems();
-	
-	// array of elements parsed out of OutputFormat
-	for(unsigned i = 0; i<gemNames.size(); i++) {
-		bool found = false;
-
-		// array of already existing Gems and their Names
-		unsigned j;
-		for(j = 0; j<gems.size(); j++) {
-			// found is true if the GemName is already in use
-			if(gems[j]->getName() == gemNames[i])  {
-				found = true;
-				// case: UPDATE
-				gems[j]->setName(gemNames[i]);
-				break;
-			}						
-		}
-
-		// case: INSERT
-		if(found == false) {
-			//! \todo: warum gibt es addGem nicht???
-			inputRule.addGem(gemNames[i]);
-		}
-	}
-
-	for(unsigned i=0; i<gems.size(); i++) {
-		bool found = false;
-
-		for(unsigned j=0; j<gemNames.size(); j++) {
-			if(gems[i]->getName() == gemNames[j])  { 
-				found = true;
-			}
-		}
-
-		// case: DELETE
-		if(found == false) {
-			gems[i]->remove();
-		}
-	}
-}
-
 //! Creates a new ruleset. If file @ rulesetFilename does exist, it will be deleted
 void createRuleset(String^ rulesetFilename) {
 	String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(rulesetFilename);
@@ -1604,6 +1556,11 @@ void setStep(Step newStep) {
 
 	messageLabel->Text = L"";
 
+	if(newStep != mStep) {
+		if(mRuleset)
+			mRuleset->save();
+	}
+
 	// onEnter: Ruleset
 	if(newStep == Step::RULESET_SELECT && mStep != Step::RULESET_SELECT) {
 		onEnterStepRuleset();
@@ -1700,6 +1657,20 @@ void setStep(Step newStep) {
 private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
 	mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
 	mShowOnlyMatchingFiles = false;
+
+	// "unit test" ruleset loading / saving
+
+	Ruleset* pSource = new Ruleset(string("D:\\home\\windows\\Eigene Dateien\\The Simpsons.ruleset"));
+	Ruleset* pMemory = new Ruleset();
+	Ruleset* pTarget = new Ruleset(string("D:\\home\\windows\\Eigene Dateien\\The Simpsons Kopie.ruleset"));
+
+	pSource->save(pMemory);
+	pMemory->save(pTarget);
+
+	delete pSource;
+	delete pMemory;
+	delete pTarget;
+
 #ifndef _DEBUG
 	tsDebugAddFiles->Visible = false;
 	tsDebugLoadRuleset->Visible = false;				 	
@@ -1866,7 +1837,7 @@ void onEnterStepRuleset() {
 		item->Tag = mKnownRulesets[i];
 		cboRulesets->Items->Add(item);
 
-		if(mRuleset && mRuleset->getName() == toStlString(item->Text))
+		if(mRuleset != NULL && Path::GetFileNameWithoutExtension(toClrString(mRuleset->getFilename())) == item->Text)
 			cboRulesets->SelectedIndex = i;
 	}
 	
@@ -1923,7 +1894,7 @@ void applyBeforeReplacements() {
 	fileList->BeginUpdate();
 	LockWindowUpdate((HWND) (int) fileList->Handle);
 
-	Replacements replacements = mRuleset->getBeforeReplacements();
+	Replacements& replacements = mRuleset->getBeforeReplacements();
 	for(int i=0; i<fileList->Items->Count; i++) {
 		ListViewItem^ item = fileList->Items[i];
 		item->Text = toClrString(replacements.replace(toStlString(item->Text)));
@@ -1935,7 +1906,7 @@ void applyBeforeReplacements() {
 
 void saveBeforeReplacements() {
 	if(mRuleset == NULL) return ;
-	Replacements replacements = mRuleset->getBeforeReplacements();
+	Replacements& replacements = mRuleset->getBeforeReplacements();
 
 	int rowCount = gridBeforeReplacements->Rows->Count;
 	vector<sqlite_int64> replacementsWhichWereNotDeleted ;
@@ -1946,7 +1917,7 @@ void saveBeforeReplacements() {
 			if(search != nullptr) {
 				if(replace == nullptr)
 					replace = L"";
-				Replacement replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
+				Replacement& replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
 				replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
 				gridBeforeReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
 				gridBeforeReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
@@ -1963,7 +1934,7 @@ void saveBeforeReplacements() {
 
 				replacementsWhichWereNotDeleted.push_back(rowid);
 				//! \todo warum gibt es Ruleset::getReplacement(int rowid) nicht??
-				Replacement replacement(mRuleset->getDatabase(), rowid);
+				Replacement& replacement = mRuleset->getReplacement(rowid);
 				replacement.setRegex(toStlString(search));
 				replacement.setReplacement(toStlString(replace));
 			}
@@ -1980,10 +1951,12 @@ void saveBeforeReplacements() {
 		}
 
 		if(found == false) {
-			Replacement replacement(mRuleset->getDatabase(), replacementVector[i].getRowId());
+			Replacement& replacement = mRuleset->getReplacement(replacementVector[i].getRowId());
 			replacement.remove();
 		}
 	}
+
+	mRuleset->save();
 }
 
 void loadBeforeReplacements() {
@@ -2116,6 +2089,8 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 refreshOutputFormatList();
 			 lstOutputFormat->SelectedIndex = selectedIndex;
 			 tsSaveOutputFormat->Visible = false;
+
+			 mRuleset->save();
 		 }
 	private: System::Void lstOutputFormat_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			 ListBoxItem^ lbi = (ListBoxItem^) lstOutputFormat->SelectedItem;
@@ -2133,8 +2108,6 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 	#pragma endregion
 	#pragma region Step: InputRule
 			 void onEnterStepInputRules() {
-				 if(mInputRuleID)
-					 updateInputRuleGems(mInputRuleID);
 				 refreshInputRuleList();
 				 if(lstInputRules->Items->Count > 0)
 					 lstInputRules->SelectedIndex = 0;
@@ -2211,6 +2184,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 lstInputRules->SelectedIndex = selectedIndex;
 			 tsSaveInputRule->Visible = false;
 
+			 mRuleset->save();
 			 applyChanges(mStep);
 		 }
 	private: System::Void lstInputRules_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -2222,8 +2196,6 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 txtInputRule->Text = properties->key;
 			 mInputRuleID = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
 			 tsSaveInputRule->Visible = false;
-
-			 updateInputRuleGems(mInputRuleID);
 		 }
 	private: System::Void txtInputRule_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1) 
@@ -2404,7 +2376,7 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 
 		 void saveAfterReplacements() {
 			 if(mRuleset == NULL) return ;
-			 Replacements replacements = mRuleset->getAfterReplacements();
+			 Replacements& replacements = mRuleset->getAfterReplacements();
 
 			 int rowCount = gridAfterReplacements->Rows->Count;
 			 vector<sqlite_int64> replacementsWhichWereNotDeleted ;
@@ -2415,7 +2387,7 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 					 if(search != nullptr) {
 						 if(replace == nullptr)
 							 replace = L"";
-						 Replacement replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
+						 Replacement& replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
 						 replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
 						 gridAfterReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
 						 gridAfterReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
@@ -2431,7 +2403,7 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 							 replace = L"";
 
 						 replacementsWhichWereNotDeleted.push_back(rowid);
-						 Replacement replacement(mRuleset->getDatabase(), rowid);
+						 Replacement& replacement = mRuleset->getReplacement(rowid);
 						 replacement.setRegex(toStlString(search));
 						 replacement.setReplacement(toStlString(replace));
 					 }
@@ -2448,10 +2420,12 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 				 }
 
 				 if(found == false) {
-					 Replacement replacement(mRuleset->getDatabase(), replacementVector[i].getRowId());
+					 Replacement& replacement = mRuleset->getReplacement(replacementVector[i].getRowId());
 					 replacement.remove();
 				 }
 			 }
+
+			 mRuleset->save();
 		 }
 
 		 void loadAfterReplacements() {
@@ -2516,7 +2490,7 @@ private: System::Void tsDebugAddFiles_Click(System::Object^  sender, System::Eve
 private: System::Void tsDebugLoadRuleset_Click(System::Object^  sender, System::EventArgs^  e) {
 		 String^ rulesetFilename = L"D:\\home\\windows\\Eigene Dateien\\The Simpsons.ruleset";
 		 loadRuleset(rulesetFilename);
-		 cboRulesets->Text = toClrString(mRuleset->getName());
+		 cboRulesets->Text = Path::GetFileNameWithoutExtension(toClrString(mRuleset->getFilename()));
 	 }
 #pragma endregion
 #pragma region Footer

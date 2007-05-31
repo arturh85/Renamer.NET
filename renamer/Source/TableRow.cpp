@@ -55,7 +55,7 @@ string TableRow::get(string field) const {
 //    }
 //
     map<string, string>::const_iterator it = mValues.find(field);
-    if (it==mValues.end()) {
+    if (it == mValues.end()) {
       stringstream strErrMsg;
       strErrMsg << "no such column '" << field
                 << mRowid << "' in table '"
