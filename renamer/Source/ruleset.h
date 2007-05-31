@@ -63,10 +63,10 @@ class Ruleset
         //! gets a collection of OutputFormat objects
         vector<OutputFormat*> getOutputFormats();
 
-		string getFilename() const { return mFilename; }
+		string getFilename() const;
 
 		//! Use only to set the filename if this is a memory database
-		void setFilename(string filename);
+		void setFilename(string filename)  { if(mFilename.length() != 0) throw runtime_error("filename can not be changed"); mFilename = filename; }
 
         /// these are applied before anything else is done with the filename
         Replacements& getBeforeReplacements() const { return *mBeforeReplacementsPtr; };
@@ -115,6 +115,7 @@ class Ruleset
 
         //! opens Db
         void loadDb(boost::filesystem::path dbFile);
+		void loadDb(sqlite3* db);
 
         //! disabled for your convenience
         Ruleset ::Ruleset (Ruleset &)

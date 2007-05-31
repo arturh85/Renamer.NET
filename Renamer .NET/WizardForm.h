@@ -1367,7 +1367,11 @@ void createRuleset(String^ rulesetFilename) {
 	}
 
 	try{
-		Ruleset* rs = new Ruleset(toStdWString(rulesetFilename));
+		Ruleset* tmp = new Ruleset(toStdWString(rulesetFilename));
+		Ruleset* rs = new Ruleset();
+		tmp->save(rs);
+		rs->setFilename(toStlString(rulesetFilename));
+		delete tmp;
 		setRuleset(rs);
 	}
 
@@ -1380,18 +1384,22 @@ void createRuleset(String^ rulesetFilename) {
 }
 
 //! Loads an existing ruleset. This function returns false if file does not exist, or could not be loaded, otherwise true
-bool loadRuleset(String^ filename) 
+bool loadRuleset(String^ rulesetFilename) 
 {
-	if(!System::IO::File::Exists(filename)) {
+	if(!System::IO::File::Exists(rulesetFilename)) {
 		return false;
 	}
 
-	exAssert(filename != "");
-	String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(filename);
+	exAssert(rulesetFilename != "");
+	String^ rulesetName = System::IO::Path::GetFileNameWithoutExtension(rulesetFilename);
 	exAssert(rulesetName != "");
 
 	try {
-		Ruleset* rs = new Ruleset(toStdWString(filename));
+		Ruleset* tmp = new Ruleset(toStdWString(rulesetFilename));
+		Ruleset* rs = new Ruleset();
+		tmp->save(rs);
+		rs->setFilename(toStlString(rulesetFilename));
+		delete tmp;
 		setRuleset(rs);
 	}
 

@@ -25,25 +25,38 @@ void Ruleset::loadDb(path dbFile) {
         throw exDbError();
     }
 
-    if (fIsNew)
-      initDb();
+	if (fIsNew)
+		initDb();
+}
 
-	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
-	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
+void Ruleset::loadDb(sqlite3* db) {
+	if(mBeforeReplacementsPtr)
+		delete mBeforeReplacementsPtr;
+	if(mAfterReplacementsPtr)
+		delete mAfterReplacementsPtr;
 
-    //get outputFormats
-    vector<string> rowids;
+	mBeforeReplacementsPtr = new Replacements(db, "rulesetBefore", MAGIC_OWNER_ID);
+	mAfterReplacementsPtr = new Replacements(db, "rulesetAfter", MAGIC_OWNER_ID);
 
-    stringstream strSql;
-    strSql  << "SELECT rowid FROM outputFormats";
-    exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
-    for (vector<string>::iterator it = rowids.begin();
-         it != rowids.end(); it++) {
+	for(map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin(); it != mChildren.end(); it++) {
+		delete mChildren->second;
+	}
 
-        sqlite_int64 rowid = cSqlInFormated<sqlite_int64>(*it);
-        OutputFormat* newFormatPtr = new OutputFormat(mDb, rowid);
-        mChildren[newFormatPtr->getRowId()] = newFormatPtr;
-    }
+	mChildren.clear();
+		
+	//get outputFormats
+	vector<string> rowids;
+
+	stringstream strSql;
+	strSql  << "SELECT rowid FROM outputFormats";
+	exec(strSql, mDb, onAppendFirstColumnToVector, &rowids);
+	for (vector<string>::iterator it = rowids.begin();
+		it != rowids.end(); it++) {
+
+			sqlite_int64 rowid = cSqlInFormated<sqlite_int64>(*it);
+			OutputFormat* newFormatPtr = new OutputFormat(db, rowid);
+			mChildren[newFormatPtr->getRowId()] = newFormatPtr;
+	}
 
 }
 
@@ -60,7 +73,6 @@ Ruleset::Ruleset() {
     }
 
     initDb();
-
 
     mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
     mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
@@ -319,6 +331,9 @@ void Ruleset::save(Ruleset* target) {
 			sqlite3_exec(target->mDb, strSql.str().c_str(), NULL, NULL, NULL);
 		}
 	}	
+
+	target->loadDb(target->mDb);
+
 }
 
 
