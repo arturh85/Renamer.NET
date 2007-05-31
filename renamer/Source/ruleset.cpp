@@ -39,7 +39,7 @@ void Ruleset::loadDb(sqlite3* db) {
 	mAfterReplacementsPtr = new Replacements(db, "rulesetAfter", MAGIC_OWNER_ID);
 
 	for(map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin(); it != mChildren.end(); it++) {
-		delete mChildren->second;
+		delete it->second;
 	}
 
 	mChildren.clear();
