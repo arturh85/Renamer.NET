@@ -190,8 +190,8 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacem
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsGroupID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsSearch;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsReplace;
-private: System::Windows::Forms::Button^  buttonLanguageDE;
-private: System::Windows::Forms::Button^  buttonLanguageEN;
+
+
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsGroupID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsSearch;
@@ -213,15 +213,15 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 		{
 			System::Windows::Forms::Label^  label1;
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(WizardForm::typeid));
+			System::Windows::Forms::Label^  label8;
 			System::Windows::Forms::Label^  label6;
-			System::Windows::Forms::Label^  label11;
-			System::Windows::Forms::Label^  label5;
 			System::Windows::Forms::Label^  label9;
 			System::Windows::Forms::Label^  label4;
+			System::Windows::Forms::Label^  label11;
+			System::Windows::Forms::Label^  label5;
 			System::Windows::Forms::Label^  label14;
 			System::Windows::Forms::Label^  label3;
 			System::Windows::Forms::Label^  label2;
-			System::Windows::Forms::Label^  label8;
 			System::Windows::Forms::Label^  label10;
 			System::Windows::Forms::Label^  label7;
 			System::Windows::Forms::Panel^  panelFileListInner;
@@ -313,18 +313,16 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->openRulesetFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveRulesetFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->buttonLanguageDE = (gcnew System::Windows::Forms::Button());
-			this->buttonLanguageEN = (gcnew System::Windows::Forms::Button());
 			label1 = (gcnew System::Windows::Forms::Label());
+			label8 = (gcnew System::Windows::Forms::Label());
 			label6 = (gcnew System::Windows::Forms::Label());
-			label11 = (gcnew System::Windows::Forms::Label());
-			label5 = (gcnew System::Windows::Forms::Label());
 			label9 = (gcnew System::Windows::Forms::Label());
 			label4 = (gcnew System::Windows::Forms::Label());
+			label11 = (gcnew System::Windows::Forms::Label());
+			label5 = (gcnew System::Windows::Forms::Label());
 			label14 = (gcnew System::Windows::Forms::Label());
 			label3 = (gcnew System::Windows::Forms::Label());
 			label2 = (gcnew System::Windows::Forms::Label());
-			label8 = (gcnew System::Windows::Forms::Label());
 			label10 = (gcnew System::Windows::Forms::Label());
 			label7 = (gcnew System::Windows::Forms::Label());
 			panelFileListInner = (gcnew System::Windows::Forms::Panel());
@@ -364,20 +362,15 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			resources->ApplyResources(label1, L"label1");
 			label1->Name = L"label1";
 			// 
+			// label8
+			// 
+			resources->ApplyResources(label8, L"label8");
+			label8->Name = L"label8";
+			// 
 			// label6
 			// 
 			resources->ApplyResources(label6, L"label6");
 			label6->Name = L"label6";
-			// 
-			// label11
-			// 
-			resources->ApplyResources(label11, L"label11");
-			label11->Name = L"label11";
-			// 
-			// label5
-			// 
-			resources->ApplyResources(label5, L"label5");
-			label5->Name = L"label5";
 			// 
 			// label9
 			// 
@@ -388,6 +381,16 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			// 
 			resources->ApplyResources(label4, L"label4");
 			label4->Name = L"label4";
+			// 
+			// label11
+			// 
+			resources->ApplyResources(label11, L"label11");
+			label11->Name = L"label11";
+			// 
+			// label5
+			// 
+			resources->ApplyResources(label5, L"label5");
+			label5->Name = L"label5";
 			// 
 			// label14
 			// 
@@ -403,11 +406,6 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			// 
 			resources->ApplyResources(label2, L"label2");
 			label2->Name = L"label2";
-			// 
-			// label8
-			// 
-			resources->ApplyResources(label8, L"label8");
-			label8->Name = L"label8";
 			// 
 			// label10
 			// 
@@ -1089,24 +1087,10 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->fileListopenFileDiag->RestoreDirectory = true;
 			this->fileListopenFileDiag->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &WizardForm::fileListopenFileDiag_FileOk);
 			// 
-			// buttonLanguageDE
-			// 
-			resources->ApplyResources(this->buttonLanguageDE, L"buttonLanguageDE");
-			this->buttonLanguageDE->Name = L"buttonLanguageDE";
-			this->buttonLanguageDE->UseVisualStyleBackColor = true;
-			// 
-			// buttonLanguageEN
-			// 
-			resources->ApplyResources(this->buttonLanguageEN, L"buttonLanguageEN");
-			this->buttonLanguageEN->Name = L"buttonLanguageEN";
-			this->buttonLanguageEN->UseVisualStyleBackColor = true;
-			// 
 			// WizardForm
 			// 
 			resources->ApplyResources(this, L"$this");
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->Controls->Add(this->buttonLanguageEN);
-			this->Controls->Add(this->buttonLanguageDE);
 			this->Controls->Add(this->splitContainer);
 			this->Controls->Add(this->tsStepButtons);
 			this->Name = L"WizardForm";
@@ -1367,11 +1351,7 @@ void createRuleset(String^ rulesetFilename) {
 	}
 
 	try{
-		Ruleset* tmp = new Ruleset(toStdWString(rulesetFilename));
-		Ruleset* rs = new Ruleset();
-		tmp->save(rs);
-		rs->setFilename(toStlString(rulesetFilename));
-		delete tmp;
+		Ruleset* rs = new Ruleset(toStdWString(rulesetFilename));
 		setRuleset(rs);
 	}
 
@@ -1395,11 +1375,7 @@ bool loadRuleset(String^ rulesetFilename)
 	exAssert(rulesetName != "");
 
 	try {
-		Ruleset* tmp = new Ruleset(toStdWString(rulesetFilename));
-		Ruleset* rs = new Ruleset();
-		tmp->save(rs);
-		rs->setFilename(toStlString(rulesetFilename));
-		delete tmp;
+		Ruleset* rs = new Ruleset(toStdWString(rulesetFilename));
 		setRuleset(rs);
 	}
 
@@ -1525,14 +1501,8 @@ void setStep(Step newStep) {
 	if(newStep > mMaxStep) {
 		if(mStep == Step::RULESET_SELECT && newStep == Step::BEFORE_REPLACEMENTS) {
 			if(mRuleset != NULL) {
-				if(fileList->Items->Count > 0) {
-					mMaxStep = Step::OUTPUTFORMAT_SELECT;
-					refreshOutputFormatList();
-				}
-
-				else {
-					messageLabel->Text = mCustomStrings->GetString(L"Error.NoFilesAdded");
-				}
+				mMaxStep = Step::OUTPUTFORMAT_SELECT;
+				refreshOutputFormatList();
 			}
 
 			else {
@@ -1665,19 +1635,6 @@ void setStep(Step newStep) {
 private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
 	mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
 	mShowOnlyMatchingFiles = false;
-
-	// "unit test" ruleset loading / saving
-
-	Ruleset* pSource = new Ruleset(string("D:\\home\\windows\\Eigene Dateien\\The Simpsons.ruleset"));
-	Ruleset* pMemory = new Ruleset();
-	Ruleset* pTarget = new Ruleset(string("D:\\home\\windows\\Eigene Dateien\\The Simpsons Kopie.ruleset"));
-
-	pSource->save(pMemory);
-	pMemory->save(pTarget);
-
-	delete pSource;
-	delete pMemory;
-	delete pTarget;
 
 #ifndef _DEBUG
 	tsDebugAddFiles->Visible = false;
@@ -1919,19 +1876,21 @@ void saveBeforeReplacements() {
 	int rowCount = gridBeforeReplacements->Rows->Count;
 	vector<sqlite_int64> replacementsWhichWereNotDeleted ;
 	for(int i=0; i<gridBeforeReplacements->Rows->Count; i++) {
+		// if replacement does not exist yet, add one
 		if(gridBeforeReplacements->Rows[i]->Cells[0]->Value == nullptr) {
 			String^ search = (String^)gridBeforeReplacements->Rows[i]->Cells[2]->Value;
 			String^ replace = (String^)gridBeforeReplacements->Rows[i]->Cells[3]->Value;
 			if(search != nullptr) {
 				if(replace == nullptr)
 					replace = L"";
-				Replacement& replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
-				replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
-				gridBeforeReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
-				gridBeforeReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
+				Replacement* replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
+				replacementsWhichWereNotDeleted.push_back(replacement->getRowId());
+				gridBeforeReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement->getRowId());
+				gridBeforeReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement->getGroupId());
 			}
 		}
-
+		
+		// if replacement already exists, update it
 		else {
 			int rowid = (int)((Int32^)gridBeforeReplacements->Rows[i]->Cells[0]->Value);
 			String^ search = (String^)gridBeforeReplacements->Rows[i]->Cells[2]->Value;
@@ -1941,7 +1900,6 @@ void saveBeforeReplacements() {
 					replace = L"";
 
 				replacementsWhichWereNotDeleted.push_back(rowid);
-				//! \todo warum gibt es Ruleset::getReplacement(int rowid) nicht??
 				Replacement& replacement = mRuleset->getReplacement(rowid);
 				replacement.setRegex(toStlString(search));
 				replacement.setReplacement(toStlString(replace));
@@ -1949,21 +1907,23 @@ void saveBeforeReplacements() {
 		}
 	}
 
-	vector<Replacement> replacementVector = replacements.getReplacements();
+	vector<Replacement*> replacementVector = replacements.getReplacements();
 	for(unsigned int i=0; i<replacementVector.size(); i++) {
 		bool found = false;
 		for(unsigned int j=0; j<replacementsWhichWereNotDeleted.size(); j++) {
-			if(replacementVector[i].getRowId() == replacementsWhichWereNotDeleted[j]) {
+			if(replacementVector[i]->getRowId() == replacementsWhichWereNotDeleted[j]) {
 				found = true;
 			}
 		}
 
+		// replacement was removed, so remove it ...
 		if(found == false) {
-			Replacement& replacement = mRuleset->getReplacement(replacementVector[i].getRowId());
+			Replacement& replacement = mRuleset->getReplacement(replacementVector[i]->getRowId());
 			replacement.remove();
 		}
 	}
 
+	// save the changes from the object modell to the database
 	mRuleset->save();
 }
 
@@ -1972,15 +1932,15 @@ void loadBeforeReplacements() {
 
 	if(mRuleset == NULL) return ;
 	gridBeforeReplacements->Rows->Clear();
-	Replacements replacements = mRuleset->getBeforeReplacements();
-	vector<Replacement> replacementVector = replacements.getReplacements();
+	Replacements& replacements = mRuleset->getBeforeReplacements();
+	vector<Replacement*> replacementVector = replacements.getReplacements();
 
 	for(unsigned int i=0; i<replacementVector.size(); i++) {
 		cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
-		values[0] = gcnew Int32 ((Int32)replacementVector[i].getRowId());
-		values[1] = gcnew Int32 ((Int32)replacementVector[i].getGroupId());
-		values[2] = toClrString(replacementVector[i].getRegex().str());
-		values[3] = toClrString(replacementVector[i].getReplacement());
+		values[0] = gcnew Int32 ((Int32)replacementVector[i]->getRowId());
+		values[1] = gcnew Int32 ((Int32)replacementVector[i]->getGroupId());
+		values[2] = toClrString(replacementVector[i]->getRegex().str());
+		values[3] = toClrString(replacementVector[i]->getReplacement());
 
 		gridBeforeReplacements->Rows->Add(values);
 	}
@@ -1989,8 +1949,10 @@ void loadBeforeReplacements() {
 }
 
 private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-	if(mStep == Step::BEFORE_REPLACEMENTS) 
-		applyChanges(mStep);
+	 if(mStep == Step::BEFORE_REPLACEMENTS) {
+		 mRuleset->save();
+		 applyChanges(mStep);
+	 }
 }
 
 #pragma endregion
@@ -2274,6 +2236,9 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 }
 
 			 void saveGems() {
+				 if(mInputRuleID == 0)
+					 return ;
+
 				 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
 				 vector<Gem*> gems = inputRule.getGems();
 
@@ -2395,10 +2360,10 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 					 if(search != nullptr) {
 						 if(replace == nullptr)
 							 replace = L"";
-						 Replacement& replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
-						 replacementsWhichWereNotDeleted.push_back(replacement.getRowId());
-						 gridAfterReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement.getRowId());
-						 gridAfterReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement.getGroupId());
+						 Replacement* replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
+						 replacementsWhichWereNotDeleted.push_back(replacement->getRowId());
+						 gridAfterReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement->getRowId());
+						 gridAfterReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement->getGroupId());
 					 }
 				 }
 
@@ -2418,17 +2383,17 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 				 }
 			 }
 
-			 vector<Replacement> replacementVector = replacements.getReplacements();
+			 vector<Replacement*> replacementVector = replacements.getReplacements();
 			 for(unsigned int i=0; i<replacementVector.size(); i++) {
 				 bool found = false;
 				 for(unsigned int j=0; j<replacementsWhichWereNotDeleted.size(); j++) {
-					 if(replacementVector[i].getRowId() == replacementsWhichWereNotDeleted[j]) {
+					 if(replacementVector[i]->getRowId() == replacementsWhichWereNotDeleted[j]) {
 						 found = true;
 					 }
 				 }
 
 				 if(found == false) {
-					 Replacement& replacement = mRuleset->getReplacement(replacementVector[i].getRowId());
+					 Replacement& replacement = mRuleset->getReplacement(replacementVector[i]->getRowId());
 					 replacement.remove();
 				 }
 			 }
@@ -2440,14 +2405,14 @@ private: System::Void gridGems_SelectionChanged(System::Object^  sender, System:
 			 if(mRuleset == NULL) return ;
 			 gridAfterReplacements->Rows->Clear();
 			 Replacements replacements = mRuleset->getAfterReplacements();
-			 vector<Replacement> replacementVector = replacements.getReplacements();
+			 vector<Replacement*> replacementVector = replacements.getReplacements();
 
 			 for(unsigned int i=0; i<replacementVector.size(); i++) {
 				 cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
-				 values[0] = gcnew Int32 ((Int32)replacementVector[i].getRowId());
-				 values[1] = gcnew Int32 ((Int32)replacementVector[i].getGroupId());
-				 values[2] = toClrString(replacementVector[i].getRegex().str());
-				 values[3] = toClrString(replacementVector[i].getReplacement());
+				 values[0] = gcnew Int32 ((Int32)replacementVector[i]->getRowId());
+				 values[1] = gcnew Int32 ((Int32)replacementVector[i]->getGroupId());
+				 values[2] = toClrString(replacementVector[i]->getRegex().str());
+				 values[3] = toClrString(replacementVector[i]->getReplacement());
 
 				 gridAfterReplacements->Rows->Add(values);
 			 }

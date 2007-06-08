@@ -58,9 +58,9 @@ class Replacement {
 
         //! set replacements.GroupId
         void setGroupId(sqlite_int64 v)
-          { mRow.set("GroupId", cSqlOutFormated(v)); };
+          { mRow.set("groupId", cSqlOutFormated(v)); };
 
-        //! reomves this object and all its children
+        //! removes this object and all its children
         void remove();
 
         //! save this to db
@@ -74,6 +74,10 @@ class Replacement {
     private:
         //---------------------------------------------------------------------
         //  attributes
+
+		Replacement(const Replacement& r) : mDb(NULL), mRow(NULL, "replacements") {
+
+		}
 
         sqlite3* mDb;
         TableRow mRow;

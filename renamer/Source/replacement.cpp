@@ -68,7 +68,6 @@ void Replacement::unitTest() {
     BOOST_CHECKPOINT("getRowId");
     BOOST_CHECK(rpAlpha.getRowId() == sqlite3_last_insert_rowid(db));
 
-
     Replacement rpBeta(db);
     rpBeta.setRegex(regex("\\."));
     rpBeta.setReplacement(" ");

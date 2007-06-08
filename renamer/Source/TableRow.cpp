@@ -58,7 +58,7 @@ string TableRow::get(string field) const {
     if (it == mValues.end()) {
       stringstream strErrMsg;
       strErrMsg << "no such column '" << field
-                << mRowid << "' in table '"
+                << "' with rowid '" << mRowid << "' in table '"
                 << mTable << "'";
       throw runtime_error( strErrMsg.str() );
     } else {

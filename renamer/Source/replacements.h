@@ -18,16 +18,19 @@ class Replacements {
         string replace(string) const;
 
         //! attach a new replacement to this object
-        Replacement& addReplacement(string regex, string replacement);
+        Replacement* addReplacement(string regex, string replacement);
 
         //!get all the replacements attached to this object
-        vector<Replacement> getReplacements() const;
+        vector<Replacement*> getReplacements() const;
 
         //! Creates replacementGroups table
         static void createTables(sqlite3* db);
 
         //! removes this object and all its children
         void remove();
+
+		//! save this object and all its children
+		void save();
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
@@ -47,7 +50,7 @@ class Replacements {
         */
         string mName;
         sqlite_int64 mOwnerId;
-        map<sqlite_int64, Replacement> mChildren;
+        map<sqlite_int64, Replacement*> mChildren;
 };
 
 #endif //REPLACEMENTS_H

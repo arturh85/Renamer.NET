@@ -109,7 +109,16 @@ vector<string> OutputFormat::parse(string format) {
 			}
 
 			else {
-				retVal.push_back(format.substr(start + 1, i - start - 1));
+				string gem = format.substr(start + 1, i - start - 1);
+
+				// check that this gem does not appear twice in the retVal vector
+				bool found = false;
+				for(unsigned j=0; j<retVal.size(); j++)
+					if(retVal[j] == gem)
+						found = true;
+
+				if(!found)
+					retVal.push_back(gem);
 				start = -1;
 			}
 		}

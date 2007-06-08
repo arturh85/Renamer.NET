@@ -9,34 +9,127 @@ using namespace boost::filesystem;
 using boost::regex;
 using boost::smatch;
 
-void Ruleset::loadDb(path dbFile) {
 
-//	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
-//	boost::smatch nameMatch;
-//	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
-//        throw exBadName();
-//	}
-//
-//	mName = nameMatch[1];
+Ruleset::Ruleset() {
+	mDb = NULL;
+	mBeforeReplacementsPtr = NULL;
+	mAfterReplacementsPtr = NULL;
 
-    bool fIsNew = ( !exists(dbFile) );
-    if(sqlite3_open(dbFile.file_string().c_str(), &mDb)) {
-        sqlite3_close(mDb);
-        throw exDbError();
-    }
+	mFilename = "";
+	mName = "memory database";
 
-	if (fIsNew)
-		initDb();
+	if(sqlite3_open(":memory:", &mDb)) {
+		sqlite3_close(mDb);
+		throw std::runtime_error("could not open database file in memory");
+	}
+
+	initDb(mDb);
+
+	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
+	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
+
+	loadDb();
 }
 
-void Ruleset::loadDb(sqlite3* db) {
+Ruleset::Ruleset(string filename) {
+	mDb = NULL;
+	mBeforeReplacementsPtr = NULL;
+	mAfterReplacementsPtr = NULL;
+
+	mFilename = filename;
+	loadDb(boost::filesystem::path(filename));
+};
+
+Ruleset::Ruleset(wstring filename) {
+	mDb = NULL;
+	mBeforeReplacementsPtr = NULL;
+	mAfterReplacementsPtr = NULL;
+
+	mFilename = toStlString(filename);
+	loadDb(boost::filesystem::path(toStlString(filename)));
+};
+
+
+Ruleset::Ruleset(boost::filesystem::path filename) {
+	mDb = NULL;
+	mBeforeReplacementsPtr = NULL;
+	mAfterReplacementsPtr = NULL;
+
+	mFilename = filename.file_string();
+	loadDb(filename);
+};
+
+
+Ruleset::~Ruleset() {
+	// save database back to file
+	if(mFilename != "") {
+		sqlite3* database = NULL;
+		if(sqlite3_open(mFilename.c_str(), &database)) {
+			sqlite3_close(database);
+			throw exDbError();
+		}
+
+		copyDb(mDb, database);
+		sqlite3_close(database);
+	}
+
 	if(mBeforeReplacementsPtr)
 		delete mBeforeReplacementsPtr;
 	if(mAfterReplacementsPtr)
 		delete mAfterReplacementsPtr;
 
-	mBeforeReplacementsPtr = new Replacements(db, "rulesetBefore", MAGIC_OWNER_ID);
-	mAfterReplacementsPtr = new Replacements(db, "rulesetAfter", MAGIC_OWNER_ID);
+	for (map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin();
+		it!=mChildren.end() ; it++) {
+
+			delete it->second;
+	}
+
+	sqlite3_close(mDb);
+}
+
+void Ruleset::loadDb(path dbFile) {
+
+	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
+	boost::smatch nameMatch;
+	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
+//        throw exBadName();
+	}
+
+	mName = nameMatch[1];
+
+    bool isNew = ( !exists(dbFile) );
+
+	sqlite3* database = NULL;
+	if(!isNew) {
+		if(sqlite3_open(dbFile.file_string().c_str(), &database)) {
+			sqlite3_close(database);
+			throw exDbError();
+		}
+	}
+
+	if(sqlite3_open(":memory:", &mDb)) {
+		sqlite3_close(mDb);
+		throw std::runtime_error("could not open database file in memory");
+	}
+
+	initDb(mDb);
+
+	if(!isNew)
+		copyDb(database, mDb);
+
+	sqlite3_close(database);
+
+	loadDb();
+}
+
+void Ruleset::loadDb() {
+	if(mBeforeReplacementsPtr)
+		delete mBeforeReplacementsPtr;
+	if(mAfterReplacementsPtr)
+		delete mAfterReplacementsPtr;
+
+	mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
+	mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
 
 	for(map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin(); it != mChildren.end(); it++) {
 		delete it->second;
@@ -54,58 +147,20 @@ void Ruleset::loadDb(sqlite3* db) {
 		it != rowids.end(); it++) {
 
 			sqlite_int64 rowid = cSqlInFormated<sqlite_int64>(*it);
-			OutputFormat* newFormatPtr = new OutputFormat(db, rowid);
+			OutputFormat* newFormatPtr = new OutputFormat(mDb, rowid);
 			mChildren[newFormatPtr->getRowId()] = newFormatPtr;
 	}
 
 }
 
-Ruleset::Ruleset(wstring filename) {
-    mFilename = toStlString(filename);
-    loadDb(boost::filesystem::path(toStlString(filename)));
-};
-
-Ruleset::Ruleset() {
-//    mName = "memory";
-    if(sqlite3_open(":memory:", &mDb)) {
-        sqlite3_close(mDb);
-        throw std::runtime_error("could not open database file in memory");
-    }
-
-    initDb();
-
-    mBeforeReplacementsPtr = new Replacements(mDb, "rulesetBefore", MAGIC_OWNER_ID);
-    mAfterReplacementsPtr = new Replacements(mDb, "rulesetAfter", MAGIC_OWNER_ID);
-}
-
-Ruleset::Ruleset(boost::filesystem::path filename) {
-	mFilename = filename.file_string();
-  loadDb(filename);
-};
-
-Ruleset::Ruleset(string filename) {
-  mFilename = filename;
-  loadDb(boost::filesystem::path(filename));
-};
-
-Ruleset::~Ruleset() {
-    for (map<sqlite_int64, OutputFormat*>::iterator it = mChildren.begin();
-         it!=mChildren.end() ; it++) {
-
-        delete it->second;
-    }
-
-    sqlite3_close(mDb);
-}
-
-void Ruleset::initDb() {
+void Ruleset::initDb(sqlite3* database) {
     string sSql;
 
-    InputRule::createTables(mDb);
-    Replacement::createTables(mDb);
-    Replacements::createTables(mDb);
-    Gem::createTables(mDb);
-    OutputFormat::createTables(mDb);
+    InputRule::createTables(database);
+    Replacement::createTables(database);
+    Replacements::createTables(database);
+    Gem::createTables(database);
+    OutputFormat::createTables(database);
 }
 
 //string Ruleset::getName() const {
@@ -256,24 +311,27 @@ void Ruleset::save() {
 
     	it->second->save();
     }
-    return;
+
+	if(mBeforeReplacementsPtr)
+		mBeforeReplacementsPtr->save();
+	if(mAfterReplacementsPtr)
+		mAfterReplacementsPtr->save();
 }
 
-Replacement Ruleset::getReplacement(sqlite_int64 rowid) {
-    vector<Replacement>
-        replacements = mBeforeReplacementsPtr->getReplacements();
+Replacement& Ruleset::getReplacement(sqlite_int64 rowid) {
+    vector<Replacement*> replacements = mBeforeReplacementsPtr->getReplacements();
 
-    for (vector<Replacement>::iterator it = replacements.begin();
-         it!=replacements.end(); it++) {
+    for (vector<Replacement*>::iterator it = replacements.begin();
+         it != replacements.end(); it++) {
 
-    	if (it->getRowId() == rowid) {
-            return *it;
+    	if ((*it)->getRowId() == rowid) {
+            return *(*it);
     	}
     }
     throw exNoSuchId();
 }
 
-void Ruleset::save(Ruleset* target) {
+void Ruleset::copyDb(sqlite3* source, sqlite3* target) {
 	char* tables[] = { "gems", "history", "options", "outputFormats", "regexes", "replacementGroups", "replacements" };
 	const int tableCount = 7; // importent! set this MANUALLY each time you update the tables var
 
@@ -282,16 +340,12 @@ void Ruleset::save(Ruleset* target) {
 	for(int i=0; i<tableCount; i++) {
 		stringstream strSql;
 		strSql  << "DROP TABLE " << tables[i];
-		sqlite3_exec(target->mDb, strSql.str().c_str(), NULL, NULL, NULL);
+		sqlite3_exec(target, strSql.str().c_str(), NULL, NULL, NULL);
 	}
-
-	// \todo do it
 
 	// Step2: Create tables on target
 
-	target->initDb();
-
-//	target->initDb();
+	initDb(target);
 
 	// Step3: iterate through all tables of this Ruleset and write them to target
 
@@ -301,7 +355,7 @@ void Ruleset::save(Ruleset* target) {
 
 		vector<map<string,string> > resultset;
 		try {
-			exec(strSql.str(), mDb, onAppendAllColumnsToMapVector, &resultset );
+			exec(strSql.str(), source, onAppendAllColumnsToMapVector, &resultset );
 		}
 
 		catch(...) {
@@ -328,12 +382,9 @@ void Ruleset::save(Ruleset* target) {
 			strSql.str("");
 			strSql << "INSERT INTO " << tables[i] << " (" << strColumns.str() << ") VALUES (" << strValues.str() << ")";
 
-			sqlite3_exec(target->mDb, strSql.str().c_str(), NULL, NULL, NULL);
+			sqlite3_exec(target, strSql.str().c_str(), NULL, NULL, NULL);
 		}
 	}	
-
-	target->loadDb(target->mDb);
-
 }
 
 

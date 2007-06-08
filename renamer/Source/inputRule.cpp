@@ -203,8 +203,8 @@ vector<Gem*> InputRule::getGems() const {
 void InputRule::updateGems(string outputFormat) {
     vector<Gem*> gems = getGems();
     vector<string> sGems =  OutputFormat::parse(outputFormat);
-    for (unsigned int n=0; n<sGems.size(); n++) {
 
+    for (unsigned int n=0; n<sGems.size(); n++) {
         Gem* newGemPtr = NULL;
     	if (n >= mChildren.size() ) {
             newGemPtr = new Gem(mDb, mRow.getRowId());

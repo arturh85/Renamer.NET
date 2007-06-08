@@ -9,10 +9,47 @@ Replacements::Replacements(sqlite3* db, string name, sqlite_int64 ownerId) :
 {
     exAssert(db!=NULL);
     exAssertDesc(ownerId > 0, "ownerId should be greater null");
+
+	sqlite_int64 groupId = 0;
+
+	stringstream strSql;
+	strSql  << "SELECT rowid FROM replacementGroups "
+		<< "WHERE name = " << cSqlStrOut(mName)
+		<< " AND ownerId = " << mOwnerId;
+	string sRowId;
+	exec(strSql, mDb, onReadFirstField, &sRowId);
+	if (sRowId.length() > 0) {
+		groupId = cSqlInFormated<sqlite_int64>(sRowId);
+	} else {
+		strSql.str(""); //clear
+		strSql  << "INSERT INTO replacementGroups "
+			<< "(name, ownerId) VALUES ("
+			<< cSqlStrOut(mName) << ", "
+			<< mOwnerId << ")";
+		exec(strSql, mDb);
+
+		groupId = sqlite3_last_insert_rowid(mDb);
+	}
+
+
+	vector<string> rowids;		
+	strSql.str(""); //clear
+	strSql << "SELECT rowid FROM replacements "
+		"WHERE groupId = " << cSqlOutFormated(groupId) ;
+
+	exec(strSql, db, onAppendFirstColumnToVector, &rowids);
+	for (vector<string>::iterator it = rowids.begin();
+		it != rowids.end(); it++) {
+
+			stringstream strRowid(*it);
+			sqlite_int64 rowid;
+			strRowid >> rowid;
+			Replacement* newReplacement = new Replacement(db,  rowid);
+			mChildren[newReplacement->getRowId()] = newReplacement;
+	}
 };
 
-Replacement& Replacements::addReplacement(string sRegex, string replacement) {
-
+Replacement* Replacements::addReplacement(string sRegex, string replacement) {
     Replacement* newReplacementPtr = new Replacement(mDb);
     newReplacementPtr->setRegex(sRegex);
     newReplacementPtr->setReplacement(replacement);
@@ -40,7 +77,9 @@ Replacement& Replacements::addReplacement(string sRegex, string replacement) {
     }
 
     newReplacementPtr->save();
-    return *newReplacementPtr;
+
+	mChildren.insert(make_pair(newReplacementPtr->getRowId(), newReplacementPtr));
+    return newReplacementPtr;
 }
 
 void Replacements::createTables(sqlite3* db) {
@@ -53,9 +92,10 @@ void Replacements::createTables(sqlite3* db) {
     exec(strSql, db);
 }
 
-vector<Replacement> Replacements::getReplacements() const {
-    typedef vector<Replacement> vtype;
-    vtype retVal;
+vector<Replacement*> Replacements::getReplacements() const {
+	vector<Replacement*> retVal;
+
+	/*
     vector<string> rowidStrings;
 
     stringstream strSql;
@@ -67,31 +107,29 @@ vector<Replacement> Replacements::getReplacements() const {
                " AND ownerId = " << mOwnerId;
 
 //    cout << strSql.str() << endl;
-    exec(strSql, mDb, onAppendFirstColumnToVector, &rowidStrings);
+    exec(strSql, mDb, onAppendFirstColumnToVector, &rowidStrings);*/
 
-    for (vector<string>::iterator it = rowidStrings.begin();
-         it != rowidStrings.end(); it++) {
+    for (map<sqlite_int64, Replacement*>::const_iterator it = mChildren.begin();
+         it != mChildren.end(); it++) {
 
 //        cout << "rowid " << cSqlInFormated<sqlite_int64>(*it) << endl;
-        Replacement newReplacement(mDb, cSqlInFormated<sqlite_int64>(*it));
-        retVal.push_back(newReplacement);
+        retVal.push_back(it->second);
     }
-
 
     return retVal;
 }
 
 string Replacements::replace(string sString) const {
     string sRetVal = sString;
-    vector<Replacement> replacements = getReplacements();
+    vector<Replacement*> replacements = getReplacements();
 
     for (int nAttempt = 0; nAttempt < 5; nAttempt++) {
         //cout << "loop: " << sRetVal << " >" << nAttempt << endl;
         bool fLoop = false;
-        for (vector<Replacement>::iterator it= replacements.begin();
+        for (vector<Replacement*>::iterator it= replacements.begin();
              it != replacements.end(); it++) {
 
-            string sNewString = it->replace(sRetVal);
+            string sNewString = (*it)->replace(sRetVal);
             if (sRetVal != sNewString) {
                 sRetVal = sNewString;
                 fLoop = true;
@@ -123,7 +161,16 @@ void Replacements::remove() {
                   " AND ownerId = " << mOwnerId;
     exec(strSql, mDb);
     return;
+}
 
+void Replacements::save() {
+	for (map<sqlite_int64, Replacement*>::iterator it = mChildren.begin();
+		it!=mChildren.end(); it++) {
+
+			it->second->save();
+	}
+
+	return;
 }
 
 #ifdef RENAMER_UNIT_TEST

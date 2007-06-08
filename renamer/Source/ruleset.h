@@ -24,12 +24,6 @@ class Ruleset
         //---------------------------------------------------------------------
         //  constructors & destructor
 
-        //! Creates an anonymous ruleset in RAM
-        Ruleset();
-
-        //! load a db (boost::filesystem::path)
-        Ruleset(boost::filesystem::path filename);
-
         //! load a db (std::string)
         Ruleset(string filename);
 
@@ -64,9 +58,7 @@ class Ruleset
         vector<OutputFormat*> getOutputFormats();
 
 		string getFilename() const;
-
-		//! Use only to set the filename if this is a memory database
-		void setFilename(string filename)  { if(mFilename.length() != 0) throw runtime_error("filename can not be changed"); mFilename = filename; }
+		string getName() const;
 
         /// these are applied before anything else is done with the filename
         Replacements& getBeforeReplacements() const { return *mBeforeReplacementsPtr; };
@@ -86,14 +78,16 @@ class Ruleset
         Gem& getGem(sqlite_int64 rowid);
 
         //! gui convenience
-        Replacement getReplacement(sqlite_int64 rowid);
+        Replacement& getReplacement(sqlite_int64 rowid);
 
         //! save this object and all its children
         void save();
 
+		//! Creates an anonymous ruleset in RAM
+		Ruleset();
 
-		//! queries all data from ruleset tables on this Sqlite3 db and inserts them to the Sqlite3 db of target
-		void save(Ruleset* target);
+		//! load a db (boost::filesystem::path)
+		Ruleset(boost::filesystem::path filename);
 
         #ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
@@ -104,23 +98,29 @@ class Ruleset
         //  attributes
 //        string mName;
         string mFilename;
+		string mName;
+
         sqlite3* mDb;
         Replacements* mBeforeReplacementsPtr;
         Replacements* mAfterReplacementsPtr;
         map<sqlite_int64, OutputFormat*> mChildren;
 
         //  methodes
-        //! Creates initial tables
-        void initDb();
+
+
+		//! Creates initial tables
+        void initDb(sqlite3* database);
 
         //! opens Db
         void loadDb(boost::filesystem::path dbFile);
-		void loadDb(sqlite3* db);
+		void loadDb();
 
         //! disabled for your convenience
         Ruleset ::Ruleset (Ruleset &)
             { throw runtime_error("not implemented"); };
 
+		//! queries all data from ruleset tables on this Sqlite3 db and inserts them to the Sqlite3 db of target
+		void copyDb(sqlite3* source, sqlite3* target);
 };
 
 //class exBadName : public runtime_error {
