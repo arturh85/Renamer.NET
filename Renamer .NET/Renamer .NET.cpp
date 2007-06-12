@@ -6,8 +6,13 @@
 #include "globals.h"
 
 using namespace RenamerNET;
+string gInitialRuleset;
 
 struct sqlite3 {};
+
+/***************************************************************************************************
+	This is only included to *** \todo übersetzung für befriedigen einfügen *** the dependencies
+/***************************************************************************************************/
 
 namespace boost {
 	namespace re_detail {
@@ -32,6 +37,11 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
+		gInitialRuleset = toStlString(args[0]);
+	}
+
+	// Name checker von Boost deaktivieren
 	boost::filesystem::path::default_name_check(boost::filesystem::no_check);
 	
 	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden

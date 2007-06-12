@@ -184,7 +184,7 @@ void InputRule::remove() {
     strSql << "DELETE FROM regexes WHERE rowid = "
            << cSqlOutFormated(getRowId());
 //    cout << strSql.str() << endl;
-    exec(strSql, mDb);
+    exec(strSql, mDb); 
     return;
 
 }

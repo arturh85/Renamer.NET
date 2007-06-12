@@ -70,11 +70,11 @@ protected: enum class Step {
 	BEFORE_REPLACEMENTS = 1,
 	OUTPUTFORMAT_SELECT = 2,
 	INPUTRULES_SELECT = 3,
+	/*	
 	GEMS_SELECT = 4,
-/*	
 	AFTER_REPLACEMENTS = 5,
 	RENAME = 6,*/
-	MAX = 5
+	MAX = 4
 };
 
 		 // Business Logic Member Variables
@@ -177,7 +177,7 @@ private: System::Windows::Forms::ComboBox^  cboRulesets;
 private: System::Windows::Forms::ToolStripButton^  tsDebugAddFiles;
 private: System::Windows::Forms::ToolStrip^  toolStrip3;
 private: System::Windows::Forms::ToolStripButton^  tsSaveInputRule;
-private: System::Windows::Forms::DataGridView^  gridGems;
+
 private: System::Windows::Forms::ToolStripButton^  tsDebugLoadRuleset;
 private: System::Windows::Forms::RichTextBox^  txtGemInputRule;
 private: System::Windows::Forms::Button^  buttonRenameFiles;
@@ -196,10 +196,17 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplace
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsGroupID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsSearch;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnBeforeReplacementsReplace;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  GemColumnPosition;
-private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
+
+
 private: System::Windows::Forms::ToolStripButton^  tsRenameFiles;
 private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
+private: System::Windows::Forms::DataGridView^  gridGems;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  GemColumnPosition;
+private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
+
+
+
+
 
 	// .net container
 	private: System::ComponentModel::IContainer^  components;
@@ -244,6 +251,21 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->chFile = (gcnew System::Windows::Forms::ColumnHeader());
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->panelStepContent = (gcnew System::Windows::Forms::Panel());
+			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
+			this->gridGems = (gcnew System::Windows::Forms::DataGridView());
+			this->GemColumnPosition = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->GemColumnGem = (gcnew System::Windows::Forms::DataGridViewComboBoxColumn());
+			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
+			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
+			this->txtInputRuleBorder = (gcnew System::Windows::Forms::TextBox());
+			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
+			this->tsInputRuleButtons = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsRemoveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
 			this->panelStepRuleset = (gcnew System::Windows::Forms::Panel());
 			this->checkBoxShowOnlyMatchingFiles = (gcnew System::Windows::Forms::CheckBox());
 			this->panelCboRulesets = (gcnew System::Windows::Forms::Panel());
@@ -255,9 +277,6 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->panelStepGems = (gcnew System::Windows::Forms::Panel());
 			this->label13 = (gcnew System::Windows::Forms::Label());
 			this->txtGemInputRule = (gcnew System::Windows::Forms::RichTextBox());
-			this->gridGems = (gcnew System::Windows::Forms::DataGridView());
-			this->GemColumnPosition = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->GemColumnGem = (gcnew System::Windows::Forms::DataGridViewComboBoxColumn());
 			this->panelStepBeforeReplacements = (gcnew System::Windows::Forms::Panel());
 			this->gridBeforeReplacements = (gcnew System::Windows::Forms::DataGridView());
 			this->ColumnBeforeReplacementsID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -270,18 +289,6 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->ColumnAfterReplacementsGroupID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->ColumnAfterReplacementsSearch = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->ColumnAfterReplacementsReplace = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
-			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
-			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
-			this->txtInputRuleBorder = (gcnew System::Windows::Forms::TextBox());
-			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
-			this->tsInputRuleButtons = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->tsRemoveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
-			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
 			this->panelStepOutputFormat = (gcnew System::Windows::Forms::Panel());
 			this->label12 = (gcnew System::Windows::Forms::Label());
 			this->panelTxtOutputFormat = (gcnew System::Windows::Forms::Panel());
@@ -332,20 +339,20 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->splitContainer->Panel2->SuspendLayout();
 			this->splitContainer->SuspendLayout();
 			this->panelStepContent->SuspendLayout();
-			this->panelStepRuleset->SuspendLayout();
-			this->panelCboRulesets->SuspendLayout();
-			this->tsRuleset->SuspendLayout();
-			this->panelStepGems->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->BeginInit();
-			this->panelStepBeforeReplacements->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridBeforeReplacements))->BeginInit();
-			this->panelStepAfterReplacements->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->BeginInit();
 			this->panelStepInputRule->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->BeginInit();
 			this->panelTxtInputRule->SuspendLayout();
 			this->toolStrip3->SuspendLayout();
 			this->panelLstInputRules->SuspendLayout();
 			this->tsInputRuleButtons->SuspendLayout();
+			this->panelStepRuleset->SuspendLayout();
+			this->panelCboRulesets->SuspendLayout();
+			this->tsRuleset->SuspendLayout();
+			this->panelStepGems->SuspendLayout();
+			this->panelStepBeforeReplacements->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridBeforeReplacements))->BeginInit();
+			this->panelStepAfterReplacements->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->BeginInit();
 			this->panelStepOutputFormat->SuspendLayout();
 			this->panelTxtOutputFormat->SuspendLayout();
 			this->tsTxtOutputFormat->SuspendLayout();
@@ -501,16 +508,161 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			// 
 			// panelStepContent
 			// 
+			this->panelStepContent->Controls->Add(this->panelStepInputRule);
 			this->panelStepContent->Controls->Add(this->panelStepRuleset);
 			this->panelStepContent->Controls->Add(this->panelStepGems);
 			this->panelStepContent->Controls->Add(this->panelStepBeforeReplacements);
 			this->panelStepContent->Controls->Add(this->panelStepAfterReplacements);
-			this->panelStepContent->Controls->Add(this->panelStepInputRule);
 			this->panelStepContent->Controls->Add(this->panelStepOutputFormat);
 			this->panelStepContent->Controls->Add(this->panelStepRename);
 			this->panelStepContent->Controls->Add(this->panelNavigation);
 			resources->ApplyResources(this->panelStepContent, L"panelStepContent");
 			this->panelStepContent->Name = L"panelStepContent";
+			// 
+			// panelStepInputRule
+			// 
+			this->panelStepInputRule->Controls->Add(this->gridGems);
+			this->panelStepInputRule->Controls->Add(label14);
+			this->panelStepInputRule->Controls->Add(this->panelTxtInputRule);
+			this->panelStepInputRule->Controls->Add(this->panelLstInputRules);
+			this->panelStepInputRule->Controls->Add(label3);
+			resources->ApplyResources(this->panelStepInputRule, L"panelStepInputRule");
+			this->panelStepInputRule->Name = L"panelStepInputRule";
+			// 
+			// gridGems
+			// 
+			this->gridGems->AllowUserToAddRows = false;
+			this->gridGems->AllowUserToDeleteRows = false;
+			this->gridGems->AllowUserToResizeRows = false;
+			resources->ApplyResources(this->gridGems, L"gridGems");
+			this->gridGems->BackgroundColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			this->gridGems->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->gridGems->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->GemColumnPosition, 
+				this->GemColumnGem});
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridGems->DefaultCellStyle = dataGridViewCellStyle2;
+			this->gridGems->MultiSelect = false;
+			this->gridGems->Name = L"gridGems";
+			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle3->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
+			// 
+			// GemColumnPosition
+			// 
+			this->GemColumnPosition->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::ColumnHeader;
+			this->GemColumnPosition->FillWeight = 69;
+			resources->ApplyResources(this->GemColumnPosition, L"GemColumnPosition");
+			this->GemColumnPosition->Name = L"GemColumnPosition";
+			this->GemColumnPosition->ReadOnly = true;
+			// 
+			// GemColumnGem
+			// 
+			this->GemColumnGem->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::Fill;
+			resources->ApplyResources(this->GemColumnGem, L"GemColumnGem");
+			this->GemColumnGem->Name = L"GemColumnGem";
+			this->GemColumnGem->Resizable = System::Windows::Forms::DataGridViewTriState::True;
+			this->GemColumnGem->SortMode = System::Windows::Forms::DataGridViewColumnSortMode::Automatic;
+			// 
+			// panelTxtInputRule
+			// 
+			resources->ApplyResources(this->panelTxtInputRule, L"panelTxtInputRule");
+			this->panelTxtInputRule->Controls->Add(this->txtInputRule);
+			this->panelTxtInputRule->Controls->Add(this->txtInputRuleBorder);
+			this->panelTxtInputRule->Controls->Add(this->toolStrip3);
+			this->panelTxtInputRule->Name = L"panelTxtInputRule";
+			// 
+			// txtInputRule
+			// 
+			resources->ApplyResources(this->txtInputRule, L"txtInputRule");
+			this->txtInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtInputRule->Name = L"txtInputRule";
+			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
+			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
+			// 
+			// txtInputRuleBorder
+			// 
+			resources->ApplyResources(this->txtInputRuleBorder, L"txtInputRuleBorder");
+			this->txtInputRuleBorder->Name = L"txtInputRuleBorder";
+			// 
+			// toolStrip3
+			// 
+			resources->ApplyResources(this->toolStrip3, L"toolStrip3");
+			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
+			this->toolStrip3->Name = L"toolStrip3";
+			// 
+			// tsSaveInputRule
+			// 
+			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsSaveInputRule, L"tsSaveInputRule");
+			this->tsSaveInputRule->Name = L"tsSaveInputRule";
+			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
+			// 
+			// panelLstInputRules
+			// 
+			resources->ApplyResources(this->panelLstInputRules, L"panelLstInputRules");
+			this->panelLstInputRules->Controls->Add(this->tsInputRuleButtons);
+			this->panelLstInputRules->Controls->Add(this->lstInputRules);
+			this->panelLstInputRules->Name = L"panelLstInputRules";
+			// 
+			// tsInputRuleButtons
+			// 
+			resources->ApplyResources(this->tsInputRuleButtons, L"tsInputRuleButtons");
+			this->tsInputRuleButtons->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->tsInputRuleButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddInputRule, 
+				this->tsRemoveInputRule, this->tsDuplicateInputRule});
+			this->tsInputRuleButtons->Name = L"tsInputRuleButtons";
+			// 
+			// tsAddInputRule
+			// 
+			this->tsAddInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsAddInputRule, L"tsAddInputRule");
+			this->tsAddInputRule->Name = L"tsAddInputRule";
+			this->tsAddInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsAddInputRule_Click);
+			// 
+			// tsRemoveInputRule
+			// 
+			this->tsRemoveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsRemoveInputRule, L"tsRemoveInputRule");
+			this->tsRemoveInputRule->Name = L"tsRemoveInputRule";
+			this->tsRemoveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsRemoveInputRule_Click);
+			// 
+			// tsDuplicateInputRule
+			// 
+			this->tsDuplicateInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsDuplicateInputRule, L"tsDuplicateInputRule");
+			this->tsDuplicateInputRule->Name = L"tsDuplicateInputRule";
+			this->tsDuplicateInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateInputRule_Click);
+			// 
+			// lstInputRules
+			// 
+			resources->ApplyResources(this->lstInputRules, L"lstInputRules");
+			this->lstInputRules->FormattingEnabled = true;
+			this->lstInputRules->Name = L"lstInputRules";
+			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
 			// 
 			// panelStepRuleset
 			// 
@@ -577,7 +729,6 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			// 
 			this->panelStepGems->Controls->Add(this->label13);
 			this->panelStepGems->Controls->Add(this->txtGemInputRule);
-			this->panelStepGems->Controls->Add(this->gridGems);
 			this->panelStepGems->Controls->Add(label6);
 			resources->ApplyResources(this->panelStepGems, L"panelStepGems");
 			this->panelStepGems->Name = L"panelStepGems";
@@ -593,62 +744,6 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->txtGemInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->txtGemInputRule->Name = L"txtGemInputRule";
 			this->txtGemInputRule->ReadOnly = true;
-			// 
-			// gridGems
-			// 
-			this->gridGems->AllowUserToAddRows = false;
-			this->gridGems->AllowUserToDeleteRows = false;
-			this->gridGems->AllowUserToResizeRows = false;
-			resources->ApplyResources(this->gridGems, L"gridGems");
-			this->gridGems->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this->gridGems->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->gridGems->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->GemColumnPosition, 
-				this->GemColumnGem});
-			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridGems->DefaultCellStyle = dataGridViewCellStyle2;
-			this->gridGems->MultiSelect = false;
-			this->gridGems->Name = L"gridGems";
-			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle3->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
-			// 
-			// GemColumnPosition
-			// 
-			this->GemColumnPosition->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::ColumnHeader;
-			resources->ApplyResources(this->GemColumnPosition, L"GemColumnPosition");
-			this->GemColumnPosition->Name = L"GemColumnPosition";
-			this->GemColumnPosition->ReadOnly = true;
-			// 
-			// GemColumnGem
-			// 
-			this->GemColumnGem->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::Fill;
-			resources->ApplyResources(this->GemColumnGem, L"GemColumnGem");
-			this->GemColumnGem->Name = L"GemColumnGem";
-			this->GemColumnGem->Resizable = System::Windows::Forms::DataGridViewTriState::True;
-			this->GemColumnGem->SortMode = System::Windows::Forms::DataGridViewColumnSortMode::Automatic;
 			// 
 			// panelStepBeforeReplacements
 			// 
@@ -784,93 +879,6 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->ColumnAfterReplacementsReplace->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::Fill;
 			resources->ApplyResources(this->ColumnAfterReplacementsReplace, L"ColumnAfterReplacementsReplace");
 			this->ColumnAfterReplacementsReplace->Name = L"ColumnAfterReplacementsReplace";
-			// 
-			// panelStepInputRule
-			// 
-			this->panelStepInputRule->Controls->Add(label14);
-			this->panelStepInputRule->Controls->Add(this->panelTxtInputRule);
-			this->panelStepInputRule->Controls->Add(this->panelLstInputRules);
-			this->panelStepInputRule->Controls->Add(label3);
-			resources->ApplyResources(this->panelStepInputRule, L"panelStepInputRule");
-			this->panelStepInputRule->Name = L"panelStepInputRule";
-			// 
-			// panelTxtInputRule
-			// 
-			resources->ApplyResources(this->panelTxtInputRule, L"panelTxtInputRule");
-			this->panelTxtInputRule->Controls->Add(this->txtInputRule);
-			this->panelTxtInputRule->Controls->Add(this->txtInputRuleBorder);
-			this->panelTxtInputRule->Controls->Add(this->toolStrip3);
-			this->panelTxtInputRule->Name = L"panelTxtInputRule";
-			// 
-			// txtInputRule
-			// 
-			resources->ApplyResources(this->txtInputRule, L"txtInputRule");
-			this->txtInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->txtInputRule->Name = L"txtInputRule";
-			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
-			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
-			// 
-			// txtInputRuleBorder
-			// 
-			resources->ApplyResources(this->txtInputRuleBorder, L"txtInputRuleBorder");
-			this->txtInputRuleBorder->Name = L"txtInputRuleBorder";
-			// 
-			// toolStrip3
-			// 
-			resources->ApplyResources(this->toolStrip3, L"toolStrip3");
-			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
-			this->toolStrip3->Name = L"toolStrip3";
-			// 
-			// tsSaveInputRule
-			// 
-			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsSaveInputRule, L"tsSaveInputRule");
-			this->tsSaveInputRule->Name = L"tsSaveInputRule";
-			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
-			// 
-			// panelLstInputRules
-			// 
-			resources->ApplyResources(this->panelLstInputRules, L"panelLstInputRules");
-			this->panelLstInputRules->Controls->Add(this->tsInputRuleButtons);
-			this->panelLstInputRules->Controls->Add(this->lstInputRules);
-			this->panelLstInputRules->Name = L"panelLstInputRules";
-			// 
-			// tsInputRuleButtons
-			// 
-			resources->ApplyResources(this->tsInputRuleButtons, L"tsInputRuleButtons");
-			this->tsInputRuleButtons->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->tsInputRuleButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddInputRule, 
-				this->tsRemoveInputRule, this->tsDuplicateInputRule});
-			this->tsInputRuleButtons->Name = L"tsInputRuleButtons";
-			// 
-			// tsAddInputRule
-			// 
-			this->tsAddInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsAddInputRule, L"tsAddInputRule");
-			this->tsAddInputRule->Name = L"tsAddInputRule";
-			this->tsAddInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsAddInputRule_Click);
-			// 
-			// tsRemoveInputRule
-			// 
-			this->tsRemoveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsRemoveInputRule, L"tsRemoveInputRule");
-			this->tsRemoveInputRule->Name = L"tsRemoveInputRule";
-			this->tsRemoveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsRemoveInputRule_Click);
-			// 
-			// tsDuplicateInputRule
-			// 
-			this->tsDuplicateInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsDuplicateInputRule, L"tsDuplicateInputRule");
-			this->tsDuplicateInputRule->Name = L"tsDuplicateInputRule";
-			this->tsDuplicateInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateInputRule_Click);
-			// 
-			// lstInputRules
-			// 
-			resources->ApplyResources(this->lstInputRules, L"lstInputRules");
-			this->lstInputRules->FormattingEnabled = true;
-			this->lstInputRules->Name = L"lstInputRules";
-			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
 			// 
 			// panelStepOutputFormat
 			// 
@@ -1104,23 +1112,9 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->splitContainer->Panel2->ResumeLayout(false);
 			this->splitContainer->ResumeLayout(false);
 			this->panelStepContent->ResumeLayout(false);
-			this->panelStepRuleset->ResumeLayout(false);
-			this->panelStepRuleset->PerformLayout();
-			this->panelCboRulesets->ResumeLayout(false);
-			this->panelCboRulesets->PerformLayout();
-			this->tsRuleset->ResumeLayout(false);
-			this->tsRuleset->PerformLayout();
-			this->panelStepGems->ResumeLayout(false);
-			this->panelStepGems->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->EndInit();
-			this->panelStepBeforeReplacements->ResumeLayout(false);
-			this->panelStepBeforeReplacements->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridBeforeReplacements))->EndInit();
-			this->panelStepAfterReplacements->ResumeLayout(false);
-			this->panelStepAfterReplacements->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->EndInit();
 			this->panelStepInputRule->ResumeLayout(false);
 			this->panelStepInputRule->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->EndInit();
 			this->panelTxtInputRule->ResumeLayout(false);
 			this->panelTxtInputRule->PerformLayout();
 			this->toolStrip3->ResumeLayout(false);
@@ -1129,6 +1123,20 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 			this->panelLstInputRules->PerformLayout();
 			this->tsInputRuleButtons->ResumeLayout(false);
 			this->tsInputRuleButtons->PerformLayout();
+			this->panelStepRuleset->ResumeLayout(false);
+			this->panelStepRuleset->PerformLayout();
+			this->panelCboRulesets->ResumeLayout(false);
+			this->panelCboRulesets->PerformLayout();
+			this->tsRuleset->ResumeLayout(false);
+			this->tsRuleset->PerformLayout();
+			this->panelStepGems->ResumeLayout(false);
+			this->panelStepGems->PerformLayout();
+			this->panelStepBeforeReplacements->ResumeLayout(false);
+			this->panelStepBeforeReplacements->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridBeforeReplacements))->EndInit();
+			this->panelStepAfterReplacements->ResumeLayout(false);
+			this->panelStepAfterReplacements->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->EndInit();
 			this->panelStepOutputFormat->ResumeLayout(false);
 			this->panelStepOutputFormat->PerformLayout();
 			this->panelTxtOutputFormat->ResumeLayout(false);
@@ -1169,12 +1177,12 @@ void applyChanges(Step step) {
 		reloadFileList();
 		applyBeforeReplacements();
 		applyInputRules();
-	} else if (step == Step::GEMS_SELECT) {
 		saveGems();
 		reloadFileList();
 		applyBeforeReplacements();
 		applyGems();
-/*			
+		/*			
+	} else if (step == Step::GEMS_SELECT) {
 	} else if (step == Step::AFTER_REPLACEMENTS) {
 		saveAfterReplacements();
 		reloadFileList();
@@ -1455,20 +1463,7 @@ void refreshMaxStep() {
 				setMaxStep(Step::OUTPUTFORMAT_SELECT);
 				return ;
 			}*/
-
-			if(mInputRuleID > 0) {
-				if(mGemID > 0) {
-					setMaxStep(Step::MAX);
-				}
-
-				else {
-					setMaxStep(Step::GEMS_SELECT);
-				}
-			}
-
-			else {
-				setMaxStep(Step::INPUTRULES_SELECT);
-			}
+			setMaxStep(Step::INPUTRULES_SELECT);
 		}
 		else {
 			setMaxStep(Step::OUTPUTFORMAT_SELECT);
@@ -1510,7 +1505,7 @@ void setStep(Step newStep) {
 //						messageLabel->Text = L"No OutputFormat selected";
 			}
 		}
-		if(mStep == Step::INPUTRULES_SELECT && newStep == Step::GEMS_SELECT) {
+/*		if(mStep == Step::INPUTRULES_SELECT && newStep == Step::GEMS_SELECT) {
 			if(mRuleset && mOutputFormatID > 0) {
 				mMaxStep = Step::GEMS_SELECT;
 			}
@@ -1518,7 +1513,7 @@ void setStep(Step newStep) {
 			else {
 				messageLabel->Text = mCustomStrings->GetString(L"Error.NoInputRuleSelected");
 			}
-		}
+		}*/
 /*		if(mStep == Step::GEMS_SELECT && newStep == Step::AFTER_REPLACEMENTS) {
 			// todo: validate gem
 			mMaxStep = Step::AFTER_REPLACEMENTS;
@@ -1580,14 +1575,14 @@ void setStep(Step newStep) {
 	}
 
 	// onEnter: Gems
-	if(newStep == Step::GEMS_SELECT && mStep != Step::GEMS_SELECT) {
+/*	if(newStep == Step::GEMS_SELECT && mStep != Step::GEMS_SELECT) {
 		onEnterStepGems();
 	}
 
 	// onLeave: Gems
 	if(mStep == Step::GEMS_SELECT && newStep != Step::GEMS_SELECT) {
 		onLeaveStepGems();
-	}
+	}*/
 
 /*	// onEnter: afterReplacements
 	if(newStep == Step::AFTER_REPLACEMENTS && mStep != Step::AFTER_REPLACEMENTS) {
@@ -1648,7 +1643,7 @@ private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs
 	mStepPanelList->Add(panelStepBeforeReplacements);
 	mStepPanelList->Add(panelStepOutputFormat);
 	mStepPanelList->Add(panelStepInputRule);
-	mStepPanelList->Add(panelStepGems);
+	//				 mStepPanelList->Add(panelStepGems);
 	//				 mStepPanelList->Add(panelStepAfterReplacements);
 	//				 mStepPanelList->Add(panelStepRename);
 
@@ -1657,7 +1652,7 @@ private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs
 	mStepButtonList->Add(tsStepBeforeReplacements);
 	mStepButtonList->Add(tsStepOutputFormat);
 	mStepButtonList->Add(tsStepInputRule);
-	mStepButtonList->Add(tsStepGems);
+	//				 mStepButtonList->Add(tsStepGems);
 	//				 mStepButtonList->Add(tsStepAfterReplacements);
 	//				 mStepButtonList->Add(tsStepRename);
 
@@ -1668,6 +1663,12 @@ private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs
 	mStep = Step::RULESET_SELECT;
 	setMaxStep(Step::RULESET_SELECT);
 	onEnterStepRuleset();
+
+	extern string gInitialRuleset;
+
+	if(gInitialRuleset.size() > 0) {
+		loadRuleset(toClrString(gInitialRuleset));
+	}
 }
 
 private: System::Void WizardForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
@@ -1706,7 +1707,7 @@ private: System::Void tsStepAfterReplacements_Click(System::Object^  sender, Sys
 }
 
 private: System::Void tsStepGems_Click(System::Object^  sender, System::EventArgs^  e) {
-	setStep(Step::GEMS_SELECT);
+//	setStep(Step::GEMS_SELECT);
 }
 
 private: System::Void buttonRulesetOpenDialog_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -2078,6 +2079,13 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 	#pragma endregion
 	#pragma region Step: InputRule
 			 void onEnterStepInputRules() {
+				 if(mInputRuleID != 0) {
+					 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
+					 txtGemInputRule->Text = toClrString(inputRule.getRegex());
+					 loadGems();
+					 gridGems_SelectionChanged(nullptr, nullptr);
+				 }
+
 				 refreshInputRuleList();
 				 if(lstInputRules->Items->Count > 0)
 					 lstInputRules->SelectedIndex = 0;
@@ -2088,7 +2096,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 }
 
 			 void onLeaveStepInputRules() {
-
+				 saveGems();
 			 }
 
 			 void applyInputRules() {
@@ -2166,6 +2174,8 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 txtInputRule->Text = properties->key;
 			 mInputRuleID = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
 			 tsSaveInputRule->Visible = false;
+
+			 loadGems();
 		 }
 	private: System::Void txtInputRule_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1) 
@@ -2202,6 +2212,9 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 	#pragma endregion
 	#pragma region Step: Gems
 			 void loadGems() {
+				 if(mOutputFormatID == 0 || mInputRuleID == 0)
+					 return ; // can't do anything in this case ...
+
 				 LockWindowUpdate((HWND) (int) gridGems->Handle);
 
 				 gridGems->Rows->Clear();
@@ -2247,16 +2260,16 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 					 Int32^ position = (Int32^) row->Cells[0]->Value;
 					 String^ gemName = (String^) row->Cells[1]->Value;
 
-					 for(unsigned i=0; i<gems.size(); i++) {
-						 if(gems[i]->getName() == toStlString(gemName)) {
-							 gems[i]->setPosition((int) position);
+					 for(unsigned j=0; j<gems.size(); j++) {
+						 if(gems[j]->getName() == toStlString(gemName)) {
+							 gems[j]->setPosition((int) position);
 						 }
 					 }
 				 }
 			 }
 
 			 void onEnterStepGems() {
-				 applyChanges(Step::GEMS_SELECT);
+/*applyChanges(Step::GEMS_SELECT);
 				 loadGems();
 				 if(mInputRuleID != 0) {
 					 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
@@ -2264,6 +2277,7 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 				 }
 
 				 gridGems_SelectionChanged(nullptr, nullptr);
+				 */
 			 }
 
 			 void onLeaveStepGems() {
