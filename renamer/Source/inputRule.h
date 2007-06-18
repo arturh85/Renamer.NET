@@ -40,13 +40,16 @@ class InputRule {
 
         //! get the regex as a string from the database
         string getRegex() const;
-        bool setRegex(string);
+
+        //! sets the regex. IMPORTENT! call updateGems() after calling this method
+		// \todo can not be done automatically because we can't find out the output format, or can we?
+		bool setRegex(string);
 
         //! Creates 'regexes' and 'history' table
         static void createTables(sqlite3* db);
 
-        //! removes this object and all its children
-        void remove();
+		//! removes this gem
+		void removeGem(sqlite_int64 gemID);
 
         //! unused
         Replacements& getReplacements() const { return *mRplPtr; };
@@ -65,6 +68,8 @@ class InputRule {
             The result is ordered by gem position.
         */
         vector<Gem*> getGems() const;
+
+		Gem* getGemByPosition(int position) const;
 
         sqlite_int64 getOutputFormatId();
 

@@ -15,7 +15,6 @@
 
 using namespace System;
 using namespace System::ComponentModel;
-using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Collections::Generic;
@@ -568,6 +567,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
 			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
 			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			this->gridGems->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &WizardForm::gridGems_CellValueChanged);
 			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
 			// 
 			// GemColumnPosition
@@ -1167,7 +1167,6 @@ void applyChanges(Step step) {
 			addColumnToFileListForResult();
 		}
 	} else if (step == Step::BEFORE_REPLACEMENTS) {
-		saveBeforeReplacements();
 		reloadFileList();
 		applyBeforeReplacements();
 	} else if (step == Step::OUTPUTFORMAT_SELECT) {
@@ -1177,10 +1176,8 @@ void applyChanges(Step step) {
 		reloadFileList();
 		applyBeforeReplacements();
 		applyInputRules();
-		saveGems();
-		reloadFileList();
-		applyBeforeReplacements();
 		applyGems();
+
 		/*			
 	} else if (step == Step::GEMS_SELECT) {
 	} else if (step == Step::AFTER_REPLACEMENTS) {
@@ -1285,6 +1282,9 @@ void addColumnToFileListForResult() {
 }
 
 void applyGems() {
+	if(mInputRuleID == 0)
+		return ;
+
 	fileList->BeginUpdate();
 	LockWindowUpdate((HWND) (int) fileList->Handle);
 
@@ -1784,7 +1784,7 @@ private: System::Void tsApplyChanges_Click(System::Object^  sender, System::Even
 			applyChanges(mStep);
 		 }
 #pragma endregion
-#pragma region Step Specific Code
+
 	#pragma region Step: Ruleset
 
 private: System::Void checkBoxShowOnlyMatchingFiles_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -1820,7 +1820,9 @@ void onLeaveStepRuleset() {
 private: System::Void cboRulesets_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 	ListBoxItem^ item = (ListBoxItem^) cboRulesets->Items[cboRulesets->SelectedIndex];
 	String^ rulesetFilename = (String^) item->Tag;
-	loadRuleset(rulesetFilename);
+
+	if(mRuleset == NULL || rulesetFilename != toClrString(mRuleset->getFilename()))
+		loadRuleset(rulesetFilename);
 //	cboRulesets->Text = toClrString(mRuleset->getName());
 
 	applyChanges(Step::RULESET_SELECT);
@@ -1951,7 +1953,7 @@ void loadBeforeReplacements() {
 
 private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 	 if(mStep == Step::BEFORE_REPLACEMENTS) {
-		 mRuleset->save();
+		 saveBeforeReplacements();
 		 applyChanges(mStep);
 	 }
 }
@@ -2003,8 +2005,8 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstOutputFormat->SelectedIndex == -1)
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstOutputFormat->SelectedItem)->Tag)->value;
-			 OutputFormat& outputFormat = mRuleset->getOutputFormat(rowid);
-			 outputFormat.remove();
+			 
+			 mRuleset->removeOutputFormat(rowid);
 			 refreshOutputFormatList();
 			 refreshMaxStep();
 
@@ -2134,13 +2136,16 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstInputRules->SelectedIndex == -1)
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
-			 InputRule& inputRule = mRuleset->getInputRule(rowid);
-			 inputRule.remove();
+			 
+			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
+			 outputFormat.removeInputRule(rowid);
 			 refreshInputRuleList();
 			 refreshMaxStep();
 
-			 if(lstInputRules->Items->Count == 0)
+			 if(lstInputRules->Items->Count == 0) {
 				 disableTxtInputRule();
+				 mInputRuleID = 0;
+			 }
 		 }
 	private: System::Void tsDuplicateInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1)
@@ -2153,9 +2158,23 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 if(lstInputRules->SelectedIndex == -1) 
 				 return ;
 			 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
+			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 InputRule& inputRule = mRuleset->getInputRule(rowid);
 
-			 inputRule.setRegex(toStlString(txtInputRule->Text));
+			 try {
+				 inputRule.setRegex(toStlString(txtInputRule->Text));
+				 inputRule.updateGems(outputFormat.getFormat());
+			 }
+
+			 catch(...) {
+				 // the input rule entered appears to be invalid
+	
+				 txtInputRule->BackColor = Color::LightCoral;
+				 return ;
+			 }
+
+			 //! \todo: find out what BackColor should be usually ...
+			 txtInputRule->BackColor = txtOutputFormat->BackColor;
 
 			 int selectedIndex = lstInputRules->SelectedIndex;
 			 refreshInputRuleList();
@@ -2225,30 +2244,29 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 
 				 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 				 InputRule& inputRule = mRuleset->getInputRule(mInputRuleID);
-				 boost::regex regularExpression(inputRule.getRegex());
-				 unsigned int subExpressionCount = regularExpression.mark_count();
-				 vector<Gem*> gems = inputRule.getGems();
+				 
+				 vector<std::string> neededGems = outputFormat.parse(outputFormat.getFormat());
+				 vector<Gem*> currentGems = inputRule.getGems();
 
-				 for(unsigned i=0; i<gems.size(); i++) {
-					 GemColumnGem->Items->Add(toClrString(gems[i]->getName()));
+				 // add entries to the combobox
+				 for(unsigned i=0; i<neededGems.size(); i++) {
+					 GemColumnGem->Items->Add(toClrString(neededGems[i]));
 				 }
 
-				 for(unsigned i=0; i < subExpressionCount; i++) {
+				 // add the rows to the grid
+				 for(unsigned i=0; i < currentGems.size(); i++) {
 					 cli::array<Object^>^ values = gcnew cli::array<Object^>(2);
-					 values[0] = gcnew Int32(i+1);
-					 for(unsigned j=0; j<gems.size(); j++) {
-						 if(gems[j]->getPosition() == i+1) {
-							 values[1] = gcnew String(toClrString(gems[j]->getName()));
-							 gridGems->Rows->Add(values);
-						 }
-					 }
+					 values[0] = gcnew Int32(currentGems[i]->getPosition());
+					 values[1] = gcnew String(toClrString(currentGems[i]->getName()));
 
+					 gridGems->Rows->Add(values);
 				 }
 
 				 LockWindowUpdate((HWND) 0);
 			 }
 
 			 void saveGems() {
+				 //! \todo: validate that gems are correctly configured by the user
 				 if(mInputRuleID == 0)
 					 return ;
 
@@ -2258,12 +2276,12 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 				 for(int i=0; i<gridGems->Rows->Count; i++) {
 					 DataGridViewRow^ row = gridGems->Rows[i];
 					 Int32^ position = (Int32^) row->Cells[0]->Value;
-					 String^ gemName = (String^) row->Cells[1]->Value;
+					 string gemName = toStlString((String^) row->Cells[1]->Value);
 
-					 for(unsigned j=0; j<gems.size(); j++) {
-						 if(gems[j]->getName() == toStlString(gemName)) {
-							 gems[j]->setPosition((int) position);
-						 }
+					 Gem* gem = inputRule.getGemByPosition((int) position);
+					 assert(gem != NULL);
+					 if(gem) {
+						 gem->setName(gemName);
 					 }
 				 }
 			 }
@@ -2464,7 +2482,7 @@ private: System::Void buttonRenameFiles_Click(System::Object^  sender, System::E
 		 }
 
 #pragma endregion
-#pragma endregion
+
 #pragma region DebugButtons
 private: System::Void tsDebugAddFiles_Click(System::Object^  sender, System::EventArgs^  e) {
 		 cli::array<String^>^ files = System::IO::Directory::GetFiles("D:\\Daten\\Develop\\Renamer\\testFiles", "*.avi");
@@ -2475,12 +2493,16 @@ private: System::Void tsDebugAddFiles_Click(System::Object^  sender, System::Eve
 		 applyChanges(mStep);
 	 }
 private: System::Void tsDebugLoadRuleset_Click(System::Object^  sender, System::EventArgs^  e) {
-		 String^ rulesetFilename = L"D:\\home\\windows\\Eigene Dateien\\The Simpsons.ruleset";
+		 String^ rulesetFilename = L"D:\\home\\windows\\Eigene Dateien\\Serien\\The Simpsons.ruleset";
 		 loadRuleset(rulesetFilename);
 		 cboRulesets->Text = Path::GetFileNameWithoutExtension(toClrString(mRuleset->getFilename()));
 	 }
 #pragma endregion
 #pragma region Footer
+private: System::Void gridGems_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+			 saveGems();
+			 applyChanges(mStep);
+		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
 }

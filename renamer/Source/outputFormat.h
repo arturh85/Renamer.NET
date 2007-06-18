@@ -58,8 +58,8 @@ class OutputFormat {
         sqlite_int64 getRowId() const
             { return mRow.getRowId(); };
 
-        //! reomves this object and all its children
-        void remove();
+
+		void removeInputRule(sqlite_int64 inputRuleId);
 
         //! B/L
         InputRule* getInputRule(sqlite_int64 rowid)

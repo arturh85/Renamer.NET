@@ -51,9 +51,6 @@ class Gem {
         sqlite_int64 getRuleId() const
             { return cSqlInFormated<sqlite_int64>(mRow.get("ruleId")); };
 
-        //! reomves this object and all its children
-        void remove();
-
         //! save this object and all its children
         void save();
 
@@ -79,8 +76,6 @@ class Gem {
         //---------------------------------------------------------------------
         //  attributes
         Replacements replacers;
-
-
 };
 
 #endif //GEM_H

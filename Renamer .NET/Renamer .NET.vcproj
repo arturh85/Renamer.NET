@@ -159,7 +159,7 @@
 				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
 				GenerateDebugInformation="false"
 				SubSystem="2"
-				LinkTimeCodeGeneration="1"
+				LinkTimeCodeGeneration="0"
 				EntryPointSymbol="main"
 				TargetMachine="1"
 				Profile="false"

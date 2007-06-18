@@ -89,7 +89,9 @@ class Ruleset
 		//! load a db (boost::filesystem::path)
 		Ruleset(boost::filesystem::path filename);
 
-        #ifdef RENAMER_UNIT_TEST
+		void removeOutputFormat(sqlite_int64 outputFormatId);
+
+		#ifdef RENAMER_UNIT_TEST
         //! UnitTest this object
         static void unitTest();
         #endif
@@ -109,7 +111,8 @@ class Ruleset
 
 
 		//! Creates initial tables
-        void initDb(sqlite3* database);
+		void initDb(sqlite3* database);
+
 
         //! opens Db
         void loadDb(boost::filesystem::path dbFile);

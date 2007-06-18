@@ -63,15 +63,17 @@ Ruleset::Ruleset(boost::filesystem::path filename) {
 Ruleset::~Ruleset() {
 	// save database back to file
 	if(mFilename != "") {
-		sqlite3* database = NULL;
+		/*sqlite3* database = NULL;
 		if(sqlite3_open(mFilename.c_str(), &database)) {
 			sqlite3_close(database);
 			throw exDbError();
 		}
 
 		copyDb(mDb, database);
-		sqlite3_close(database);
+		sqlite3_close(database);*/
 	}
+
+	sqlite3_close(mDb);
 
 	if(mBeforeReplacementsPtr)
 		delete mBeforeReplacementsPtr;
@@ -83,8 +85,6 @@ Ruleset::~Ruleset() {
 
 			delete it->second;
 	}
-
-	sqlite3_close(mDb);
 }
 
 void Ruleset::loadDb(path dbFile) {
@@ -92,33 +92,24 @@ void Ruleset::loadDb(path dbFile) {
 	static const regex getNameRegex("^.*\\\\(.*)\\.(.*)$");
 	boost::smatch nameMatch;
 	if(!regex_match(mFilename,nameMatch,getNameRegex)) {
-//        throw exBadName();
+		//! \todo catch this exception
+		//        throw exBadName();
 	}
 
 	mName = nameMatch[1];
 
-    bool isNew = ( !exists(dbFile) );
-
-	sqlite3* database = NULL;
-	if(!isNew) {
-		if(sqlite3_open(dbFile.file_string().c_str(), &database)) {
-			sqlite3_close(database);
-			throw exDbError();
-		}
-	}
-
-	if(sqlite3_open(":memory:", &mDb)) {
+	// open database file
+	if(sqlite3_open(dbFile.file_string().c_str(), &mDb)) {
 		sqlite3_close(mDb);
-		throw std::runtime_error("could not open database file in memory");
+		throw exDbError();
 	}
 
-	initDb(mDb);
+	// initialise tables
+	try {
+		initDb(mDb);
+	} catch(...) {} // ignore exception thrown if tables already exist
 
-	if(!isNew)
-		copyDb(database, mDb);
-
-	sqlite3_close(database);
-
+	// load object model from database to memory representation
 	loadDb();
 }
 
@@ -162,6 +153,27 @@ void Ruleset::initDb(sqlite3* database) {
     Gem::createTables(database);
     OutputFormat::createTables(database);
 }
+
+void Ruleset::removeOutputFormat(sqlite_int64 outputFormatId) {
+	OutputFormat* outputFormat = mChildren[outputFormatId];
+	
+	vector<InputRule*> rules = outputFormat->getInputRules();
+	for (vector<InputRule*>::iterator it = rules.begin();
+		it != rules.end(); it++) {
+			outputFormat->removeInputRule((*it)->getRowId());			
+	}
+
+	stringstream strSql;
+	strSql << "DELETE FROM outputFormats WHERE rowid = "
+		<< cSqlOutFormated(outputFormatId);
+	exec(strSql, mDb);
+
+	mChildren.erase(outputFormatId);
+	delete outputFormat;
+
+	return;
+}
+
 
 //string Ruleset::getName() const {
 //	return mName;

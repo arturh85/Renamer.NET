@@ -51,18 +51,6 @@ void Gem::setPosition(int v) {
     mRow.set("position", cSqlOutFormated(v));
 }
 
-void Gem::remove() {
-    replacers.remove();
-
-    stringstream strSql;
-    strSql << "DELETE FROM gems WHERE rowid = "
-           << cSqlOutFormated(getRowId());
-    //cout << strSql.str() << endl;
-    exec(strSql, mDb);
-    return;
-
-}
-
 void Gem::save() {
     mRow.save();
 

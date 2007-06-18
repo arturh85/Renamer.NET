@@ -130,19 +130,24 @@ vector<string> OutputFormat::parse(string format) {
 //	return true;
 }
 
-void OutputFormat::remove() {
-    vector<InputRule*> rules = getInputRules();
-    for (vector<InputRule*>::iterator it = rules.begin();
-         it != rules.end(); it++) {
+void OutputFormat::removeInputRule(sqlite_int64 inputRuleId) {
+	InputRule* inputRule = mChildren[inputRuleId];
 
-      (*it)->remove();
-    }
+	vector<Gem*> gems = inputRule->getGems();
+	for (vector<Gem*>::iterator it = gems.begin();
+		it != gems.end(); it++) {
+			inputRule->removeGem((*it)->getRowId());
+	}
 
-    stringstream strSql;
-    strSql << "DELETE FROM outputFormats WHERE rowid = "
-           << cSqlOutFormated(getRowId());
-    exec(strSql, mRow.getDb());
-    return;
+	stringstream strSql;
+	strSql << "DELETE FROM regexes WHERE rowid = "
+		<< cSqlOutFormated(inputRuleId);
+	//    cout << strSql.str() << endl;
+	exec(strSql, mRow.getDb()); 
+
+	mChildren.erase(inputRuleId);
+	delete inputRule;
+	return;
 }
 
 Gem* OutputFormat::getGem(sqlite_int64 rowid) {

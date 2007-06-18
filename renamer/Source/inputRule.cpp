@@ -106,8 +106,9 @@ void InputRule::createTables(sqlite3* db) {
 
 //! change regex
 bool InputRule::setRegex(string sRegex) {
+	regex newRegex;
+	newRegex = sRegex;
 
-    regex newRegex(sRegex);
     vector<string> results;
 
     stringstream strSql;
@@ -172,22 +173,20 @@ bool InputRule::applyTo(string fileName, vector<GemValue>& matches, bool updateH
     return false;
 }
 
-void InputRule::remove() {
-    vector<Gem*> gems = getGems();
-    for (vector<Gem*>::iterator it = gems.begin();
-         it != gems.end(); it++) {
 
-       (*it)->remove();
-    }
+void InputRule::removeGem(sqlite_int64 gemID) {
+	mChildren[gemID]->replacers.remove();
 
-    stringstream strSql;
-    strSql << "DELETE FROM regexes WHERE rowid = "
-           << cSqlOutFormated(getRowId());
-//    cout << strSql.str() << endl;
-    exec(strSql, mDb); 
-    return;
+	stringstream strSql;
+	strSql << "DELETE FROM gems WHERE rowid = "
+		<< cSqlOutFormated(gemID);
+	//cout << strSql.str() << endl;
+	exec(strSql, mDb);
 
+	delete mChildren[gemID];
+	mChildren.erase(gemID);
 }
+
 
 vector<Gem*> InputRule::getGems() const {
     vector<Gem*> retVal;
@@ -200,23 +199,60 @@ vector<Gem*> InputRule::getGems() const {
     return retVal;
 }
 
-void InputRule::updateGems(string outputFormat) {
-    vector<Gem*> gems = getGems();
-    vector<string> sGems =  OutputFormat::parse(outputFormat);
+Gem* InputRule::getGemByPosition(int position) const {
+	for (map<sqlite_int64, Gem*>::const_iterator it = mChildren.begin();
+		it!=mChildren.end(); it++) {
 
-    for (unsigned int n=0; n<sGems.size(); n++) {
+		Gem* gem = it->second;
+
+		if(gem->getPosition() == position )
+			return gem;
+	}
+	return NULL;
+}
+
+void InputRule::updateGems(string outputFormat) {
+	boost::regex r(getRegex());
+
+	unsigned int brackets = (unsigned) r.mark_count() - 1;
+
+	/** \todo verify: 
+			gems must be ordered by bracket occureance (first gem must be the one for the first bracket, etc.
+
+	**/ 
+
+    vector<Gem*> gems = getGems();
+	int gemCount = gems.size();
+    vector<string> gemNames =  OutputFormat::parse(outputFormat);
+	unsigned int gemNameCount = gemNames.size();
+
+    for (unsigned int n=0; n<brackets; n++) {
         Gem* newGemPtr = NULL;
+		// we need to create a new gem
     	if (n >= mChildren.size() ) {
             newGemPtr = new Gem(mDb, mRow.getRowId());
             mChildren[newGemPtr->getRowId()] = newGemPtr;
-//            gems.push_back(newGemPtr);
+
+			// the following should not be done, because it would f*@k up this loop
+			//            gems.push_back(newGemPtr);
+
+			if(gemNameCount > n)
+				newGemPtr->setName(gemNames[n]);
+			else
+				newGemPtr->setName("");
     	} else {
+			// if the gem does already exist, we only set the position value 
+			// to get values that sum up, so we can rely on them.
     	    newGemPtr = gems[n];
     	}
-        newGemPtr->setName(sGems[n]);
-        newGemPtr->setPosition(n+1); //1-based
-    }
-    return;
+
+        newGemPtr->setPosition(n+1); // positions are starting at 1
+	}
+
+	// remove gems which have no corresponding brackets
+	for(unsigned i=brackets; i<gems.size(); i++) {
+		removeGem(gems[i]->getRowId());
+	}
 }
 
 void InputRule::save() {
