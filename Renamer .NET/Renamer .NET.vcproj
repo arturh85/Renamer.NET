@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="Renamer .NET"
 	ProjectGUID="{91407C2E-D6F3-483E-A090-7B7DDCB8AE93}"
 	RootNamespace="RenamerNET"
 	Keyword="ManagedCProj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -41,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\renamer\Source&quot;;&quot;..\SQLite\Source&quot;"
+				AdditionalIncludeDirectories="..\renamer\Source;..\SQLite\Source;..\dependencies\include"
 				PreprocessorDefinitions="_WIN32;_DEBUG;SCL_SECURE_NO_DEPRECATE"
 				MinimalRebuild="false"
 				RuntimeLibrary="3"
@@ -64,14 +65,16 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt-gd-1_34.lib boost_filesystem-vc80-mt-gd-1_34.lib SQLite.lib"
+				AdditionalDependencies="boost_regex-vc90-mt-1_35.lib boost_filesystem-vc90-mt-1_35.lib boost_system-vc90-mt-1_35.lib SQLite-d.lib"
 				OutputFile="..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
+				AdditionalLibraryDirectories="..\SQLite\bin;..\bin;..\dependencies\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="2"
 				EntryPointSymbol="main"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 				Profile="true"
 			/>
@@ -92,9 +95,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -129,7 +129,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;..\renamer\Source&quot;;&quot;..\SQLite\Source&quot;"
+				AdditionalIncludeDirectories="..\renamer\Source;..\SQLite\Source;..\dependencies\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_SCL_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
@@ -151,16 +151,18 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc80-mt-1_34.lib boost_filesystem-vc80-mt-1_34.lib SQLite.lib"
+				AdditionalDependencies="boost_regex-vc90-mt-1_35.lib boost_filesystem-vc90-mt-1_35.lib boost_system-vc90-mt-1_35.lib SQLite.lib"
 				ShowProgress="0"
 				OutputFile="..\bin\$(ProjectName).exe"
 				Version="0.0.1"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\SQLite\bin&quot;;&quot;..\bin&quot;"
+				AdditionalLibraryDirectories="..\SQLite\bin;..\bin;..\dependencies\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				LinkTimeCodeGeneration="0"
 				EntryPointSymbol="main"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 				Profile="false"
 			/>
@@ -183,9 +185,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -194,54 +193,67 @@
 		<AssemblyReference
 			RelativePath="System.dll"
 			AssemblyName="System, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.Data.dll"
 			AssemblyName="System.Data, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=x86"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.Drawing.dll"
 			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.Windows.Forms.dll"
 			AssemblyName="System.Windows.Forms, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.XML.dll"
 			AssemblyName="System.Xml, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.Design.dll"
 			AssemblyName="System.Design, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.Drawing.Design.dll"
 			AssemblyName="System.Drawing.Design, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="Microsoft.VisualBasic.Compatibility.dll"
 			AssemblyName="Microsoft.VisualBasic.Compatibility, Version=8.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="Microsoft.VisualBasic.dll"
 			AssemblyName="Microsoft.VisualBasic, Version=8.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.Web.dll"
 			AssemblyName="System.Web, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=IA64"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="stdole.dll"
+			RelativePath="..\..\..\Programme\Gemeinsame Dateien\Microsoft Shared\MSEnv\PublicAssemblies\stdole.dll"
 			AssemblyName="stdole, Version=7.0.3300.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="0"
 		/>
 		<AssemblyReference
 			RelativePath="System.DirectoryServices.dll"
 			AssemblyName="System.DirectoryServices, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
 			RelativePath="System.ServiceProcess.dll"
 			AssemblyName="System.ServiceProcess, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
 		/>
 	</References>
 	<Files>
