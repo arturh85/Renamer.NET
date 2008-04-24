@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
-				AdditionalDependencies="boost_regex-vc90-mt-1_35.lib boost_filesystem-vc90-mt-1_35.lib boost_system-vc90-mt-1_35.lib SQLite-d.lib"
+				AdditionalDependencies="boost_regex-vc90-mt-gd-1_35.lib boost_filesystem-vc90-mt-gd-1_35.lib boost_system-vc90-mt-gd-1_35.lib SQLite-d.lib"
 				OutputFile="..\bin\$(ProjectName) Debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\SQLite\bin;..\bin;..\dependencies\lib"
@@ -241,7 +241,7 @@
 			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="..\..\..\Programme\Gemeinsame Dateien\Microsoft Shared\MSEnv\PublicAssemblies\stdole.dll"
+			RelativePath="stdole.dll"
 			AssemblyName="stdole, Version=7.0.3300.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="0"
 		/>

@@ -484,8 +484,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->fileList->ShowGroups = false;
 			this->fileList->UseCompatibleStateImageBehavior = false;
 			this->fileList->View = System::Windows::Forms::View::Details;
-			this->fileList->DragEnter += gcnew System::Windows::Forms::DragEventHandler(this, &WizardForm::fileList_DragEnter);
 			this->fileList->DragDrop += gcnew System::Windows::Forms::DragEventHandler(this, &WizardForm::fileList_DragDrop);
+			this->fileList->DragEnter += gcnew System::Windows::Forms::DragEventHandler(this, &WizardForm::fileList_DragEnter);
 			// 
 			// chFile
 			// 
@@ -1102,8 +1102,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->Controls->Add(this->splitContainer);
 			this->Controls->Add(this->tsStepButtons);
 			this->Name = L"WizardForm";
-			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &WizardForm::WizardForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &WizardForm::WizardForm_Load);
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &WizardForm::WizardForm_FormClosed);
 			panelFileListInner->ResumeLayout(false);
 			panelFileListInner->PerformLayout();
 			this->tsFileList->ResumeLayout(false);
