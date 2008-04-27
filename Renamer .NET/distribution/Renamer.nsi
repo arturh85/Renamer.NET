@@ -218,6 +218,7 @@ Section "-Un.Remove_What_is_Left"
 	RMDir $INSTDIR
   
 	#Shortcuts
+    SetShellVarContext All
 	Delete "$SMPROGRAMS\Renamer .NET.lnk"
 	Delete "$QUICKLAUNCH\Renamer .NET.lnk"
 	Delete "$DESKTOP\Renamer .NET.lnk"
