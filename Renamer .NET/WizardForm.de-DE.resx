@@ -199,6 +199,18 @@
   <data name="tsAddOutputFormat.ToolTipText" xml:space="preserve">
     <value>Hinzufügen</value>
   </data>
+  <data name="tsUseAsNewInputRule.Text" xml:space="preserve">
+    <value>Als neue Eingabe Regel benutzen</value>
+  </data>
+  <data name="tsUseAsNewInputRule.ToolTipText" xml:space="preserve">
+    <value>Als neue Eingabe Regel benutzen</value>
+  </data>
+  <data name="tsUseAsNewOutputFormat.Text" xml:space="preserve">
+    <value>Als neues Ausgabe Format benutzen</value>
+  </data>
+  <data name="tsUseAsNewOutputFormat.ToolTipText" xml:space="preserve">
+    <value>Als neues Ausgabe Format benutzen</value>
+  </data>
   <data name="tsDeleteOutputFormat.Text" xml:space="preserve">
     <value>Löschen</value>
   </data>
