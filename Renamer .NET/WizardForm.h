@@ -202,6 +202,8 @@ private: System::Windows::Forms::CheckBox^  checkBoxShowOnlyMatchingFiles;
 private: System::Windows::Forms::DataGridView^  gridGems;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  GemColumnPosition;
 private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
+private: System::Windows::Forms::ToolStripButton^  tsAddFolders;
+private: System::Windows::Forms::FolderBrowserDialog^  fileListopenFolderDiag;
 
 
 
@@ -242,6 +244,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle9 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->tsFileList = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsAddFiles = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsAddFolders = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsRemoveFileFromList = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsApplyChanges = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsDebugAddFiles = (gcnew System::Windows::Forms::ToolStripButton());
@@ -319,6 +322,7 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			this->openRulesetFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveRulesetFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->fileListopenFolderDiag = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label8 = (gcnew System::Windows::Forms::Label());
 			label6 = (gcnew System::Windows::Forms::Label());
@@ -434,8 +438,8 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			// 
 			resources->ApplyResources(this->tsFileList, L"tsFileList");
 			this->tsFileList->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->tsFileList->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {this->tsAddFiles, this->tsRemoveFileFromList, 
-				this->tsApplyChanges, this->tsDebugAddFiles, this->tsRenameFiles});
+			this->tsFileList->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->tsAddFiles, this->tsAddFolders, 
+				this->tsRemoveFileFromList, this->tsApplyChanges, this->tsDebugAddFiles, this->tsRenameFiles});
 			this->tsFileList->Name = L"tsFileList";
 			// 
 			// tsAddFiles
@@ -444,6 +448,13 @@ private: System::Windows::Forms::DataGridViewComboBoxColumn^  GemColumnGem;
 			resources->ApplyResources(this->tsAddFiles, L"tsAddFiles");
 			this->tsAddFiles->Name = L"tsAddFiles";
 			this->tsAddFiles->Click += gcnew System::EventHandler(this, &WizardForm::tsAddFiles_Click);
+			// 
+			// tsAddFolders
+			// 
+			this->tsAddFolders->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsAddFolders, L"tsAddFolders");
+			this->tsAddFolders->Name = L"tsAddFolders";
+			this->tsAddFolders->Click += gcnew System::EventHandler(this, &WizardForm::tsAddFolders_Click);
 			// 
 			// tsRemoveFileFromList
 			// 
@@ -2565,6 +2576,23 @@ private: System::Void gridBeforeReplacements_Scroll(System::Object^  sender, Sys
 		 }
 private: System::Void fileList_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 // \!todo start selected file using system -> start (should bring up default media player)
+		 }
+private: System::Void tsAddFolders_Click(System::Object^  sender, System::EventArgs^  e) {
+			 fileListopenFolderDiag->ShowDialog();
+			 String^ path = fileListopenFolderDiag->SelectedPath;
+
+			 cli::array<String^>^ directories = System::IO::Directory::GetDirectories(path);
+			 for(int j=0; j<directories->Length; j++){
+				 cli::array<String^>^ files = System::IO::Directory::GetFiles(directories[j], "*.*");
+				 for(int i=0; i<files->Length; i++){
+					 addFile(files[i]);
+				 }
+			 }
+			 cli::array<String^>^ files = System::IO::Directory::GetFiles(path, "*.*");
+			 for(int i=0; i<files->Length; i++){
+				 addFile(files[i]);
+			 }
+			 applyChanges(mStep);
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //

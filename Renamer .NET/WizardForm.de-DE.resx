@@ -145,6 +145,12 @@
   <data name="tsAddFiles.ToolTipText" xml:space="preserve">
     <value>Dateien hinzufügen</value>
   </data>
+  <data name="tsAddFolders.Text" xml:space="preserve">
+    <value>Ordner hinzufügen</value>
+  </data>
+  <data name="tsAddFolders.ToolTipText" xml:space="preserve">
+    <value>Ordner hinzufügen</value>
+  </data>
   <data name="tsRemoveFileFromList.Text" xml:space="preserve">
     <value>Dateien entfernen</value>
   </data>
