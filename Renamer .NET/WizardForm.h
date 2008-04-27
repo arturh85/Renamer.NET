@@ -2216,10 +2216,10 @@ private: System::Void gridBeforeReplacements_CellValueChanged(System::Object^  s
 			 refreshInputRuleList();
 			 refreshMaxStep();
 
-			 if(lstInputRules->Items->Count == 0) {
+			 //if(lstInputRules->Items->Count == 0) {
 				 disableTxtInputRule();
 				 mInputRuleID = 0;
-			 }
+			 //}
 
 			 applyChanges(mStep);
 		 }
