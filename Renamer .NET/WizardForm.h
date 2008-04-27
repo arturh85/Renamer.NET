@@ -2615,6 +2615,10 @@ private: System::Void fileList_KeyDown(System::Object^  sender, System::Windows:
 				 for(int i=0; i<fileList->Items->Count; i++)
 					fileList->SelectedIndices->Add(i);
 			 }
+
+			 else if(e->KeyCode == Keys::Delete) {
+				 tsRemoveFileFromList_Click(nullptr, nullptr);
+			 }
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
