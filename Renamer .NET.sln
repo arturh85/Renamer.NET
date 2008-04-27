@@ -1,7 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renamer .NET", "Renamer .NET\Renamer .NET.vcproj", "{91407C2E-D6F3-483E-A090-7B7DDCB8AE93}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F205306C-10D7-4648-9150-50BAAEA3F028} = {F205306C-10D7-4648-9150-50BAAEA3F028}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "renamer\Projects\msvc8\UnitTests.vcproj", "{DB79D3B5-499C-4639-AE31-A25CC6346F6D}"
 EndProject
