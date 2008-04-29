@@ -207,6 +207,22 @@ private: System::Windows::Forms::FolderBrowserDialog^  fileListopenFolderDiag;
 private: System::Windows::Forms::Panel^  innerPanelInputRules;
 private: System::Windows::Forms::ToolStripButton^  tsUseAsNewInputRule;
 private: System::Windows::Forms::ToolStripButton^  tsUseAsNewOutputFormat;
+private: System::Windows::Forms::ToolStrip^  tsRegexHelper;
+private: System::Windows::Forms::ToolStripDropDownButton^  tsddbNumbers;
+private: System::Windows::Forms::ToolStripDropDownButton^  tsddbAnything;
+private: System::Windows::Forms::ToolStripLabel^  tsLabelReplaceSelected;
+private: System::Windows::Forms::ToolStripMenuItem^  tsmiTwoNumbers;
+
+private: System::Windows::Forms::ToolStripMenuItem^  tsmiOneNumber;
+private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
+
+
+
+
+
+
+
+
 
 
 
@@ -262,6 +278,13 @@ private: System::Windows::Forms::ToolStripButton^  tsUseAsNewOutputFormat;
 			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
 			this->innerPanelInputRules = (gcnew System::Windows::Forms::Panel());
 			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
+			this->tsRegexHelper = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsLabelReplaceSelected = (gcnew System::Windows::Forms::ToolStripLabel());
+			this->tsddbNumbers = (gcnew System::Windows::Forms::ToolStripDropDownButton());
+			this->tsmiTwoNumbers = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->tsmiOneNumber = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->tsddbAnything = (gcnew System::Windows::Forms::ToolStripDropDownButton());
+			this->tsmiLetters = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsInputRuleButtons = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsRemoveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
@@ -352,6 +375,7 @@ private: System::Windows::Forms::ToolStripButton^  tsUseAsNewOutputFormat;
 			this->panelStepInputRule->SuspendLayout();
 			this->innerPanelInputRules->SuspendLayout();
 			this->panelLstInputRules->SuspendLayout();
+			this->tsRegexHelper->SuspendLayout();
 			this->tsInputRuleButtons->SuspendLayout();
 			this->panelTxtInputRule->SuspendLayout();
 			this->toolStrip3->SuspendLayout();
@@ -573,9 +597,56 @@ private: System::Windows::Forms::ToolStripButton^  tsUseAsNewOutputFormat;
 			// panelLstInputRules
 			// 
 			resources->ApplyResources(this->panelLstInputRules, L"panelLstInputRules");
+			this->panelLstInputRules->Controls->Add(this->tsRegexHelper);
 			this->panelLstInputRules->Controls->Add(this->tsInputRuleButtons);
 			this->panelLstInputRules->Controls->Add(this->lstInputRules);
 			this->panelLstInputRules->Name = L"panelLstInputRules";
+			// 
+			// tsRegexHelper
+			// 
+			resources->ApplyResources(this->tsRegexHelper, L"tsRegexHelper");
+			this->tsRegexHelper->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsLabelReplaceSelected, 
+				this->tsddbNumbers, this->tsddbAnything});
+			this->tsRegexHelper->Name = L"tsRegexHelper";
+			// 
+			// tsLabelReplaceSelected
+			// 
+			this->tsLabelReplaceSelected->Name = L"tsLabelReplaceSelected";
+			resources->ApplyResources(this->tsLabelReplaceSelected, L"tsLabelReplaceSelected");
+			// 
+			// tsddbNumbers
+			// 
+			this->tsddbNumbers->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+			this->tsddbNumbers->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsmiTwoNumbers, 
+				this->tsmiOneNumber});
+			resources->ApplyResources(this->tsddbNumbers, L"tsddbNumbers");
+			this->tsddbNumbers->Name = L"tsddbNumbers";
+			this->tsddbNumbers->Click += gcnew System::EventHandler(this, &WizardForm::tsddbNumbers_Click);
+			// 
+			// tsmiTwoNumbers
+			// 
+			this->tsmiTwoNumbers->Name = L"tsmiTwoNumbers";
+			resources->ApplyResources(this->tsmiTwoNumbers, L"tsmiTwoNumbers");
+			this->tsmiTwoNumbers->Click += gcnew System::EventHandler(this, &WizardForm::tsmiTwoNumbers_Click);
+			// 
+			// tsmiOneNumber
+			// 
+			this->tsmiOneNumber->Name = L"tsmiOneNumber";
+			resources->ApplyResources(this->tsmiOneNumber, L"tsmiOneNumber");
+			this->tsmiOneNumber->Click += gcnew System::EventHandler(this, &WizardForm::tsmiOneNumber_Click);
+			// 
+			// tsddbAnything
+			// 
+			this->tsddbAnything->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+			this->tsddbAnything->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsmiLetters});
+			resources->ApplyResources(this->tsddbAnything, L"tsddbAnything");
+			this->tsddbAnything->Name = L"tsddbAnything";
+			this->tsddbAnything->Click += gcnew System::EventHandler(this, &WizardForm::tsddbAnything_Click);
+			// 
+			// tsmiLetters
+			// 
+			this->tsmiLetters->Name = L"tsmiLetters";
+			resources->ApplyResources(this->tsmiLetters, L"tsmiLetters");
 			// 
 			// tsInputRuleButtons
 			// 
@@ -1160,6 +1231,8 @@ private: System::Windows::Forms::ToolStripButton^  tsUseAsNewOutputFormat;
 			this->innerPanelInputRules->ResumeLayout(false);
 			this->panelLstInputRules->ResumeLayout(false);
 			this->panelLstInputRules->PerformLayout();
+			this->tsRegexHelper->ResumeLayout(false);
+			this->tsRegexHelper->PerformLayout();
 			this->tsInputRuleButtons->ResumeLayout(false);
 			this->tsInputRuleButtons->PerformLayout();
 			this->panelTxtInputRule->ResumeLayout(false);
@@ -2671,19 +2744,19 @@ private: System::Void tsUseAsNewInputRule_Click(System::Object^  sender, System:
 
 			String^ selectedFilename = fileList->SelectedItems[0]->Text;
 
-			 selectedFilename->Replace("[", "\\[");
-			 selectedFilename->Replace("]", "\\]");
+			 selectedFilename = selectedFilename->Replace("[", "\\[");
+			 selectedFilename = selectedFilename->Replace("]", "\\]");
 
-			 selectedFilename->Replace("{", "\\{");
-			 selectedFilename->Replace("}", "\\}");
+			 selectedFilename = selectedFilename->Replace("{", "\\{");
+			 selectedFilename = selectedFilename->Replace("}", "\\}");
 
-			 selectedFilename->Replace("(", "\\(");
-			 selectedFilename->Replace(")", "\\)");
+			 selectedFilename = selectedFilename->Replace("(", "\\(");
+			 selectedFilename = selectedFilename->Replace(")", "\\)");
 
-			 selectedFilename->Replace(".", "\\.");
-			 selectedFilename->Replace("$", "\\$");
-			 selectedFilename->Replace("^", "\\^");
-			 selectedFilename->Replace("|", "\\|");
+			 selectedFilename = selectedFilename->Replace(".", "\\.");
+			 selectedFilename = selectedFilename->Replace("$", "\\$");
+			 selectedFilename = selectedFilename->Replace("^", "\\^");
+			 selectedFilename = selectedFilename->Replace("|", "\\|");
 
 			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 InputRule& inputRule = outputFormat.addInputRule(toStlString(selectedFilename));
@@ -2697,6 +2770,34 @@ private: System::Void tsUseAsNewInputRule_Click(System::Object^  sender, System:
 
 			 txtInputRule->Focus();
 
+		 }
+
+private: void replaceSelectedTextWith(RichTextBox^ rtb, String^ replacement) {
+			 if(rtb->SelectionLength == 0) return ;
+
+			 String^ oldText = rtb->Text;
+			 int start = rtb->SelectionStart;
+			 int length = rtb->SelectionLength;
+
+
+			 String^ newText = oldText->Substring(0, start);
+			 newText += replacement;
+			 newText += oldText->Substring(start + length);
+
+			 rtb->Text = newText;
+		 }
+
+private: System::Void tsddbNumbers_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(\\d+)");
+		 }
+private: System::Void tsddbAnything_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(.+)");
+		 }
+private: System::Void tsmiOneNumber_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(\\d)");
+		 }
+private: System::Void tsmiTwoNumbers_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(\\d{2})");
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
