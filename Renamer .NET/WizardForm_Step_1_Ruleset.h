@@ -22,6 +22,8 @@ void onEnterStepRuleset() {
 	LockWindowUpdate((HWND) 0);
 
 	applyChanges(Step::RULESET_SELECT);
+
+	refreshMaxStep();
 }
 
 void onLeaveStepRuleset() {
@@ -37,6 +39,7 @@ private: System::Void cboRulesets_SelectedIndexChanged(System::Object^  sender, 
 //	cboRulesets->Text = toClrString(mRuleset->getName());
 
 	applyChanges(Step::RULESET_SELECT);
+	refreshMaxStep();
 }
 
 private: System::Void openRulesetFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {

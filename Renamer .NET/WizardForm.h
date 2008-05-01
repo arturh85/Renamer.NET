@@ -222,6 +222,10 @@ private: System::Windows::Forms::ToolStripButton^  tsDeleteOutputFormat;
 private: System::Windows::Forms::ToolStripButton^  tsDuplicateOutputFormat;
 private: System::Windows::Forms::ListBox^  lstOutputFormat;
 
+private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
+
+
+
 
 
 
@@ -252,6 +256,7 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			System::Windows::Forms::Label^  label10;
 			System::Windows::Forms::Label^  label7;
 			System::Windows::Forms::Panel^  panelFileListInner;
+			System::Windows::Forms::Label^  labelCurrentOutputFormat;
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
@@ -275,6 +280,7 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->panelStepContent = (gcnew System::Windows::Forms::Panel());
 			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
+			this->txtCurrentOutputFormat = (gcnew System::Windows::Forms::RichTextBox());
 			this->innerPanelInputRules = (gcnew System::Windows::Forms::Panel());
 			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
 			this->tsRegexHelper = (gcnew System::Windows::Forms::ToolStrip());
@@ -357,6 +363,7 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			label10 = (gcnew System::Windows::Forms::Label());
 			label7 = (gcnew System::Windows::Forms::Label());
 			panelFileListInner = (gcnew System::Windows::Forms::Panel());
+			labelCurrentOutputFormat = (gcnew System::Windows::Forms::Label());
 			panelFileListInner->SuspendLayout();
 			this->tsFileList->SuspendLayout();
 			this->splitContainer->Panel1->SuspendLayout();
@@ -506,6 +513,11 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			// 
 			resources->ApplyResources(this->chFile, L"chFile");
 			// 
+			// labelCurrentOutputFormat
+			// 
+			resources->ApplyResources(labelCurrentOutputFormat, L"labelCurrentOutputFormat");
+			labelCurrentOutputFormat->Name = L"labelCurrentOutputFormat";
+			// 
 			// splitContainer
 			// 
 			this->splitContainer->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
@@ -535,10 +547,20 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			// 
 			// panelStepInputRule
 			// 
+			this->panelStepInputRule->Controls->Add(this->txtCurrentOutputFormat);
+			this->panelStepInputRule->Controls->Add(labelCurrentOutputFormat);
 			this->panelStepInputRule->Controls->Add(this->innerPanelInputRules);
 			this->panelStepInputRule->Controls->Add(this->gridGems);
 			resources->ApplyResources(this->panelStepInputRule, L"panelStepInputRule");
 			this->panelStepInputRule->Name = L"panelStepInputRule";
+			// 
+			// txtCurrentOutputFormat
+			// 
+			resources->ApplyResources(this->txtCurrentOutputFormat, L"txtCurrentOutputFormat");
+			this->txtCurrentOutputFormat->BackColor = System::Drawing::SystemColors::ButtonFace;
+			this->txtCurrentOutputFormat->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtCurrentOutputFormat->DetectUrls = false;
+			this->txtCurrentOutputFormat->Name = L"txtCurrentOutputFormat";
 			// 
 			// innerPanelInputRules
 			// 
@@ -635,7 +657,6 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			resources->ApplyResources(this->lstInputRules, L"lstInputRules");
 			this->lstInputRules->FormattingEnabled = true;
 			this->lstInputRules->Name = L"lstInputRules";
-			this->lstInputRules->SelectionMode = System::Windows::Forms::SelectionMode::MultiSimple;
 			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
 			// 
 			// panelTxtInputRule
@@ -1170,6 +1191,7 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 			this->splitContainer->ResumeLayout(false);
 			this->panelStepContent->ResumeLayout(false);
 			this->panelStepInputRule->ResumeLayout(false);
+			this->panelStepInputRule->PerformLayout();
 			this->innerPanelInputRules->ResumeLayout(false);
 			this->panelLstInputRules->ResumeLayout(false);
 			this->panelLstInputRules->PerformLayout();
@@ -1539,18 +1561,23 @@ void setGem(sqlite_int64 id) {
 //! :-)
 void refreshMaxStep() {
 	if(mRuleset != NULL) {
-		if(mStep == Step::RULESET_SELECT && mFiles.Count == 0) {
-			setMaxStep(Step::RULESET_SELECT);
-			return ;
+		if(mStep == Step::RULESET_SELECT) {
+			if(mRuleset != NULL) {
+				if(mOutputFormatID != 0) {
+					if(mInputRuleID != 0) {
+						setMaxStep(Step::INPUTRULES_SELECT);
+					} else {
+						setMaxStep(Step::OUTPUTFORMAT_SELECT);
+					}
+				} else {
+					setMaxStep(Step::OUTPUTFORMAT_SELECT);
+				}
+			} else {
+				setMaxStep(Step::RULESET_SELECT);
+			}
 		}
 
 		if(mOutputFormatID > 0) {
-/*			OutputFormat outputFormat(mRuleset->getDatabase(), mOutputFormatID);
-			vector<string> not_used;
-			if(!outputFormat.parse(not_used)) {
-				setMaxStep(Step::OUTPUTFORMAT_SELECT);
-				return ;
-			}*/
 			setMaxStep(Step::INPUTRULES_SELECT);
 		}
 		else {

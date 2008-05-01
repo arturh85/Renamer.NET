@@ -1,3 +1,38 @@
+#pragma region Business Code
+
+
+
+
+void onEnterStepOutputFormats() {
+				 applyChanges(Step::OUTPUTFORMAT_SELECT);
+				 refreshOutputFormatList();			 
+				 if(lstOutputFormat->Items->Count > 0) {
+					 if(mOutputFormatID > 0) {
+						 int index = -1;
+						 for(int i=0; i<lstOutputFormat->Items->Count; i++) {
+							 if(((_PairStringInt^) ((ListBoxItem^)lstOutputFormat->Items[i])->Tag)->value == mOutputFormatID) {
+								 index = i;
+							 }
+						 }
+
+						 if(index == -1) {
+							 lstOutputFormat->SelectedIndex = 0;
+						 } else {
+							 lstOutputFormat->SelectedIndex = index;
+						 }
+					 } else {
+						 lstOutputFormat->SelectedIndex = 0;
+					 }
+				 }
+				 else
+					 disableTxtOutputFormat();
+				 tsSaveOutputFormat->Visible = false;
+			 }
+
+			 void onLeaveStepOutputFormats() {
+
+			 }
+
 			 void refreshOutputFormatList() {
 				 lstOutputFormat->BeginUpdate();
 				 LockWindowUpdate((HWND) (int) lstOutputFormat->Handle);
@@ -18,35 +53,11 @@
 				 LockWindowUpdate((HWND) 0);
 			 }
 
-			 void onEnterStepOutputFormats() {
-				 applyChanges(Step::OUTPUTFORMAT_SELECT);
-				 refreshOutputFormatList();			 
-				 if(lstOutputFormat->Items->Count > 0) {
-					 if(mOutputFormatID > 0) {
-						 int index = -1;
-						 for(int i=0; i<lstOutputFormat->Items->Count; i++) {
-							 if(((_PairStringInt^) ((ListBoxItem^)lstOutputFormat->Items[i])->Tag)->value == mOutputFormatID) {
-								 index = i;
-							 }
-						 }
+#pragma endregion
+#pragma region Event Handlers
 
-						 if(index == -1) {
-							 lstOutputFormat->SelectedIndex = 0;
-						 } else {
-							lstOutputFormat->SelectedIndex = index;
-						 }
-					 } else {
-						 lstOutputFormat->SelectedIndex = 0;
-					 }
-				 }
-				 else
-					 disableTxtOutputFormat();
-				 tsSaveOutputFormat->Visible = false;
-			 }
 
-			 void onLeaveStepOutputFormats() {
 
-			 }
 	private: System::Void tsAddOutputFormat_Click(System::Object^  sender, System::EventArgs^  e) {			 
 			 OutputFormat& outputFormat = mRuleset->addOutputFormat();
 			 outputFormat.setFormat(toStlString(mCustomStrings->GetString(L"Strings.NewOutputFormat")));
@@ -174,3 +185,4 @@ private: System::Void tsUseAsNewOutputFormat_Click(System::Object^  sender, Syst
 
 			 return string;
 		 }
+#pragma endregion

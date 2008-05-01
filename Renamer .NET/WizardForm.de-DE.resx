@@ -124,6 +124,27 @@
   <data name="label6.Text" xml:space="preserve">
     <value>Edelsteine</value>
   </data>
+  <data name="labelCurrentOutputFormat.Text" xml:space="preserve">
+    <value>Aktuelles Ausgabe Format:</value>
+  </data>
+  <data name="tsLabelReplaceSelected.Text" xml:space="preserve">
+    <value>Ersetze Auswahl durch:</value>
+  </data>
+  <data name="tsddbNumbers.Text" xml:space="preserve">
+    <value>Nummern</value>
+  </data>
+  <data name="tsmiOneNumber.Text" xml:space="preserve">
+    <value>Eine Ziffer</value>
+  </data>
+  <data name="tsmiTwoNumbers.Text" xml:space="preserve">
+    <value>Zwei Ziffern</value>
+  </data>
+  <data name="tsddbAnything.Text" xml:space="preserve">
+    <value>Alles</value>
+  </data>
+  <data name="tsmiLetters.Text" xml:space="preserve">
+    <value>Buchstaben</value>
+  </data>  
   <data name="label4.Text" xml:space="preserve">
     <value>Ersetzungen</value>
   </data>

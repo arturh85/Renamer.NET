@@ -6,6 +6,30 @@
 					 gridGems_SelectionChanged(nullptr, nullptr);
 				 }
 
+				 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
+
+				 txtCurrentOutputFormat->Text = toClrString(outputFormat.getFormat());
+
+				 int cursorPosition = txtCurrentOutputFormat->SelectionStart;
+
+				 txtCurrentOutputFormat->Select(0, txtCurrentOutputFormat->Text->Length);
+				 txtCurrentOutputFormat->SelectionColor = Color::Black;
+
+				 int start = -1;
+				 for(int i=0; i<txtCurrentOutputFormat->Text->Length; i++) {
+					 if(txtCurrentOutputFormat->Text[i] == L'$') {
+						 if(start == -1)
+							 start = i;
+						 else {
+							 txtCurrentOutputFormat->Select(start, i - start + 1);
+							 txtCurrentOutputFormat->SelectionColor = Color::Red;
+							 start = -1;
+						 }
+					 }
+				 }
+
+				 txtCurrentOutputFormat->Select(cursorPosition,0);
+
 				 refreshInputRuleList();
 				 if(lstInputRules->Items->Count > 0)
 					 lstInputRules->SelectedIndex = 0;
