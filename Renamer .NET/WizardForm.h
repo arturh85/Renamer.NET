@@ -114,7 +114,7 @@ private: System::Windows::Forms::Panel^  panelStepRename;
 private: System::Windows::Forms::Panel^  panelFilelist;
 private: System::Windows::Forms::Panel^  panelNavigation;
 private: System::Windows::Forms::Panel^  panelCboRulesets;
-private: System::Windows::Forms::Panel^  panelLstOutputFormats;
+
 private: System::Windows::Forms::Panel^  panelTxtOutputFormat;
 private: System::Windows::Forms::Panel^  panelLstInputRules;
 private: System::Windows::Forms::Panel^  panelTxtInputRule;
@@ -132,13 +132,13 @@ private: System::Windows::Forms::OpenFileDialog^  openRulesetFileDialog;
 private: System::Windows::Forms::DataGridView^  gridBeforeReplacements;
 
 		 // Panel 'OutputFormats'
-private: System::Windows::Forms::ListBox^  lstOutputFormat;
+
 private: System::Windows::Forms::RichTextBox^  txtOutputFormat;
 
-private: System::Windows::Forms::ToolStrip^  tsOutputFormat;
-private: System::Windows::Forms::ToolStripButton^  tsAddOutputFormat;
-private: System::Windows::Forms::ToolStripButton^  tsDeleteOutputFormat;
-private: System::Windows::Forms::ToolStripButton^  tsDuplicateOutputFormat;
+
+
+
+
 private: System::Windows::Forms::ToolStripButton^  tsSaveOutputFormat;
 
 		 // Panel 'InputRules'
@@ -183,7 +183,7 @@ private: System::Windows::Forms::Button^  buttonRenameFiles;
 private: System::Windows::Forms::Label^  messageLabel;
 private: System::Windows::Forms::TextBox^  txtOutputFormatBorder;
 private: System::Windows::Forms::TextBox^  txtInputRuleBorder;
-private: System::Windows::Forms::Label^  label12;
+
 private: System::Windows::Forms::Label^  label13;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsID;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  ColumnAfterReplacementsGroupID;
@@ -215,6 +215,12 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiTwoNumbers;
 
 private: System::Windows::Forms::ToolStripMenuItem^  tsmiOneNumber;
 private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
+private: System::Windows::Forms::Panel^  panelLstOutputFormats;
+private: System::Windows::Forms::ToolStrip^  tsOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsAddOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsDeleteOutputFormat;
+private: System::Windows::Forms::ToolStripButton^  tsDuplicateOutputFormat;
+private: System::Windows::Forms::ListBox^  lstOutputFormat;
 
 
 
@@ -239,17 +245,10 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::Label^  label1;
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(WizardForm::typeid));
-			System::Windows::Forms::Label^  label8;
 			System::Windows::Forms::Label^  label6;
-			System::Windows::Forms::Label^  label9;
-			System::Windows::Forms::Label^  label4;
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(WizardForm::typeid));
 			System::Windows::Forms::Label^  label11;
 			System::Windows::Forms::Label^  label5;
-			System::Windows::Forms::Label^  label14;
-			System::Windows::Forms::Label^  label3;
-			System::Windows::Forms::Label^  label2;
 			System::Windows::Forms::Label^  label10;
 			System::Windows::Forms::Label^  label7;
 			System::Windows::Forms::Panel^  panelFileListInner;
@@ -322,18 +321,11 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->ColumnAfterReplacementsSearch = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->ColumnAfterReplacementsReplace = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->panelStepOutputFormat = (gcnew System::Windows::Forms::Panel());
-			this->label12 = (gcnew System::Windows::Forms::Label());
 			this->panelTxtOutputFormat = (gcnew System::Windows::Forms::Panel());
 			this->txtOutputFormat = (gcnew System::Windows::Forms::RichTextBox());
 			this->txtOutputFormatBorder = (gcnew System::Windows::Forms::TextBox());
 			this->tsTxtOutputFormat = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsSaveOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
-			this->panelLstOutputFormats = (gcnew System::Windows::Forms::Panel());
-			this->tsOutputFormat = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsAddOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
-			this->tsDeleteOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
-			this->tsDuplicateOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
-			this->lstOutputFormat = (gcnew System::Windows::Forms::ListBox());
 			this->panelStepRename = (gcnew System::Windows::Forms::Panel());
 			this->buttonRenameFiles = (gcnew System::Windows::Forms::Button());
 			this->panelNavigation = (gcnew System::Windows::Forms::Panel());
@@ -353,16 +345,15 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->saveRulesetFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->fileListopenFolderDiag = (gcnew System::Windows::Forms::FolderBrowserDialog());
-			label1 = (gcnew System::Windows::Forms::Label());
-			label8 = (gcnew System::Windows::Forms::Label());
+			this->lstOutputFormat = (gcnew System::Windows::Forms::ListBox());
+			this->tsOutputFormat = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsAddOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsDeleteOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsDuplicateOutputFormat = (gcnew System::Windows::Forms::ToolStripButton());
+			this->panelLstOutputFormats = (gcnew System::Windows::Forms::Panel());
 			label6 = (gcnew System::Windows::Forms::Label());
-			label9 = (gcnew System::Windows::Forms::Label());
-			label4 = (gcnew System::Windows::Forms::Label());
 			label11 = (gcnew System::Windows::Forms::Label());
 			label5 = (gcnew System::Windows::Forms::Label());
-			label14 = (gcnew System::Windows::Forms::Label());
-			label3 = (gcnew System::Windows::Forms::Label());
-			label2 = (gcnew System::Windows::Forms::Label());
 			label10 = (gcnew System::Windows::Forms::Label());
 			label7 = (gcnew System::Windows::Forms::Label());
 			panelFileListInner = (gcnew System::Windows::Forms::Panel());
@@ -391,38 +382,18 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->panelStepOutputFormat->SuspendLayout();
 			this->panelTxtOutputFormat->SuspendLayout();
 			this->tsTxtOutputFormat->SuspendLayout();
-			this->panelLstOutputFormats->SuspendLayout();
-			this->tsOutputFormat->SuspendLayout();
 			this->panelStepRename->SuspendLayout();
 			this->panelNavigation->SuspendLayout();
 			this->panelFilelist->SuspendLayout();
 			this->tsStepButtons->SuspendLayout();
+			this->tsOutputFormat->SuspendLayout();
+			this->panelLstOutputFormats->SuspendLayout();
 			this->SuspendLayout();
-			// 
-			// label1
-			// 
-			resources->ApplyResources(label1, L"label1");
-			label1->Name = L"label1";
-			// 
-			// label8
-			// 
-			resources->ApplyResources(label8, L"label8");
-			label8->Name = L"label8";
 			// 
 			// label6
 			// 
 			resources->ApplyResources(label6, L"label6");
 			label6->Name = L"label6";
-			// 
-			// label9
-			// 
-			resources->ApplyResources(label9, L"label9");
-			label9->Name = L"label9";
-			// 
-			// label4
-			// 
-			resources->ApplyResources(label4, L"label4");
-			label4->Name = L"label4";
 			// 
 			// label11
 			// 
@@ -433,21 +404,6 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// 
 			resources->ApplyResources(label5, L"label5");
 			label5->Name = L"label5";
-			// 
-			// label14
-			// 
-			resources->ApplyResources(label14, L"label14");
-			label14->Name = L"label14";
-			// 
-			// label3
-			// 
-			resources->ApplyResources(label3, L"label3");
-			label3->Name = L"label3";
-			// 
-			// label2
-			// 
-			resources->ApplyResources(label2, L"label2");
-			label2->Name = L"label2";
 			// 
 			// label10
 			// 
@@ -568,11 +524,11 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// panelStepContent
 			// 
 			this->panelStepContent->Controls->Add(this->panelStepInputRule);
-			this->panelStepContent->Controls->Add(this->panelStepBeforeReplacements);
+			this->panelStepContent->Controls->Add(this->panelStepOutputFormat);
 			this->panelStepContent->Controls->Add(this->panelStepRuleset);
+			this->panelStepContent->Controls->Add(this->panelStepBeforeReplacements);
 			this->panelStepContent->Controls->Add(this->panelStepGems);
 			this->panelStepContent->Controls->Add(this->panelStepAfterReplacements);
-			this->panelStepContent->Controls->Add(this->panelStepOutputFormat);
 			this->panelStepContent->Controls->Add(this->panelStepRename);
 			this->panelStepContent->Controls->Add(this->panelNavigation);
 			resources->ApplyResources(this->panelStepContent, L"panelStepContent");
@@ -582,8 +538,6 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// 
 			this->panelStepInputRule->Controls->Add(this->innerPanelInputRules);
 			this->panelStepInputRule->Controls->Add(this->gridGems);
-			this->panelStepInputRule->Controls->Add(label14);
-			this->panelStepInputRule->Controls->Add(label3);
 			resources->ApplyResources(this->panelStepInputRule, L"panelStepInputRule");
 			this->panelStepInputRule->Name = L"panelStepInputRule";
 			// 
@@ -779,9 +733,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// 
 			// panelStepBeforeReplacements
 			// 
-			this->panelStepBeforeReplacements->Controls->Add(label9);
 			this->panelStepBeforeReplacements->Controls->Add(this->gridBeforeReplacements);
-			this->panelStepBeforeReplacements->Controls->Add(label4);
 			resources->ApplyResources(this->panelStepBeforeReplacements, L"panelStepBeforeReplacements");
 			this->panelStepBeforeReplacements->Name = L"panelStepBeforeReplacements";
 			// 
@@ -849,9 +801,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// panelStepRuleset
 			// 
 			this->panelStepRuleset->Controls->Add(this->checkBoxShowOnlyMatchingFiles);
-			this->panelStepRuleset->Controls->Add(label8);
 			this->panelStepRuleset->Controls->Add(this->panelCboRulesets);
-			this->panelStepRuleset->Controls->Add(label1);
 			resources->ApplyResources(this->panelStepRuleset, L"panelStepRuleset");
 			this->panelStepRuleset->Name = L"panelStepRuleset";
 			// 
@@ -996,17 +946,10 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// 
 			// panelStepOutputFormat
 			// 
-			this->panelStepOutputFormat->Controls->Add(this->label12);
 			this->panelStepOutputFormat->Controls->Add(this->panelTxtOutputFormat);
 			this->panelStepOutputFormat->Controls->Add(this->panelLstOutputFormats);
-			this->panelStepOutputFormat->Controls->Add(label2);
 			resources->ApplyResources(this->panelStepOutputFormat, L"panelStepOutputFormat");
 			this->panelStepOutputFormat->Name = L"panelStepOutputFormat";
-			// 
-			// label12
-			// 
-			resources->ApplyResources(this->label12, L"label12");
-			this->label12->Name = L"label12";
 			// 
 			// panelTxtOutputFormat
 			// 
@@ -1042,49 +985,6 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			resources->ApplyResources(this->tsSaveOutputFormat, L"tsSaveOutputFormat");
 			this->tsSaveOutputFormat->Name = L"tsSaveOutputFormat";
 			this->tsSaveOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveOutputFormat_Click);
-			// 
-			// panelLstOutputFormats
-			// 
-			resources->ApplyResources(this->panelLstOutputFormats, L"panelLstOutputFormats");
-			this->panelLstOutputFormats->Controls->Add(this->tsOutputFormat);
-			this->panelLstOutputFormats->Controls->Add(this->lstOutputFormat);
-			this->panelLstOutputFormats->Name = L"panelLstOutputFormats";
-			// 
-			// tsOutputFormat
-			// 
-			resources->ApplyResources(this->tsOutputFormat, L"tsOutputFormat");
-			this->tsOutputFormat->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->tsOutputFormat->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddOutputFormat, 
-				this->tsDeleteOutputFormat, this->tsDuplicateOutputFormat});
-			this->tsOutputFormat->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::VerticalStackWithOverflow;
-			this->tsOutputFormat->Name = L"tsOutputFormat";
-			// 
-			// tsAddOutputFormat
-			// 
-			this->tsAddOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsAddOutputFormat, L"tsAddOutputFormat");
-			this->tsAddOutputFormat->Name = L"tsAddOutputFormat";
-			this->tsAddOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsAddOutputFormat_Click);
-			// 
-			// tsDeleteOutputFormat
-			// 
-			this->tsDeleteOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsDeleteOutputFormat, L"tsDeleteOutputFormat");
-			this->tsDeleteOutputFormat->Name = L"tsDeleteOutputFormat";
-			this->tsDeleteOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsDeleteOutputFormat_Click);
-			// 
-			// tsDuplicateOutputFormat
-			// 
-			this->tsDuplicateOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsDuplicateOutputFormat, L"tsDuplicateOutputFormat");
-			this->tsDuplicateOutputFormat->Name = L"tsDuplicateOutputFormat";
-			this->tsDuplicateOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateOutputFormat_Click);
-			// 
-			// lstOutputFormat
-			// 
-			resources->ApplyResources(this->lstOutputFormat, L"lstOutputFormat");
-			this->lstOutputFormat->Name = L"lstOutputFormat";
-			this->lstOutputFormat->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstOutputFormat_SelectedIndexChanged);
 			// 
 			// panelStepRename
 			// 
@@ -1136,11 +1036,11 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// 
 			// tsStepButtons
 			// 
-			resources->ApplyResources(this->tsStepButtons, L"tsStepButtons");
 			this->tsStepButtons->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
 			this->tsStepButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->tsStepRuleset, 
 				this->tsStepBeforeReplacements, this->tsStepOutputFormat, this->tsStepInputRule, this->tsStepGems, this->tsStepAfterReplacements, 
 				this->tsStepRename});
+			resources->ApplyResources(this->tsStepButtons, L"tsStepButtons");
 			this->tsStepButtons->Name = L"tsStepButtons";
 			// 
 			// tsStepRuleset
@@ -1209,6 +1109,49 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->fileListopenFileDiag->RestoreDirectory = true;
 			this->fileListopenFileDiag->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &WizardForm::fileListopenFileDiag_FileOk);
 			// 
+			// lstOutputFormat
+			// 
+			resources->ApplyResources(this->lstOutputFormat, L"lstOutputFormat");
+			this->lstOutputFormat->Name = L"lstOutputFormat";
+			this->lstOutputFormat->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstOutputFormat_SelectedIndexChanged);
+			// 
+			// tsOutputFormat
+			// 
+			resources->ApplyResources(this->tsOutputFormat, L"tsOutputFormat");
+			this->tsOutputFormat->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->tsOutputFormat->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddOutputFormat, 
+				this->tsDeleteOutputFormat, this->tsDuplicateOutputFormat});
+			this->tsOutputFormat->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::VerticalStackWithOverflow;
+			this->tsOutputFormat->Name = L"tsOutputFormat";
+			// 
+			// tsAddOutputFormat
+			// 
+			this->tsAddOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsAddOutputFormat, L"tsAddOutputFormat");
+			this->tsAddOutputFormat->Name = L"tsAddOutputFormat";
+			this->tsAddOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsAddOutputFormat_Click);
+			// 
+			// tsDeleteOutputFormat
+			// 
+			this->tsDeleteOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsDeleteOutputFormat, L"tsDeleteOutputFormat");
+			this->tsDeleteOutputFormat->Name = L"tsDeleteOutputFormat";
+			this->tsDeleteOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsDeleteOutputFormat_Click);
+			// 
+			// tsDuplicateOutputFormat
+			// 
+			this->tsDuplicateOutputFormat->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsDuplicateOutputFormat, L"tsDuplicateOutputFormat");
+			this->tsDuplicateOutputFormat->Name = L"tsDuplicateOutputFormat";
+			this->tsDuplicateOutputFormat->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateOutputFormat_Click);
+			// 
+			// panelLstOutputFormats
+			// 
+			resources->ApplyResources(this->panelLstOutputFormats, L"panelLstOutputFormats");
+			this->panelLstOutputFormats->Controls->Add(this->tsOutputFormat);
+			this->panelLstOutputFormats->Controls->Add(this->lstOutputFormat);
+			this->panelLstOutputFormats->Name = L"panelLstOutputFormats";
+			// 
 			// WizardForm
 			// 
 			resources->ApplyResources(this, L"$this");
@@ -1227,7 +1170,6 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->splitContainer->ResumeLayout(false);
 			this->panelStepContent->ResumeLayout(false);
 			this->panelStepInputRule->ResumeLayout(false);
-			this->panelStepInputRule->PerformLayout();
 			this->innerPanelInputRules->ResumeLayout(false);
 			this->panelLstInputRules->ResumeLayout(false);
 			this->panelLstInputRules->PerformLayout();
@@ -1241,7 +1183,6 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->toolStrip3->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->EndInit();
 			this->panelStepBeforeReplacements->ResumeLayout(false);
-			this->panelStepBeforeReplacements->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridBeforeReplacements))->EndInit();
 			this->panelStepRuleset->ResumeLayout(false);
 			this->panelStepRuleset->PerformLayout();
@@ -1255,15 +1196,10 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->panelStepAfterReplacements->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridAfterReplacements))->EndInit();
 			this->panelStepOutputFormat->ResumeLayout(false);
-			this->panelStepOutputFormat->PerformLayout();
 			this->panelTxtOutputFormat->ResumeLayout(false);
 			this->panelTxtOutputFormat->PerformLayout();
 			this->tsTxtOutputFormat->ResumeLayout(false);
 			this->tsTxtOutputFormat->PerformLayout();
-			this->panelLstOutputFormats->ResumeLayout(false);
-			this->panelLstOutputFormats->PerformLayout();
-			this->tsOutputFormat->ResumeLayout(false);
-			this->tsOutputFormat->PerformLayout();
 			this->panelStepRename->ResumeLayout(false);
 			this->panelStepRename->PerformLayout();
 			this->panelNavigation->ResumeLayout(false);
@@ -1271,6 +1207,10 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->panelFilelist->ResumeLayout(false);
 			this->tsStepButtons->ResumeLayout(false);
 			this->tsStepButtons->PerformLayout();
+			this->tsOutputFormat->ResumeLayout(false);
+			this->tsOutputFormat->PerformLayout();
+			this->panelLstOutputFormats->ResumeLayout(false);
+			this->panelLstOutputFormats->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
