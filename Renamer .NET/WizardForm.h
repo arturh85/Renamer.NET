@@ -1966,7 +1966,7 @@ void saveBeforeReplacements() {
 				if(replace == nullptr)
 					replace = L"";
 				try {
-					Replacement* replacement = replacements.addReplacement(toStlString(search), toStlString(replace));
+					Replacement* replacement = replacements.addReplacement(toStlString(escapeRegularExpression(search, false)), toStlString(replace));
 					replacementsWhichWereNotDeleted.push_back(replacement->getRowId());
 					gridBeforeReplacements->Rows[i]->Cells[0]->Value = gcnew Int32((Int32)replacement->getRowId());
 					gridBeforeReplacements->Rows[i]->Cells[1]->Value = gcnew Int32((Int32)replacement->getGroupId());
@@ -1990,7 +1990,7 @@ void saveBeforeReplacements() {
 				Replacement& replacement = mRuleset->getReplacement(rowid);
 				
 				try {
-					replacement.setRegex(toStlString(search));
+					replacement.setRegex(toStlString(escapeRegularExpression(search, false)));
 					replacement.setReplacement(toStlString(replace));
 				} catch (...) {
 					gridBeforeReplacements->Rows[i]->Cells[2]->Style->BackColor = Color::LightCoral;
@@ -2032,7 +2032,7 @@ void loadBeforeReplacements() {
 		cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
 		values[0] = gcnew Int32 ((Int32)replacementVector[i]->getRowId());
 		values[1] = gcnew Int32 ((Int32)replacementVector[i]->getGroupId());
-		values[2] = toClrString(replacementVector[i]->getRegex().str());
+		values[2] = escapeRegularExpression(toClrString(replacementVector[i]->getRegex().str()), true);
 		values[3] = toClrString(replacementVector[i]->getReplacement());
 
 		gridBeforeReplacements->Rows->Add(values);
@@ -2679,24 +2679,40 @@ private: System::Void tsUseAsNewOutputFormat_Click(System::Object^  sender, Syst
 			 lstOutputFormat->SelectedIndex = lstOutputFormat->Items->Count - 1;
 			 txtOutputFormat->Focus();
 		 }
+
+		 private: String^ escapeRegularExpression(String^ regularExpression, bool unescape) {
+			 String^ string = String::Copy(regularExpression);
+
+			 const int escapeCount = 10;
+
+			 cli::array<String^>^ toEscape = gcnew cli::array<String^>(escapeCount);
+
+			 toEscape[0] = L"("; toEscape[1] = L")";
+			 toEscape[2] = L"["; toEscape[3] = L"]";
+			 toEscape[4] = L"{"; toEscape[5] = L"}";
+
+			 toEscape[6] = L".";
+			 toEscape[7] = L"|";
+			 toEscape[8] = L"^";
+			 toEscape[9] = L"$";
+	
+			 for(int i=0; i<escapeCount; i++) {
+				 if(unescape == false) {
+					string = string->Replace(toEscape[i], "\\" + toEscape[i]);
+				 } else {
+					string = string->Replace("\\" + toEscape[i], toEscape[i]);
+				 }
+			 }
+
+			 return string;
+		 }
+
 private: System::Void tsUseAsNewInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			if(fileList->SelectedItems->Count != 1) return ;
 
 			String^ selectedFilename = fileList->SelectedItems[0]->Text;
 
-			 selectedFilename = selectedFilename->Replace("[", "\\[");
-			 selectedFilename = selectedFilename->Replace("]", "\\]");
-
-			 selectedFilename = selectedFilename->Replace("{", "\\{");
-			 selectedFilename = selectedFilename->Replace("}", "\\}");
-
-			 selectedFilename = selectedFilename->Replace("(", "\\(");
-			 selectedFilename = selectedFilename->Replace(")", "\\)");
-
-			 selectedFilename = selectedFilename->Replace(".", "\\.");
-			 selectedFilename = selectedFilename->Replace("$", "\\$");
-			 selectedFilename = selectedFilename->Replace("^", "\\^");
-			 selectedFilename = selectedFilename->Replace("|", "\\|");
+			selectedFilename = escapeRegularExpression(selectedFilename, false);
 
 			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 InputRule& inputRule = outputFormat.addInputRule(toStlString(selectedFilename));
