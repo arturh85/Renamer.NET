@@ -1797,9 +1797,9 @@ private: System::Void buttonRulesetSaveDialog_Click(System::Object^  sender, Sys
 #pragma endregion
 #pragma region fileList
 private: System::Void fileList_DragDrop(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
-			 if ( e->Data->GetDataPresent( "FileNameW" )) {
+			 if ( e->Data->GetDataPresent(DataFormats::FileDrop )) {
 				 //! files were dropped on this control
-				 array<String^>^ files = dynamic_cast<array<String^>^>(e->Data->GetData( "FileNameW" ));
+				 array<String^>^ files = dynamic_cast<array<String^>^>(e->Data->GetData( DataFormats::FileDrop ));
 				 for(int i=0; i<files->Length; i++)
 					 addFile(files[i]);	
 			 }
@@ -1807,7 +1807,9 @@ private: System::Void fileList_DragDrop(System::Object^  sender, System::Windows
 			 applyChanges(mStep);
 		 }
 private: System::Void fileList_DragEnter(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
-			 if ( e->Data->GetDataPresent( "FileNameW" ))
+			 
+			 
+			 if ( e->Data->GetDataPresent(DataFormats::FileDrop))
 			 {
 				 e->Effect = DragDropEffects::Link;
 				 return;
