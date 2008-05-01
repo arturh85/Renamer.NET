@@ -92,6 +92,7 @@
 			 lstInputRules->SelectedIndex = lstInputRules->Items->Count - 1;
 			 applyChanges(mStep);
 
+			 // TODO: move selection to the last character
 			 txtInputRule->Focus();
 	}
 	private: System::Void tsRemoveInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -101,13 +102,12 @@
 			 
 			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 outputFormat.removeInputRule(rowid);
+
 			 refreshInputRuleList();
 			 refreshMaxStep();
 
-			 //if(lstInputRules->Items->Count == 0) {
-				 disableTxtInputRule();
-				 mInputRuleID = 0;
-			 //}
+			 disableTxtInputRule();
+			 mInputRuleID = 0;
 
 			 applyChanges(mStep);
 		 }
@@ -144,6 +144,13 @@
 			 refreshInputRuleList();
 			 lstInputRules->SelectedIndex = selectedIndex;
 			 tsSaveInputRule->Visible = false;
+
+			 ListBoxItem^ lbi = (ListBoxItem^) lstInputRules->SelectedItem;
+			 if(lbi == nullptr)
+				 return ;
+			 _PairStringInt^ properties = (_PairStringInt^)lbi->Tag;
+
+			 properties->key = txtInputRule->Text;
 
 			 mRuleset->save();
 			 applyInputRules();
@@ -196,7 +203,11 @@
 				 LockWindowUpdate((HWND) 0);
 			 }
 private: System::Void gridGems_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+			 if(mRuleset == NULL) 
+				 return ;
+			 
 			 saveGems();
+			 mRuleset->save();
 			 applyChanges(mStep);
 		 }
 
@@ -222,15 +233,4 @@ private: System::Void gridGems_CellValueChanged(System::Object^  sender, System:
 		 }
 
 
-private: System::Void tsddbNumbers_Click(System::Object^  sender, System::EventArgs^  e) {
-			 replaceSelectedTextWith(txtInputRule, "(\\d+)");
-		 }
-private: System::Void tsddbAnything_Click(System::Object^  sender, System::EventArgs^  e) {
-			 replaceSelectedTextWith(txtInputRule, "(.+)");
-		 }
-private: System::Void tsmiOneNumber_Click(System::Object^  sender, System::EventArgs^  e) {
-			 replaceSelectedTextWith(txtInputRule, "(\\d)");
-		 }
-private: System::Void tsmiTwoNumbers_Click(System::Object^  sender, System::EventArgs^  e) {
-			 replaceSelectedTextWith(txtInputRule, "(\\d{2})");
-		 }
+

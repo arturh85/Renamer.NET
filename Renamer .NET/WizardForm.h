@@ -1,6 +1,25 @@
 #pragma region Header
 #pragma once
 
+/************************************************************************
+Copyright (c) 2008, Artur H., Lennart W.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided 
+with the distribution.
+* Neither the name of the authors nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF 
+THE POSSIBILITY OF SUCH DAMAGE.                                                                     */
+/************************************************************************/
+
+
 #include <vcclr.h>
 #include "ruleset.h"
 #include "inputRule.h"
@@ -208,13 +227,16 @@ private: System::Windows::Forms::Panel^  innerPanelInputRules;
 private: System::Windows::Forms::ToolStripButton^  tsUseAsNewInputRule;
 private: System::Windows::Forms::ToolStripButton^  tsUseAsNewOutputFormat;
 private: System::Windows::Forms::ToolStrip^  tsRegexHelper;
-private: System::Windows::Forms::ToolStripDropDownButton^  tsddbNumbers;
-private: System::Windows::Forms::ToolStripDropDownButton^  tsddbAnything;
-private: System::Windows::Forms::ToolStripLabel^  tsLabelReplaceSelected;
-private: System::Windows::Forms::ToolStripMenuItem^  tsmiTwoNumbers;
 
-private: System::Windows::Forms::ToolStripMenuItem^  tsmiOneNumber;
-private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
+
+
+private: System::Windows::Forms::ToolStripLabel^  tsLabelReplaceSelected;
+
+
+
+
+
+
 private: System::Windows::Forms::Panel^  panelLstOutputFormats;
 private: System::Windows::Forms::ToolStrip^  tsOutputFormat;
 private: System::Windows::Forms::ToolStripButton^  tsAddOutputFormat;
@@ -223,6 +245,15 @@ private: System::Windows::Forms::ToolStripButton^  tsDuplicateOutputFormat;
 private: System::Windows::Forms::ListBox^  lstOutputFormat;
 
 private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
+private: System::Windows::Forms::ToolStripSplitButton^  tssbNumbers;
+private: System::Windows::Forms::ToolStripMenuItem^  tsmiTwoNumbers;
+
+private: System::Windows::Forms::ToolStripMenuItem^  tsmiOneNumbers;
+
+private: System::Windows::Forms::ToolStripSplitButton^  tssbAnything;
+private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
+
+
 
 
 
@@ -285,10 +316,10 @@ private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
 			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
 			this->tsRegexHelper = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsLabelReplaceSelected = (gcnew System::Windows::Forms::ToolStripLabel());
-			this->tsddbNumbers = (gcnew System::Windows::Forms::ToolStripDropDownButton());
+			this->tssbNumbers = (gcnew System::Windows::Forms::ToolStripSplitButton());
 			this->tsmiTwoNumbers = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->tsmiOneNumber = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->tsddbAnything = (gcnew System::Windows::Forms::ToolStripDropDownButton());
+			this->tsmiOneNumbers = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->tssbAnything = (gcnew System::Windows::Forms::ToolStripSplitButton());
 			this->tsmiLetters = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tsInputRuleButtons = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
@@ -581,7 +612,7 @@ private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
 			// 
 			resources->ApplyResources(this->tsRegexHelper, L"tsRegexHelper");
 			this->tsRegexHelper->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsLabelReplaceSelected, 
-				this->tsddbNumbers, this->tsddbAnything});
+				this->tssbNumbers, this->tssbAnything});
 			this->tsRegexHelper->Name = L"tsRegexHelper";
 			// 
 			// tsLabelReplaceSelected
@@ -589,14 +620,14 @@ private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
 			this->tsLabelReplaceSelected->Name = L"tsLabelReplaceSelected";
 			resources->ApplyResources(this->tsLabelReplaceSelected, L"tsLabelReplaceSelected");
 			// 
-			// tsddbNumbers
+			// tssbNumbers
 			// 
-			this->tsddbNumbers->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->tsddbNumbers->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsmiTwoNumbers, 
-				this->tsmiOneNumber});
-			resources->ApplyResources(this->tsddbNumbers, L"tsddbNumbers");
-			this->tsddbNumbers->Name = L"tsddbNumbers";
-			this->tsddbNumbers->Click += gcnew System::EventHandler(this, &WizardForm::tsddbNumbers_Click);
+			this->tssbNumbers->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+			this->tssbNumbers->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->tsmiTwoNumbers, 
+				this->tsmiOneNumbers});
+			resources->ApplyResources(this->tssbNumbers, L"tssbNumbers");
+			this->tssbNumbers->Name = L"tssbNumbers";
+			this->tssbNumbers->ButtonClick += gcnew System::EventHandler(this, &WizardForm::tssbNumbers_ButtonClick);
 			// 
 			// tsmiTwoNumbers
 			// 
@@ -604,24 +635,25 @@ private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
 			resources->ApplyResources(this->tsmiTwoNumbers, L"tsmiTwoNumbers");
 			this->tsmiTwoNumbers->Click += gcnew System::EventHandler(this, &WizardForm::tsmiTwoNumbers_Click);
 			// 
-			// tsmiOneNumber
+			// tsmiOneNumbers
 			// 
-			this->tsmiOneNumber->Name = L"tsmiOneNumber";
-			resources->ApplyResources(this->tsmiOneNumber, L"tsmiOneNumber");
-			this->tsmiOneNumber->Click += gcnew System::EventHandler(this, &WizardForm::tsmiOneNumber_Click);
+			this->tsmiOneNumbers->Name = L"tsmiOneNumbers";
+			resources->ApplyResources(this->tsmiOneNumbers, L"tsmiOneNumbers");
+			this->tsmiOneNumbers->Click += gcnew System::EventHandler(this, &WizardForm::tsmiOneNumbers_Click);
 			// 
-			// tsddbAnything
+			// tssbAnything
 			// 
-			this->tsddbAnything->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->tsddbAnything->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsmiLetters});
-			resources->ApplyResources(this->tsddbAnything, L"tsddbAnything");
-			this->tsddbAnything->Name = L"tsddbAnything";
-			this->tsddbAnything->Click += gcnew System::EventHandler(this, &WizardForm::tsddbAnything_Click);
+			this->tssbAnything->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+			this->tssbAnything->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsmiLetters});
+			resources->ApplyResources(this->tssbAnything, L"tssbAnything");
+			this->tssbAnything->Name = L"tssbAnything";
+			this->tssbAnything->ButtonClick += gcnew System::EventHandler(this, &WizardForm::tssbAnything_ButtonClick);
 			// 
 			// tsmiLetters
 			// 
 			this->tsmiLetters->Name = L"tsmiLetters";
 			resources->ApplyResources(this->tsmiLetters, L"tsmiLetters");
+			this->tsmiLetters->Click += gcnew System::EventHandler(this, &WizardForm::tsmiLetters_Click);
 			// 
 			// tsInputRuleButtons
 			// 
@@ -734,6 +766,7 @@ private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
 			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
 			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this->gridGems->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &WizardForm::gridGems_CellValueChanged);
+			this->gridGems->DataError += gcnew System::Windows::Forms::DataGridViewDataErrorEventHandler(this, &WizardForm::gridGems_DataError);
 			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
 			// 
 			// GemColumnPosition
@@ -1991,6 +2024,32 @@ private: System::Void tsDebugLoadRuleset_Click(System::Object^  sender, System::
 	 }
 #pragma endregion
 #pragma region Footer
+private: System::Void gridGems_DataError(System::Object^  sender, System::Windows::Forms::DataGridViewDataErrorEventArgs^  e) {
+			 // ignore
+			 //  TODO find out why this is happening
+			 return ;
+		 }
+
+
+
+
+private: System::Void tsmiOneNumber_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void tssbNumbers_ButtonClick(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(\\d+)");
+		 }
+private: System::Void tsmiOneNumbers_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(\\d)");
+		 }
+private: System::Void tsmiTwoNumbers_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(\\d{2})");
+		 }
+private: System::Void tssbAnything_ButtonClick(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "(.+)");
+		 }
+private: System::Void tsmiLetters_Click(System::Object^  sender, System::EventArgs^  e) {
+			 replaceSelectedTextWith(txtInputRule, "([a-zA-Z]+)");
+		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
 }

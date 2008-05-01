@@ -180,6 +180,7 @@ FunctionEnd
 Section "-RenamerBinary"
   SetOutPath $INSTDIR
   File "..\..\bin\Renamer .NET.exe"
+  File "..\..\Documentation\licence.txt"
   File "..\..\bin\*.dll"
   File "depends\msvcp90.dll"
   File "depends\msvcr90.dll"
@@ -213,6 +214,7 @@ SectionEnd
 Section "-Un.Remove_What_is_Left"
 	#Binaries
 	Delete "$INSTDIR\Renamer .NET.exe"
+	Delete "$INSTDIR\*.txt"
 	Delete "$INSTDIR\uninstall.exe"
 	Delete "$INSTDIR\*.dll"
 	RMDir $INSTDIR

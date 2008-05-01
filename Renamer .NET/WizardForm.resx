@@ -348,18 +348,17 @@
   <data name="tsAddFolders.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAk9JREFUOE/dU01M
-        02AY5uCdm3GJiVejTjInxZNeTLyQeJCoCR4ARc2G0WDkoCa6RNiQyQQ3TQzRGAkmDmf4CYZBshgPoEa3
-        QGV1/MgAF7rIOrqu7bquj1+LjJ8Ld7/0ydu3zfPzfl++kpL/Y00NWiPx/kplYRumh47Nzrw7vHv2rbV0
-        C0aspaHQiV3F6cdfU7KmFQBo5NGx9p6XklgK2XKLY9XyOhLfrkvxscY403fkbFGAfl+e1lQJ8lI7snMd
-        yM6/hBjvhZbniJYATc0QrK71+RRYls0xAYouCsR6LHxBWSVkL4SZJ+B/OLDyxYbk1wZwk83gJu6Di9xG
-        KtxE0EiSsYgFjmY2BPzlSl5cBkd7kfruAvvxJkT2M3Hl/7nrNV1MoI8X9pdJmxJUKMb8BZlABNSsQVRF
-        BnLCC2mxGeKvJmSnr0JgLkAVogh3bxbwUjlNFaHy48hzw1D+9CK33EWIbRDn70KcacDgh2rcenYel9tP
-        o/bhKXS69+U3TuE5JRcUHsrKAHJsN3H1QVogrnO6az0CA1Vw+GsxSPsQSQThGbHhnMcMym5yGyJhT5mk
-        KRwhv4L8uwNS3EHIjcjGLkKIVqGu9ST6Jh+jb6qTHC/gHq2HZ/QKyuyla/vws9WcENN0OvbpTUGYfoFM
-        7CkyTDsy0Rbw9D1U3rFgiO4yyOurf8KHCrsJhgDTcvAG4zrUQzsPJMMus7Qdx6/tRVuwDs5gjcF3Dtds
-        TbDThaRspgdn3PvxKHgJurNe9b64BzsJ6P8p2x6XxW7i9dh61Xv9+1+NGQGrS4dk6wAAAABJRU5ErkJg
-        gg==
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAk5JREFUOE/dU01M
+        02AY5uCdm3GJiVejIpmT4kkvJl5IPEjUBA+AombDaDByUBNdImzIZIKbJoZojAQThzODBcMgQU+gRrdA
+        ZXUbyAAXSoSOrmu7ruvj1yLj58LdL33y9m3z/Lzfl6+k5P9YU0FLJNlfpcxtQ3zw2HTi3eHd028tpVsw
+        bCkdHT2xqzj9+GtK1rQCAI08Otbe89ISFkatufmxGnkdqW/XpeRYU5IJHDlbFKDfV6Q1VYK80IHsTCey
+        sy8hJvug5TmiJUBTMwSra31+BSzL5hg/RRcFYr1mvqCsErIHQuIJ+B92LH+xYulrI7jJFnAT98FFbmMl
+        3EzQRJKxiPmPZjYEfBVKXlwER3uw8t0J9tNNiOxn4sr/c9druphAHy/sK5c2JahUjPkLMoEIqFmDqIoM
+        5JQH0nwLxF/NyMavQmAuQBWiCPdsFvBQOU0VofLjyHNDUP70IbfYTYjtEGfvQkw0IvihBreencfljtOo
+        e3gKXa59+Y1TeE7JBYWHsjyAHNtDXL2Q5ojrjO7aAP9ANey+OgRpLyKpENzDVpxzl4GymVyGSNhdLmkK
+        R8ivIP/uhJS0E3ITsrGLEKLVqG87icDkYwSmusjxAq6RBrhHrqDcVrq2Dz/bylJimk5HP74pCPEXyMSe
+        IsN0IBNtBU/fQ9UdMwbpboO8vvonvKi0mWAIMK0HbzDOQ72048BS2Fkmbcfxa3vRHqqHI1Rr8B1DtVsT
+        7HQhKavpwRnXfjwKXYLurFe9L+7BTgL6f8q6x2m2mXg9tl71Xv/+F4dSAaUUpRkFAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsAddFolders.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
@@ -452,18 +451,18 @@
   <data name="tsRenameFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         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
-        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
+        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
 </value>
   </data>
   <data name="tsRenameFiles.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
@@ -683,18 +682,18 @@
     <value>Replace selected with:</value>
   </data>
   <data name="tsmiTwoNumbers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="tsmiTwoNumbers.Text" xml:space="preserve">
     <value>Two numbers</value>
   </data>
-  <data name="tsmiOneNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 22</value>
+  <data name="tsmiOneNumbers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
-  <data name="tsmiOneNumber.Text" xml:space="preserve">
+  <data name="tsmiOneNumbers.Text" xml:space="preserve">
     <value>One number</value>
   </data>
-  <data name="tsddbNumbers.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="tssbNumbers.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAgxJREFUOE+lkvtL
@@ -709,22 +708,22 @@
         s1c0gHPmbrPTpHNJKOCo2G1mZs20zcwUJ5yp1AB5+8/zEwgF5GMVDxh4AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="tsddbNumbers.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+  <data name="tssbNumbers.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="tsddbNumbers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 22</value>
+  <data name="tssbNumbers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 22</value>
   </data>
-  <data name="tsddbNumbers.Text" xml:space="preserve">
+  <data name="tssbNumbers.Text" xml:space="preserve">
     <value>Numbers</value>
   </data>
   <data name="tsmiLetters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="tsmiLetters.Text" xml:space="preserve">
     <value>Letters</value>
   </data>
-  <data name="tsddbAnything.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="tssbAnything.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAgxJREFUOE+lkvtL
@@ -739,13 +738,13 @@
         s1c0gHPmbrPTpHNJKOCo2G1mZs20zcwUJ5yp1AB5+8/zEwgF5GMVDxh4AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="tsddbAnything.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+  <data name="tssbAnything.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="tsddbAnything.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 22</value>
+  <data name="tssbAnything.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 22</value>
   </data>
-  <data name="tsddbAnything.Text" xml:space="preserve">
+  <data name="tssbAnything.Text" xml:space="preserve">
     <value>Anything</value>
   </data>
   <data name="tsRegexHelper.Location" type="System.Drawing.Point, System.Drawing">
@@ -1504,8 +1503,8 @@
         whDiYfARP7Y2fQiHfhDhJV2qCQ7WWFXaYL+sv78qUQRAiWNm0YOxyS6MjFkwbOvAq+EW9A01ovf1bQw4
         vLrgWLkNh64N9jBuc06CKAIUzo5kZBDyZif9HrWQVmsgessgLhVC+HYZcXceYgsn6B6/Lkj9QPZ7OZIq
         c5DDfUgEOyCt34G4UkHDpRCXi2g4n4bPgJ/PBTd7GGoi8Kdgqn6vSOQIDbdB8jXoQcFTQENn6cZc8DTE
-        TR8A+3EPoo6dSHKT0DKpBl+qDetC1Bm1Wh+pscUW8O674F114BeM4JwldGsh2M8FYKcvgZ26gNqSEuKs
-        y4qmBC5j5hVX1W6Ls3LXxlSVQfwnlQZxpsrAuioyTb8E3wF3Os9gm3b7ywAAAABJRU5ErkJggg==
+        TR8A+3EPoo6dSHKT0DKpBl+qDetC1Bm1Wh+pscUW8O674F114BeM4JwldGsh2M8FYKcvgZ26gOqSEuKs
+        y4qmBC5j5hVX1W6Ls3LXxlSVQfwnlQZxpsrAuioyTb8E3wF2R89drcu42AAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsLoadRulesetDialog.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
@@ -2188,7 +2187,7 @@
     <value>Ruleset</value>
   </data>
   <data name="tsStepRuleset.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomLeft</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="tsStepBeforeReplacements.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2281,7 +2280,7 @@
     <value>Input Rules</value>
   </data>
   <data name="tsStepInputRule.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomLeft</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="tsStepGems.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2371,7 +2370,7 @@
     <value>Rename</value>
   </data>
   <data name="tsStepRename.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomLeft</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="tsStepRename.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2527,11 +2526,11 @@
   <data name="&gt;&gt;tsLabelReplaceSelected.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tsddbNumbers.Name" xml:space="preserve">
-    <value>tsddbNumbers</value>
+  <data name="&gt;&gt;tssbNumbers.Name" xml:space="preserve">
+    <value>tssbNumbers</value>
   </data>
-  <data name="&gt;&gt;tsddbNumbers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;tssbNumbers.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSplitButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tsmiTwoNumbers.Name" xml:space="preserve">
     <value>tsmiTwoNumbers</value>
@@ -2539,17 +2538,17 @@
   <data name="&gt;&gt;tsmiTwoNumbers.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tsmiOneNumber.Name" xml:space="preserve">
-    <value>tsmiOneNumber</value>
+  <data name="&gt;&gt;tsmiOneNumbers.Name" xml:space="preserve">
+    <value>tsmiOneNumbers</value>
   </data>
-  <data name="&gt;&gt;tsmiOneNumber.Type" xml:space="preserve">
+  <data name="&gt;&gt;tsmiOneNumbers.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tsddbAnything.Name" xml:space="preserve">
-    <value>tsddbAnything</value>
+  <data name="&gt;&gt;tssbAnything.Name" xml:space="preserve">
+    <value>tssbAnything</value>
   </data>
-  <data name="&gt;&gt;tsddbAnything.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;tssbAnything.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSplitButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tsmiLetters.Name" xml:space="preserve">
     <value>tsmiLetters</value>

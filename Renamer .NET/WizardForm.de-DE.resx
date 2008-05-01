@@ -130,7 +130,7 @@
   <data name="tsLabelReplaceSelected.Text" xml:space="preserve">
     <value>Ersetze Auswahl durch:</value>
   </data>
-  <data name="tsddbNumbers.Text" xml:space="preserve">
+  <data name="tssbNumbers.Text" xml:space="preserve">
     <value>Nummern</value>
   </data>
   <data name="tsmiOneNumber.Text" xml:space="preserve">
@@ -139,7 +139,7 @@
   <data name="tsmiTwoNumbers.Text" xml:space="preserve">
     <value>Zwei Ziffern</value>
   </data>
-  <data name="tsddbAnything.Text" xml:space="preserve">
+  <data name="tssbAnything.Text" xml:space="preserve">
     <value>Alles</value>
   </data>
   <data name="tsmiLetters.Text" xml:space="preserve">
