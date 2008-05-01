@@ -292,6 +292,34 @@
 					>
 				</File>
 			</File>
+			<File
+				RelativePath=".\WizardForm_Step_1_Ruleset.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WizardForm_Step_2_BeforeReplacements.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WizardForm_Step_3_OutputFormats.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WizardForm_Step_4_InputRules.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WizardForm_Step_5_Gems.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WizardForm_Step_6_AfterReplacements.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WizardForm_Step_7_Rename.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
