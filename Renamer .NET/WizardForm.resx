@@ -349,16 +349,16 @@
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAk5JREFUOE/dU01M
-        02AY5uCdm3GJiVejIpmT4kkvJl5IPEjUBA+AombDaDByUBNdImzIZIKbJoZojAQThzODBcMgQU+gRrdA
-        ZXUbyAAXSoSOrmu7ruvj1yLj58LdL33y9m3z/Lzfl6+k5P9YU0FLJNlfpcxtQ3zw2HTi3eHd028tpVsw
-        bCkdHT2xqzj9+GtK1rQCAI08Otbe89ISFkatufmxGnkdqW/XpeRYU5IJHDlbFKDfV6Q1VYK80IHsTCey
-        sy8hJvug5TmiJUBTMwSra31+BSzL5hg/RRcFYr1mvqCsErIHQuIJ+B92LH+xYulrI7jJFnAT98FFbmMl
-        3EzQRJKxiPmPZjYEfBVKXlwER3uw8t0J9tNNiOxn4sr/c9druphAHy/sK5c2JahUjPkLMoEIqFmDqIoM
-        5JQH0nwLxF/NyMavQmAuQBWiCPdsFvBQOU0VofLjyHNDUP70IbfYTYjtEGfvQkw0IvihBreencfljtOo
-        e3gKXa59+Y1TeE7JBYWHsjyAHNtDXL2Q5ojrjO7aAP9ANey+OgRpLyKpENzDVpxzl4GymVyGSNhdLmkK
-        R8ivIP/uhJS0E3ITsrGLEKLVqG87icDkYwSmusjxAq6RBrhHrqDcVrq2Dz/bylJimk5HP74pCPEXyMSe
-        IsN0IBNtBU/fQ9UdMwbpboO8vvonvKi0mWAIMK0HbzDOQ72048BS2Fkmbcfxa3vRHqqHI1Rr8B1DtVsT
-        7HQhKavpwRnXfjwKXYLurFe9L+7BTgL6f8q6x2m2mXg9tl71Xv/+F4dSAaUUpRkFAAAAAElFTkSuQmCC
+        02AY5uCdm3GJiVejIpmT4kkvJl5IPEjUBA+AombDaGbkoCa6RGDIZIKbJoZojAQThzMDgmGQLJ5AjY5A
+        YXUMZIALJbKOrmu7ruvj107Gz4W7X/rk7dvm+Xm/L19Jyf+xZgYtE/H+KmVxB2aHTszFPhzdO/feUroN
+        I5bSUOjUnuL0428pWdPyADTy6Ci856RVLIes2aWxGnkDie83pfiYPc4Ejp0vCtAfK1KaKkFe7kBmvhOZ
+        hdcQ433QchzREqCpaYL1Qp9LgmXZLOOn6KJAtNfM55V1QvZAiD0DP+3A2lcrVr81gptqBjf5ENzEXSTD
+        TQR2koxF1H88vSngq1By4go42oPkDyfYz7chsl+IK//PXa+pYgJ9vLCvXNqSoFIx5s/LBCKgZgyiKjKQ
+        Ex5IS80QfzUhM3sdAnMJqhBBuGergIfKaqoIlR9HjhuG8qcP2ZVuQmyHuHAfYqwRg59qcOfFRVztOIu6
+        x2fQ5TqQ2zyFl5ScV3goawPIsj3E1QtpkbjO664N8A9Uw+GrwyDtxUQiCPeIFRfcZaBsJpchEnaXS5rC
+        EfIbyL87IcUdhGxHJnoZQqQa9W2nEZh6isBMFzlewDXaAPfoNZTbSgv78LOtLCGm6NR06F1emH2FdPQ5
+        0kwH0pEW8PQDVN0zY4juNsgbq3/Si0qbCYYA03L4FuM80ku3HloNO8uknTh5Yz/ag/VoDdYa/Nbh2u0J
+        druQlNX06JzrIJ4Er0B31qveF/dgNwH9P2Xd5zTbTLweW696r3//C4RuAaKuCNBPAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsAddFolders.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
@@ -451,18 +451,18 @@
   <data name="tsRenameFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         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
-        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
+        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
 </value>
   </data>
   <data name="tsRenameFiles.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
@@ -682,13 +682,13 @@
     <value>Replace selected with:</value>
   </data>
   <data name="tsmiTwoNumbers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>149, 22</value>
   </data>
   <data name="tsmiTwoNumbers.Text" xml:space="preserve">
     <value>Two numbers</value>
   </data>
   <data name="tsmiOneNumbers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>149, 22</value>
   </data>
   <data name="tsmiOneNumbers.Text" xml:space="preserve">
     <value>One number</value>
@@ -718,7 +718,7 @@
     <value>Numbers</value>
   </data>
   <data name="tsmiLetters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="tsmiLetters.Text" xml:space="preserve">
     <value>Letters</value>
@@ -751,7 +751,7 @@
     <value>0, 146</value>
   </data>
   <data name="tsRegexHelper.Size" type="System.Drawing.Size, System.Drawing">
-    <value>619, 25</value>
+    <value>611, 25</value>
   </data>
   <data name="tsRegexHelper.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -798,7 +798,7 @@
     <value>Magenta</value>
   </data>
   <data name="tsAddInputRule.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 20</value>
+    <value>29, 20</value>
   </data>
   <data name="tsAddInputRule.Text" xml:space="preserve">
     <value>toolStripButton1</value>
@@ -824,7 +824,7 @@
     <value>Magenta</value>
   </data>
   <data name="tsRemoveInputRule.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 20</value>
+    <value>29, 20</value>
   </data>
   <data name="tsRemoveInputRule.Text" xml:space="preserve">
     <value>toolStripButton2</value>
@@ -845,16 +845,40 @@
     <value>Magenta</value>
   </data>
   <data name="tsDuplicateInputRule.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 20</value>
+    <value>29, 20</value>
   </data>
   <data name="tsDuplicateInputRule.Text" xml:space="preserve">
     <value>toolStripButton3</value>
   </data>
+  <data name="tsMergeInputRules.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAg9JREFUOE9jYKAl
+        yNwZczJ1c/QRsuxI2xF9sfFw+f+6A6X/Y9cEnyfakPpVoWxp22JvNx4q+7/s6tz/S67M/l+xM/9/6GLf
+        m6FAOYIGpW+N3p2yMeJ77b7i/4uuzPy/4NL0/837q/4Hzvb67jvDbQdBA2AKYlcF/593cdr/ORem/E9a
+        HvXfd5qLBdGaQQojFwf8mHFu4v9pZ/v++013+UGa5qUBNqmrY4Ca+/9PPt39P2pe8H+XHnsbgobErAxR
+        iVjsNz9oruefml2l/ycBNfefbP9fvCnnv32rxR/rBrP5FvWGKlgNil4WGBK+0OdnxfaC/5NOdf2fcKrz
+        f/XOkv8V2wr+dxxt+t9yuPZ/4uLo/6ZlBj8NinVDUAwBRg9z2CLft837a/5PPN31v/d46//kZTH/nTts
+        dtq3WOyMmhPyv/5ABTBNVP7PXJ38Xy9X/W1oKAMz3JDQhT5yUYuCwLb2nmj7n7os9r9jp3UvTIFFpVFv
+        yDS//9X7Sv9X7i3+b1yq/18rTUkOYcBMH7mwuX7/u4E2dx5r+u/SZftfq14LnmhAbKMS3f8Ve4v+l+4u
+        +G9QoPNfCdkAn5kucoHTvf63H23833q47r9ds/l/9IDSydX4X7I7/3/xztz/ujma/5VikVwAUuzaY/ff
+        sd3qv22T+X/LOmMMAzQzVf+rpSr9V05S+K8YL4chTzCKcSkAAIpi+826Gro/AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsMergeInputRules.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="tsMergeInputRules.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="tsMergeInputRules.Text" xml:space="preserve">
+    <value>Merge input rules</value>
+  </data>
   <data name="tsInputRuleButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>619, 0</value>
+    <value>611, 0</value>
   </data>
   <data name="tsInputRuleButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 171</value>
+    <value>32, 171</value>
   </data>
   <data name="tsInputRuleButtons.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1503,8 +1527,8 @@
         whDiYfARP7Y2fQiHfhDhJV2qCQ7WWFXaYL+sv78qUQRAiWNm0YOxyS6MjFkwbOvAq+EW9A01ovf1bQw4
         vLrgWLkNh64N9jBuc06CKAIUzo5kZBDyZif9HrWQVmsgessgLhVC+HYZcXceYgsn6B6/Lkj9QPZ7OZIq
         c5DDfUgEOyCt34G4UkHDpRCXi2g4n4bPgJ/PBTd7GGoi8Kdgqn6vSOQIDbdB8jXoQcFTQENn6cZc8DTE
-        TR8A+3EPoo6dSHKT0DKpBl+qDetC1Bm1Wh+pscUW8O674F114BeM4JwldGsh2M8FYKcvgZ26gOqSEuKs
-        y4qmBC5j5hVX1W6Ls3LXxlSVQfwnlQZxpsrAuioyTb8E3wF2R89drcu42AAAAABJRU5ErkJggg==
+        TR8A+3EPoo6dSHKT0DKpBl+qDetC1Bm1Wh+pscUW8O674F114BeM4JwldGsh2M8FYKcvgZ26gMqSEuKs
+        y4qmBC5j5hVX1W6Ls3LXxlSVQfwnlQZxpsrAuioyTb8E3wF1pc9buSupSgAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsLoadRulesetDialog.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
@@ -2572,6 +2596,12 @@
     <value>tsDuplicateInputRule</value>
   </data>
   <data name="&gt;&gt;tsDuplicateInputRule.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsMergeInputRules.Name" xml:space="preserve">
+    <value>tsMergeInputRules</value>
+  </data>
+  <data name="&gt;&gt;tsMergeInputRules.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tsSaveInputRule.Name" xml:space="preserve">

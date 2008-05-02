@@ -100,6 +100,11 @@ private: Ruleset* mRuleset;
 private: sqlite_int64 mOutputFormatID;
 private: sqlite_int64 mInputRuleID;
 private: sqlite_int64 mGemID;
+
+private: sqlite_int64 mMergeRuleID_1;
+private: sqlite_int64 mMergeRuleID_2;
+
+
 private: List<String^> mFiles;
 private: List<String^> mKnownRulesets;
 private: Step mStep;
@@ -247,6 +252,7 @@ private: System::Windows::Forms::ListBox^  lstOutputFormat;
 private: System::Windows::Forms::RichTextBox^  txtCurrentOutputFormat;
 private: System::Windows::Forms::ToolStripSplitButton^  tssbNumbers;
 private: System::Windows::Forms::ToolStripMenuItem^  tsmiTwoNumbers;
+private: System::Windows::Forms::ToolStripButton^  tsMergeInputRules;
 
 private: System::Windows::Forms::ToolStripMenuItem^  tsmiOneNumbers;
 
@@ -325,6 +331,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			this->tsAddInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsRemoveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
+			this->tsMergeInputRules = (gcnew System::Windows::Forms::ToolStripButton());
 			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
 			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
 			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
@@ -659,8 +666,8 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			// 
 			resources->ApplyResources(this->tsInputRuleButtons, L"tsInputRuleButtons");
 			this->tsInputRuleButtons->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->tsInputRuleButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->tsAddInputRule, 
-				this->tsRemoveInputRule, this->tsDuplicateInputRule});
+			this->tsInputRuleButtons->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->tsAddInputRule, 
+				this->tsRemoveInputRule, this->tsDuplicateInputRule, this->tsMergeInputRules});
 			this->tsInputRuleButtons->Name = L"tsInputRuleButtons";
 			// 
 			// tsAddInputRule
@@ -683,6 +690,13 @@ private: System::Windows::Forms::ToolStripMenuItem^  tsmiLetters;
 			resources->ApplyResources(this->tsDuplicateInputRule, L"tsDuplicateInputRule");
 			this->tsDuplicateInputRule->Name = L"tsDuplicateInputRule";
 			this->tsDuplicateInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsDuplicateInputRule_Click);
+			// 
+			// tsMergeInputRules
+			// 
+			this->tsMergeInputRules->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsMergeInputRules, L"tsMergeInputRules");
+			this->tsMergeInputRules->Name = L"tsMergeInputRules";
+			this->tsMergeInputRules->Click += gcnew System::EventHandler(this, &WizardForm::tsMergeInputRules_Click);
 			// 
 			// lstInputRules
 			// 
@@ -2049,6 +2063,35 @@ private: System::Void tssbAnything_ButtonClick(System::Object^  sender, System::
 		 }
 private: System::Void tsmiLetters_Click(System::Object^  sender, System::EventArgs^  e) {
 			 replaceSelectedTextWith(txtInputRule, "([a-zA-Z]+)");
+		 }
+
+private: void beginMergeInputRuleMode() {
+				 if(tsSaveInputRule->Visible == true)
+					 return ;
+
+				 mMergeRuleID_1 = mInputRuleID;
+
+				 tsDuplicateInputRule->Enabled = false;
+				 tsAddInputRule->Enabled = false;
+				 tsRemoveInputRule->Enabled = false;
+				 tsMergeInputRules->Enabled = false;
+				 txtInputRule->Enabled = false;				 
+		 }
+
+	private: void endMergeInputRuleMode() {
+				 mMergeRuleID_1 = 0;
+				 mMergeRuleID_2 = 0;
+
+				 tsDuplicateInputRule->Enabled = true;
+				 tsAddInputRule->Enabled = true;
+				 tsRemoveInputRule->Enabled = true;
+				 tsMergeInputRules->Enabled = true;
+				 txtInputRule->Enabled = true;
+		 }
+
+private: System::Void tsMergeInputRules_Click(System::Object^  sender, System::EventArgs^  e) {
+				beginMergeInputRuleMode();
+
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //

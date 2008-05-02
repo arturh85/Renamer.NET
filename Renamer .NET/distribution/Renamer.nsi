@@ -181,7 +181,7 @@ Section "-RenamerBinary"
   SetOutPath $INSTDIR
   File "..\..\bin\Renamer .NET.exe"
   File "..\..\Documentation\licence.txt"
-  File "..\..\bin\*.dll"
+  File "..\..\dist\*.dll"
   File "depends\msvcp90.dll"
   File "depends\msvcr90.dll"
   File "depends\msvcm90.dll"

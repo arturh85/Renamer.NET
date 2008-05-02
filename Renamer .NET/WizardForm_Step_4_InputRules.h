@@ -6,6 +6,14 @@
 					 gridGems_SelectionChanged(nullptr, nullptr);
 				 }
 
+				 if(mInputRuleID != 0 && lstInputRules->Items->Count >= 2) 
+					 tsMergeInputRules->Visible = true;
+				 else
+					 tsMergeInputRules->Visible = false;
+
+				 mMergeRuleID_1 = 0;
+				 mMergeRuleID_2 = 0;
+
 				 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 
 				 txtCurrentOutputFormat->Text = toClrString(outputFormat.getFormat());
@@ -94,6 +102,11 @@
 
 			 // TODO: move selection to the last character
 			 txtInputRule->Focus();
+
+			 if(mInputRuleID != 0 && lstInputRules->Items->Count >= 2) 
+					 tsMergeInputRules->Visible = true;
+				 else
+					 tsMergeInputRules->Visible = false;
 	}
 	private: System::Void tsRemoveInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1)
@@ -109,6 +122,8 @@
 			 disableTxtInputRule();
 			 mInputRuleID = 0;
 
+			 tsMergeInputRules->Visible = false;
+
 			 applyChanges(mStep);
 		 }
 	private: System::Void tsDuplicateInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -117,6 +132,12 @@
 			 OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
 			 InputRule& inputRule = outputFormat.addInputRule(toStlString(lstInputRules->SelectedItem->ToString()));
 			 refreshInputRuleList();
+
+			 if(mInputRuleID != 0 && lstInputRules->Items->Count >= 2) 
+					 tsMergeInputRules->Visible = true;
+				 else
+					 tsMergeInputRules->Visible = false;
+
 		 }
 	private: System::Void tsSaveInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1) 
@@ -161,6 +182,45 @@
 			 if(lbi == nullptr)
 				 return ;
 			 _PairStringInt^ properties = (_PairStringInt^)lbi->Tag;
+
+			 if(mMergeRuleID_1 != 0) {
+				 mMergeRuleID_2 = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
+
+
+				 InputRule& inputRule1 = mRuleset->getInputRule(mMergeRuleID_1);
+				 InputRule& inputRule2 = mRuleset->getInputRule(mMergeRuleID_2);
+
+				 String^ rule1 = toClrString(inputRule1.getRegex());
+				 String^ rule2 = toClrString(inputRule2.getRegex());
+
+
+				 String^ mergedRule = mergeInputRules(rule1, rule2);
+				 endMergeInputRuleMode();
+
+				 if(mergedRule != nullptr) {
+					
+					OutputFormat& outputFormat = mRuleset->getOutputFormat(mOutputFormatID);
+	
+
+					try {
+					    InputRule& inputRule = outputFormat.addInputRule(toStlString(mergedRule));
+					mInputRuleID = inputRule.getRowId();
+						
+					} catch(...) {
+						return ;
+					}
+
+
+					outputFormat.removeInputRule(inputRule1.getRowId());
+					outputFormat.removeInputRule(inputRule2.getRowId());
+
+					mRuleset->save();
+					refreshInputRuleList();
+
+					return ;
+				 }
+			 }
+
 			 txtInputRule->Enabled = true;
 			 txtInputRule->Text = properties->key;
 			 mInputRuleID = ((_PairStringInt^) ((ListBoxItem^)lstInputRules->SelectedItem)->Tag)->value;
@@ -169,6 +229,12 @@
 			 loadGems();
 			 applyInputRules();
 			 applyChanges(mStep);
+			 
+			 if(mInputRuleID != 0 && lstInputRules->Items->Count >= 2) 
+					 tsMergeInputRules->Visible = true;
+				 else
+					 tsMergeInputRules->Visible = false;
+			 
 		 }
 	private: System::Void txtInputRule_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(lstInputRules->SelectedIndex == -1) 
@@ -211,6 +277,11 @@ private: System::Void gridGems_CellValueChanged(System::Object^  sender, System:
 			 applyChanges(mStep);
 		 }
 
+private: String^ mergeInputRules(String^ rule1, String^ rule2) {
+			 // TODO: implement
+			return nullptr;
+		 }
+
  private: System::Void tsUseAsNewInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			if(fileList->SelectedItems->Count != 1) return ;
 
@@ -229,6 +300,12 @@ private: System::Void gridGems_CellValueChanged(System::Object^  sender, System:
 			 applyChanges(mStep);
 
 			 txtInputRule->Focus();
+
+			 if(mInputRuleID != 0 && lstInputRules->Items->Count >= 2) 
+					 tsMergeInputRules->Visible = true;
+			 else
+				 tsMergeInputRules->Visible = false;
+
 
 		 }
 
