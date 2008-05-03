@@ -277,10 +277,77 @@ private: System::Void gridGems_CellValueChanged(System::Object^  sender, System:
 			 applyChanges(mStep);
 		 }
 
-private: String^ mergeInputRules(String^ rule1, String^ rule2) {
-			 // TODO: implement
-			return nullptr;
+		 private: int howmanyEqualCharacters(String^ string1, String^ string2, int start1, int start2) {
+			 int pos1=start1;
+			 int pos2=start2;
+			 
+			 int shortestStringLength = ((string1->Length > string2->Length) ? (string2->Length) : (string1->Length));
+
+			 while(pos1 < shortestStringLength &&
+				   pos2 < shortestStringLength) {
+				 wchar_t c1 = string1[pos1];
+				 wchar_t c2 = string2[pos2];
+
+				 if(c1 != c2) {
+					 break;
+				 }
+
+				 pos1 ++;
+				 pos2 ++;
+			 }
+
+			 assert(pos1 - start1 == pos2 - start2);
+			 return pos1 - start1;
 		 }
+
+private: String^ mergeInputRules(String^ rule1, String^ rule2) {
+		 String^ mergedRule = "";
+
+		 int shortestStringLength = ((rule1->Length > rule2->Length) ? (rule2->Length) : (rule1->Length));
+
+		 int pos1 = 0;
+		 int pos2 = 0;
+
+		 while (pos1 < shortestStringLength &&
+			    pos2 < shortestStringLength ) {
+			 int equalCount = howmanyEqualCharacters(rule1, rule2, pos1, pos2);
+
+			 if(equalCount > 0) 
+				 mergedRule += rule1->Substring(pos1, equalCount);
+
+			 pos1 += equalCount;
+			 pos2 += equalCount;
+
+			 String^ testWithNumbers = String::Copy(mergedRule);
+
+			 testWithNumbers += L"(\\d+).*";
+
+			 boost::regex regexWithNumbers(toStlString(testWithNumbers));
+
+			 boost::smatch what1;
+			 boost::smatch what2;
+
+			 std::string rule1string = toStlString(rule1);
+			 std::string rule2string = toStlString(rule2);
+
+			 if(regex_match(rule1string, what1, regexWithNumbers) &&
+				regex_match(rule2string, what2, regexWithNumbers) ) {
+
+				 pos1 +=  what1[what1.size()-1].length();
+				 pos2 +=  what2[what1.size()-1].length();
+
+				 mergedRule += L"(\\d+)";
+				 continue; 
+			 }
+
+			 else {
+				 mergedRule += L"(.+)";
+				 return mergedRule;
+			 }
+		 }
+
+		 return nullptr;
+	 }
 
  private: System::Void tsUseAsNewInputRule_Click(System::Object^  sender, System::EventArgs^  e) {
 			if(fileList->SelectedItems->Count != 1) return ;
