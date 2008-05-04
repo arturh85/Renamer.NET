@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="log4cplus_dll" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Win32 Release">
+				<Option output="..\lib\log4cplus" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\dll-Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-fexceptions" />
+					<Add option="-O2" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_MBCS" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DLOG4CPLUS_DLL_EXPORTS" />
+					<Add option="-DLOG4CPLUS_BUILD_DLL" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="winspool" />
+					<Add library="comdlg32" />
+					<Add library="advapi32" />
+					<Add library="shell32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="uuid" />
+					<Add library="odbc32" />
+					<Add library="odbccp32" />
+					<Add library="ws2_32" />
+				</Linker>
+			</Target>
+			<Target title="Win32 Debug">
+				<Option output="Debug\log4cplusd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-fexceptions" />
+					<Add option="-g" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_MBCS" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DLOG4CPLUS_DLL_EXPORTS" />
+					<Add option="-DLOG4CPLUS_BUILD_DLL" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="winspool" />
+					<Add library="comdlg32" />
+					<Add library="advapi32" />
+					<Add library="shell32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="uuid" />
+					<Add library="odbc32" />
+					<Add library="odbccp32" />
+					<Add library="ws2_32" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-w" />
+		</Compiler>
+		<Unit filename="..\include\log4cplus\appender.h" />
+		<Unit filename="..\include\log4cplus\config-macosx.h" />
+		<Unit filename="..\include\log4cplus\config-win32.h" />
+		<Unit filename="..\include\log4cplus\config.h" />
+		<Unit filename="..\include\log4cplus\configurator.h" />
+		<Unit filename="..\include\log4cplus\consoleappender.h" />
+		<Unit filename="..\include\log4cplus\fileappender.h" />
+		<Unit filename="..\include\log4cplus\fstreams.h" />
+		<Unit filename="..\include\log4cplus\helpers\appenderattachableimpl.h" />
+		<Unit filename="..\include\log4cplus\helpers\loglog.h" />
+		<Unit filename="..\include\log4cplus\helpers\logloguser.h" />
+		<Unit filename="..\include\log4cplus\helpers\pointer.h" />
+		<Unit filename="..\include\log4cplus\helpers\property.h" />
+		<Unit filename="..\include\log4cplus\helpers\sleep.h" />
+		<Unit filename="..\include\log4cplus\helpers\socket.h" />
+		<Unit filename="..\include\log4cplus\helpers\socketbuffer.h" />
+		<Unit filename="..\include\log4cplus\helpers\stringhelper.h" />
+		<Unit filename="..\include\log4cplus\helpers\thread-config.h" />
+		<Unit filename="..\include\log4cplus\helpers\threads.h" />
+		<Unit filename="..\include\log4cplus\helpers\timehelper.h" />
+		<Unit filename="..\include\log4cplus\hierarchy.h" />
+		<Unit filename="..\include\log4cplus\hierarchylocker.h" />
+		<Unit filename="..\include\log4cplus\layout.h" />
+		<Unit filename="..\include\log4cplus\logger.h" />
+		<Unit filename="..\include\log4cplus\loggingmacros.h" />
+		<Unit filename="..\include\log4cplus\loglevel.h" />
+		<Unit filename="..\include\log4cplus\ndc.h" />
+		<Unit filename="..\include\log4cplus\nteventlogappender.h" />
+		<Unit filename="..\include\log4cplus\nullappender.h" />
+		<Unit filename="..\include\log4cplus\socketappender.h" />
+		<Unit filename="..\include\log4cplus\spi\appenderattachable.h" />
+		<Unit filename="..\include\log4cplus\spi\factory.h" />
+		<Unit filename="..\include\log4cplus\spi\filter.h" />
+		<Unit filename="..\include\log4cplus\spi\loggerfactory.h" />
+		<Unit filename="..\include\log4cplus\spi\loggerimpl.h" />
+		<Unit filename="..\include\log4cplus\spi\loggingevent.h" />
+		<Unit filename="..\include\log4cplus\spi\objectregistry.h" />
+		<Unit filename="..\include\log4cplus\spi\rootlogger.h" />
+		<Unit filename="..\include\log4cplus\streams.h" />
+		<Unit filename="..\include\log4cplus\tstring.h" />
+		<Unit filename="..\src\appender.cxx" />
+		<Unit filename="..\src\appenderattachableimpl.cxx" />
+		<Unit filename="..\src\configurator.cxx" />
+		<Unit filename="..\src\consoleappender.cxx" />
+		<Unit filename="..\src\factory.cxx" />
+		<Unit filename="..\src\fileappender.cxx" />
+		<Unit filename="..\src\filter.cxx" />
+		<Unit filename="..\src\global-init.cxx" />
+		<Unit filename="..\src\hierarchy.cxx" />
+		<Unit filename="..\src\hierarchylocker.cxx" />
+		<Unit filename="..\src\layout.cxx" />
+		<Unit filename="..\src\logger.cxx" />
+		<Unit filename="..\src\loggerimpl.cxx" />
+		<Unit filename="..\src\loggingevent.cxx" />
+		<Unit filename="..\src\loggingserver.cxx" />
+		<Unit filename="..\src\loglevel.cxx" />
+		<Unit filename="..\src\loglog.cxx" />
+		<Unit filename="..\src\logloguser.cxx" />
+		<Unit filename="..\src\ndc.cxx" />
+		<Unit filename="..\src\nteventlogappender.cxx" />
+		<Unit filename="..\src\nullappender.cxx" />
+		<Unit filename="..\src\objectregistry.cxx" />
+		<Unit filename="..\src\patternlayout.cxx" />
+		<Unit filename="..\src\pointer.cxx" />
+		<Unit filename="..\src\property.cxx" />
+		<Unit filename="..\src\rootlogger.cxx" />
+		<Unit filename="..\src\sleep.cxx" />
+		<Unit filename="..\src\socket-win32.cxx" />
+		<Unit filename="..\src\socket.cxx" />
+		<Unit filename="..\src\socketappender.cxx" />
+		<Unit filename="..\src\socketbuffer.cxx" />
+		<Unit filename="..\src\stringhelper.cxx" />
+		<Unit filename="..\src\threads.cxx" />
+		<Unit filename="..\src\timehelper.cxx" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
