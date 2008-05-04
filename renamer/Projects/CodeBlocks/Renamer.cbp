@@ -46,6 +46,7 @@
 					<Add option="-W" />
 					<Add option="-g" />
 					<Add option="-DRENAMER_UNIT_TEST" />
+					<Add directory="..\..\..\log4cplus-1.0.2\include" />
 				</Compiler>
 				<Linker>
 					<Add library="libboost_unit_test_framework-mgw34-mt-1_35" />
@@ -53,6 +54,8 @@
 					<Add library='&quot;libboost_regex-mgw34-mt-1_35&quot;' />
 					<Add library="libboost_filesystem-mgw34-mt-1_35" />
 					<Add library="SQLite" />
+					<Add library="..\..\..\log4cplus-1.0.2\lib\liblog4cplus.a" />
+					<Add library="boost_system-mgw34-mt-1_35" />
 				</Linker>
 			</Target>
 		</Build>
@@ -91,6 +94,12 @@
 		<Unit filename="..\..\Source\sqlTools.h" />
 		<Unit filename="..\..\Source\stlUtility.cpp" />
 		<Unit filename="..\..\Source\stlUtility.h" />
+		<Unit filename="..\..\Source\strings2regex.cpp">
+			<Option target="unitTest" />
+		</Unit>
+		<Unit filename="..\..\Source\strings2regex.h">
+			<Option target="unitTest" />
+		</Unit>
 		<Unit filename="..\..\Source\unitTest.cpp">
 			<Option target="unitTest" />
 		</Unit>

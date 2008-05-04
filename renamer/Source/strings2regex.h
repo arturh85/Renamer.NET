@@ -1,6 +1,3 @@
-//! In dieser Datei sollten keine Projektspezifischen
-//! Header Dateien eingebunden werden
-
 /************************************************************************
 Copyright (c) 2008, Artur H., Lennart W.
 All rights reserved.
@@ -31,47 +28,16 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                                                     */
 /************************************************************************/
 
+#ifndef STRING2REGEX
+#define STRING2REGEX
 
+#include "globals.h"
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
-
-#ifdef _MSC_VER
-#pragma warning(disable : 4996)
-#pragma warning(disable : 4561)
-#pragma warning(disable : 4793)
-#pragma warning(disable : 4099)
-#endif
-
-//  sqlite
-#include <sqlite3.h>
-
-// Boost
-#include <boost/regex.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-//#include <boost/filesystem/operations.hpp>
-//#include <boost/filesystem/path.hpp>
-//#include <boost/filesystem/convenience.hpp>
-//#include <boost/filesystem/exception.hpp>
-
-//  STL
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <stack>
-using namespace std;
+boost::regex string2regex(string s1, string s2);
 
 #ifdef RENAMER_UNIT_TEST
-    #include <boost/test/test_tools.hpp>
+//! UnitTest this module
+void test_string2regex();
+#endif
 
-    //  Log4CPlus
-    #include <log4cplus/logger.h>
-    #include <log4cplus/configurator.h>
-    #include <log4cplus/consoleappender.h>
-    using namespace log4cplus;
-#endif  //RENAMER_UNIT_TEST
-
-#endif //GLOBALS_H
+#endif // STRING2REGEX
