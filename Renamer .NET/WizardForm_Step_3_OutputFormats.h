@@ -161,6 +161,53 @@ void onEnterStepOutputFormats() {
 
 			 txtOutputFormat_TextChanged(nullptr, nullptr);
 			 refreshMaxStep();
+
+			 reloadFileList();
+			 // mark the filelist items yellow if any inputrule for any output format matches
+
+			 vector<GemValue> not_used;
+
+			 if(mRuleset) {
+				 vector<OutputFormat*> outputFormatVector = mRuleset->getOutputFormats();
+
+				 for(unsigned int i=0; i<outputFormatVector.size(); i++) {
+					 OutputFormat* outputFormat = outputFormatVector[i];
+
+					 vector<InputRule*> inputRuleVector = outputFormat->getInputRules();
+	
+					 for(unsigned int j=0; j<inputRuleVector.size(); j++) {
+						 InputRule* inputRule = inputRuleVector[j];
+
+						 for(int k=0; k<fileList->Items->Count; k++) {
+							 ListViewItem^ item = fileList->Items[k];
+
+							 if(inputRule->applyTo(toStlString(item->Text), not_used)) 
+								 item->BackColor = Color::Yellow;							 
+						 }
+					 }
+				 }
+			 }
+
+			 // mark the filelist items green if any inputrule of the SELECTED output format matches
+
+			 if(mRuleset) {
+				 sqlite_int64 rowid = ((_PairStringInt^) ((ListBoxItem^)lstOutputFormat->SelectedItem)->Tag)->value;
+				 OutputFormat& outputFormat = mRuleset->getOutputFormat(rowid);
+
+				 vector<InputRule*> inputRuleVector =  outputFormat.getInputRules();
+
+				 for(unsigned int j=0; j<inputRuleVector.size(); j++) {
+					 InputRule* inputRule = inputRuleVector[j];
+
+					 for(int k=0; k<fileList->Items->Count; k++) {
+						 ListViewItem^ item = fileList->Items[k];
+
+						 if(inputRule->applyTo(toStlString(item->Text), not_used)) 
+							 item->BackColor = Color::LightGreen;							 
+					 }
+				 }
+			 }
+
 		 }
 
 private: System::Void tsUseAsNewOutputFormat_Click(System::Object^  sender, System::EventArgs^  e) {
