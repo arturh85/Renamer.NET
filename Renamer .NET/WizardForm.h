@@ -1504,8 +1504,15 @@ private: void replaceSelectedTextWith(RichTextBox^ rtb, String^ replacement) {
 
 void loadRulesetListFromRegistry() {
 	// load list of known rulesets from registry
+	RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Renamer\\KnownRulesets");
+
+	
+
+
+
 	String^ lastRulesets = Microsoft::VisualBasic::Interaction::GetSetting("Renamer", "Settings", "KnownRulesets", "--empty--");
 
+	mKnownRulesets.Clear();
 	if(lastRulesets != "--empty--" && lastRulesets != "") {
 		array<String^>^ rulesetNames = lastRulesets->Split('|');
 		for(int i=0; i<rulesetNames->Length; i++) {
