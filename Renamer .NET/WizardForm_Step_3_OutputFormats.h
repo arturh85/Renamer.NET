@@ -47,7 +47,9 @@ void onEnterStepOutputFormats() {
 			 }
 
 			 void onLeaveStepOutputFormats() {
-
+				 if(tsSaveOutputFormat->Visible == true) {
+					tsSaveOutputFormat_Click(nullptr, nullptr);
+				 }	
 			 }
 
 			 void refreshOutputFormatList() {
