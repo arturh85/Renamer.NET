@@ -26,6 +26,7 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 
 using namespace RenamerNET;
 string gInitialRuleset;
+std::vector<string> gInitialFiles;
 
 struct sqlite3 {};
 
@@ -58,6 +59,11 @@ int main(array<System::String ^> ^args)
 {
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
+	}
+
+	else if(args->Length > 0) {
+		for(int i=0; i<args->Length; i++)
+			gInitialFiles.push_back(toStlString(args[i]));
 	}
 
 	// Name checker von Boost deaktivieren

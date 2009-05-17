@@ -189,7 +189,9 @@ SectionEnd
 
 Section "File Association"
   ${registerExtension} "$INSTDIR\Renamer .NET.exe" ".ruleset" "Renamer .NET Ruleset File"
+  ${registerExtension} "$INSTDIR\Renamer .NET.exe" ".*" "Renamer .NET Data File"
 SectionEnd
+
 
 SectionGroup /e Shortcuts
   Section Startmenu
@@ -230,4 +232,5 @@ Section "-Un.Remove_What_is_Left"
   DeleteRegKey /ifempty HKLM Software\Renamer
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Renamer"
   ${unregisterExtension} ".ruleset" "Renamer .NET Ruleset File"
+  ${unregisterExtension} ".*" "Renamer .NET Data File"
 SectionEnd

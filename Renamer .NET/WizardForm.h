@@ -1876,6 +1876,12 @@ private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs
 	if(gInitialRuleset.size() > 0) {
 		loadRuleset(toClrString(gInitialRuleset));
 	}
+
+	extern std::vector<string> gInitialFiles;
+
+	for(int j=0; j<gInitialFiles.size(); j++){
+		addFile(toClrString(gInitialFiles[j]));		
+	}
 }
 
 private: System::Void WizardForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
