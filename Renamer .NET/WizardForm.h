@@ -50,6 +50,9 @@ using namespace System::Security::Permissions;
 using namespace System::Threading;
 using namespace System::Resources;
 using namespace System::Reflection;
+using namespace Microsoft::Win32;
+
+
 
 #pragma endregion
 #pragma region Declaration
@@ -1504,13 +1507,10 @@ private: void replaceSelectedTextWith(RichTextBox^ rtb, String^ replacement) {
 
 void loadRulesetListFromRegistry() {
 	// load list of known rulesets from registry
-	RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Renamer\\KnownRulesets");
-
 	
+	RegistryKey^ key = Registry::CurrentUser->OpenSubKey(L"Software\\Renamer");
 
-
-
-	String^ lastRulesets = Microsoft::VisualBasic::Interaction::GetSetting("Renamer", "Settings", "KnownRulesets", "--empty--");
+	String^ lastRulesets = (String^) key->GetValue(L"KnownRulesets");
 
 	mKnownRulesets.Clear();
 	if(lastRulesets != "--empty--" && lastRulesets != "") {
@@ -1533,8 +1533,9 @@ void saveRulesetListToRegistry() {
 		if(i < (mKnownRulesets.Count - 1)) 
 			rulesetStringList += L"|";
 	}
-
-	Microsoft::VisualBasic::Interaction::SaveSetting("Renamer", "Settings", "KnownRulesets", rulesetStringList);
+	
+	RegistryKey^ key = Registry.CurrentUser->CreateSubKey(L"Software\\Renamer" );
+	key->SetValue(L"KnownRulesets", rulesetStringList);
 }
 
 //! Creates a new ruleset. If file @ rulesetFilename does exist, it will be deleted
