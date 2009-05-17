@@ -1382,8 +1382,13 @@ void reloadFileList() {
 
 	fileList->EndUpdate();
 
-	if(topItemIndex != -1) 
-		fileList->TopItem = fileList->Items[topItemIndex];
+	if(topItemIndex != 0) {
+		try{
+			fileList->TopItem = fileList->Items[topItemIndex];
+		} catch(ArgumentOutOfRangeException^ e) {
+			// ignore
+		}
+	}
 
 	LockWindowUpdate((HWND) 0);
 }
