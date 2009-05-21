@@ -22,6 +22,13 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 #include "Windows.h"
 #include "stdafx.h"
 #include "WizardForm.h"
+
+#include "IpcServerMethods.h"
+
+#using <System.dll>
+using namespace System;
+using namespace System::Diagnostics;
+
 #include "globals.h"
 
 using namespace RenamerNET;
@@ -31,7 +38,7 @@ std::vector<string> gInitialFiles;
 struct sqlite3 {};
 
 /***************************************************************************************************
-	This is only included to *** \todo übersetzung für befriedigen einfügen *** the dependencies
+	This is only included to satisfy a strange dependencies
 /***************************************************************************************************/
 
 namespace boost {
@@ -57,6 +64,10 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
+		return 0;
+	}
+
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
 	}
@@ -66,14 +77,14 @@ int main(array<System::String ^> ^args)
 			gInitialFiles.push_back(toStlString(args[i]));
 	}
 
-	// Name checker von Boost deaktivieren
+	// deactivate Boost name checker 
 	boost::filesystem::path::default_name_check(boost::filesystem::no_check);
 	
-	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
+	// activate visual effects of Windows XP, before the control elements are created
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 
-	// Hauptfenster erstellen und ausführen
+	// Create main window and run it
 	Application::Run(gcnew WizardForm());
 	return 0;
 }
