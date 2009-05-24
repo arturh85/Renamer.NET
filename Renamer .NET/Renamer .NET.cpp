@@ -33,7 +33,7 @@ using namespace Microsoft::VisualBasic;
 
 using namespace RenamerNET;
 
-string gInitialRuleset = NULL;
+string gInitialRuleset;
 std::vector<string> gInitialFiles;
 
 struct sqlite3 {};
@@ -65,6 +65,7 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+	
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
 	}
@@ -88,8 +89,8 @@ int main(array<System::String ^> ^args)
 				GetWindowText(lWnd, sBuffer, lLen);
 
 				if(wcscmp(sBuffer, L"REMOTE-CHANGE") == 0) {
-					//SetWindowText(lWnd, toStdWString(args[0]).c_str());
-					//Application.DoEvents();
+					SetWindowText(lWnd, toStdWString(args[0]).c_str());
+					Application::DoEvents();
 	
 					return 0;
 				}

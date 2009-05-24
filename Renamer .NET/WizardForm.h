@@ -393,6 +393,7 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->panelStepRename = (gcnew System::Windows::Forms::Panel());
 			this->buttonRenameFiles = (gcnew System::Windows::Forms::Button());
 			this->panelNavigation = (gcnew System::Windows::Forms::Panel());
+			this->ipcTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->cbHelp = (gcnew System::Windows::Forms::CheckBox());
 			this->messageLabel = (gcnew System::Windows::Forms::Label());
 			this->buttonPreviousStep = (gcnew System::Windows::Forms::Button());
@@ -411,7 +412,6 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->fileListopenFolderDiag = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			this->webBrowserHelp = (gcnew System::Windows::Forms::WebBrowser());
-			this->ipcTextBox = (gcnew System::Windows::Forms::TextBox());
 			label6 = (gcnew System::Windows::Forms::Label());
 			label11 = (gcnew System::Windows::Forms::Label());
 			label5 = (gcnew System::Windows::Forms::Label());
@@ -1139,6 +1139,12 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			resources->ApplyResources(this->panelNavigation, L"panelNavigation");
 			this->panelNavigation->Name = L"panelNavigation";
 			// 
+			// ipcTextBox
+			// 
+			resources->ApplyResources(this->ipcTextBox, L"ipcTextBox");
+			this->ipcTextBox->Name = L"ipcTextBox";
+			this->ipcTextBox->TextChanged += gcnew System::EventHandler(this, &WizardForm::ipcTextBox_TextChanged);
+			// 
 			// cbHelp
 			// 
 			resources->ApplyResources(this->cbHelp, L"cbHelp");
@@ -1251,11 +1257,6 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			resources->ApplyResources(this->webBrowserHelp, L"webBrowserHelp");
 			this->webBrowserHelp->MinimumSize = System::Drawing::Size(20, 20);
 			this->webBrowserHelp->Name = L"webBrowserHelp";
-			// 
-			// ipcTextBox
-			// 
-			resources->ApplyResources(this->ipcTextBox, L"ipcTextBox");
-			this->ipcTextBox->Name = L"ipcTextBox";
 			// 
 			// WizardForm
 			// 
@@ -2147,6 +2148,15 @@ private: System::Void tsMergeInputRules_Click(System::Object^  sender, System::E
 		 }
 private: System::Void cbHelp_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 
+		 }
+private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(System::IO::Path::GetExtension(ipcTextBox->Text) == L".ruleset") {
+				 loadRuleset(ipcTextBox->Text);
+			 else
+				 addFile(ipcTextBox->Text);
+
+			 ipcTextBox->Text = "REMOTE-CHANGE";
+
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
