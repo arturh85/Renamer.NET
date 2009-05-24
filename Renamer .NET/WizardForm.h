@@ -270,6 +270,7 @@ private: System::Windows::Forms::WebBrowser^  webBrowserHelp;
 
 
 private: System::Windows::Forms::CheckBox^  cbHelp;
+private: System::Windows::Forms::TextBox^  ipcTextBox;
 
 
 
@@ -306,15 +307,15 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			System::Windows::Forms::Label^  label7;
 			System::Windows::Forms::Panel^  panelFileListInner;
 			System::Windows::Forms::Label^  labelCurrentOutputFormat;
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle5 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle6 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle7 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle8 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle9 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle10 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle11 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle12 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle13 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle14 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle15 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle16 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle17 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle18 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->tsFileList = (gcnew System::Windows::Forms::ToolStrip());
 			this->tsAddFiles = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsAddFolders = (gcnew System::Windows::Forms::ToolStripButton());
@@ -330,6 +331,11 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->panelStepContent = (gcnew System::Windows::Forms::Panel());
 			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
 			this->txtCurrentOutputFormat = (gcnew System::Windows::Forms::RichTextBox());
+			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
+			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
+			this->txtInputRuleBorder = (gcnew System::Windows::Forms::TextBox());
+			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->innerPanelInputRules = (gcnew System::Windows::Forms::Panel());
 			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
 			this->tsRegexHelper = (gcnew System::Windows::Forms::ToolStrip());
@@ -345,11 +351,6 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsMergeInputRules = (gcnew System::Windows::Forms::ToolStripButton());
 			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
-			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
-			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
-			this->txtInputRuleBorder = (gcnew System::Windows::Forms::TextBox());
-			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->gridGems = (gcnew System::Windows::Forms::DataGridView());
 			this->GemColumnPosition = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->GemColumnGem = (gcnew System::Windows::Forms::DataGridViewComboBoxColumn());
@@ -409,6 +410,7 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->fileListopenFileDiag = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->fileListopenFolderDiag = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			this->webBrowserHelp = (gcnew System::Windows::Forms::WebBrowser());
+			this->ipcTextBox = (gcnew System::Windows::Forms::TextBox());
 			label6 = (gcnew System::Windows::Forms::Label());
 			label11 = (gcnew System::Windows::Forms::Label());
 			label5 = (gcnew System::Windows::Forms::Label());
@@ -423,12 +425,12 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->splitContainer->SuspendLayout();
 			this->panelStepContent->SuspendLayout();
 			this->panelStepInputRule->SuspendLayout();
+			this->panelTxtInputRule->SuspendLayout();
+			this->toolStrip3->SuspendLayout();
 			this->innerPanelInputRules->SuspendLayout();
 			this->panelLstInputRules->SuspendLayout();
 			this->tsRegexHelper->SuspendLayout();
 			this->tsInputRuleButtons->SuspendLayout();
-			this->panelTxtInputRule->SuspendLayout();
-			this->toolStrip3->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->BeginInit();
 			this->panelStepOutputFormat->SuspendLayout();
 			this->panelTxtOutputFormat->SuspendLayout();
@@ -615,6 +617,41 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->txtCurrentOutputFormat->DetectUrls = false;
 			this->txtCurrentOutputFormat->Name = L"txtCurrentOutputFormat";
 			// 
+			// panelTxtInputRule
+			// 
+			resources->ApplyResources(this->panelTxtInputRule, L"panelTxtInputRule");
+			this->panelTxtInputRule->Controls->Add(this->txtInputRule);
+			this->panelTxtInputRule->Controls->Add(this->txtInputRuleBorder);
+			this->panelTxtInputRule->Controls->Add(this->toolStrip3);
+			this->panelTxtInputRule->Name = L"panelTxtInputRule";
+			// 
+			// txtInputRule
+			// 
+			resources->ApplyResources(this->txtInputRule, L"txtInputRule");
+			this->txtInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtInputRule->Name = L"txtInputRule";
+			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
+			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
+			// 
+			// txtInputRuleBorder
+			// 
+			resources->ApplyResources(this->txtInputRuleBorder, L"txtInputRuleBorder");
+			this->txtInputRuleBorder->Name = L"txtInputRuleBorder";
+			// 
+			// toolStrip3
+			// 
+			resources->ApplyResources(this->toolStrip3, L"toolStrip3");
+			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
+			this->toolStrip3->Name = L"toolStrip3";
+			// 
+			// tsSaveInputRule
+			// 
+			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsSaveInputRule, L"tsSaveInputRule");
+			this->tsSaveInputRule->Name = L"tsSaveInputRule";
+			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
+			// 
 			// innerPanelInputRules
 			// 
 			resources->ApplyResources(this->innerPanelInputRules, L"innerPanelInputRules");
@@ -719,41 +756,6 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->lstInputRules->Name = L"lstInputRules";
 			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
 			// 
-			// panelTxtInputRule
-			// 
-			resources->ApplyResources(this->panelTxtInputRule, L"panelTxtInputRule");
-			this->panelTxtInputRule->Controls->Add(this->txtInputRule);
-			this->panelTxtInputRule->Controls->Add(this->txtInputRuleBorder);
-			this->panelTxtInputRule->Controls->Add(this->toolStrip3);
-			this->panelTxtInputRule->Name = L"panelTxtInputRule";
-			// 
-			// txtInputRule
-			// 
-			resources->ApplyResources(this->txtInputRule, L"txtInputRule");
-			this->txtInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->txtInputRule->Name = L"txtInputRule";
-			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
-			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
-			// 
-			// txtInputRuleBorder
-			// 
-			resources->ApplyResources(this->txtInputRuleBorder, L"txtInputRuleBorder");
-			this->txtInputRuleBorder->Name = L"txtInputRuleBorder";
-			// 
-			// toolStrip3
-			// 
-			resources->ApplyResources(this->toolStrip3, L"toolStrip3");
-			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
-			this->toolStrip3->Name = L"toolStrip3";
-			// 
-			// tsSaveInputRule
-			// 
-			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsSaveInputRule, L"tsSaveInputRule");
-			this->tsSaveInputRule->Name = L"tsSaveInputRule";
-			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
-			// 
 			// gridGems
 			// 
 			this->gridGems->AllowUserToAddRows = false;
@@ -761,38 +763,38 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->gridGems->AllowUserToResizeRows = false;
 			resources->ApplyResources(this->gridGems, L"gridGems");
 			this->gridGems->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle10->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle10->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle10->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle10->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle10->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle10->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
 			this->gridGems->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridGems->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->GemColumnPosition, 
 				this->GemColumnGem});
-			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle11->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle11->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridGems->DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle11->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle11->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle11->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle11->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridGems->DefaultCellStyle = dataGridViewCellStyle11;
 			this->gridGems->MultiSelect = false;
 			this->gridGems->Name = L"gridGems";
-			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle3->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle12->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle12->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle12->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle12->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle12->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle12->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle12->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridGems->RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
 			this->gridGems->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &WizardForm::gridGems_CellValueChanged);
 			this->gridGems->DataError += gcnew System::Windows::Forms::DataGridViewDataErrorEventHandler(this, &WizardForm::gridGems_DataError);
 			this->gridGems->SelectionChanged += gcnew System::EventHandler(this, &WizardForm::gridGems_SelectionChanged);
@@ -968,37 +970,37 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->gridBeforeReplacements->AllowDrop = true;
 			resources->ApplyResources(this->gridBeforeReplacements, L"gridBeforeReplacements");
 			this->gridBeforeReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle4->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle4->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle13->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle13->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle4->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle4->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridBeforeReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle13->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle13->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle13->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle13->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridBeforeReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
 			this->gridBeforeReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridBeforeReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->ColumnBeforeReplacementsID, 
 				this->ColumnBeforeReplacementsGroupID, this->ColumnBeforeReplacementsSearch, this->ColumnBeforeReplacementsReplace});
-			dataGridViewCellStyle5->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle5->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle14->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle14->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle5->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle5->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle5->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle5->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridBeforeReplacements->DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle14->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle14->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle14->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle14->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridBeforeReplacements->DefaultCellStyle = dataGridViewCellStyle14;
 			this->gridBeforeReplacements->Name = L"gridBeforeReplacements";
-			dataGridViewCellStyle6->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle6->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle15->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle15->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle6->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle6->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle6->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle6->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridBeforeReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle15->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle15->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle15->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle15->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridBeforeReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
 			this->gridBeforeReplacements->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &WizardForm::gridBeforeReplacements_CellValueChanged);
 			this->gridBeforeReplacements->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &WizardForm::gridBeforeReplacements_Scroll);
 			// 
@@ -1057,37 +1059,37 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->gridAfterReplacements->AllowDrop = true;
 			resources->ApplyResources(this->gridAfterReplacements, L"gridAfterReplacements");
 			this->gridAfterReplacements->BackgroundColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle7->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle7->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle16->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle16->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle16->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle7->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle7->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle7->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle7->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridAfterReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle16->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle16->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle16->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle16->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridAfterReplacements->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
 			this->gridAfterReplacements->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->gridAfterReplacements->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->ColumnAfterReplacementsID, 
 				this->ColumnAfterReplacementsGroupID, this->ColumnAfterReplacementsSearch, this->ColumnAfterReplacementsReplace});
-			dataGridViewCellStyle8->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle8->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle17->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle17->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle17->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle8->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle8->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle8->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle8->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->gridAfterReplacements->DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle17->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle17->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle17->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle17->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->gridAfterReplacements->DefaultCellStyle = dataGridViewCellStyle17;
 			this->gridAfterReplacements->Name = L"gridAfterReplacements";
-			dataGridViewCellStyle9->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle9->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle18->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle18->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle18->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle9->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle9->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle9->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle9->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->gridAfterReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle18->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle18->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle18->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle18->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->gridAfterReplacements->RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
 			// 
 			// ColumnAfterReplacementsID
 			// 
@@ -1128,6 +1130,7 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			// 
 			// panelNavigation
 			// 
+			this->panelNavigation->Controls->Add(this->ipcTextBox);
 			this->panelNavigation->Controls->Add(this->cbHelp);
 			this->panelNavigation->Controls->Add(this->messageLabel);
 			this->panelNavigation->Controls->Add(this->buttonPreviousStep);
@@ -1248,6 +1251,12 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->webBrowserHelp->MinimumSize = System::Drawing::Size(20, 20);
 			this->webBrowserHelp->Name = L"webBrowserHelp";
 			// 
+			// ipcTextBox
+			// 
+			resources->ApplyResources(this->ipcTextBox, L"ipcTextBox");
+			this->ipcTextBox->Name = L"ipcTextBox";
+			this->ipcTextBox->TextChanged += gcnew System::EventHandler(this, &WizardForm::ipcTextBox_TextChanged);
+			// 
 			// WizardForm
 			// 
 			resources->ApplyResources(this, L"$this");
@@ -1268,6 +1277,10 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->panelStepContent->ResumeLayout(false);
 			this->panelStepInputRule->ResumeLayout(false);
 			this->panelStepInputRule->PerformLayout();
+			this->panelTxtInputRule->ResumeLayout(false);
+			this->panelTxtInputRule->PerformLayout();
+			this->toolStrip3->ResumeLayout(false);
+			this->toolStrip3->PerformLayout();
 			this->innerPanelInputRules->ResumeLayout(false);
 			this->panelLstInputRules->ResumeLayout(false);
 			this->panelLstInputRules->PerformLayout();
@@ -1275,10 +1288,6 @@ private: System::Windows::Forms::CheckBox^  cbHelp;
 			this->tsRegexHelper->PerformLayout();
 			this->tsInputRuleButtons->ResumeLayout(false);
 			this->tsInputRuleButtons->PerformLayout();
-			this->panelTxtInputRule->ResumeLayout(false);
-			this->panelTxtInputRule->PerformLayout();
-			this->toolStrip3->ResumeLayout(false);
-			this->toolStrip3->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->EndInit();
 			this->panelStepOutputFormat->ResumeLayout(false);
 			this->panelTxtOutputFormat->ResumeLayout(false);
@@ -2138,6 +2147,14 @@ private: System::Void tsMergeInputRules_Click(System::Object^  sender, System::E
 		 }
 private: System::Void cbHelp_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 
+		 }
+private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(System::IO::Path::GetExtension(ipcTextBox->Text) == L".ruleset")
+				 loadRuleset(ipcTextBox->Text);
+			 else
+				 addFile(ipcTextBox->Text);
+
+			 //ipcTextBox->Text = "REMOTE-CHANGE";
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
