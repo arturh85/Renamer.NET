@@ -37,6 +37,32 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 #include "UserInterfaceCustomStrings.h"
 
 
+HWND FindWindowRecursive(HWND parent, wchar_t* text) {
+	HWND lWnd = GetWindow(parent, GW_CHILD);
+	long lLen = 0;
+
+	while(lWnd != 0) {
+		lLen = GetWindowTextLength(lWnd) + 1;
+		wchar_t* sBuffer = new wchar_t[lLen];
+		GetWindowText(lWnd, sBuffer, lLen);
+
+		int cmp = wcscmp(sBuffer, text);
+		delete sBuffer;
+
+		if(cmp == 0)
+			return lWnd;
+		
+		HWND child = FindWindowRecursive(lWnd, text);
+
+		if(child != 0)
+			return child;
+		
+		lWnd = GetWindow(lWnd, GW_HWNDNEXT);
+	}
+
+	return 0;
+}
+
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
@@ -1844,6 +1870,36 @@ void setStep(Step newStep) {
 #pragma endregion
 #pragma region Form Event Handlers
 private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
+
+	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
+		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
+
+		ofstream log("log.txt", ios::out);
+		log << "Begin" << endl;
+
+		if(hwndWindow != 0) {
+			log << "found1" << endl;
+			HWND lWnd = FindWindowRecursive(hwndWindow, L"REMOTE-CHANGE");
+			if(lWnd != 0) {
+				log << "found2" << endl;
+				long lLen = GetWindowTextLength(lWnd) + 1;
+						
+				wchar_t* sBuffer = new wchar_t[lLen];
+				GetWindowText(lWnd, sBuffer, lLen);
+				log << "text: " << toStlString(sBuffer) << endl;
+				delete sBuffer;
+
+				
+				::SendMessage(lWnd, 0xC, 0, (LPARAM) L"TEST");
+				SetWindowText(lWnd, L"TEST");
+				Application::DoEvents();
+			}
+			Application::Exit();
+		} else {
+			log << "No Window with title 'Renamer' found." << endl;
+		}
+	}
+
 	mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
 	mShowOnlyMatchingFiles = false;
 
@@ -2154,7 +2210,7 @@ private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::Ev
 			 else
 				 addFile(ipcTextBox->Text);
 
-			 //ipcTextBox->Text = "REMOTE-CHANGE";
+			 ipcTextBox->Text = "REMOTE-CHANGE";
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //

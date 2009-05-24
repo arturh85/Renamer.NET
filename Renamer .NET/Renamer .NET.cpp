@@ -31,6 +31,7 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 
 using namespace RenamerNET;
 string gInitialRuleset;
+string gFirstArgument;
 std::vector<string> gInitialFiles;
 
 struct sqlite3 {};
@@ -58,38 +59,12 @@ namespace boost {
 	}
 }
 
-HWND FindWindowRecursive(HWND parent, wchar_t* text) {
-	HWND lWnd = GetWindow(parent, GW_CHILD);
-	long lLen = 0;
-
-	while(lWnd != 0) {
-		lLen = GetWindowTextLength(lWnd) + 1;
-		wchar_t* sBuffer = new wchar_t[lLen];
-		GetWindowText(lWnd, sBuffer, lLen);
-
-		int cmp = wcscmp(sBuffer, text);
-		delete sBuffer;
-
-		if(cmp == 0)
-			return lWnd;
-		
-		HWND child = FindWindowRecursive(lWnd, text);
-
-		if(child != 0)
-			return child;
-		
-		lWnd = GetWindow(lWnd, GW_HWNDNEXT);
-	}
-
-	return 0;
-}
 
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {    
-
-	ofstream log("log.txt", ios::out);
-	log << "Begin" << endl;
+	if(args->Length > 0)
+		gFirstArgument = toStlString(args[0]);
 
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
@@ -100,34 +75,6 @@ int main(array<System::String ^> ^args)
 			gInitialFiles.push_back(toStlString(args[i]));
 	}
 
-	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
-		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
-
-		if(hwndWindow != 0) {
-			log << "found1" << endl;
-			HWND lWnd = FindWindowRecursive(hwndWindow, L"REMOTE-CHANGE");
-			if(lWnd != 0) {
-				log << "found2" << endl;
-
-
-
-				long lLen = GetWindowTextLength(lWnd) + 1;
-						
-				wchar_t* sBuffer = new wchar_t[lLen];
-				GetWindowText(lWnd, sBuffer, lLen);
-				log << "text: " << toStlString(sBuffer) << endl;
-				delete sBuffer;
-
-
-
-				SetWindowText(lWnd, L"TEST");
-				Application::DoEvents();
-			}
-			return 0;
-		} else {
-			log << "No Window with title 'Renamer' found." << endl;
-		}
-	}
 
 	// Name checker von Boost deaktivieren
 	boost::filesystem::path::default_name_check(boost::filesystem::no_check);
