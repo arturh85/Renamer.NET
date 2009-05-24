@@ -23,16 +23,17 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 #include "stdafx.h"
 #include "WizardForm.h"
 
-#include "IpcServerMethods.h"
 
 #using <System.dll>
 using namespace System;
 using namespace System::Diagnostics;
+using namespace Microsoft::VisualBasic;
 
 #include "globals.h"
 
 using namespace RenamerNET;
-string gInitialRuleset;
+
+string gInitialRuleset = NULL;
 std::vector<string> gInitialFiles;
 
 struct sqlite3 {};
@@ -64,10 +65,6 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
-		return 0;
-	}
-
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
 	}
@@ -77,6 +74,34 @@ int main(array<System::String ^> ^args)
 			gInitialFiles.push_back(toStlString(args[i]));
 	}
 
+	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
+		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
+
+		if(hwndWindow != 0) {
+			HWND lWnd = 0;
+			long lLen = 0;
+		    lWnd = GetWindow(hwndWindow, GW_CHILD);
+			
+			while(lWnd != 0) {
+				lLen = GetWindowTextLength(lWnd) + 1;
+				wchar_t* sBuffer = new wchar_t[lLen];
+				GetWindowText(lWnd, sBuffer, lLen);
+
+				if(wcscmp(sBuffer, L"REMOTE-CHANGE") == 0) {
+					//SetWindowText(lWnd, toStdWString(args[0]).c_str());
+					//Application.DoEvents();
+	
+					return 0;
+				}
+
+				delete sBuffer;
+
+				lWnd = GetWindow(hwndWindow, GW_HWNDNEXT);
+			}
+		}
+		
+		return 0;
+	}
 	// deactivate Boost name checker 
 	boost::filesystem::path::default_name_check(boost::filesystem::no_check);
 	
