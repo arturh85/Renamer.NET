@@ -30,14 +30,13 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 #include "globals.h"
 
 using namespace RenamerNET;
-
 string gInitialRuleset;
 std::vector<string> gInitialFiles;
 
 struct sqlite3 {};
 
 /***************************************************************************************************
-	This is only included to satisfy a strange dependencies
+	This is only included to *** \todo übersetzung für befriedigen einfügen *** the dependencies
 /***************************************************************************************************/
 
 namespace boost {
@@ -63,7 +62,6 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-	/*
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
 	}
@@ -73,43 +71,14 @@ int main(array<System::String ^> ^args)
 			gInitialFiles.push_back(toStlString(args[i]));
 	}
 
-	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
-		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
-
-		if(hwndWindow != 0) {
-			HWND lWnd = 0;
-			long lLen = 0;
-		    lWnd = GetWindow(hwndWindow, GW_CHILD);
-			
-			while(lWnd != 0) {
-				lLen = GetWindowTextLength(lWnd) + 1;
-				wchar_t* sBuffer = new wchar_t[lLen];
-				GetWindowText(lWnd, sBuffer, lLen);
-
-				if(wcscmp(sBuffer, L"REMOTE-CHANGE") == 0) {
-					SetWindowText(lWnd, toStdWString(args[0]).c_str());
-					Application::DoEvents();
-	
-					return 0;
-				}
-
-				delete sBuffer;
-
-				lWnd = GetWindow(hwndWindow, GW_HWNDNEXT);
-			}
-		}
-		
-		return 0;
-	}
-	*/
-	// deactivate Boost name checker 
+	// Name checker von Boost deaktivieren
 	boost::filesystem::path::default_name_check(boost::filesystem::no_check);
 	
-	// activate visual effects of Windows XP, before the control elements are created
+	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 
-	// Create main window and run it
+	// Hauptfenster erstellen und ausführen
 	Application::Run(gcnew WizardForm());
 	return 0;
 }

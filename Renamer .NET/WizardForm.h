@@ -103,7 +103,7 @@ protected: enum class Step {
 	MAX = 4
 };
 
-// Business Logic Member Variables
+		 // Business Logic Member Variables
 private: Ruleset* mRuleset;
 private: sqlite_int64 mOutputFormatID;
 private: sqlite_int64 mInputRuleID;
@@ -270,8 +270,6 @@ private: System::Windows::Forms::WebBrowser^  webBrowserHelp;
 
 
 private: System::Windows::Forms::CheckBox^  cbHelp;
-private: System::Windows::Forms::TextBox^  ipcTextBox;
-
 
 
 
@@ -332,11 +330,6 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->panelStepContent = (gcnew System::Windows::Forms::Panel());
 			this->panelStepInputRule = (gcnew System::Windows::Forms::Panel());
 			this->txtCurrentOutputFormat = (gcnew System::Windows::Forms::RichTextBox());
-			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
-			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
-			this->txtInputRuleBorder = (gcnew System::Windows::Forms::TextBox());
-			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
-			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->innerPanelInputRules = (gcnew System::Windows::Forms::Panel());
 			this->panelLstInputRules = (gcnew System::Windows::Forms::Panel());
 			this->tsRegexHelper = (gcnew System::Windows::Forms::ToolStrip());
@@ -352,6 +345,11 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->tsDuplicateInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->tsMergeInputRules = (gcnew System::Windows::Forms::ToolStripButton());
 			this->lstInputRules = (gcnew System::Windows::Forms::ListBox());
+			this->panelTxtInputRule = (gcnew System::Windows::Forms::Panel());
+			this->txtInputRule = (gcnew System::Windows::Forms::RichTextBox());
+			this->txtInputRuleBorder = (gcnew System::Windows::Forms::TextBox());
+			this->toolStrip3 = (gcnew System::Windows::Forms::ToolStrip());
+			this->tsSaveInputRule = (gcnew System::Windows::Forms::ToolStripButton());
 			this->gridGems = (gcnew System::Windows::Forms::DataGridView());
 			this->GemColumnPosition = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->GemColumnGem = (gcnew System::Windows::Forms::DataGridViewComboBoxColumn());
@@ -393,7 +391,6 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->panelStepRename = (gcnew System::Windows::Forms::Panel());
 			this->buttonRenameFiles = (gcnew System::Windows::Forms::Button());
 			this->panelNavigation = (gcnew System::Windows::Forms::Panel());
-			this->ipcTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->cbHelp = (gcnew System::Windows::Forms::CheckBox());
 			this->messageLabel = (gcnew System::Windows::Forms::Label());
 			this->buttonPreviousStep = (gcnew System::Windows::Forms::Button());
@@ -426,12 +423,12 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->splitContainer->SuspendLayout();
 			this->panelStepContent->SuspendLayout();
 			this->panelStepInputRule->SuspendLayout();
-			this->panelTxtInputRule->SuspendLayout();
-			this->toolStrip3->SuspendLayout();
 			this->innerPanelInputRules->SuspendLayout();
 			this->panelLstInputRules->SuspendLayout();
 			this->tsRegexHelper->SuspendLayout();
 			this->tsInputRuleButtons->SuspendLayout();
+			this->panelTxtInputRule->SuspendLayout();
+			this->toolStrip3->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->BeginInit();
 			this->panelStepOutputFormat->SuspendLayout();
 			this->panelTxtOutputFormat->SuspendLayout();
@@ -618,41 +615,6 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->txtCurrentOutputFormat->DetectUrls = false;
 			this->txtCurrentOutputFormat->Name = L"txtCurrentOutputFormat";
 			// 
-			// panelTxtInputRule
-			// 
-			resources->ApplyResources(this->panelTxtInputRule, L"panelTxtInputRule");
-			this->panelTxtInputRule->Controls->Add(this->txtInputRule);
-			this->panelTxtInputRule->Controls->Add(this->txtInputRuleBorder);
-			this->panelTxtInputRule->Controls->Add(this->toolStrip3);
-			this->panelTxtInputRule->Name = L"panelTxtInputRule";
-			// 
-			// txtInputRule
-			// 
-			resources->ApplyResources(this->txtInputRule, L"txtInputRule");
-			this->txtInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->txtInputRule->Name = L"txtInputRule";
-			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
-			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
-			// 
-			// txtInputRuleBorder
-			// 
-			resources->ApplyResources(this->txtInputRuleBorder, L"txtInputRuleBorder");
-			this->txtInputRuleBorder->Name = L"txtInputRuleBorder";
-			// 
-			// toolStrip3
-			// 
-			resources->ApplyResources(this->toolStrip3, L"toolStrip3");
-			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
-			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
-			this->toolStrip3->Name = L"toolStrip3";
-			// 
-			// tsSaveInputRule
-			// 
-			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-			resources->ApplyResources(this->tsSaveInputRule, L"tsSaveInputRule");
-			this->tsSaveInputRule->Name = L"tsSaveInputRule";
-			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
-			// 
 			// innerPanelInputRules
 			// 
 			resources->ApplyResources(this->innerPanelInputRules, L"innerPanelInputRules");
@@ -756,6 +718,41 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->lstInputRules->FormattingEnabled = true;
 			this->lstInputRules->Name = L"lstInputRules";
 			this->lstInputRules->SelectedIndexChanged += gcnew System::EventHandler(this, &WizardForm::lstInputRules_SelectedIndexChanged);
+			// 
+			// panelTxtInputRule
+			// 
+			resources->ApplyResources(this->panelTxtInputRule, L"panelTxtInputRule");
+			this->panelTxtInputRule->Controls->Add(this->txtInputRule);
+			this->panelTxtInputRule->Controls->Add(this->txtInputRuleBorder);
+			this->panelTxtInputRule->Controls->Add(this->toolStrip3);
+			this->panelTxtInputRule->Name = L"panelTxtInputRule";
+			// 
+			// txtInputRule
+			// 
+			resources->ApplyResources(this->txtInputRule, L"txtInputRule");
+			this->txtInputRule->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtInputRule->Name = L"txtInputRule";
+			this->txtInputRule->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &WizardForm::txtInputRule_KeyDown);
+			this->txtInputRule->TextChanged += gcnew System::EventHandler(this, &WizardForm::txtInputRule_TextChanged);
+			// 
+			// txtInputRuleBorder
+			// 
+			resources->ApplyResources(this->txtInputRuleBorder, L"txtInputRuleBorder");
+			this->txtInputRuleBorder->Name = L"txtInputRuleBorder";
+			// 
+			// toolStrip3
+			// 
+			resources->ApplyResources(this->toolStrip3, L"toolStrip3");
+			this->toolStrip3->GripStyle = System::Windows::Forms::ToolStripGripStyle::Hidden;
+			this->toolStrip3->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->tsSaveInputRule});
+			this->toolStrip3->Name = L"toolStrip3";
+			// 
+			// tsSaveInputRule
+			// 
+			this->tsSaveInputRule->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			resources->ApplyResources(this->tsSaveInputRule, L"tsSaveInputRule");
+			this->tsSaveInputRule->Name = L"tsSaveInputRule";
+			this->tsSaveInputRule->Click += gcnew System::EventHandler(this, &WizardForm::tsSaveInputRule_Click);
 			// 
 			// gridGems
 			// 
@@ -1131,19 +1128,12 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			// 
 			// panelNavigation
 			// 
-			this->panelNavigation->Controls->Add(this->ipcTextBox);
 			this->panelNavigation->Controls->Add(this->cbHelp);
 			this->panelNavigation->Controls->Add(this->messageLabel);
 			this->panelNavigation->Controls->Add(this->buttonPreviousStep);
 			this->panelNavigation->Controls->Add(this->buttonNextStep);
 			resources->ApplyResources(this->panelNavigation, L"panelNavigation");
 			this->panelNavigation->Name = L"panelNavigation";
-			// 
-			// ipcTextBox
-			// 
-			resources->ApplyResources(this->ipcTextBox, L"ipcTextBox");
-			this->ipcTextBox->Name = L"ipcTextBox";
-			this->ipcTextBox->TextChanged += gcnew System::EventHandler(this, &WizardForm::ipcTextBox_TextChanged);
 			// 
 			// cbHelp
 			// 
@@ -1278,10 +1268,6 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->panelStepContent->ResumeLayout(false);
 			this->panelStepInputRule->ResumeLayout(false);
 			this->panelStepInputRule->PerformLayout();
-			this->panelTxtInputRule->ResumeLayout(false);
-			this->panelTxtInputRule->PerformLayout();
-			this->toolStrip3->ResumeLayout(false);
-			this->toolStrip3->PerformLayout();
 			this->innerPanelInputRules->ResumeLayout(false);
 			this->panelLstInputRules->ResumeLayout(false);
 			this->panelLstInputRules->PerformLayout();
@@ -1289,6 +1275,10 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->tsRegexHelper->PerformLayout();
 			this->tsInputRuleButtons->ResumeLayout(false);
 			this->tsInputRuleButtons->PerformLayout();
+			this->panelTxtInputRule->ResumeLayout(false);
+			this->panelTxtInputRule->PerformLayout();
+			this->toolStrip3->ResumeLayout(false);
+			this->toolStrip3->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridGems))->EndInit();
 			this->panelStepOutputFormat->ResumeLayout(false);
 			this->panelTxtOutputFormat->ResumeLayout(false);
@@ -1549,7 +1539,7 @@ void saveRulesetListToRegistry() {
 			rulesetStringList += L"|";
 	}
 	
-	RegistryKey^ key = Registry.CurrentUser->CreateSubKey(L"Software\\Renamer" );
+	RegistryKey^ key = Registry::CurrentUser->CreateSubKey(L"Software\\Renamer" );
 	key->SetValue(L"KnownRulesets", rulesetStringList);
 }
 
@@ -2148,15 +2138,6 @@ private: System::Void tsMergeInputRules_Click(System::Object^  sender, System::E
 		 }
 private: System::Void cbHelp_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 
-		 }
-private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-			 if(System::IO::Path::GetExtension(ipcTextBox->Text) == L".ruleset") {
-				 loadRuleset(ipcTextBox->Text);
-			 else
-				 addFile(ipcTextBox->Text);
-
-			 ipcTextBox->Text = "REMOTE-CHANGE";
-
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
