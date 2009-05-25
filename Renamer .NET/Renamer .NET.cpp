@@ -61,26 +61,39 @@ namespace boost {
 
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
-{    
+{   
+	Thread::Sleep(100);
+	log4net::Config::XmlConfigurator::Configure();
+	
+	log4net::ILog^ log = 
+			 log4net::LogManager::GetLogger("main");
+
+	log->Info("renamer started");
+
 	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
 		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
 	
+		log->Info("found other renamer instance");
 		if(hwndWindow == 0) {
 			// wait for window of the other process to open 
 			// for the case when we are opened multiple
 			// times for multiple files (for example via 
 			// context menu on multiple files -> add to renamer)
+			log->Info("found no window of other instance ... sleeping");
 			Thread::Sleep(300);
 			hwndWindow = FindWindowW(nullptr, L"Renamer");
 		}
 
 		if(hwndWindow != 0) {
+			log->Info("found the window of other instance");
 			HWND lWnd = FindWindowRecursive(hwndWindow, L"REMOTE-CHANGE");
 			if(lWnd != 0) {
 				::SendMessageA(lWnd, WM_SETTEXT, 0, (LPARAM) toStlString(args[0]).c_str());
 				Application::DoEvents();
 			}
 			return 0;
+		} else {
+			log->Error("found no window of other instance.");
 		}
 	}
 
@@ -101,6 +114,7 @@ int main(array<System::String ^> ^args)
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 
+		
 	// Hauptfenster erstellen und ausführen
 	Application::Run(gcnew WizardForm());
 	return 0;

@@ -241,7 +241,7 @@
 			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="stdole.dll"
+			RelativePath="..\..\..\..\Program Files (x86)\Common Files\microsoft shared\MSEnv\PublicAssemblies\stdole.dll"
 			AssemblyName="stdole, Version=7.0.3300.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="0"
 		/>
@@ -254,6 +254,11 @@
 			RelativePath="System.ServiceProcess.dll"
 			AssemblyName="System.ServiceProcess, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
+		/>
+		<AssemblyReference
+			RelativePath="..\bin\log4net.dll"
+			AssemblyName="log4net, Version=1.2.10.0, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL"
+			MinFrameworkVersion="0"
 		/>
 	</References>
 	<Files>
@@ -430,6 +435,10 @@
 		<Filter
 			Name=".NET"
 			>
+			<File
+				RelativePath=".\app.config"
+				>
+			</File>
 			<File
 				RelativePath=".\AssemblyInfo.cpp"
 				>
