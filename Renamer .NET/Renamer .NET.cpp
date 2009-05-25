@@ -62,11 +62,14 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {    
-
 	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
 		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
 	
 		if(hwndWindow == 0) {
+			// wait for window of the other process to open 
+			// for the case when we are opened multiple
+			// times for multiple files (for example via 
+			// context menu on multiple files -> add to renamer)
 			Thread::Sleep(300);
 			hwndWindow = FindWindowW(nullptr, L"Renamer");
 		}
