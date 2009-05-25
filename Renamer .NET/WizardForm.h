@@ -1870,36 +1870,6 @@ void setStep(Step newStep) {
 #pragma endregion
 #pragma region Form Event Handlers
 private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs^  e) {
-
-	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
-		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
-
-		ofstream log("log.txt", ios::out);
-		log << "Begin" << endl;
-
-		if(hwndWindow != 0) {
-			log << "found1" << endl;
-			HWND lWnd = FindWindowRecursive(hwndWindow, L"REMOTE-CHANGE");
-			if(lWnd != 0) {
-				log << "found2" << endl;
-				long lLen = GetWindowTextLength(lWnd) + 1;
-						
-				wchar_t* sBuffer = new wchar_t[lLen];
-				GetWindowText(lWnd, sBuffer, lLen);
-				log << "text: " << toStlString(sBuffer) << endl;
-				delete sBuffer;
-
-				
-				::SendMessage(lWnd, 0xC, 0, (LPARAM) L"TEST");
-				SetWindowText(lWnd, L"TEST");
-				Application::DoEvents();
-			}
-			Application::Exit();
-		} else {
-			log << "No Window with title 'Renamer' found." << endl;
-		}
-	}
-
 	mCustomStrings = gcnew ComponentResourceManager(UserInterfaceCustomStrings::typeid);
 	mShowOnlyMatchingFiles = false;
 
@@ -1947,6 +1917,8 @@ private: System::Void WizardForm_Load(System::Object^  sender, System::EventArgs
 	for(int j=0; j<gInitialFiles.size(); j++){
 		addFile(toClrString(gInitialFiles[j]));		
 	}
+
+	applyChanges(mStep);
 }
 
 private: System::Void WizardForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
@@ -2205,12 +2177,17 @@ private: System::Void cbHelp_CheckedChanged(System::Object^  sender, System::Eve
 			 
 		 }
 private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(ipcTextBox->Text == "REMOTE-CHANGE") 
+				 return ;
+
 			 if(System::IO::Path::GetExtension(ipcTextBox->Text) == L".ruleset")
 				 loadRuleset(ipcTextBox->Text);
 			 else
 				 addFile(ipcTextBox->Text);
 
 			 ipcTextBox->Text = "REMOTE-CHANGE";
+
+			 applyChanges(mStep);
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //

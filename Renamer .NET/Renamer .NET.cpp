@@ -31,7 +31,6 @@ THE POSSIBILITY OF SUCH DAMAGE.                                                 
 
 using namespace RenamerNET;
 string gInitialRuleset;
-string gFirstArgument;
 std::vector<string> gInitialFiles;
 
 struct sqlite3 {};
@@ -63,8 +62,24 @@ namespace boost {
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {    
-	if(args->Length > 0)
-		gFirstArgument = toStlString(args[0]);
+
+	if (::System::Diagnostics::Process::GetProcessesByName(::System::Diagnostics::Process::GetCurrentProcess()->ProcessName)->Length > 1) {
+		HWND hwndWindow = FindWindowW(nullptr, L"Renamer");
+	
+		if(hwndWindow == 0) {
+			Thread::Sleep(300);
+			hwndWindow = FindWindowW(nullptr, L"Renamer");
+		}
+
+		if(hwndWindow != 0) {
+			HWND lWnd = FindWindowRecursive(hwndWindow, L"REMOTE-CHANGE");
+			if(lWnd != 0) {
+				::SendMessageA(lWnd, WM_SETTEXT, 0, (LPARAM) toStlString(args[0]).c_str());
+				Application::DoEvents();
+			}
+			return 0;
+		}
+	}
 
 	if(args->Length > 0 && System::IO::File::Exists(args[0]) && System::IO::Path::GetExtension(args[0]) == L".ruleset") {
 		gInitialRuleset = toStlString(args[0]);
