@@ -302,6 +302,8 @@ private: System::Windows::Forms::WebBrowser^  webBrowserHelp;
 
 private: System::Windows::Forms::CheckBox^  cbHelp;
 private: System::Windows::Forms::TextBox^  ipcTextBox;
+private: System::Windows::Forms::Button^  buttonRemoveString;
+private: System::Windows::Forms::TextBox^  textBoxReplaceString;
 
 
 
@@ -406,6 +408,8 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->tsDebugLoadRuleset = (gcnew System::Windows::Forms::ToolStripButton());
 			this->cboRulesets = (gcnew System::Windows::Forms::ComboBox());
 			this->panelStepBeforeReplacements = (gcnew System::Windows::Forms::Panel());
+			this->buttonRemoveString = (gcnew System::Windows::Forms::Button());
+			this->textBoxReplaceString = (gcnew System::Windows::Forms::TextBox());
 			this->gridBeforeReplacements = (gcnew System::Windows::Forms::DataGridView());
 			this->ColumnBeforeReplacementsID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->ColumnBeforeReplacementsGroupID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -992,9 +996,23 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			// 
 			// panelStepBeforeReplacements
 			// 
+			this->panelStepBeforeReplacements->Controls->Add(this->buttonRemoveString);
+			this->panelStepBeforeReplacements->Controls->Add(this->textBoxReplaceString);
 			this->panelStepBeforeReplacements->Controls->Add(this->gridBeforeReplacements);
 			resources->ApplyResources(this->panelStepBeforeReplacements, L"panelStepBeforeReplacements");
 			this->panelStepBeforeReplacements->Name = L"panelStepBeforeReplacements";
+			// 
+			// buttonRemoveString
+			// 
+			resources->ApplyResources(this->buttonRemoveString, L"buttonRemoveString");
+			this->buttonRemoveString->Name = L"buttonRemoveString";
+			this->buttonRemoveString->UseVisualStyleBackColor = true;
+			this->buttonRemoveString->Click += gcnew System::EventHandler(this, &WizardForm::buttonRemoveString_Click);
+			// 
+			// textBoxReplaceString
+			// 
+			resources->ApplyResources(this->textBoxReplaceString, L"textBoxReplaceString");
+			this->textBoxReplaceString->Name = L"textBoxReplaceString";
 			// 
 			// gridBeforeReplacements
 			// 
@@ -1336,6 +1354,7 @@ private: System::Windows::Forms::TextBox^  ipcTextBox;
 			this->tsRuleset->ResumeLayout(false);
 			this->tsRuleset->PerformLayout();
 			this->panelStepBeforeReplacements->ResumeLayout(false);
+			this->panelStepBeforeReplacements->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->gridBeforeReplacements))->EndInit();
 			this->panelStepGems->ResumeLayout(false);
 			this->panelStepGems->PerformLayout();
@@ -1554,11 +1573,15 @@ void loadRulesetListFromRegistry() {
 	// load list of known rulesets from registry
 	
 	RegistryKey^ key = Registry::CurrentUser->OpenSubKey(L"Software\\Renamer");
+	
+	String^ lastRulesets = nullptr;
 
-	String^ lastRulesets = (String^) key->GetValue(L"KnownRulesets");
+	if(key != nullptr) {
+		lastRulesets = (String^) key->GetValue(L"KnownRulesets");
+	}
 
 	mKnownRulesets.Clear();
-	if(lastRulesets != "--empty--" && lastRulesets != "") {
+	if(lastRulesets != nullptr && lastRulesets != "") {
 		array<String^>^ rulesetNames = lastRulesets->Split('|');
 		for(int i=0; i<rulesetNames->Length; i++) {
 			String^ rulesetName = rulesetNames[i];
@@ -2019,6 +2042,9 @@ private: System::Void fileList_SelectedIndexChanged(System::Object^  sender, Sys
 					tsUseAsNewInputRule->Visible = true;
 				 else if (mStep == Step::OUTPUTFORMAT_SELECT) 
 					tsUseAsNewOutputFormat->Visible = true;			 
+				 else if (mStep == Step::BEFORE_REPLACEMENTS) {
+					 textBoxReplaceString->Text = fileList->SelectedItems[0];
+				 }
 			 } else {
 					tsUseAsNewOutputFormat->Visible = false;			 
 					tsUseAsNewInputRule->Visible = false;
@@ -2193,6 +2219,16 @@ private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::Ev
 			 ipcTextBox->Text = "REMOTE-CHANGE";
 
 			 applyChanges(mStep);
+		 }
+private: System::Void buttonRemoveString_Click(System::Object^  sender, System::EventArgs^  e) {
+			 String^ textToBeRemoved = textBoxReplaceString->SelectedText;
+			cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
+			values[0] = gcnew Int32 ((Int32)replacementVector[i]->getRowId());
+			values[1] = gcnew Int32 ((Int32)replacementVector[i]->getGroupId());
+			values[2] = escapeRegularExpression(toClrString(replacementVector[i]->getRegex().str()), true);
+			values[3] = toClrString(replacementVector[i]->getReplacement());
+
+			gridBeforeReplacements->Rows->Add(values);
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
