@@ -2043,7 +2043,7 @@ private: System::Void fileList_SelectedIndexChanged(System::Object^  sender, Sys
 				 else if (mStep == Step::OUTPUTFORMAT_SELECT) 
 					tsUseAsNewOutputFormat->Visible = true;			 
 				 else if (mStep == Step::BEFORE_REPLACEMENTS) {
-					 textBoxReplaceString->Text = fileList->SelectedItems[0];
+					 textBoxReplaceString->Text = fileList->SelectedItems[0]->Text;
 				 }
 			 } else {
 					tsUseAsNewOutputFormat->Visible = false;			 
@@ -2220,15 +2220,27 @@ private: System::Void ipcTextBox_TextChanged(System::Object^  sender, System::Ev
 
 			 applyChanges(mStep);
 		 }
+
 private: System::Void buttonRemoveString_Click(System::Object^  sender, System::EventArgs^  e) {
 			 String^ textToBeRemoved = textBoxReplaceString->SelectedText;
-			cli::array<Object^>^ values = gcnew cli::array<Object^>(4);
-			values[0] = gcnew Int32 ((Int32)replacementVector[i]->getRowId());
-			values[1] = gcnew Int32 ((Int32)replacementVector[i]->getGroupId());
-			values[2] = escapeRegularExpression(toClrString(replacementVector[i]->getRegex().str()), true);
-			values[3] = toClrString(replacementVector[i]->getReplacement());
+			 if(textToBeRemoved->Length == 0) return ;
+			 Replacements& replacements = mRuleset->getBeforeReplacements();
+			 Replacement* replacement = replacements.addReplacement(toStlString(escapeRegularExpression(textToBeRemoved, false)), toStlString(""));
+			 loadBeforeReplacements();
 
-			gridBeforeReplacements->Rows->Add(values);
+			 if(fileList->SelectedIndices->Count > 0) {
+				 int index = fileList->SelectedIndices[0];
+				 applyBeforeReplacements();
+
+				 
+				 textBoxReplaceString->Text = fileList->SelectedItems[0]->Text;
+
+				 //fileList->SelectedIndices[0] = index;
+				 //fileList_SelectedIndexChanged(nullptr, nullptr);
+			 } else {
+				 textBoxReplaceString->Text = "";
+				 applyBeforeReplacements();
+			 }
 		 }
 };
 // --- don't delete after this line (and one line before this line) --- //
